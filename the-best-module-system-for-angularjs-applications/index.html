@@ -1,0 +1,62 @@
+<!doctype html><html prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>The Best Module System for AngularJS Applications &#183; Dave Kerr</title><meta name=description content="I was working on a small and simple application built with AngularJS the other day. As with most applications like this, I start with a single JavaScript file caled app.js and no module system.
+In the past I've used RequireJS with AngularJS. It's an awful mistake. It leads to a big jump in complexity with no benefts. Angular apps don't work well with AMDs, so really your are using RequireJS to combine files into one big file."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=generator content="Hugo 0.61.0"><meta name=robots content="index,follow"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:title" content="The Best Module System for AngularJS Applications"><meta property="og:description" content="I was working on a small and simple application built with AngularJS the other day. As with most applications like this, I start with a single JavaScript file caled app.js and no module system.
+In the past I've used RequireJS with AngularJS. It's an awful mistake. It leads to a big jump in complexity with no benefts. Angular apps don't work well with AMDs, so really your are using RequireJS to combine files into one big file."><meta property="og:type" content="article"><meta property="og:url" content="http://example.org/the-best-module-system-for-angularjs-applications/"><link rel=stylesheet href=http://example.org/dist/styles.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic"><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous></head><body><script type=application/javascript>var dnt=(navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack);var doNotTrack=(dnt=="1"||dnt=="yes");if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-41728580-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><div id=wrapper><header class=site-header><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class=button-square href=http://example.org/index.xml><i class="fa fa-rss"></i></a><a class="button-square button-social hint--top" data-hint=Twitter title=Twitter href=https://twitter.com/dwmkerr rel=me><i class="fa fa-twitter"></i></a><a class="button-square button-social hint--top" data-hint=Github title=Github href=https://github.com/dwmkerr rel=me><i class="fa fa-github-alt"></i></a><a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href=https://stackoverflow.com/users/1189164/dave-kerr rel=me><i class="fa fa-stack-overflow"></i></a><a class="button-square button-social hint--top" data-hint=LinkedIn title=LinkedIn href=https://www.linkedin.com/in/dwmkerr/ rel=me><i class="fa fa-linkedin"></i></a></div><ul class=site-nav><li class=site-nav-item><a title=Blog href=/>Blog</a></li><li class=site-nav-item><a title=Speaking href=/page/speaking/>Speaking</a></li><li class=site-nav-item><a title=About href=/page/about/>About</a></li></ul></div></header><div id=container><div class=container><article class=post-container itemscope itemtype=http://schema.org/BlogPosting><header class=post-header><h1 class=post-title itemprop="name headline">The Best Module System for AngularJS Applications</h1><p class="post-date post-line"><span>Published <time datetime=2015-03-18 itemprop=datePublished>Wed, Mar 18, 2015</time></span>
+<span>by</span>
+<span itemscope itemprop=author itemtype=https://schema.org/Person><span itemprop=name><a href=https://github.com/dwmkerr itemprop=url rel=author>Dave Kerr</a></span></span></p></header><div class="post-content clearfix" itemprop=articleBody><p>I was working on a small and simple application built with AngularJS the other day. As with most applications like this, I start with a single JavaScript file caled <code>app.js</code> and no module system.</p><p>In the past I've used RequireJS with AngularJS. It's an awful mistake. It leads to a big jump in complexity with no benefts. Angular apps don't work well with AMDs, so really your are using RequireJS to combine files into one big file.</p><p>I'm sure there's a good analogy with hammers and nails. Something like:</p><blockquote><p>It's like banging nails into your face with a hammer.</p></blockquote><p>Maybe a bit extreme. But those who've used the two together may well be nodding sagely.</p><p>I've also used Browserify. I prefer this approach, the syntax is cleaner. But it's still a pain.</p><p>Ideally, I'd like to use ECMA6 modules. So another approach is to just use ECMA6 module syntax and then compile your code with something like Traceur. But that requires quite a bit of tooling, slows down your pipeline and you're still not <em>really</em> using modules.</p><p>I think the best approach is this one from <a href=https://medium.com/@dickeyxxx>Jeff Dicky</a> on his post <a href=https://medium.com/@dickeyxxx/best-practices-for-building-angular-js-apps-266c1a4a6917>Best Practices for Building Angular.js Apps</a>. Just forget all of the module stuff and concatenate only.</p><p>Start with this:</p><pre><code>myproject
+ - app/
+ - css/
+ - vendor/
+ - index.html
+</code></pre><p>Or whatever your preferred structure is. Then stick your main file in <code>app/</code>:</p><pre><code>myproject
+ - app/
+   - app.js
+ - css/
+ - vendor/
+ - index.html
+</code></pre><p>Your <code>app.js</code> file should define your main Angular module:</p><pre><code class=language-language-javascript data-lang=language-javascript>angular.module('app', []);
+</code></pre><p>Now just go ahead and concatenate everything in your <code>app/</code> folder. Structure it however you want:</p><pre><code>myproject
+ - app/
+   - components/
+   - home/
+   - profile/
+   - app.js
+ - css/
+ - vendor/
+ - index.html
+</code></pre><p>Concat will put everything in the top level folder (i.e. <code>app.js</code>) first. As long as you don't put anything else in your top level folder (that comes before &lsquo;a&rsquo; alphabetically) then it doesn't matter where you put your other files, as long as you define them without referencing any globals. So define your components like this:</p><pre><code class=language-language-javascript data-lang=language-javascript>angular.module('app').controller('SomeController', function() {
+  // something
+});
+</code></pre><p>No fuss no muss. No requires, no exports.</p><p>If you need a new service, write it and save it. Same for directives or controllers or filters. Add the source file and it's included, no messing around.</p><p>Keep it simple, don't force another module system on top of angular's, you don't get much benenfit. And wait patiently until ECMA6 moves more into the mainstream and we can start using native modules. There's less and less point in investing in some super-sophisticated complex fancy module system for a framework which in vNext will throw it all away and for a language which will finally get native modules.</p><h3 id=words-for-gulpers>Words for Gulpers</h3><p>If you are a gulp user, here's how a pipeline might look to concat your JavaScript:</p><pre><code class=language-language-javascript data-lang=language-javascript>var gulp = require('gulp');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
+var sourcemaps = require('gulp-sourcemaps');
+var concat = require('gulp-concat');
+var ngAnnotate = require('gulp-ng-annotate');
+
+//  Hints and builds all JavaScript.
+gulp.task('js', function() {
+
+  return gulp.src(['./client/app/**/*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter(stylish))
+    .pipe(jshint.reporter('fail'))
+    .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(concat('app.js'))
+      .pipe(gulp.dest('./client/dist'))
+      .pipe(ngAnnotate())
+      .pipe(uglify())
+      .pipe(rename({suffix: '.min'}))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./client/dist/'));
+
+});
+</code></pre><p>Watch your app javascript folder and when it changes, you'll hint everything, concat into a single distribution folder, annotate and uglify, as well as building full sourcemaps.</p><h3 id=what-about-other-stuff>What about other stuff?</h3><p>For vendor code (jQuery, Bootstrap, whatever), don't bother trying to be smart and require or import it. Just include it in your app with script tags. I wouldn't go to the effort at trying to force some kind of smart module system on a language that doesn't really support it - uf you can get away with avoiding it, do so.</p><p>This is not an encouragement to be sloppy, this is just the easiest way to deal with the issue. The number of hours I've wasted tracking down &lsquo;bugs&rsquo; which were subtle issues to do with require.js or type-os has definitely made the approach above my preferred approach.</p></div><footer class="post-footer clearfix"><p class=post-tags><span>Tagged:</span>
+<a href=/tags/AngularJS/>AngularJS</a>,
+<a href=/tags/CodeProject/>CodeProject</a>,
+<a href=/tags/Javascript/>Javascript</a>,
+<a href=/tags/ECMAScript-6/>ECMAScript 6</a></p><div class=share><a class=icon-twitter href="https://twitter.com/share?text=The%20Best%20Module%20System%20for%20AngularJS%20Applications&url=http%3a%2f%2fexample.org%2fthe-best-module-system-for-angularjs-applications%2f" onclick="window.open(this.href,'twitter-share','width=550,height=235');return false;"><i class="fa fa-twitter"></i><span class=hidden>Twitter</span></a>
+<a class=icon-facebook href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fexample.org%2fthe-best-module-system-for-angularjs-applications%2f" onclick="window.open(this.href,'facebook-share','width=580,height=296');return false;"><i class="fa fa-facebook"></i><span class=hidden>Facebook</span></a></div></footer><div class=comments><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='//'+"dmwkerr"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></article></div></div></div><footer class=footer><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class="button-square button-jump-top js-jump-top" href=#><i class="fa fa-angle-up"></i></a></div><p class=footer-copyright><span>&copy; 2019 / Powered by <a href=https://gohugo.io/>Hugo</a></span></p><p class=footer-copyright><span><a href=https://github.com/roryg/ghostwriter>Ghostwriter theme</a> By <a href=http://jollygoodthemes.com>JollyGoodThemes</a></span>
+<span>/ <a href=https://github.com/jbub/ghostwriter>Ported</a> to Hugo By <a href=https://github.com/jbub>jbub</a></span></p></div></footer><script src=http://example.org/js/jquery-1.11.3.min.js></script><script src=http://example.org/js/jquery.fitvids.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=http://example.org/js/scripts.js></script></body></html>

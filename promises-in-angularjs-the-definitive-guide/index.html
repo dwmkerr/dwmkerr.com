@@ -1,0 +1,232 @@
+<!doctype html><html prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>AngularJS Promises - The Definitive Guide &#183; Dave Kerr</title><meta name=description content="Promises are a core feature of AngularJS - whether you understand them or not, if you use AngularJS you've almost certainly been using them for a while.
+In this post I'm going to explain what promises are, how they work, where they're used and finally how to use them effectively.
+Once we've got the core understanding of promises, we'll look at some more advanced functionality - chaining and resolving promises when routing."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=generator content="Hugo 0.61.0"><meta name=robots content="index,follow"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:title" content="AngularJS Promises - The Definitive Guide"><meta property="og:description" content="Promises are a core feature of AngularJS - whether you understand them or not, if you use AngularJS you've almost certainly been using them for a while.
+In this post I'm going to explain what promises are, how they work, where they're used and finally how to use them effectively.
+Once we've got the core understanding of promises, we'll look at some more advanced functionality - chaining and resolving promises when routing."><meta property="og:type" content="article"><meta property="og:url" content="http://example.org/promises-in-angularjs-the-definitive-guide/"><link rel=stylesheet href=http://example.org/dist/styles.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic"><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous></head><body><script type=application/javascript>var dnt=(navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack);var doNotTrack=(dnt=="1"||dnt=="yes");if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-41728580-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><div id=wrapper><header class=site-header><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class=button-square href=http://example.org/index.xml><i class="fa fa-rss"></i></a><a class="button-square button-social hint--top" data-hint=Twitter title=Twitter href=https://twitter.com/dwmkerr rel=me><i class="fa fa-twitter"></i></a><a class="button-square button-social hint--top" data-hint=Github title=Github href=https://github.com/dwmkerr rel=me><i class="fa fa-github-alt"></i></a><a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href=https://stackoverflow.com/users/1189164/dave-kerr rel=me><i class="fa fa-stack-overflow"></i></a><a class="button-square button-social hint--top" data-hint=LinkedIn title=LinkedIn href=https://www.linkedin.com/in/dwmkerr/ rel=me><i class="fa fa-linkedin"></i></a></div><ul class=site-nav><li class=site-nav-item><a title=Blog href=/>Blog</a></li><li class=site-nav-item><a title=Speaking href=/page/speaking/>Speaking</a></li><li class=site-nav-item><a title=About href=/page/about/>About</a></li></ul></div></header><div id=container><div class=container><article class=post-container itemscope itemtype=http://schema.org/BlogPosting><header class=post-header><h1 class=post-title itemprop="name headline">AngularJS Promises - The Definitive Guide</h1><p class="post-date post-line"><span>Published <time datetime=2014-05-07 itemprop=datePublished>Wed, May 7, 2014</time></span>
+<span>by</span>
+<span itemscope itemprop=author itemtype=https://schema.org/Person><span itemprop=name><a href=https://github.com/dwmkerr itemprop=url rel=author>Dave Kerr</a></span></span></p></header><div class="post-content clearfix" itemprop=articleBody><p>Promises are a core feature of AngularJS - whether you understand them or not, if you use AngularJS you've almost certainly been using them for a while.</p><p>In this post I'm going to explain what promises are, how they work, where they're used and finally how to use them effectively.</p><p>Once we've got the core understanding of promises, we'll look at some more advanced functionality - chaining and resolving promises when routing.</p><h4 id=contents>Contents</h4><ol><li><a href=#whatarepromises>What are Promises?</a></li><li><a href=#howdopromiseswork>How do Promises Work?</a></li><li><a href=#arealworldexample>A Real World Example</a></li><li><a href=#promisessuccesserrorthen>Promises - Success, Error, Then</a></li><li><a href=#advancedpromiseschaining>Advanced Promises - Chaining</a></li><li><a href=#advancedpromisesrouting>Advanced Promises - Routing</a></li><li><a href=#advancedpromisestipstricks>Advanced Promises - Tips & Tricks</a></li><li><a href=#thefutureofpromises>The Future of Promises</a></li><li><a href=#wrappingup>Wrapping Up</a></li></ol><h2 id=what-are-promises>What are Promises?</h2><p>I'm going to try and be as succinct as possible - if anyone has a shorter, clearer description, let me know!</p><blockquote><p>A promise represents the eventual result of an operation. You can use a promise to specify what to do when an operation eventually succeeds or fails.</p></blockquote><p>So let's see this in action. Look at the code below:</p><pre><code class=language-language-javascript data-lang=language-javascript>$http.get(&quot;/api/my/name&quot;);
+</code></pre><p>This code uses the <code>$http</code> service to perform an HTTP GET on the url &lsquo;/api/my/name&rsquo;. Let's say that this is an api we've implemented on our server that returns the name of the logged in user.</p><p>Now a common mistake for JavaScript newcomers might be to assume that the function returns the name:</p><pre><code class=language-language-javascript data-lang=language-javascript>// The WRONG way!
+var name = $http.get(&quot;/api/my/name&quot;);
+</code></pre><p>It doesn't - and in fact it can't. An HTTP request has to be executed, it'll take a while before it returns - it might not return at all if there are errors. Remember, when we make requests in JavaScript we're using <strong>ajax</strong> which is <em><strong>asynchronous</strong> javascript and xml</em>. The key word here is asynchronous - we return control to the browser, let it make a request and give it a function to call when the request completes.</p><p>So let's see how you actually make the request.</p><pre><code class=language-language-javascript data-lang=language-javascript>var promise = $http.get(&quot;/api/my/name&quot;);
+promise.success(function(name) {
+   console.log(&quot;Your name is: &quot; + name);
+});
+promise.error(function(response, status) {
+   console.log(&quot;The request failed with response &quot; + response + &quot; and status code &quot; + status);
+});
+</code></pre><p>Now we use the promise object to specify what to do when the request succeeds, or when it fails. Remember, the functions we pass to <code>success</code> or <code>error</code> will be called later - when this block is finished executing we don't have the name, we've just specified what to do when we <em>do</em> eventually get it - or what to do if we fail to get it.</p><p>As a convenience, the <code>success</code> and <code>error</code> functions actually just return the promise, so we can simplify the code:</p><pre><code class=language-language-javascript data-lang=language-javascript>$http.get(&quot;/api/my/name&quot;)
+  .success(function(name) {
+    console.log(&quot;Your name is: &quot; + name);
+  })
+  .error(function(response, status) {
+    console.log(&quot;The request failed with response &quot; + response + &quot; and status code &quot; + status);
+  });
+</code></pre><p>In fact, <code>success</code> and <code>error</code> are special functions added to a promise by <code>$http</code> - normally with promises we just use <code>then</code>, which takes the success function as the first parameter and the error function as the second:</p><pre><code class=language-language-javascript data-lang=language-javascript>$http.get(&quot;/api/my/name&quot;)
+  .then(
+    /* success */
+    function(response) {
+      console.log(&quot;Your name is: &quot; + response.data);
+    },
+    /* failure */
+    function(error) {
+      console.log(&quot;The request failed: &quot; + error);
+  });
+</code></pre><p>We'll see more about the difference between <code>success</code>, <code>error</code> and <code>then</code> later.</p><p>That's all there is to it - a promise lets us specify what to do as the result of an operation.</p><h2 id=how-do-promises-work>How do Promises Work?</h2><p>Promises are not actually complicated, they're objects that contain a reference to functions to call when something fails or succeeds.</p><p>Under the hood, AngularJS actually wires up a promise for an HTTP request in a way a bit like this:</p><pre><code class=language-language-javascript data-lang=language-javascript>var request = new XMLHttpRequest();
+request.addEventListener(&quot;load&quot;, function() {
+  // complete the promise
+}, false);
+request.addEventListener(&quot;error&quot;, function() {
+  // fail the promise
+}, false);
+request.open(&quot;GET&quot;, &quot;/api/my/name&quot;, true);
+request.send();
+</code></pre><p>this is pseudo-code, but the idea is that its the browser that calls us back, via the event listeners, then AngularJS can just call the appropriate method on the promise.</p><p>Now in AngularJS, the promises are created with the <code>$q</code> service (we'll see exactly how to do this shortly), but why <code>$q</code>?</p><p>The reason the service is named <code>$q</code> is that AngularJS&rsquo; promise implementation is based on Kris Kowal's promise mechanism, which is called &lsquo;Q&rsquo;. You can see the library at <a href=https://github.com/kriskowal/q>github.com/kristkowal/q</a>.</p><p>This was a deliberate decision, as the Q library is widely used and well understood by the community. We're going to see a little bit later what the future of promises is in AngularJS and actually in ECMAScript 6.</p><h3 id=a-real-world-example>A Real World Example</h3><p>In this example we'll create a service that gets the user's name, just like in our examples. However, to make it interesting, we'll set our service up so that the first time we get the name from the server, and then afterwards we'll return a cached copy.</p><p>This means we'll have to build our code to deal with the asynchronous case (the first one) and the more trivial synchronous case (getting the name from the cache).</p><p>Let's look at a pure asynchronous implementation.</p><pre><code class=language-language-javascript data-lang=language-javascript>app.factory('NameService', function($http, $q) {
+  
+  //  Create a class that represents our name service.
+  function NameService() {
+    
+    var self = this;
+                      
+    //  getName returns a promise which when 
+    //  fulfilled returns the name.
+    self.getName = function() {
+      return $http.get('/api/my/name');
+    };
+  }
+    
+  return new NameService();
+});
+</code></pre><p>Here's how it looks in a fiddle - just click &lsquo;Result&rsquo; to see it working. You can click on &lsquo;Update&rsquo; name to get the name, but each time it sends a request. This is what we'll change next.</p><p>Now let's update our service so that we hit the server only if we haven't already cached the name. I'll build the service blow by blow, then we can see a fiddle of it working.</p><pre><code class=language-language-javascript data-lang=language-javascript>app.factory('NameService', function($http, $q) {
+
+  //  Create a class that represents our name service.
+  function NameService() {
+    
+    var self = this;
+        
+    //  Initially the name is unknown....
+    self.name = null;
+</code></pre><p>so first we create a service which is in the form of a class. It has a name field which is initially null.</p><pre><code class=language-language-javascript data-lang=language-javascript>   self.getName = function() {
+     //  Create a deferred operation.
+     var deferred = $q.defer();
+</code></pre><p>Now in the <code>getName</code> function we start by creating a <code>deferred</code> object, using the <code>$q</code> service. This object contains the promise we'll return, and has some helper functions to let us build the promise.</p><p>We create a deferred object because whether we use ajax or not, we want the consumer to use the promise - even if we <em>can</em> return straightaway in some circumstances (when we have the name) we can't in all - so the caller must always expect a promise.</p><pre><code class=language-language-javascript data-lang=language-javascript>    if(self.name !== null) {
+      deferred.resolve(self.name + &quot; (from Cache!)&quot;);
+    }
+</code></pre><p>If we already have the name, we can just <code>resolve</code> the deferred object immediately - this is the easy case. I've added &lsquo;from cache&rsquo; to the name so we can see when it comes from the cache compared to the server.</p><blockquote><p><strong>Tip:</strong> You can resolve a promise even before you return it. It still works fine for the consumer.</p></blockquote><p>Finally, we can handle the case if we don't already have the name:</p><pre><code class=language-language-javascript data-lang=language-javascript>    else {
+      //  Get the name from the server.
+      $http.get('/api/my/name/')
+         .success(function(name) {
+           self.name = name;
+           deferred.resolve(name + &quot; (from Server!)&quot;);
+         })
+         .error(function(response) {
+           deferred.reject(response);
+         });
+     }
+</code></pre><p>So if we get success from the server, we can <code>resolve</code> the promise. Otherwise, we <code>reject</code> it, which means failure.</p><blockquote><p>Call <code>resolve</code> on a deferred object to complete it successfully, call <code>reject</code> to fail it with an error.</p></blockquote><p>Finally, we just return the promise we've built with <code>deferred</code>:</p><pre><code class=language-language-javascript data-lang=language-javascript>   return deferred.promise;
+}
+</code></pre><p>And that's it! You can see it in action below, press &lsquo;Update Name&rsquo; a few times and you'll see it uses the cache.</p><p>How do we use this? We'll it's simple, here's a controller that uses the service we've built:</p><pre><code class=language-language-javascript data-lang=language-javascript>app.controller('MainController', function ($scope, NameService) {
+
+  //  We have a name on the code, but it's initially empty...
+  $scope.name = &quot;&quot;;
+  
+  //  We have a function on the scope that can update the name.
+  $scope.updateName = function() {
+    NameService.getName()
+      .then(
+      /* success function */
+      function(name) {
+        $scope.name = name;
+      },
+      /* error function */
+      function(result) {
+        console.log(&quot;Failed to get the name, result is &quot; + result); 
+      });
+  };
+});
+</code></pre><p>Now there's something different here. Before, we might have used the <code>error</code> or <code>success</code> function of the promise. But here we use <code>then</code>. Why is that?</p><blockquote><p><code>success</code> and <code>error</code> are functions on a promise that AngularJS adds for us when using <code>$http</code> or <code>$resource</code>. They're not standard, you won't find them on other promises.</p></blockquote><p>So we've seen how promises work, what they are and so on, now we'll look into this success/error/then stuff.</p><h2 id=promises---success-error-then>Promises - Success, Error, Then</h2><p>Now we know that <code>$http</code> returns a promise, and we know that we can call <code>success</code> or <code>error</code> on that promise. It would be sensible to think that these functions are a standard part of promise - but they're not!</p><p>When you are using a promise, the function you should call is <code>then</code>. <code>then</code> takes two parameters - a callback function for success and a callback function for failure. Taking a look at our original <code>$http</code> example, we can rewrite it to use this function.
+So this code:</p><pre><code class=language-language-javascript data-lang=language-javascript>$http.get(&quot;/api/my/name&quot;)
+  .success(function(name) {
+    console.log(&quot;Your name is: &quot; + name);
+  })
+  .error(function(response, status) {
+    console.log(&quot;The request failed with response &quot; + response + &quot; and status code &quot; + status);
+  };
+</code></pre><p>becomes:</p><pre><code class=language-language-javascript data-lang=language-javascript>$http.get(&quot;/api/my/name&quot;)
+  .then(function(response) {
+    console.log(&quot;Your name is: &quot; + response.data);
+  }, function(result) {
+    console.log(&quot;The request failed: &quot; + result);
+  };
+</code></pre><p>We <strong>can</strong> use <code>success</code> or <code>error</code> when using <code>$http</code> - it's convenient. For one thing, the <code>error</code> function gives us a response and status (and more) and the <code>success</code> function gives us the response data (rather than the full response object).</p><p>But remember that it's not a standard part of a promise. You can can add your own versions of these functions to promises you build yourself if you want:</p><pre><code class=language-language-javascript data-lang=language-javascript>promise.success = function(fn) {
+    promise.then(function(response) {
+      fn(response.data, response.status, response.headers, config);
+    });
+    return promise;
+  };
+
+promise.error = function(fn) {
+    promise.then(null, function(response) {
+      fn(response.data, response.status, response.headers, config);
+    });
+    return promise;
+  };
+</code></pre><p>this is exactly how angular does it.</p><p>So what's the advice?</p><blockquote><p>Use <code>success</code> or <code>error</code> with <code>$http</code> promises if you want to - just remember they're not standard, and the parameters are different to those for <code>that</code> callbacks.</p></blockquote><p>So if you change your code so that your promise is not returned from <code>$http</code>, as we did in the earlier example when we load data from a cache, your code will break if you expect <code>success</code> or <code>error</code> to be there.</p><p>A safe approach is to use <code>then</code> wherever possible.</p><h2 id=advanced-promises---chaining>Advanced Promises - Chaining</h2><p>If you've had your fill of promises for now, you can skip to <a href=#thefutureofpromises>The Future of Promises</a> or <a href=#wrappingup>Wrapping Up</a>.</p><p>One useful aspect of promises is that the <code>then</code> function returns the promise itself. This means that you can actually <em>chain</em> promises, to create conscise blocks of logic that are executed at the appropriate times, without lots of nesting.</p><p>Let's consider an example where we need to fetch the user's name from the backend, but we have to use separate requests to get their profile information and then their application permissions.</p><p>Here's an example:</p><pre><code class=language-language-javascript data-lang=language-javascript>var details {
+   username: null,
+   profile: null,
+   permissions: null
+};
+
+$http.get('/api/user/name')
+  .then(function(response) {
+     // Store the username, get the profile.
+     details.username = response.data;
+     return $http.get('/api/profile/' + details.username);
+  })
+  .then(function(response) {
+  	//	Store the profile, now get the permissions.
+    details.profile = response.data;
+    return $http.get('/api/security/' + details.username);
+  })
+  .then(function(response) {
+  	//	Store the permissions
+    details.permissions = response.data;
+    console.log(&quot;The full user details are: &quot; + JSON.stringify(details);
+  });
+</code></pre><p>Now we have a series of asynchronous calls that we can coordinate without having lots of nested callbacks.</p><p>We can also greatly simplify error handling - let's see the example again, with an exception thrown in:</p><pre><code class=language-language-javascript data-lang=language-javascript>$http.get('/api/user/name')
+  .then(function(response) {
+     // Store the username, get the profile.
+     details.username = response.data;
+     return $http.get('/api/profile/' + details.username);
+  })
+  .then(function(response) {
+  	//	Store the profile, now get the permissions.
+    details.profile = response.data;
+    throw &quot;Oh no! Something failed!&quot;;
+  })
+  .then(function(response) {
+  	//	Store the permissions
+    details.permissions = response.data;
+    console.log(&quot;The full user details are: &quot; + JSON.stringify(details);
+  })
+  .catch(function(error) {
+    console.log(&quot;An error occured: &quot; + error);
+  });
+</code></pre><p>We can use <code>catch(callback)</code> - which is actually just shorthand for <code>then(null, callback)</code>. There's even a <code>finally</code> - which is executed whether or not the operations fail or succeed.</p><blockquote><p>Use <code>catch</code> and for error handling with promises - and use <code>finally</code> for logic that's executed after success OR failure.</p></blockquote><p>The composition of promises can simplify complicated code - particularly when you add in error handling!</p><p>One final point to make which is not quite related to chaining but does relate to multiple promises is <code>$q.all</code>. <code>all</code> can be used to build a single promise from a set of promises.</p><p>You can pass an array of promises to <code>all</code> and you get back a single promise - which is resolved when all of the promises it contains resolve. This can be useful if you are building complex methods that may have to perform multiple asynchronous tasks - such as multiple ajax calls.</p><h2 id=advanced-promises---routing>Advanced Promises - Routing</h2><p>There's a particular area of AngularJS that uses promises to great effect, and that's the router.</p><p>Let's imagine we have a router like the following:</p><pre><code class=language-language-javascript data-lang=language-javascript>$routeProvider
+   .when('/home', {
+       templateUrl: 'home.html',
+       controller: 'MainController'
+   })
+   .when('/profile', {
+       templateUrl: 'profile.html',
+       controller: 'ProfileController'
+   })
+</code></pre><p>Here we have two routes. The home route takes us to the home page, with the <code>MainController</code>, and the profile route takes us to the user's profile page.</p><p>Our ProfileController uses our funky name service:</p><pre><code class=language-language-javascript data-lang=language-javascript>app.controller('ProfileController', function($scope, NameService) {
+	$scope.name = null;
+    
+    NameService.getName().then(function(name) {
+    	$scope.name = name;
+    });
+});
+</code></pre><p>The problem is, <strong>until the name service gets the name from the backend, the name is null</strong>. This means if our view binds to the name, it'll flicker - first it's empty then its set.</p><p>What we'd like to do is actully say to the router - &ldquo;I'm going to go to this view, but only when you can tell me my name&rdquo;.</p><p>We can do this with the <em>resolves</em> in the router, here's how it works:</p><pre><code class=language-language-javascript data-lang=language-javascript>// Create a function that uses the NameService 
+// to return the getName promise.
+var getName = function(NameService) {
+        return NameService.getName();
+    };
+    
+$routeProvider
+   .when('/home', {
+       templateUrl: '/home.html',
+       controller: 'MainController'
+   })
+   .when('/profile', {
+       templateUrl: '/profile.html',
+       controller: 'ProfileController',
+       /* only navigate when we've resolved these promises */
+       resolve: {
+           name: getName
+       }
+   })
+</code></pre><p>so now we have a <em>resolve</em> on the route - when we go to the profile page the router will wait until the promise returned by <code>getName</code> resolves, then it will pass the result into the controller, as the parameter called <code>name</code>. Now our controller looks like this:</p><pre><code class=language-language-javascript data-lang=language-javascript>app.controller('ProfileController', function($scope, name) {
+
+	$scope.name = name;
+
+});
+</code></pre><p>Much better! And also <strong>much</strong> more testable.</p><p>One thing you may wonder - why do I use <code>getName</code> as the resolve function instead of just using <code>NameService.getName</code> directly?</p><p>That's because the route is set up in a <code>config</code> function - and that function cannot have services injected. However, a resolve function <strong>can</strong>, so we just use a function and let AngularJS inject the <code>NameService</code> for us.</p><p>Now for an important statement:</p><blockquote><p>If the first thing your controller does is fetch data from the server, it's probably wrong.</p></blockquote><p>Why? Because if your controller needs data, inject it - let the router ensure the data is ready. Then you don't have controllers in an invalid state as they're loading - and your controllers become easier to test.</p><p>Be aware of <code>resolve</code> for routes - it's a great way to handle loading of required data, authentication and other things that you might be putting into the wrong place.</p><p>You can see the example above in action here:</p><p>What's cool is we can also see our caching logic by going to and from the Home and Profile pages. The promises are keeping our code clean and testable.</p><p>As a final note on promises when routing, you can specify multiple resolves if you need to:</p><pre><code class=language-language-javascript data-lang=language-javascript>$routeProvider
+   .when('/profile', {
+       templateUrl: '/profile.html',
+       controller: 'ProfileController',
+       /* only navigate when we've resolved these promises */
+       resolve: {
+           name: getName,
+           profile: getProfile,
+           anythingElse: getAnythingElse
+       }
+   })
+</code></pre><p>in this case each resolve is injected into the controller.</p><h2 id=advanced-promises---tips--tricks>Advanced Promises - Tips & Tricks</h2><p>This section just contains some tips and tricks you might find useful when working with promises.</p><ol><li>Promises in directives are not resolved automatically since AngularJS 1.2. Previously, if you passed a promise to a directive with an &lsquo;=&rsquo; binding, AngularJS would resolve the promise for you, this is no longer the case.</li></ol><h2 id=the-future-of-promises>The Future of Promises</h2><p>So promises are a core part of AngularJS and to use the framework effectively, you must understand how to use them and how they work. But what is the future of promises?</p><p>It's almost certain that promises are going to become a <strong>native</strong> feature of JavaScript, they are part of the proposed ECMAScript 6 specification.</p><p>The functionality of the <code>q</code> library and AngularJS&rsquo; implementation of promises are very similar indeed to the proposed specification, but be aware that when promises become standard, AngularJS is most likely to adapt their own promises to work like native promises.</p><p>You can read more at <a href=http://www.html5rocks.com/en/tutorials/es6/promises/>html5rocks.com/en/tutorials/es6/promises/</a>.</p><p>Just be aware that you'll see promises more and more, in other frameworks and in vanilla JavaScript.</p><h2 id=wrapping-up>Wrapping Up</h2><p>I hope this post has been useful to understanding promises. Any feedback is always good, so let me know if anything is unclear or could be improved. To finish this article, here are some useful links:</p><ul><li><strong>The Q library</strong> <a href=https://github.com/kriskowal/q>github.com/kriskowal/q</a></li><li><strong>The AngularJS <code>$q</code> Service</strong> <a href=https://docs.angularjs.org/api/ng/service/$q>docs.angularjs.org/api/ng/service/$q</a></li><li><strong>Promises in ECMAScript 6</strong> <a href=http://www.html5rocks.com/en/tutorials/es6/promises/>html5rocks.com/en/tutorials/es6/promises/</a></li><li><strong>XmlHttpRequest, which we used in an example</strong> <a href=https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest>developer.mozilla.org/en/docs/Web/API/XMLHttpRequest</a></li></ul><p>And also some interesting discussions:</p><p><a href=http://spion.github.io/posts/why-i-am-switching-to-promises.html>Why I am switching to promises</a> - Written by Gorgi Kosev, great article describing why a switch from callbacks to promises can be a very good thing in NodeJS applications.</p><p><a href=http://blog.ometer.com/2011/07/24/callbacks-synchronous-and-asynchronous/>Callbacks, sychronous and asynchronous</a> - From Havoc, this post contains many useful points for API writers who are using callbacks or promises. One key takeaway is to <strong>never</strong> do what a sample in this article does which is resolve a promise either synchronously or asynchronously, as it leads to code which can be difficult to reason about. I'll be mentioning this more in a later update which will explain the problem and solution.</p><p><a href=http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony>Designing for Asynchrony</a> - Written by Isaac Z. Schlueter, this post is another great one for API designers that takes a look into asynchrony.</p></div><footer class="post-footer clearfix"><p class=post-tags><span>Tagged:</span>
+<a href=/tags/AngularJS/>AngularJS</a>,
+<a href=/tags/CodeProject/>CodeProject</a>,
+<a href=/tags/JavaScript/>JavaScript</a>,
+<a href=/tags/ECMAScript-6/>ECMAScript 6</a></p><div class=share><a class=icon-twitter href="https://twitter.com/share?text=AngularJS%20Promises%20-%20The%20Definitive%20Guide&url=http%3a%2f%2fexample.org%2fpromises-in-angularjs-the-definitive-guide%2f" onclick="window.open(this.href,'twitter-share','width=550,height=235');return false;"><i class="fa fa-twitter"></i><span class=hidden>Twitter</span></a>
+<a class=icon-facebook href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fexample.org%2fpromises-in-angularjs-the-definitive-guide%2f" onclick="window.open(this.href,'facebook-share','width=580,height=296');return false;"><i class="fa fa-facebook"></i><span class=hidden>Facebook</span></a></div></footer><div class=comments><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='//'+"dmwkerr"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></article></div></div></div><footer class=footer><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class="button-square button-jump-top js-jump-top" href=#><i class="fa fa-angle-up"></i></a></div><p class=footer-copyright><span>&copy; 2019 / Powered by <a href=https://gohugo.io/>Hugo</a></span></p><p class=footer-copyright><span><a href=https://github.com/roryg/ghostwriter>Ghostwriter theme</a> By <a href=http://jollygoodthemes.com>JollyGoodThemes</a></span>
+<span>/ <a href=https://github.com/jbub/ghostwriter>Ported</a> to Hugo By <a href=https://github.com/jbub>jbub</a></span></p></div></footer><script src=http://example.org/js/jquery-1.11.3.min.js></script><script src=http://example.org/js/jquery.fitvids.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=http://example.org/js/scripts.js></script></body></html>

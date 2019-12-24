@@ -1,0 +1,95 @@
+<!doctype html><html prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Dynamic and Configurable Availability Zones in Terraform &#183; Dave Kerr</title><meta name=description content="When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.
+I've seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I've come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we'll support."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=generator content="Hugo 0.61.0"><meta name=robots content="index,follow"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:title" content="Dynamic and Configurable Availability Zones in Terraform"><meta property="og:description" content="When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.
+I've seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I've come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we'll support."><meta property="og:type" content="article"><meta property="og:url" content="http://example.org/dynamic-and-configurable-availability-zones-in-terraform/"><link rel=stylesheet href=http://example.org/dist/styles.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic"><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous></head><body><script type=application/javascript>var dnt=(navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack);var doNotTrack=(dnt=="1"||dnt=="yes");if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-41728580-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><div id=wrapper><header class=site-header><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class=button-square href=http://example.org/index.xml><i class="fa fa-rss"></i></a><a class="button-square button-social hint--top" data-hint=Twitter title=Twitter href=https://twitter.com/dwmkerr rel=me><i class="fa fa-twitter"></i></a><a class="button-square button-social hint--top" data-hint=Github title=Github href=https://github.com/dwmkerr rel=me><i class="fa fa-github-alt"></i></a><a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href=https://stackoverflow.com/users/1189164/dave-kerr rel=me><i class="fa fa-stack-overflow"></i></a><a class="button-square button-social hint--top" data-hint=LinkedIn title=LinkedIn href=https://www.linkedin.com/in/dwmkerr/ rel=me><i class="fa fa-linkedin"></i></a></div><ul class=site-nav><li class=site-nav-item><a title=Blog href=/>Blog</a></li><li class=site-nav-item><a title=Speaking href=/page/speaking/>Speaking</a></li><li class=site-nav-item><a title=About href=/page/about/>About</a></li></ul></div></header><div id=container><div class=container><article class=post-container itemscope itemtype=http://schema.org/BlogPosting><header class=post-header><h1 class=post-title itemprop="name headline">Dynamic and Configurable Availability Zones in Terraform</h1><p class="post-date post-line"><span>Published <time datetime=2018-12-11 itemprop=datePublished>Tue, Dec 11, 2018</time></span>
+<span>by</span>
+<span itemscope itemprop=author itemtype=https://schema.org/Person><span itemprop=name><a href=https://github.com/dwmkerr itemprop=url rel=author>Dave Kerr</a></span></span></p></header><div class="post-content clearfix" itemprop=articleBody><img class=post-featured-image src=/images/2018/12/screenshot.jpg><p>When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.</p><p>I've seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I've come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we'll support.</p><p><img src=/images/2018/12/screenshot-1.jpg alt=screenshot></p><p>To demonstrate, I've set up a module which deploys a cluster of web servers. My goal is to be able to configure the region, VPC CIDR block, subnets and subnet CIDR blocks as below:</p><pre><code>module &quot;cluster&quot; {
+  source            = &quot;github.com/dwmkerr/terraform-aws-vpc&quot;
+
+  # Note how we can specify any number of availability zones here...
+  region            = &quot;ap-northeast-2&quot;
+  vpc_cidr          = &quot;10.0.0.0/16&quot;
+  subnets           = {
+    ap-northeast-2a = &quot;10.0.1.0/24&quot;
+    ap-northeast-2b = &quot;10.0.2.0/24&quot;
+    ap-northeast-2c = &quot;10.0.3.0/24&quot;
+  }
+
+  # This just defines the number of web servers to deploy, and uses
+  # adds my public key so I can SSH into the servers...
+  web_server_count  = &quot;3&quot;
+  public_key_path   = &quot;~/.ssh/id_rsa.pub&quot;
+
+}
+</code></pre><p>The example module is at <a href=https://github.com/dwmkerr/terraform-aws-vpc>github.com/dwmkerr/terraform-aws-vpc</a>. Let's take a look at some of the key elements.</p><h2 id=the-variables>The Variables</h2><p>We define the required variables very explicitly, with descriptions and a variable type to avoid confusion:</p><pre><code>variable &quot;region&quot; {
+  description = &quot;The region to deploy the VPC in, e.g: us-east-1.&quot;
+  type = &quot;string&quot;
+}
+
+variable &quot;vpc_cidr&quot; {
+  description = &quot;The CIDR block for the VPC, e.g: 10.0.0.0/16&quot;
+  type = &quot;string&quot;
+}
+
+variable &quot;subnets&quot; {
+  description = &quot;A map of availability zones to CIDR blocks, which will be set up as subnets.&quot;
+  type = &quot;map&quot;
+}
+</code></pre><h2 id=the-vpc>The VPC</h2><p>Now that we have defined the variables, we can set up the VPC:</p><pre><code>//  Define the VPC.
+resource &quot;aws_vpc&quot; &quot;cluster&quot; {
+  cidr_block           = &quot;${var.vpc_cidr}&quot;
+  enable_dns_hostnames = true
+}
+
+//  An Internet Gateway for the VPC.
+resource &quot;aws_internet_gateway&quot; &quot;cluster_gateway&quot; {
+  vpc_id = &quot;${aws_vpc.cluster.id}&quot;
+}
+
+//  Create one public subnet per key in the subnet map.
+resource &quot;aws_subnet&quot; &quot;public-subnet&quot; {
+  count                   = &quot;${length(var.subnets)}&quot;
+  
+  vpc_id                  = &quot;${aws_vpc.cluster.id}&quot;
+  cidr_block              = &quot;${element(values(var.subnets), count.index)}&quot;
+  map_public_ip_on_launch = true
+  depends_on              = [&quot;aws_internet_gateway.cluster_gateway&quot;]
+  availability_zone       = &quot;${element(keys(var.subnets), count.index)}&quot;
+}
+
+//  Create a route table allowing all addresses access to the IGW.
+resource &quot;aws_route_table&quot; &quot;public&quot; {
+  vpc_id       = &quot;${aws_vpc.cluster.id}&quot;
+
+  route {
+    cidr_block = &quot;0.0.0.0/0&quot;
+    gateway_id = &quot;${aws_internet_gateway.cluster_gateway.id}&quot;
+  }
+}
+
+//  Now associate the route table with the public subnet - giving
+//  all public subnet instances access to the internet.
+resource &quot;aws_route_table_association&quot; &quot;public-subnet&quot; {
+  count          = &quot;${length(var.subnets)}&quot;
+  
+  subnet_id      = &quot;${element(aws_subnet.public-subnet.*.id, count.index)}&quot;
+  route_table_id = &quot;${aws_route_table.public.id}&quot;
+}
+</code></pre><p>There are a few things of interest here. First, we can easily build a variable number of subnets by using the <code>count</code> field on the <code>aws_subnet</code> resource:</p><pre><code>resource &quot;aws_subnet&quot; &quot;public-subnet&quot; {
+  count                   = &quot;${length(var.subnets)}&quot;
+  
+  availability_zone       = &quot;${element(keys(var.subnets), count.index)}&quot;
+  cidr_block              = &quot;${element(values(var.subnets), count.index)}&quot;
+}
+</code></pre><p>By using the <a href=https://www.terraform.io/docs/configuration/interpolation.html>Terraform Interpolation Syntax</a>, and in particular the <code>count</code>, <code>keys</code>, <code>values</code> and <code>element</code> functions, we can grab the subnet name and CIDR block from the variables.</p><h2 id=the-web-server-cluster>The Web Server Cluster</h2><p>A cluster of web servers behind a load balancer are created by the module, to demonstrate that it works. There is little of interest in the script except for how the subnets are referenced:</p><pre><code>resource &quot;aws_autoscaling_group&quot; &quot;cluster_node&quot; {
+  name                        = &quot;cluster_node&quot;
+  vpc_zone_identifier         = [&quot;${aws_subnet.public-subnet.*.id}&quot;]
+  launch_configuration        = &quot;${aws_launch_configuration.cluster_node.name}&quot;
+}
+</code></pre><p>Note that we can specify the entire list of subnet ids by using the <code>*</code> symbol in the resource path - <code>["${aws_subnet.public-subnet.*.id}"]</code>.</p><h2 id=thats-it>That's It!</h2><p>That's really all there is to it. I quite like this approach. I think it makes it very clear what is going on with the infrastructure, and is fairly manageable.</p><p>One question which may be raised is why I am not using the <a href=https://www.terraform.io/docs/configuration/interpolation.html#cidrsubnet-iprange-newbits-netnum-><code>cidrsubnet</code></a> function to automatically calculate the CIDR blocks for the subnets. The reason is purely one of preference - I prefer to explicitly specify the CIDR blocks and use various patterns to set conventions. For example, if I see an IP address such as <code>10.0.3.121</code> then it is in the third AZ of my public subnet, or <code>10.2.2.11</code> is in the second AZ of my locked down data zone.</p><p>You can see a sample Terraform module which uses this pattern at: <a href=https://github.com/dwmkerr/terraform-aws-vpc-example>github.com/dwmkerr/terraform-aws-vpc-example</a>. This module also has a basic build pipeline and is published on the <a href=https://registry.terraform.io/modules/dwmkerr/vpc-example>Terraform Registry</a>. I'll also be updating my <a href=https://github.com/dwmkerr/terraform-aws-openshift>AWS Openshift</a> module to use this pattern.</p></div><footer class="post-footer clearfix"><p class=post-tags><span>Tagged:</span>
+<a href=/tags/Terraform/>Terraform</a>,
+<a href=/tags/AWS/>AWS</a>,
+<a href=/tags/CodeProject/>CodeProject</a>,
+<a href=/tags/Infrastructure/>Infrastructure</a></p><div class=share><a class=icon-twitter href="https://twitter.com/share?text=Dynamic%20and%20Configurable%20Availability%20Zones%20in%20Terraform&url=http%3a%2f%2fexample.org%2fdynamic-and-configurable-availability-zones-in-terraform%2f" onclick="window.open(this.href,'twitter-share','width=550,height=235');return false;"><i class="fa fa-twitter"></i><span class=hidden>Twitter</span></a>
+<a class=icon-facebook href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fexample.org%2fdynamic-and-configurable-availability-zones-in-terraform%2f" onclick="window.open(this.href,'facebook-share','width=580,height=296');return false;"><i class="fa fa-facebook"></i><span class=hidden>Facebook</span></a></div></footer><div class=comments><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='//'+"dmwkerr"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></article></div></div></div><footer class=footer><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class="button-square button-jump-top js-jump-top" href=#><i class="fa fa-angle-up"></i></a></div><p class=footer-copyright><span>&copy; 2019 / Powered by <a href=https://gohugo.io/>Hugo</a></span></p><p class=footer-copyright><span><a href=https://github.com/roryg/ghostwriter>Ghostwriter theme</a> By <a href=http://jollygoodthemes.com>JollyGoodThemes</a></span>
+<span>/ <a href=https://github.com/jbub/ghostwriter>Ported</a> to Hugo By <a href=https://github.com/jbub>jbub</a></span></p></div></footer><script src=http://example.org/js/jquery-1.11.3.min.js></script><script src=http://example.org/js/jquery.fitvids.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=http://example.org/js/scripts.js></script></body></html>

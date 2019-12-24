@@ -1,0 +1,87 @@
+<!doctype html><html prefix="og: http://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Effective Shell Part 2: Become a Clipboard Gymnast &#183; Dave Kerr</title><meta name=description content="This is the second part of my Effective Shell series, which contains practical tips for using the shell to help with every day tasks and be more efficient:
+ Part 1: Navigating the Command Line Part 2: Become a Clipboard Gymnast Part 3: Getting Help Part 4: Moving Around Part 5: Interlude - Understanding the Shell Part 6: Everything You Don't Need to Know About Job Control Part 7: The Subtleties of Shell Commands  In this article I'll show you how you can use the shell as an efficient tool to compliment how you use the clipboard."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=generator content="Hugo 0.61.0"><meta name=robots content="index,follow"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:title" content="Effective Shell Part 2: Become a Clipboard Gymnast"><meta property="og:description" content="This is the second part of my Effective Shell series, which contains practical tips for using the shell to help with every day tasks and be more efficient:
+ Part 1: Navigating the Command Line Part 2: Become a Clipboard Gymnast Part 3: Getting Help Part 4: Moving Around Part 5: Interlude - Understanding the Shell Part 6: Everything You Don't Need to Know About Job Control Part 7: The Subtleties of Shell Commands  In this article I'll show you how you can use the shell as an efficient tool to compliment how you use the clipboard."><meta property="og:type" content="article"><meta property="og:url" content="http://example.org/effective-shell-part-2-become-a-clipboard-gymnast/"><link rel=stylesheet href=http://example.org/dist/styles.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic"><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous></head><body><script type=application/javascript>var dnt=(navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack);var doNotTrack=(dnt=="1"||dnt=="yes");if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-41728580-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><div id=wrapper><header class=site-header><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class=button-square href=http://example.org/index.xml><i class="fa fa-rss"></i></a><a class="button-square button-social hint--top" data-hint=Twitter title=Twitter href=https://twitter.com/dwmkerr rel=me><i class="fa fa-twitter"></i></a><a class="button-square button-social hint--top" data-hint=Github title=Github href=https://github.com/dwmkerr rel=me><i class="fa fa-github-alt"></i></a><a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href=https://stackoverflow.com/users/1189164/dave-kerr rel=me><i class="fa fa-stack-overflow"></i></a><a class="button-square button-social hint--top" data-hint=LinkedIn title=LinkedIn href=https://www.linkedin.com/in/dwmkerr/ rel=me><i class="fa fa-linkedin"></i></a></div><ul class=site-nav><li class=site-nav-item><a title=Blog href=/>Blog</a></li><li class=site-nav-item><a title=Speaking href=/page/speaking/>Speaking</a></li><li class=site-nav-item><a title=About href=/page/about/>About</a></li></ul></div></header><div id=container><div class=container><article class=post-container itemscope itemtype=http://schema.org/BlogPosting><header class=post-header><h1 class=post-title itemprop="name headline">Effective Shell Part 2: Become a Clipboard Gymnast</h1><p class="post-date post-line"><span>Published <time datetime=2017-10-10 itemprop=datePublished>Tue, Oct 10, 2017</time></span>
+<span>by</span>
+<span itemscope itemprop=author itemtype=https://schema.org/Person><span itemprop=name><a href=https://github.com/dwmkerr itemprop=url rel=author>Dave Kerr</a></span></span></p></header><div class="post-content clearfix" itemprop=articleBody><p>This is the second part of my <a href=https://github.com/dwmkerr/effective-shell>Effective Shell</a> series, which contains practical tips for using the shell to help with every day tasks and be more efficient:</p><ul><li><a href=https://www.dwmkerr.com/effective-shell-part-1-navigating-the-command-line/>Part 1: Navigating the Command Line</a></li><li><strong><a href=https://www.dwmkerr.com/effective-shell-part-2-become-a-clipboard-gymnast/>Part 2: Become a Clipboard Gymnast</a></strong></li><li><a href=https://www.dwmkerr.com/effective-shell-part-3-getting-hepl/>Part 3: Getting Help</a></li><li><a href=https://dwmkerr.com/effective-shell-4-moving-around/>Part 4: Moving Around</a></li><li><a href=https://dwmkerr.com/effective-shell-part-5-understanding-the-shell/>Part 5: Interlude - Understanding the Shell</a></li><li><a href=https://dwmkerr.com/effective-shell-6-job-control/>Part 6: Everything You Don't Need to Know About Job Control</a></li><li><a href=https://dwmkerr.com/effective-shell-7-shell-commands/>Part 7: The Subtleties of Shell Commands</a></li></ul><p>In this article I'll show you how you can use the shell as an efficient tool to compliment how you use the clipboard.</p><p><em>Note for Linux Users: In this article I'll use the <code>pbcopy</code> and <code>pbpaste</code> commands to access the clipboard, which are available on a Mac only. To get access to the same commands on other platforms, check <a href=#appendixclipboardaccessonlinux>Appendix: Clipboard Access on Linux</a></em>.</p><h2 id=use-the-shell-on-the-clipboard>Use the Shell on the Clipboard</h2><p>You can easily use shell commands on the contents of your clipboard. Just use <code>pbpaste</code> to output the clipboard, run the output through some commands, then use <code>pbcopy</code> to copy the result.</p><p>Try copying the following text:</p><pre><code>Kirk Van Houten
+Timothy Lovejoy
+Artie Ziff
+</code></pre><p>Then in the shell, run:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>pbpaste
+</code></pre></div><p>You should see the contents of the clipboard. Now we'll look at some ways that shell access to the clipboard can help with common tasks.</p><h2 id=removing-formatting>Removing Formatting</h2><p>Don't you hate it when you have to copy formatted text and don't have an easy way to paste it as <em>unformatted</em> text? Here's an example, I want to copy this Wikipedia page on &lsquo;bash&rsquo;, and paste it into a Word document:</p><p><img src=/images/2017/10/strip-formatting-before.png alt="Copying and pasting with formatting"></p><p>Many programs have a shortcut to paste the contents of the clipboard (such as &lsquo;command + shift + v&rsquo;) but if you are like me you might find yourself pasting <em>into</em> a plain text editor just to copy <em>out</em> the plain text.</p><p>If you just run the command <code>pbpaste | pbcopy</code>, you can easily strip the formatting:</p><p><img src=/images/2017/10/strip-formatting-after-2.png alt="Stripping formatting from the clipboard"></p><p>We're just piping out the clipboard (which ends up as plain text, cause we're in a terminal!) and then piping that plain text <em>back into the clipboard</em>, replacing the formatted text which was there before.</p><p>This little trick can be very useful. But we can use the same pattern to quickly manipulate the contents of the clipboard in more sophisticated ways.</p><h2 id=manipulating-text>Manipulating Text</h2><p>Let's say someone has emailed me a list of people I need to invite to an event:</p><p><img src=/images/2017/10/email_list_excel.png alt="Email List"></p><p>The problem is:</p><ol><li>The list is in Excel and is formatted</li><li>The list has duplicates</li><li>I need to turn each name into an email address like <a href="mailto:'Artie_Ziff@simpsons.com">'Artie_Ziff@simpsons.com</a>&rsquo;</li></ol><p>And I want to email everyone quickly.</p><p>We can quickly handle this task without leaving the shell.</p><p>Copy the raw text below if you want to try out the same commands and follow along:</p><pre><code>Artie Ziff
+Kirk Van Houten
+Timothy Lovejoy
+Artie Ziff
+Nick Riviera
+Seymore Skinner
+Hank Scorpio
+Timothy Lovejoy
+John Frink
+Cletus Spuckler
+Ruth Powers
+Artie Ziff
+Agnes Skinner
+Helen Lovejoy
+</code></pre><p>First, we copy the text to the clipboard.</p><p>Now we can paste and sort:</p><pre><code>$ pbpaste | sort
+Agnes Skinner
+Artie Ziff
+Artie Ziff
+Artie Ziff
+Cletus Spuckler
+Hank Scorpio
+Helen Lovejoy
+John Frink
+Kirk Van Houten
+Nick Riviera
+Ruth Powers
+Seymore Skinner
+Timothy Lovejoy
+Timothy Lovejoy
+</code></pre><p>Then remove the duplicates:</p><pre><code>$ pbpaste | sort | uniq
+Agnes Skinner
+Artie Ziff
+Cletus Spuckler
+Hank Scorpio
+Helen Lovejoy
+John Frink
+Kirk Van Houten
+Nick Riviera
+Ruth Powers
+Seymore Skinner
+Timothy Lovejoy
+</code></pre><p>Replace the underscore with an ampersand:</p><pre><code>$ pbpaste | sort | uniq | tr &quot; &quot; &quot;_&quot;
+Agnes_Skinner
+Artie_Ziff
+Cletus_Spuckler
+Hank_Scorpio
+Helen_Lovejoy
+John_Frink
+Kirk_Van_Houten
+Nick_Riviera
+Ruth_Powers
+Seymore_Skinner
+Timothy_Lovejoy
+</code></pre><p>Then add the final part of the email address:</p><pre><code>$ pbpaste | sort | uniq | tr &quot; &quot; &quot;_&quot; | sed 's/$/@simpsons.com/'
+Agnes_Skinner@simpsons.com
+Artie_Ziff@simpsons.com
+Cletus_Spuckler@simpsons.com
+Hank_Scorpio@simpsons.com
+Helen_Lovejoy@simpsons.com
+John_Frink@simpsons.com
+Kirk_Van_Houten@simpsons.com
+Nick_Riviera@simpsons.com
+Ruth_Powers@simpsons.com
+Seymore_Skinner@simpsons.com
+Timothy_Lovejoy@simpsons.com
+</code></pre><p>This looks perfect! We can now put the transformed text back onto the clipboard:</p><pre><code>$ pbpaste | sort | uniq | tr ' ' '_' | sed 's/$/@simpsons.com' | pbcopy
+</code></pre><p>All in all we have the following pipeline:</p><ol><li><code>pbpaste</code> - output the clipboard</li><li><code>sort</code> - order the output</li><li><code>uniq</code> - deduplicate the rows</li><li><code>tr ' ' '_'</code> - replace spaces with underscores</li><li><code>sed /$/@simpsons.com</code> - add the email domain to the end of the row</li></ol><p>Building this in one go is hard, let's look at little more at the pipeline.</p><h2 id=thinking-in-pipelines>Thinking in Pipelines</h2><p>Some of these commands might be unfamiliar, some might not make sense, and you might be thinking &lsquo;how would I remember that&rsquo;. Actually, there are many ways to solve the problem above, this is the one I came up with by <em>iteratively</em> changing my input text.</p><p>Here's what I mean - you'll see that I actually build a pipeline like this step-by-step:</p><p><img src=/images/2017/10/pipeline.gif alt="Animation of the process of building a pipeline"></p><p>You can see in the screenshots that I start simple, and step by step add the stages we need.</p><p>(P.S - if you are wondering how I am jumping backwards and forwards a word at a time, check the last chapter &lsquo;<a href=www.dwmkerr.com/effective-shell-part-1-navigating-the-command-line/>Navigating the Command Line</a>').</p><p>What we're doing here is only possible because these simple commands all follow &lsquo;the Unix Philosophy&rsquo;. They do one thing well, and each command expects it's input to become the input of <em>another</em> command later on. Specifically:</p><ol><li>The commands are primitive and simple - <code>sort</code> is sorting a list, <code>uniq</code> is making elements unique.</li><li>The commands don't produce unnecessary output - <code>sort</code> doesn't add a header such as <code>Sorted Items</code>, which is great because otherwise it would clutter our pipeline.</li><li>We are chaining commands together, the output of one becomes the input of another.</li></ol><p>We don't need a command such as &lsquo;Take a muddy list, sort and clean it, then turn pairs of words into an email address&rsquo; - with a few simple &lsquo;workhorse&rsquo; commands we can easily build this functionality ourselves.</p><p>These workhorse commands will be introduced and detailed as we go through the series. We'll also spend a lot more time looking at pipelines.</p><p>I hope this was useful! Please comment if you have any questions or tips. To see further articles as they come out, follow the repo at:</p><p><a href=https://github.com/dwmkerr/effective-shell>github.com/dwmkerr/effective-shell</a></p><p>Or just follow <a href=https://twitter.com/dwmkerr>@dwmkerr</a> on Twitter.</p><h1 id=appendix---clipboard-access-on-linux>Appendix - Clipboard Access on Linux</h1><p>If you are using Linux, there is no <code>pbcopy</code> and <code>pbpaste</code> commands. You can use the <a href=https://linux.die.net/man/1/xclip><code>xclip</code></a> tool to create equivalent commands.</p><p>First, install <code>xclip</code>:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo apt-get install -y xclip
+</code></pre></div><p>Then add the following to your <code>.bashrc</code> file:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># Create mac style aliases for clipboard access.</span>
+alias pbcopy<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;xclip -selection c&#34;</span>
+alias pbpaste<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;xclip -selection c -o&#34;</span>
+</code></pre></div><p>Obviously you can use any alias you like! The article assumes that <code>pbcopy</code> and <code>pbpaste</code> have been used.</p></div><footer class="post-footer clearfix"><p class=post-tags><span>Tagged:</span>
+<a href=/tags/Shell/>Shell</a>,
+<a href=/tags/Bash/>Bash</a>,
+<a href=/tags/EffectiveShell/>EffectiveShell</a>,
+<a href=/tags/CodeProject/>CodeProject</a>,
+<a href=/tags/Linux/>Linux</a></p><div class=share><a class=icon-twitter href="https://twitter.com/share?text=Effective%20Shell%20Part%202%3a%20Become%20a%20Clipboard%20Gymnast&url=http%3a%2f%2fexample.org%2feffective-shell-part-2-become-a-clipboard-gymnast%2f" onclick="window.open(this.href,'twitter-share','width=550,height=235');return false;"><i class="fa fa-twitter"></i><span class=hidden>Twitter</span></a>
+<a class=icon-facebook href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fexample.org%2feffective-shell-part-2-become-a-clipboard-gymnast%2f" onclick="window.open(this.href,'facebook-share','width=580,height=296');return false;"><i class="fa fa-facebook"></i><span class=hidden>Facebook</span></a></div></footer><div class=comments><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='//'+"dmwkerr"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></article></div></div></div><footer class=footer><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class="button-square button-jump-top js-jump-top" href=#><i class="fa fa-angle-up"></i></a></div><p class=footer-copyright><span>&copy; 2019 / Powered by <a href=https://gohugo.io/>Hugo</a></span></p><p class=footer-copyright><span><a href=https://github.com/roryg/ghostwriter>Ghostwriter theme</a> By <a href=http://jollygoodthemes.com>JollyGoodThemes</a></span>
+<span>/ <a href=https://github.com/jbub/ghostwriter>Ported</a> to Hugo By <a href=https://github.com/jbub>jbub</a></span></p></div></footer><script src=http://example.org/js/jquery-1.11.3.min.js></script><script src=http://example.org/js/jquery.fitvids.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=http://example.org/js/scripts.js></script></body></html>
