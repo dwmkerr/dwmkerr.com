@@ -3,13 +3,15 @@ name: Build & Deploy
 on:
   push:
     branches:
-    - master
+    - 'master'
+    - 'build/**'
 
 jobs:
   build-deploy:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
       with:
         submodules: true
 
@@ -24,9 +26,8 @@ jobs:
       run: hugo --minify
 
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v2
-      env:
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BASE_BRANCH: master
         BRANCH: gh-pages
-        FOLDER: ./dwmkerr.com/public
+        FOLDER: dwmkerr.com/public
