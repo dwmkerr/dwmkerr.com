@@ -3,13 +3,15 @@ name: Build & Deploy
 on:
   push:
     branches:
-    - master
+    - 'master'
+    - 'build/**'
 
 jobs:
   build-deploy:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@master
       with:
         submodules: true
 
