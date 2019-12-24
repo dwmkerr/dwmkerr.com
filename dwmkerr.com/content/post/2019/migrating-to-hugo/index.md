@@ -232,11 +232,37 @@ The ideal structure would be just like this post:
 
 It turns out that this is absolutely fine to do - as long as you name the post markdown `index.md`. This took an hour to work out! The feature is known as [Page Bundles](https://gohugo.io/content-management/page-bundles/). This is a delight - the content renders on GitHub just as well as it does on the site!
 
-Migrating everything by hand would be something of a nightmare, so out comes the code:
+Migrating everything by hand would be something of a nightmare. Writing a program to do this is probably overkill, so here's how I did it in `bash`:
 
+```sh
+# Go through each post.
+for post_path in dwmkerr.com/content/post/*.md; do
+    echo "Found $post_path"
+    filename=$(basename -- "$post_path")
+    filename="${filename%.*}"
 
+    # Grep out the date line.
+    dateline=$(grep -E "^date: " "$post_path")
 
+    # We know how to get the year as the date line is consistent in all posts:
+    # date: "2012-12-09T16:11:27Z"
+    year=${dateline:7:4} # i.e. the four characters from index 7
 
+    # Create the folder for the post.
+    new_folder="dwmkerr.com/content/post/$year/$filename"
+    mkdir -p "$new_folder"
+
+    # Move the post.
+    mv "$post_path" "$new_folder/index.md"
+    echo "  -> $new_folder/index.md"
+done
+```
+
+This gives a _much_ more manageable folder structure:
+
+![Screenshot: Better Folder Structure](./folder-structure-screenshot.png)
+
+However, we still have the images sitting in the `static` folder.
 
 https://gohugo.io/content-management/page-bundles/
 

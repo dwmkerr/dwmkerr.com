@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Used to move each post which is in the post directory into it's own folder,
+# inside a folder for the year it was written in.
+
 # Go through each post.
 for post_path in dwmkerr.com/content/post/*.md; do
     echo "Found $post_path"
