@@ -1,14 +1,25 @@
-+++
-author = "Dave Kerr"
-categories = ["Node.js", "Express.js", "CodeProject", "Auth0", "Security", "JWT"]
-date = 2015-03-24T14:45:02Z
-description = ""
-draft = false
-slug = "modifying-a-jwt-in-a-node-application"
-tags = ["Node.js", "Express.js", "CodeProject", "Auth0", "Security", "JWT"]
-title = "Manipulating JSON Web Tokens (JWTs)"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Node.js
+- Express.js
+- CodeProject
+- Auth0
+- Security
+- JWT
+date: "2015-03-24T14:45:02Z"
+description: ""
+draft: false
+slug: modifying-a-jwt-in-a-node-application
+tags:
+- Node.js
+- Express.js
+- CodeProject
+- Auth0
+- Security
+- JWT
+title: Manipulating JSON Web Tokens (JWTs)
+---
 
 
 I've been writing a couple of web services lately that use [Auth0](https://auth0.com/)  for identity management. It's a great platform that makes working with different identity providers a breeze.

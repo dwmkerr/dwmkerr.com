@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "OpenGL", "SharpGL"]
-date = 2011-09-24T06:57:00Z
-description = ""
-draft = false
-slug = "importing-opengl-extensions-functions-with-wglgetprocaddress"
-tags = ["C#", "OpenGL", "SharpGL"]
-title = "Importing OpenGL Extensions Functions with wglGetProcAddress"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- OpenGL
+- SharpGL
+date: "2011-09-24T06:57:00Z"
+description: ""
+draft: false
+slug: importing-opengl-extensions-functions-with-wglgetprocaddress
+tags:
+- C#
+- OpenGL
+- SharpGL
+title: Importing OpenGL Extensions Functions with wglGetProcAddress
+---
 
 
 <p>There are only a small set of the core OpenGL functions that can be imported via p/invoke - the majority of OpenGL functions are actually extension functions which are supported only on specific video cards. OpenGL offers a function called&nbsp;wglGetProcAddress which can return the address of a named function - but how do we deal with this in the managed world?</p>

@@ -1,15 +1,28 @@
-+++
-author = "Dave Kerr"
-categories = ["React", "AngularJS", "CodeProject", "Javascript", "Redux", "Angular 2", "JSX"]
-date = 2016-04-25T09:45:00Z
-description = ""
-draft = false
-image = "/images/2016/04/Journey-1.jpg"
-slug = "moving-from-react-redux-to-angular-2"
-tags = ["React", "AngularJS", "CodeProject", "Javascript", "Redux", "Angular 2", "JSX"]
-title = "Moving from React + Redux to Angular 2"
-
-+++
+---
+author: Dave Kerr
+categories:
+- React
+- AngularJS
+- CodeProject
+- Javascript
+- Redux
+- Angular 2
+- JSX
+date: "2016-04-25T09:45:00Z"
+description: ""
+draft: false
+image: /images/2016/04/Journey-1.jpg
+slug: moving-from-react-redux-to-angular-2
+tags:
+- React
+- AngularJS
+- CodeProject
+- Javascript
+- Redux
+- Angular 2
+- JSX
+title: Moving from React + Redux to Angular 2
+---
 
 
 I've just finished working on a very large project written in React and Redux. The whole team were new to both and we loved them.

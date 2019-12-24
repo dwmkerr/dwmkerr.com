@@ -1,14 +1,18 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "Debugging"]
-date = 2012-02-08T06:54:00Z
-description = ""
-draft = false
-slug = "debugger-an-unhandled-non-continuable-exception-was-thrown-during-process-load"
-tags = ["C#", "Debugging"]
-title = "Debugger:: An unhandled non-continuable exception was thrown during process load"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- Debugging
+date: "2012-02-08T06:54:00Z"
+description: ""
+draft: false
+slug: debugger-an-unhandled-non-continuable-exception-was-thrown-during-process-load
+tags:
+- C#
+- Debugging
+title: 'Debugger:: An unhandled non-continuable exception was thrown during process
+  load'
+---
 
 
 <p>The following exception can be a very tricky one to deal with:</p>

@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["C#"]
-date = 2011-09-12T13:09:00Z
-description = ""
-draft = false
-slug = "pinvoke-performance"
-tags = ["C#"]
-title = "P/Invoke Performance"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+date: "2011-09-12T13:09:00Z"
+description: ""
+draft: false
+slug: pinvoke-performance
+tags:
+- C#
+title: P/Invoke Performance
+---
 
 
 <p>SharpGL 2.0 has no P/Invoke - all native functions are called by a C++/CLI class library (OpenGLWrapper if you're getting the code from CodePlex) which calls functions directly. This means there's no more importing of PIXELFORMAT structures and so on.</p>

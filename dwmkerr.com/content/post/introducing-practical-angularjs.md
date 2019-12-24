@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["Unit Testing", "AngularJS", "Javascript"]
-date = 2013-11-25T16:16:09Z
-description = ""
-draft = false
-slug = "introducing-practical-angularjs"
-tags = ["Unit Testing", "AngularJS", "Javascript"]
-title = "Introducing Practical AngularJS"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Unit Testing
+- AngularJS
+- Javascript
+date: "2013-11-25T16:16:09Z"
+description: ""
+draft: false
+slug: introducing-practical-angularjs
+tags:
+- Unit Testing
+- AngularJS
+- Javascript
+title: Introducing Practical AngularJS
+---
 
 
 I was recently at Devoxx in Antwerp, primarily because I wanted to get involved in some of the sessions that were being hosted by guys from the AngularJS team at Google. I've had a chance to work a little with Backbone and KnockoutJS and had been recently deliberately holding off looking at AngularJS so I could hit the conference and workshops fresh and unencumbered with any preconceptions.

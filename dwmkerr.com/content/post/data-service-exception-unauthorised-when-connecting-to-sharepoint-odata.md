@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["ODATA", "Sharepoint", "WCF Data Services"]
-date = 2011-11-02T10:28:00Z
-description = ""
-draft = false
-slug = "data-service-exception-unauthorised-when-connecting-to-sharepoint-odata"
-tags = ["ODATA", "Sharepoint", "WCF Data Services"]
-title = "Data Service Exception \"Unauthorised\" when connecting to Sharepoint OData"
-
-+++
+---
+author: Dave Kerr
+categories:
+- ODATA
+- Sharepoint
+- WCF Data Services
+date: "2011-11-02T10:28:00Z"
+description: ""
+draft: false
+slug: data-service-exception-unauthorised-when-connecting-to-sharepoint-odata
+tags:
+- ODATA
+- Sharepoint
+- WCF Data Services
+title: Data Service Exception "Unauthorised" when connecting to Sharepoint OData
+---
 
 
 <p>If you are struggling to fetch data from a Sharepoint OData service and getting an error as below:</p>

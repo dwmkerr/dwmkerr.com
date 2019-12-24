@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "GAC"]
-date = 2012-07-29T08:44:00Z
-description = ""
-draft = false
-slug = "the-gac-manager"
-tags = ["C#", "GAC"]
-title = "The GAC Manager"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- GAC
+date: "2012-07-29T08:44:00Z"
+description: ""
+draft: false
+slug: the-gac-manager
+tags:
+- C#
+- GAC
+title: The GAC Manager
+---
 
 
 <p>I have started a new project on CodePlex called 'GAC Manager'. This is a project that is in two parts, the first is a simple tool to allow users to manipulate their local global assembly cache, the second is an API that provides the core functionality.</p>

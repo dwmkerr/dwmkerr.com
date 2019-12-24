@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "Visual Studio"]
-date = 2012-02-04T03:53:00Z
-description = ""
-draft = false
-slug = "switch"
-tags = ["C#", "Visual Studio"]
-title = "Switch"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- Visual Studio
+date: "2012-02-04T03:53:00Z"
+description: ""
+draft: false
+slug: switch
+tags:
+- C#
+- Visual Studio
+title: Switch
+---
 
 
 <p><img style="border-style: initial; border-color: initial;" src="/wp-content/uploads/2012/imported/Title.jpg" alt="" /></p>

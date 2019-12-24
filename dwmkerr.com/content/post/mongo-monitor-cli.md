@@ -1,15 +1,24 @@
-+++
-author = "Dave Kerr"
-categories = ["MongoDB", "Devops", "Node.js", "CodeProject", "DBA"]
-date = 2018-05-16T20:09:53Z
-description = ""
-draft = false
-image = "/images/2018/05/sharded-cluster-1.jpg"
-slug = "mongo-monitor-cli"
-tags = ["MongoDB", "Devops", "Node.js", "CodeProject", "DBA"]
-title = "mongo-monitor - a simple CLI to monitor your MongoDB cluster"
-
-+++
+---
+author: Dave Kerr
+categories:
+- MongoDB
+- Devops
+- Node.js
+- CodeProject
+- DBA
+date: "2018-05-16T20:09:53Z"
+description: ""
+draft: false
+image: /images/2018/05/sharded-cluster-1.jpg
+slug: mongo-monitor-cli
+tags:
+- MongoDB
+- Devops
+- Node.js
+- CodeProject
+- DBA
+title: mongo-monitor - a simple CLI to monitor your MongoDB cluster
+---
 
 
 The `mongo-monitor` CLI is a lean and simple tool to check the status of a MongoDB server or cluster. The code is on GitHub:

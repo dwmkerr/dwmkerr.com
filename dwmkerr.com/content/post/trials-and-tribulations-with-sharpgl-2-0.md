@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["SharpGL", "C#"]
-date = 2011-09-12T06:03:00Z
-description = ""
-draft = false
-slug = "trials-and-tribulations-with-sharpgl-2-0"
-tags = ["SharpGL", "C#"]
-title = "Trials and Tribulations with SharpGL 2.0"
-
-+++
+---
+author: Dave Kerr
+categories:
+- SharpGL
+- C#
+date: "2011-09-12T06:03:00Z"
+description: ""
+draft: false
+slug: trials-and-tribulations-with-sharpgl-2-0
+tags:
+- SharpGL
+- C#
+title: Trials and Tribulations with SharpGL 2.0
+---
 
 
 <p>SharpGL has not been updated for a while, the original CoreProject article is at: <a href="http://www.codeproject.com/KB/openGL/sharpgl.aspx">http://www.codeproject.com/KB/openGL/sharpgl.aspx</a></p>

@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2014-05-03T14:59:27Z
-description = ""
-draft = false
-slug = "about"
-title = "About"
-
-+++
+---
+author: Dave Kerr
+date: "2014-05-03T14:59:27Z"
+description: ""
+draft: false
+slug: about
+title: About
+---
 
 
 I have been developing software for many years. Starting out in C, moving into C++ and then C# and the .NET Framework. More recently I've been working with JavaScript and the MEAN stack. I have worked as a web developer, web designer and a software developer for everything from device drivers to full enterprise applications.

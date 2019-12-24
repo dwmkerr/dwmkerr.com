@@ -1,15 +1,26 @@
-+++
-author = "Dave Kerr"
-categories = ["OpenShift", "Terraform", "AWS", "CodeProject", "Splunk", "Kubernetes"]
-date = 2017-10-29T07:15:04Z
-description = ""
-draft = false
-image = "/images/2017/10/counter-service-splunk-1.png"
-slug = "integrating-openshift-and-splunk-for-logging"
-tags = ["OpenShift", "Terraform", "AWS", "CodeProject", "Splunk", "Kubernetes"]
-title = "Integrating OpenShift and Splunk for Docker Container Logging"
-
-+++
+---
+author: Dave Kerr
+categories:
+- OpenShift
+- Terraform
+- AWS
+- CodeProject
+- Splunk
+- Kubernetes
+date: "2017-10-29T07:15:04Z"
+description: ""
+draft: false
+image: /images/2017/10/counter-service-splunk-1.png
+slug: integrating-openshift-and-splunk-for-logging
+tags:
+- OpenShift
+- Terraform
+- AWS
+- CodeProject
+- Splunk
+- Kubernetes
+title: Integrating OpenShift and Splunk for Docker Container Logging
+---
 
 
 In this article I'm going to show you how to set up OpenShift to integrate with Splunk for logging in a Docker container orchestration environment.

@@ -1,15 +1,20 @@
-+++
-author = "Dave Kerr"
-categories = ["AngularJS", "CodeProject", "Javascript"]
-date = 2015-03-03T14:35:36Z
-description = ""
-draft = false
-image = "/images/2015/03/TimelineLeakySawtooth-1.png"
-slug = "fixing-memory-leaks-in-angularjs-applications"
-tags = ["AngularJS", "CodeProject", "Javascript"]
-title = "Fixing Memory Leaks in AngularJS and other JavaScript Applications"
-
-+++
+---
+author: Dave Kerr
+categories:
+- AngularJS
+- CodeProject
+- Javascript
+date: "2015-03-03T14:35:36Z"
+description: ""
+draft: false
+image: /images/2015/03/TimelineLeakySawtooth-1.png
+slug: fixing-memory-leaks-in-angularjs-applications
+tags:
+- AngularJS
+- CodeProject
+- Javascript
+title: Fixing Memory Leaks in AngularJS and other JavaScript Applications
+---
 
 
 Dealing with memory leaks in JavaScript applications can be a complex process. In this article I'm going to show you how to identify whether you have memory leaks, analyse them and ultimately resolve them.

@@ -1,15 +1,24 @@
-+++
-author = "Dave Kerr"
-categories = ["Shell", "Bash", "EffectiveShell", "CodeProject", "Linux"]
-date = 2017-12-19T09:05:18Z
-description = ""
-draft = false
-image = "/images/2017/12/man-tldr-sed.png"
-slug = "effective-shell-part-3-getting-hepl"
-tags = ["Shell", "Bash", "EffectiveShell", "CodeProject", "Linux"]
-title = "Effective Shell Part 3: Getting Help"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Shell
+- Bash
+- EffectiveShell
+- CodeProject
+- Linux
+date: "2017-12-19T09:05:18Z"
+description: ""
+draft: false
+image: /images/2017/12/man-tldr-sed.png
+slug: effective-shell-part-3-getting-hepl
+tags:
+- Shell
+- Bash
+- EffectiveShell
+- CodeProject
+- Linux
+title: 'Effective Shell Part 3: Getting Help'
+---
 
 
 This is the third part of my [Effective Shell](https://github.com/dwmkerr/effective-shell) series - practical examples of ways to be more efficient with everyday tasks in a shell.

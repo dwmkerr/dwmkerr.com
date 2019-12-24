@@ -1,15 +1,22 @@
-+++
-author = "Dave Kerr"
-categories = ["Unix", "Bash", "cURL", "CodeProject"]
-date = 2016-05-03T22:12:28Z
-description = ""
-draft = false
-image = "/images/2016/05/Bash-Newlines-1.png"
-slug = "quick-tip-sending-newlines-with-curl"
-tags = ["Unix", "Bash", "cURL", "CodeProject"]
-title = "Quick Tip: Sending Newlines with cURL"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Unix
+- Bash
+- cURL
+- CodeProject
+date: "2016-05-03T22:12:28Z"
+description: ""
+draft: false
+image: /images/2016/05/Bash-Newlines-1.png
+slug: quick-tip-sending-newlines-with-curl
+tags:
+- Unix
+- Bash
+- cURL
+- CodeProject
+title: 'Quick Tip: Sending Newlines with cURL'
+---
 
 
 Yikes, this took far too long to figure out!

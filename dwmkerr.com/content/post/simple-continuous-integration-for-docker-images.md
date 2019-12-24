@@ -1,15 +1,28 @@
-+++
-author = "Dave Kerr"
-categories = ["Docker", "DynamoDB", "Unix", "Bash", "Devops", "Shell", "CodeProject"]
-date = 2016-11-03T05:14:35Z
-description = ""
-draft = false
-image = "/images/2016/11/Simple-Docker-Image-CI-1.png"
-slug = "simple-continuous-integration-for-docker-images"
-tags = ["Docker", "DynamoDB", "Unix", "Bash", "Devops", "Shell", "CodeProject"]
-title = "Simple Continuous Integration for Docker Images"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Docker
+- DynamoDB
+- Unix
+- Bash
+- Devops
+- Shell
+- CodeProject
+date: "2016-11-03T05:14:35Z"
+description: ""
+draft: false
+image: /images/2016/11/Simple-Docker-Image-CI-1.png
+slug: simple-continuous-integration-for-docker-images
+tags:
+- Docker
+- DynamoDB
+- Unix
+- Bash
+- Devops
+- Shell
+- CodeProject
+title: Simple Continuous Integration for Docker Images
+---
 
 
 In this article I'm going to demonstrate a few tips and tricks which can make your life easier when you are building or maintaining Dockerfiles.

@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2014-05-03T14:48:23Z
-description = ""
-draft = false
-slug = "practical-angularjs-part1"
-title = "Practical AngularJS Part 1 – Introducing AngularJS"
-
-+++
+---
+author: Dave Kerr
+date: "2014-05-03T14:48:23Z"
+description: ""
+draft: false
+slug: practical-angularjs-part1
+title: Practical AngularJS Part 1 – Introducing AngularJS
+---
 
 
 In this series of articles I'm going to be working with AngularJS, a fantastic framework from Google that helps you rapidly build web applications. We'll see how AngularJS can be used to speed up your development and help you write cleaner, more testable code.

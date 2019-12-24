@@ -1,14 +1,25 @@
-+++
-author = "Dave Kerr"
-categories = ["JavaScript", "Shell", "CodeProject", "React", "Mobile", "ReactNative"]
-date = 2017-04-03T11:14:58Z
-description = ""
-draft = false
-slug = "tips-and-tricks-for-beautifully-simple-mobile-app-ci"
-tags = ["JavaScript", "Shell", "CodeProject", "React", "Mobile", "ReactNative"]
-title = "Tips and Tricks for Beautifully Simple Mobile App CI"
-
-+++
+---
+author: Dave Kerr
+categories:
+- JavaScript
+- Shell
+- CodeProject
+- React
+- Mobile
+- ReactNative
+date: "2017-04-03T11:14:58Z"
+description: ""
+draft: false
+slug: tips-and-tricks-for-beautifully-simple-mobile-app-ci
+tags:
+- JavaScript
+- Shell
+- CodeProject
+- React
+- Mobile
+- ReactNative
+title: Tips and Tricks for Beautifully Simple Mobile App CI
+---
 
 
 In this article I'm going to demonstrate some simple tips and tricks which will help you build and maintain beautifully simple mobile build pipelines. These techniques can be applied to different mobile app technologies and integrated into almost any build system:

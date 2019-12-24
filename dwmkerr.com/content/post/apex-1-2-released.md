@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "Apex"]
-date = 2011-11-01T07:31:00Z
-description = ""
-draft = false
-slug = "apex-1-2-released"
-tags = ["C#", "Apex"]
-title = "Apex 1.2 Released"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- Apex
+date: "2011-11-01T07:31:00Z"
+description: ""
+draft: false
+slug: apex-1-2-released
+tags:
+- C#
+- Apex
+title: Apex 1.2 Released
+---
 
 
 <p>Apex 1.2 has been released, with some new features:</p>

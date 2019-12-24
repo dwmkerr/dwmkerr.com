@@ -1,15 +1,18 @@
-+++
-author = "Dave Kerr"
-categories = ["Golang", "CodeProject"]
-date = 2016-06-01T22:10:40Z
-description = ""
-draft = false
-image = "/images/2016/06/google-it-1.gif"
-slug = "is-it-worth-persevering-with-golang"
-tags = ["Golang", "CodeProject"]
-title = "Is it worth persevering with Golang?"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Golang
+- CodeProject
+date: "2016-06-01T22:10:40Z"
+description: ""
+draft: false
+image: /images/2016/06/google-it-1.gif
+slug: is-it-worth-persevering-with-golang
+tags:
+- Golang
+- CodeProject
+title: Is it worth persevering with Golang?
+---
 
 
 I recently decided to try out [the Go Programming Language](https://golang.org/), by building a little project called [google-it](http://www.github.com/dwmkerr/google-it) which let's me run a google search from a terminal:

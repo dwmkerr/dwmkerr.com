@@ -1,15 +1,22 @@
-+++
-author = "Dave Kerr"
-categories = ["Shell", "Bash", "CodeProject", "EffectiveShell"]
-date = 2017-06-11T23:05:40Z
-description = ""
-draft = false
-image = "/images/2017/06/command-line-2.png"
-slug = "effective-shell-part-1-navigating-the-command-line"
-tags = ["Shell", "Bash", "CodeProject", "EffectiveShell"]
-title = "Effective Shell Part 1: Navigating the Command Line"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Shell
+- Bash
+- CodeProject
+- EffectiveShell
+date: "2017-06-11T23:05:40Z"
+description: ""
+draft: false
+image: /images/2017/06/command-line-2.png
+slug: effective-shell-part-1-navigating-the-command-line
+tags:
+- Shell
+- Bash
+- CodeProject
+- EffectiveShell
+title: 'Effective Shell Part 1: Navigating the Command Line'
+---
 
 
 This is the [first part of a series](https://github.com/dwmkerr/effective-shell) I am writing which contains practical tips for using the shell more effectively.

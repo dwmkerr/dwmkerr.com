@@ -1,15 +1,28 @@
-+++
-author = "Dave Kerr"
-categories = ["EffectiveShell", "Shell", "CodeProject", "Bash", "Devops", "Linux", "SysAdmin"]
-date = 2019-06-10T08:26:33Z
-description = ""
-draft = false
-image = "/images/2019/06/move-to-background-1.gif"
-slug = "effective-shell-6-job-control"
-tags = ["EffectiveShell", "Shell", "CodeProject", "Bash", "Devops", "Linux", "SysAdmin"]
-title = "Effective Shell Part 6: Everything You Don't Need To Know About Job Control"
-
-+++
+---
+author: Dave Kerr
+categories:
+- EffectiveShell
+- Shell
+- CodeProject
+- Bash
+- Devops
+- Linux
+- SysAdmin
+date: "2019-06-10T08:26:33Z"
+description: ""
+draft: false
+image: /images/2019/06/move-to-background-1.gif
+slug: effective-shell-6-job-control
+tags:
+- EffectiveShell
+- Shell
+- CodeProject
+- Bash
+- Devops
+- Linux
+- SysAdmin
+title: 'Effective Shell Part 6: Everything You Don''t Need To Know About Job Control'
+---
 
 
 _Job control_ is a feature of most shells, which is generally not particularly intuitive to work with. However, knowing the basics can help prevent you from getting yourself into a tangle, and can from time to time make certain tasks a little easier.

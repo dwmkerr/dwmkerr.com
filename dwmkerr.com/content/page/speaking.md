@@ -1,13 +1,12 @@
-+++
-author = "Dave Kerr"
-date = 2018-05-21T01:54:04Z
-description = ""
-draft = false
-image = "/images/2018/05/devopsdaysjakarta-1.jpg"
-slug = "speaking"
-title = "Speaking"
-
-+++
+---
+author: Dave Kerr
+date: "2018-05-21T01:54:04Z"
+description: ""
+draft: false
+image: /images/2018/05/devopsdaysjakarta-1.jpg
+slug: speaking
+title: Speaking
+---
 
 
 ### [VoxxedDays Singapore 2018](https://voxxeddays.com/singapore)

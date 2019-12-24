@@ -1,15 +1,22 @@
-+++
-author = "Dave Kerr"
-categories = ["Node.js", "Shell", "Unix", "CodeProject"]
-date = 2017-05-25T22:15:00Z
-description = ""
-draft = false
-image = "/images/2017/05/wait-port-1.gif"
-slug = "a-utility-to-help-you-wait-for-ports-to-open"
-tags = ["Node.js", "Shell", "Unix", "CodeProject"]
-title = "A utility to help you wait for ports to open"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Node.js
+- Shell
+- Unix
+- CodeProject
+date: "2017-05-25T22:15:00Z"
+description: ""
+draft: false
+image: /images/2017/05/wait-port-1.gif
+slug: a-utility-to-help-you-wait-for-ports-to-open
+tags:
+- Node.js
+- Shell
+- Unix
+- CodeProject
+title: A utility to help you wait for ports to open
+---
 
 
 There are occasions where you might need to have scripts or commands which wait for TCP/IP ports to open before you continue.

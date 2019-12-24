@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["AngularJS", "Javascript"]
-date = 2013-12-15T10:47:18Z
-description = ""
-draft = false
-slug = "langtons-ant-in-javascript"
-tags = ["AngularJS", "Javascript"]
-title = "Langton's Ant in Javascript"
-
-+++
+---
+author: Dave Kerr
+categories:
+- AngularJS
+- Javascript
+date: "2013-12-15T10:47:18Z"
+description: ""
+draft: false
+slug: langtons-ant-in-javascript
+tags:
+- AngularJS
+- Javascript
+title: Langton's Ant in Javascript
+---
 
 
 Langton's Ant is a great simulation to write to play with a language. Just today I've completed my Langton's Ant write up and published it on the CodeProject, you can see the article at <a title="Learn Javascript Part 3 - AngularJS and Langton's Ant" href="http://www.codeproject.com/Articles/696943/Learn-JavaScript-Part-3-AngularJS-and-Langtons-Ant" target="_blank">Learn JavaScript Part 3 - Angularjs and Langton's Ant</a>.

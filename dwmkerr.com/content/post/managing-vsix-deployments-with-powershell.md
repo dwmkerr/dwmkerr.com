@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["Powershell", "Visual Studio Extensibility", "Visual Studio", "Vsix"]
-date = 2014-03-30T11:40:16Z
-description = ""
-draft = false
-slug = "managing-vsix-deployments-with-powershell"
-tags = ["Powershell", "Visual Studio Extensibility", "Visual Studio", "Vsix"]
-title = "Managing Vsix Deployments with Powershell"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Powershell
+- Visual Studio Extensibility
+- Visual Studio
+- Vsix
+date: "2014-03-30T11:40:16Z"
+description: ""
+draft: false
+slug: managing-vsix-deployments-with-powershell
+tags:
+- Powershell
+- Visual Studio Extensibility
+- Visual Studio
+- Vsix
+title: Managing Vsix Deployments with Powershell
+---
 
 
 > **tl;dr** - [vsix-tools](https://github.com/dwmkerr/vsix-tools) fixes the 'Invalid Multiple Files in VSIX' issue on the Visual Studio Gallery and lets you set vsix version numbers with Powershell.

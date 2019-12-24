@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["SVN"]
-date = 2011-11-14T07:55:00Z
-description = ""
-draft = false
-slug = "getting-source-code-metrics-from-svn"
-tags = ["SVN"]
-title = "Getting Source Code Metrics from SVN"
-
-+++
+---
+author: Dave Kerr
+categories:
+- SVN
+date: "2011-11-14T07:55:00Z"
+description: ""
+draft: false
+slug: getting-source-code-metrics-from-svn
+tags:
+- SVN
+title: Getting Source Code Metrics from SVN
+---
 
 
 <p>Lets say that we need to find out how many lines of code exist in a branch, or how many lines are checked in by a specific user. Let's ignore the usefulness of these metrics, just assume that they're needed (realistically, lines of code isn't a very useful metric, but perhaps you want to have a quick idea of how much has gone into a release). How do we do this?</p>

@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["AngularJS", "CodeProject", "Javascript", "ECMAScript 6"]
-date = 2015-03-18T14:47:10Z
-description = ""
-draft = false
-slug = "the-best-module-system-for-angularjs-applications"
-tags = ["AngularJS", "CodeProject", "Javascript", "ECMAScript 6"]
-title = "The Best Module System for AngularJS Applications"
-
-+++
+---
+author: Dave Kerr
+categories:
+- AngularJS
+- CodeProject
+- Javascript
+- ECMAScript 6
+date: "2015-03-18T14:47:10Z"
+description: ""
+draft: false
+slug: the-best-module-system-for-angularjs-applications
+tags:
+- AngularJS
+- CodeProject
+- Javascript
+- ECMAScript 6
+title: The Best Module System for AngularJS Applications
+---
 
 
 I was working on a small and simple application built with AngularJS the other day. As with most applications like this, I start with a single JavaScript file caled `app.js` and no module system.

@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["SharpGL", "OpenGL"]
-date = 2011-09-13T07:33:00Z
-description = ""
-draft = false
-slug = "sharpgl-2-0-hardware-acceleration"
-tags = ["SharpGL", "OpenGL"]
-title = "SharpGL 2.0: Hardware Acceleration"
-
-+++
+---
+author: Dave Kerr
+categories:
+- SharpGL
+- OpenGL
+date: "2011-09-13T07:33:00Z"
+description: ""
+draft: false
+slug: sharpgl-2-0-hardware-acceleration
+tags:
+- SharpGL
+- OpenGL
+title: 'SharpGL 2.0: Hardware Acceleration'
+---
 
 
 <p>It took a bit of working out, but finally SharpGL can support hardware acceleration. Previously, all rendering in SharpGL was done to a DIB Section, the result of this would be blitted to the screen. Much playing around has shown that in fact this is problematic - rendering to DIB sections can <em>never</em> be hardware accelerated.</p>

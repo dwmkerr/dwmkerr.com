@@ -1,14 +1,23 @@
-+++
-author = "Dave Kerr"
-categories = ["Shell", "Bash", "EffectiveShell", "CodeProject", "Linux"]
-date = 2017-10-10T09:57:54Z
-description = ""
-draft = false
-slug = "effective-shell-part-2-become-a-clipboard-gymnast"
-tags = ["Shell", "Bash", "EffectiveShell", "CodeProject", "Linux"]
-title = "Effective Shell Part 2: Become a Clipboard Gymnast"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Shell
+- Bash
+- EffectiveShell
+- CodeProject
+- Linux
+date: "2017-10-10T09:57:54Z"
+description: ""
+draft: false
+slug: effective-shell-part-2-become-a-clipboard-gymnast
+tags:
+- Shell
+- Bash
+- EffectiveShell
+- CodeProject
+- Linux
+title: 'Effective Shell Part 2: Become a Clipboard Gymnast'
+---
 
 
 This is the second part of my [Effective Shell](https://github.com/dwmkerr/effective-shell) series, which contains practical tips for using the shell to help with every day tasks and be more efficient:

@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["Experiments", "Javascript", "Game Programming"]
-date = 2013-08-25T12:04:17Z
-description = ""
-draft = false
-slug = "space-invaders-in-javascript"
-tags = ["Experiments", "Javascript", "Game Programming"]
-title = "Space Invaders in JavaScript"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Experiments
+- Javascript
+- Game Programming
+date: "2013-08-25T12:04:17Z"
+description: ""
+draft: false
+slug: space-invaders-in-javascript
+tags:
+- Experiments
+- Javascript
+- Game Programming
+title: Space Invaders in JavaScript
+---
 
 
 If you take a look at the<a title="Introducing Experiments" href="http://www.dwmkerr.com/2013/08/introducing-experiments/"> Experiments Page</a> you'll see that there's a new entry - <a title="Space Invaders" href="http://www.dwmkerr.com/experiments/spaceinvaders" target="_blank">Space Invaders</a>.

@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["CodeProject", "Javascript", "ECMAScript 6", "React"]
-date = 2015-09-07T19:44:54Z
-description = ""
-draft = false
-slug = "getting-started-with-react"
-tags = ["CodeProject", "Javascript", "ECMAScript 6", "React"]
-title = "Getting Started with React & ES6"
-
-+++
+---
+author: Dave Kerr
+categories:
+- CodeProject
+- Javascript
+- ECMAScript 6
+- React
+date: "2015-09-07T19:44:54Z"
+description: ""
+draft: false
+slug: getting-started-with-react
+tags:
+- CodeProject
+- Javascript
+- ECMAScript 6
+- React
+title: Getting Started with React & ES6
+---
 
 
 Feeling like having a go with Facebook's hugely popular [React](http://facebook.github.io/react/) framework but not sure where to start? 

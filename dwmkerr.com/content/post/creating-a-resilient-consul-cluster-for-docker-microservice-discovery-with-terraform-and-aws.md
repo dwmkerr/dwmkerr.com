@@ -1,15 +1,27 @@
-+++
-author = "Dave Kerr"
-categories = ["Docker", "Consul", "Microservices", "AWS", "Terraform", "CodeProject"]
-date = 2017-01-09T07:10:40Z
-description = ""
-draft = false
-image = "/images/2017/01/img-5-cluster-basic-1.png"
-slug = "creating-a-resilient-consul-cluster-for-docker-microservice-discovery-with-terraform-and-aws"
-tags = ["Docker", "Consul", "Microservices", "AWS", "Terraform", "CodeProject"]
-title = "Creating a Resilient Consul Cluster for Docker Microservice Discovery with Terraform and AWS"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Docker
+- Consul
+- Microservices
+- AWS
+- Terraform
+- CodeProject
+date: "2017-01-09T07:10:40Z"
+description: ""
+draft: false
+image: /images/2017/01/img-5-cluster-basic-1.png
+slug: creating-a-resilient-consul-cluster-for-docker-microservice-discovery-with-terraform-and-aws
+tags:
+- Docker
+- Consul
+- Microservices
+- AWS
+- Terraform
+- CodeProject
+title: Creating a Resilient Consul Cluster for Docker Microservice Discovery with
+  Terraform and AWS
+---
 
 
 In this article I'm going to show you how to create a resilient Consul cluster, using Terraform and AWS. We can use this cluster for microservice discovery and management. No prior knowledge of the technologies or patterns is required!

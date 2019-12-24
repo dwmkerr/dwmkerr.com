@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["Debugging", "Code Analysis"]
-date = 2011-09-20T13:55:00Z
-description = ""
-draft = false
-slug = "visual-studio-code-analysis-buffer-overruns"
-tags = ["Debugging", "Code Analysis"]
-title = "Visual Studio Code Analysis - Buffer Overruns"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Debugging
+- Code Analysis
+date: "2011-09-20T13:55:00Z"
+description: ""
+draft: false
+slug: visual-studio-code-analysis-buffer-overruns
+tags:
+- Debugging
+- Code Analysis
+title: Visual Studio Code Analysis - Buffer Overruns
+---
 
 
 <p>Today I was looking through some fairly old source code in a large solution, large in this case is ~300 projects and about 1 million lines of code. Parts of the code base are very old - at some stage a decision was made to disable warning C4996. The problem I came across is reduced to its most simple form below:</p>

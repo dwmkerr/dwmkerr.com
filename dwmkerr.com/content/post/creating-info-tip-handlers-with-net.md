@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["COM", "SharpShell", "Shell", "C#"]
-date = 2013-01-14T03:47:44Z
-description = ""
-draft = false
-slug = "creating-info-tip-handlers-with-net"
-tags = ["COM", "SharpShell", "Shell", "C#"]
-title = "Creating Info Tip Handlers with .NET"
-
-+++
+---
+author: Dave Kerr
+categories:
+- COM
+- SharpShell
+- Shell
+- C#
+date: "2013-01-14T03:47:44Z"
+description: ""
+draft: false
+slug: creating-info-tip-handlers-with-net
+tags:
+- COM
+- SharpShell
+- Shell
+- C#
+title: Creating Info Tip Handlers with .NET
+---
 
 
 I have just added an article to the CodeProject that discusses how to create Info Tip shell extensions in .NET. These extensions are used by the shell to customise the tooltips shown over shell items.

@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2019-04-29T00:49:21Z
-description = ""
-draft = true
-slug = "supercharge-your-open-source-projects"
-title = "Supercharge Your Open Source Projects"
-
-+++
+---
+author: Dave Kerr
+date: "2019-04-29T00:49:21Z"
+description: ""
+draft: true
+slug: supercharge-your-open-source-projects
+title: Supercharge Your Open Source Projects
+---
 
 
 I love the world of open-source. Communities of people working together to solve problems, people who are working on things just for the sheer passion of the topic, and the spirit of collaboration. This is one of the things which really keeps me inspired and engaged with technology.

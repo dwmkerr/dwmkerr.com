@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "CodeProject"]
-date = 2011-10-06T07:30:00Z
-description = ""
-draft = false
-slug = "codeproject-competition"
-tags = ["C#", "CodeProject"]
-title = "CodeProject Competition"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- CodeProject
+date: "2011-10-06T07:30:00Z"
+description: ""
+draft: false
+slug: codeproject-competition
+tags:
+- C#
+- CodeProject
+title: CodeProject Competition
+---
 
 
 <p class="MsoNormal">My Solitaire and Spider Solitaire in WPF article is in two CodeProject competitions this month. The article is at:</p>

@@ -1,14 +1,23 @@
-+++
-author = "Dave Kerr"
-categories = ["Express.js", "JsonClient", "Node.js", "Json", "Javascript"]
-date = 2013-07-16T16:23:43Z
-description = ""
-draft = false
-slug = "node-js-and-express-strange-http-status-codes"
-tags = ["Express.js", "JsonClient", "Node.js", "Json", "Javascript"]
-title = "Node.js and Express - Strange Http Status Codes"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Express.js
+- JsonClient
+- Node.js
+- Json
+- Javascript
+date: "2013-07-16T16:23:43Z"
+description: ""
+draft: false
+slug: node-js-and-express-strange-http-status-codes
+tags:
+- Express.js
+- JsonClient
+- Node.js
+- Json
+- Javascript
+title: Node.js and Express - Strange Http Status Codes
+---
 
 
 <h3>In a Nutshell</h3>

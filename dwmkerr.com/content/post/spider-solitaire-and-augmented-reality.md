@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "MVVM", "Apex"]
-date = 2013-02-25T16:16:20Z
-description = ""
-draft = false
-slug = "spider-solitaire-and-augmented-reality"
-tags = ["C#", "MVVM", "Apex"]
-title = "Spider Solitaire and Augmented Reality"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- MVVM
+- Apex
+date: "2013-02-25T16:16:20Z"
+description: ""
+draft: false
+slug: spider-solitaire-and-augmented-reality
+tags:
+- C#
+- MVVM
+- Apex
+title: Spider Solitaire and Augmented Reality
+---
 
 
 A while ago, I made an implementation of Solitaire and Spider Solitaire using WPF and my Apex MVVM library. I wrote about it on the CodeProject, in an article called <a title="Solitaire and Spider Solitaire for WPF" href="http://www.codeproject.com/Articles/252152/Solitaire-and-Spider-Solitaire-for-WPF">Solitaire and Spider Solitaire for WPF</a> (imaginative title indeed).
