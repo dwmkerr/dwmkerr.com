@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2013-01-16T05:15:13Z
-description = ""
-draft = false
-slug = "samsung-to-develop-software-in-house-2"
-title = "Samsung to develop software in-house"
-
-+++
+---
+author: Dave Kerr
+date: "2013-01-16T05:15:13Z"
+description: ""
+draft: false
+slug: samsung-to-develop-software-in-house-2
+title: Samsung to develop software in-house
+---
 
 
 While the mobile phone market has long been based upon continuing hardware development, things are now changing and companies are having to keep up. The focus of the smartphone market is now moving towards software, rather than hardware and Samsung are taking note of this change. The South Korean technology company have decided to increase their game in order to be able to successfully compete with American technology giant, Apple. To do this, Samsung need to alter the way they create their products, by developing their own software as well as hardware.

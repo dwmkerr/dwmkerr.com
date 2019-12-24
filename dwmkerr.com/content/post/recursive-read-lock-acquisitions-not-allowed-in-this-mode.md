@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["Git", "Nuget", "Visual Studio"]
-date = 2013-07-10T02:17:09Z
-description = ""
-draft = false
-slug = "recursive-read-lock-acquisitions-not-allowed-in-this-mode"
-tags = ["Git", "Nuget", "Visual Studio"]
-title = "Recursive read lock acquisitions not allowed in this mode"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Git
+- Nuget
+- Visual Studio
+date: "2013-07-10T02:17:09Z"
+description: ""
+draft: false
+slug: recursive-read-lock-acquisitions-not-allowed-in-this-mode
+tags:
+- Git
+- Nuget
+- Visual Studio
+title: Recursive read lock acquisitions not allowed in this mode
+---
 
 
 If you are using the following combination of tools:

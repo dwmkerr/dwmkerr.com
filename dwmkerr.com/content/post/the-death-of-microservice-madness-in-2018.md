@@ -1,15 +1,24 @@
-+++
-author = "Dave Kerr"
-categories = ["Microservices", "Docker", "Kubernetes", "CodeProject", "Devops"]
-date = 2018-01-12T10:52:25Z
-description = ""
-draft = false
-image = "/images/2018/01/letterbox-1.png"
-slug = "the-death-of-microservice-madness-in-2018"
-tags = ["Microservices", "Docker", "Kubernetes", "CodeProject", "Devops"]
-title = "The Death of Microservice Madness in 2018"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Microservices
+- Docker
+- Kubernetes
+- CodeProject
+- Devops
+date: "2018-01-12T10:52:25Z"
+description: ""
+draft: false
+image: /images/2018/01/letterbox-1.png
+slug: the-death-of-microservice-madness-in-2018
+tags:
+- Microservices
+- Docker
+- Kubernetes
+- CodeProject
+- Devops
+title: The Death of Microservice Madness in 2018
+---
 
 
 [En Español](https://www.campusmvp.es/recursos/post/la-muerte-de-la-locura-de-los-microservicios-en-2018.aspx) | [Reddit Thread](https://www.reddit.com/r/programming/comments/7pxriw/the_death_of_microservice_madness_in_2018/) | [Hacker News Thread](https://news.ycombinator.com/item?id=16200007)

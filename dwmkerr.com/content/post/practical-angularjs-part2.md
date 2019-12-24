@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2014-05-07T14:55:25Z
-description = ""
-draft = false
-slug = "practical-angularjs-part2"
-title = "Practical AngularJS Part 2 – Components of an AngularJS Application"
-
-+++
+---
+author: Dave Kerr
+date: "2014-05-07T14:55:25Z"
+description: ""
+draft: false
+slug: practical-angularjs-part2
+title: Practical AngularJS Part 2 – Components of an AngularJS Application
+---
 
 
 Welcome to Part 2 of Practical AngularJS. I’m going to introduce you to some of the core components of an angular app. These are:

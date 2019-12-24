@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["SharpGL"]
-date = 2011-10-10T04:38:00Z
-description = ""
-draft = false
-slug = "sharpgl-2-0-beta-1-released"
-tags = ["SharpGL"]
-title = "SharpGL 2.0 Beta 1 Released"
-
-+++
+---
+author: Dave Kerr
+categories:
+- SharpGL
+date: "2011-10-10T04:38:00Z"
+description: ""
+draft: false
+slug: sharpgl-2-0-beta-1-released
+tags:
+- SharpGL
+title: SharpGL 2.0 Beta 1 Released
+---
 
 
 <p>It's been a long time coming, but the first Beta of SharpGL 2.0 is finally here!</p>

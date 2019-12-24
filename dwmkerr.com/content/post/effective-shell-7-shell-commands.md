@@ -1,15 +1,28 @@
-+++
-author = "Dave Kerr"
-categories = ["EffectiveShell", "Shell", "CodeProject", "Bash", "Devops", "SysAdmin", "Linux"]
-date = 2019-06-25T07:25:23Z
-description = ""
-draft = false
-image = "/images/2019/06/shell-commands.png"
-slug = "effective-shell-7-shell-commands"
-tags = ["EffectiveShell", "Shell", "CodeProject", "Bash", "Devops", "SysAdmin", "Linux"]
-title = "Effective Shell Part 7: The Subtleties of Shell Commands"
-
-+++
+---
+author: Dave Kerr
+categories:
+- EffectiveShell
+- Shell
+- CodeProject
+- Bash
+- Devops
+- SysAdmin
+- Linux
+date: "2019-06-25T07:25:23Z"
+description: ""
+draft: false
+image: /images/2019/06/shell-commands.png
+slug: effective-shell-7-shell-commands
+tags:
+- EffectiveShell
+- Shell
+- CodeProject
+- Bash
+- Devops
+- SysAdmin
+- Linux
+title: 'Effective Shell Part 7: The Subtleties of Shell Commands'
+---
 
 
 In this chapter, we'll take a look at the various different types of shell commands that exist and how this can affect your work.

@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["REST", "ODATA"]
-date = 2011-11-27T11:12:00Z
-description = ""
-draft = false
-slug = "composite-data-service-framework-on-codeproject"
-tags = ["REST", "ODATA"]
-title = "Composite Data Service Framework on CodeProject"
-
-+++
+---
+author: Dave Kerr
+categories:
+- REST
+- ODATA
+date: "2011-11-27T11:12:00Z"
+description: ""
+draft: false
+slug: composite-data-service-framework-on-codeproject
+tags:
+- REST
+- ODATA
+title: Composite Data Service Framework on CodeProject
+---
 
 
 <p>I have written an article on the CodeProject describing the Composite Data Service Framework project, the article is at:</p>

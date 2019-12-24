@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["Controls", "C#"]
-date = 2012-02-28T05:29:00Z
-description = ""
-draft = false
-slug = "embedding-a-console-in-a-c-application"
-tags = ["Controls", "C#"]
-title = "Embedding a Console in a C# application"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Controls
+- C#
+date: "2012-02-28T05:29:00Z"
+description: ""
+draft: false
+slug: embedding-a-console-in-a-c-application
+tags:
+- Controls
+- C#
+title: Embedding a Console in a C# application
+---
 
 
 <p>I have uploaded a new article on the CodeProject - embedding a Console in a C# Application. Here's a screenshot of the control in use:</p>

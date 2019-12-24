@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["Oracle", "SQL"]
-date = 2012-02-24T06:20:00Z
-description = ""
-draft = false
-slug = "disabling-constraints-with-a-stored-procedure-in-oracle"
-tags = ["Oracle", "SQL"]
-title = "Disabling Constraints with a Stored Procedure in Oracle"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Oracle
+- SQL
+date: "2012-02-24T06:20:00Z"
+description: ""
+draft: false
+slug: disabling-constraints-with-a-stored-procedure-in-oracle
+tags:
+- Oracle
+- SQL
+title: Disabling Constraints with a Stored Procedure in Oracle
+---
 
 
 <p>Sometimes you need to disable constraints on a Oracle Database. Why might this be? Well image the situation that you are exporting data into an intermediate schema, you only want to import data from a certain date range and due to this you have only a subset of the records. You need this subset for analysis but you don't care about referential integrity - in fact if it is on then constraints will be violated. How can we do this?</p>

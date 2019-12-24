@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["WCF Data Services"]
-date = 2011-11-09T11:02:00Z
-description = ""
-draft = false
-slug = "composite-data-service-framework"
-tags = ["WCF Data Services"]
-title = "Composite Data Service Framework"
-
-+++
+---
+author: Dave Kerr
+categories:
+- WCF Data Services
+date: "2011-11-09T11:02:00Z"
+description: ""
+draft: false
+slug: composite-data-service-framework
+tags:
+- WCF Data Services
+title: Composite Data Service Framework
+---
 
 
 <p>Today I start a new project - the Composite Data Service Framework.&nbsp;The Composite Data Service Framework is a project that aims to obviate some of the limitations of WCF Data Services, specifically:</p>

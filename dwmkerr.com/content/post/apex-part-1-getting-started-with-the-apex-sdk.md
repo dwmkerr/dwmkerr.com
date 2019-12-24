@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["MVVM", "Apex", "C#"]
-date = 2012-04-23T05:35:00Z
-description = ""
-draft = false
-slug = "apex-part-1-getting-started-with-the-apex-sdk"
-tags = ["MVVM", "Apex", "C#"]
-title = "Apex Part 1 - Getting Started with the Apex SDK"
-
-+++
+---
+author: Dave Kerr
+categories:
+- MVVM
+- Apex
+- C#
+date: "2012-04-23T05:35:00Z"
+description: ""
+draft: false
+slug: apex-part-1-getting-started-with-the-apex-sdk
+tags:
+- MVVM
+- Apex
+- C#
+title: Apex Part 1 - Getting Started with the Apex SDK
+---
 
 
 <p>Create an MVVM application in minutes with the new Apex SDK!</p>

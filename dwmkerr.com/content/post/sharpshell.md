@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "SharpShell", "Shell"]
-date = 2013-01-08T16:28:05Z
-description = ""
-draft = false
-slug = "sharpshell"
-tags = ["C#", "SharpShell", "Shell"]
-title = "SharpShell"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- SharpShell
+- Shell
+date: "2013-01-08T16:28:05Z"
+description: ""
+draft: false
+slug: sharpshell
+tags:
+- C#
+- SharpShell
+- Shell
+title: SharpShell
+---
 
 
 SharpShell is a project that I have recently uploaded to CodePlex. This class library, and set of tools and samples, is designed to be a framework to enable rapid development of Shell Extensions using the .NET Framework. In time it may grow to contain some functionality for using Shell entities within managed applications (for example, allowing an Explorer context menu to be built dynamically for a given path).

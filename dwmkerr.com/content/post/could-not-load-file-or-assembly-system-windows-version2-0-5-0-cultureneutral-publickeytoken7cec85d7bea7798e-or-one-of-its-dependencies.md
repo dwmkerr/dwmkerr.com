@@ -1,14 +1,18 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "Debugging"]
-date = 2012-04-16T07:55:00Z
-description = ""
-draft = false
-slug = "could-not-load-file-or-assembly-system-windows-version2-0-5-0-cultureneutral-publickeytoken7cec85d7bea7798e-or-one-of-its-dependencies"
-tags = ["C#", "Debugging"]
-title = "Could not load file or assembly 'System.Windows, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e' or one of its dependencies."
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- Debugging
+date: "2012-04-16T07:55:00Z"
+description: ""
+draft: false
+slug: could-not-load-file-or-assembly-system-windows-version2-0-5-0-cultureneutral-publickeytoken7cec85d7bea7798e-or-one-of-its-dependencies
+tags:
+- C#
+- Debugging
+title: Could not load file or assembly 'System.Windows, Version=2.0.5.0, Culture=neutral,
+  PublicKeyToken=7cec85d7bea7798e' or one of its dependencies.
+---
 
 
 <p>Are you getting the error below when working with Silverlight projects?</p>

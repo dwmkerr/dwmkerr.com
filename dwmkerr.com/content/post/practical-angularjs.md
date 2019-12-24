@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2014-05-07T14:48:54Z
-description = ""
-draft = false
-slug = "practical-angularjs"
-title = "Practical AngularJS"
-
-+++
+---
+author: Dave Kerr
+date: "2014-05-07T14:48:54Z"
+description: ""
+draft: false
+slug: practical-angularjs
+title: Practical AngularJS
+---
 
 
 This series focuses on building applications with AngularJS. It assumes no prior knowledge.

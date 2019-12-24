@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["AngularJS", "CodeProject", "Javascript", "Bootstrap"]
-date = 2014-06-16T00:48:12Z
-description = ""
-draft = false
-slug = "the-only-angularjs-modal-service-youll-ever-need"
-tags = ["AngularJS", "CodeProject", "Javascript", "Bootstrap"]
-title = "The Only AngularJS Modal Service You'll Ever Need"
-
-+++
+---
+author: Dave Kerr
+categories:
+- AngularJS
+- CodeProject
+- Javascript
+- Bootstrap
+date: "2014-06-16T00:48:12Z"
+description: ""
+draft: false
+slug: the-only-angularjs-modal-service-youll-ever-need
+tags:
+- AngularJS
+- CodeProject
+- Javascript
+- Bootstrap
+title: The Only AngularJS Modal Service You'll Ever Need
+---
 
 
 If you need modals in an AngularJS application, look no further. I'll show you how to use the [Angular Modal Service](https://github.com/dwmkerr/angular-modal-service) to add Bootstrap Modals or your own custom modals to your application.

@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["Node.js", "CodeProject", "Slack"]
-date = 2016-11-18T01:25:00Z
-description = ""
-draft = false
-slug = "using-slack-for-server-development"
-tags = ["Node.js", "CodeProject", "Slack"]
-title = "Using Slack for Server Development"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Node.js
+- CodeProject
+- Slack
+date: "2016-11-18T01:25:00Z"
+description: ""
+draft: false
+slug: using-slack-for-server-development
+tags:
+- Node.js
+- CodeProject
+- Slack
+title: Using Slack for Server Development
+---
 
 
 I recently found a surprisingly helpful approach for server-side development which uses Slack in a creative way.

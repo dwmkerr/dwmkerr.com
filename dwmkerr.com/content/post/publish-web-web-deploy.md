@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["IIS", "Web Deploy", "Visual Studio"]
-date = 2013-06-19T09:22:06Z
-description = ""
-draft = false
-slug = "publish-web-web-deploy"
-tags = ["IIS", "Web Deploy", "Visual Studio"]
-title = "Web Deploy - Could not connect to the remote computer"
-
-+++
+---
+author: Dave Kerr
+categories:
+- IIS
+- Web Deploy
+- Visual Studio
+date: "2013-06-19T09:22:06Z"
+description: ""
+draft: false
+slug: publish-web-web-deploy
+tags:
+- IIS
+- Web Deploy
+- Visual Studio
+title: Web Deploy - Could not connect to the remote computer
+---
 
 
 Using Web Deploy is a nice and easy way to publish websites and web applications with Visual Studio. However, I found one thing that can be a bit of a blocker, that didn't seem to be explained anywhere very well.

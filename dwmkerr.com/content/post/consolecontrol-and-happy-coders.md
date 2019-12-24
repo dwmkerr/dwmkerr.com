@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2013-09-02T13:27:47Z
-description = ""
-draft = false
-slug = "consolecontrol-and-happy-coders"
-title = "ConsoleControl and Happy Coders"
-
-+++
+---
+author: Dave Kerr
+date: "2013-09-02T13:27:47Z"
+description: ""
+draft: false
+slug: consolecontrol-and-happy-coders
+title: ConsoleControl and Happy Coders
+---
 
 
 Sometimes I write up an article and some code on the CodeProject and get a good response, other times it seems an article sinks beneath the waves without any notice. Looking over some emails the other day, I noticed that my ConsoleControl article had actually received a slow and steady response of extremely positive feedback - people are using it and suggesting improvements.

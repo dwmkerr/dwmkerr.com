@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["SVN", "TFS"]
-date = 2012-06-21T07:56:00Z
-description = ""
-draft = false
-slug = "changing-mergecompare-tools-in-tfs"
-tags = ["SVN", "TFS"]
-title = "Changing Merge/Compare Tools in TFS"
-
-+++
+---
+author: Dave Kerr
+categories:
+- SVN
+- TFS
+date: "2012-06-21T07:56:00Z"
+description: ""
+draft: false
+slug: changing-mergecompare-tools-in-tfs
+tags:
+- SVN
+- TFS
+title: Changing Merge/Compare Tools in TFS
+---
 
 
 <p>Moving from SVN to TFS has been an interesting experience. The integration of source control directly into Visual Studio seems like a good thing, but even on a well set up network it can occasionally bring Visual Studio to its knees. And I still don't trust its automerge.</p>

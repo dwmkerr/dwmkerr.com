@@ -1,15 +1,26 @@
-+++
-author = "Dave Kerr"
-categories = ["CodeProject", "Terraform", "Docker", "Microservices", "AWS", "OpenShift"]
-date = 2017-02-02T07:47:00Z
-description = ""
-draft = false
-image = "/images/2017/02/console2-1.png"
-slug = "get-up-and-running-with-openshift-on-aws"
-tags = ["CodeProject", "Terraform", "Docker", "Microservices", "AWS", "OpenShift"]
-title = "Get up and running with OpenShift on AWS"
-
-+++
+---
+author: Dave Kerr
+categories:
+- CodeProject
+- Terraform
+- Docker
+- Microservices
+- AWS
+- OpenShift
+date: "2017-02-02T07:47:00Z"
+description: ""
+draft: false
+image: /images/2017/02/console2-1.png
+slug: get-up-and-running-with-openshift-on-aws
+tags:
+- CodeProject
+- Terraform
+- Docker
+- Microservices
+- AWS
+- OpenShift
+title: Get up and running with OpenShift on AWS
+---
 
 
 [OpenShift](https://www.openshift.com/) is Red Hat's platform-as-a-service offering for hosting and scaling applications. It's built on top of Google's popular [Kubernetes](https://kubernetes.io/) system.

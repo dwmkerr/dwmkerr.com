@@ -1,15 +1,22 @@
-+++
-author = "Dave Kerr"
-categories = ["Docker", "AWS", "CodeProject", "DynamoDB"]
-date = 2016-10-27T08:06:00Z
-description = ""
-draft = false
-image = "/images/2016/10/banner-1.jpg"
-slug = "run-amazon-dynamodb-locally-with-docker"
-tags = ["Docker", "AWS", "CodeProject", "DynamoDB"]
-title = "Run Amazon DynamoDB locally with Docker"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Docker
+- AWS
+- CodeProject
+- DynamoDB
+date: "2016-10-27T08:06:00Z"
+description: ""
+draft: false
+image: /images/2016/10/banner-1.jpg
+slug: run-amazon-dynamodb-locally-with-docker
+tags:
+- Docker
+- AWS
+- CodeProject
+- DynamoDB
+title: Run Amazon DynamoDB locally with Docker
+---
 
 
 **tl;dr:** Run DynamoDB locally using Docker:

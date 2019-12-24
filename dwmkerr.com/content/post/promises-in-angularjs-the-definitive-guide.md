@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["AngularJS", "CodeProject", "JavaScript", "ECMAScript 6"]
-date = 2014-05-07T12:06:55Z
-description = ""
-draft = false
-slug = "promises-in-angularjs-the-definitive-guide"
-tags = ["AngularJS", "CodeProject", "JavaScript", "ECMAScript 6"]
-title = "AngularJS Promises - The Definitive Guide"
-
-+++
+---
+author: Dave Kerr
+categories:
+- AngularJS
+- CodeProject
+- JavaScript
+- ECMAScript 6
+date: "2014-05-07T12:06:55Z"
+description: ""
+draft: false
+slug: promises-in-angularjs-the-definitive-guide
+tags:
+- AngularJS
+- CodeProject
+- JavaScript
+- ECMAScript 6
+title: AngularJS Promises - The Definitive Guide
+---
 
 
 Promises are a core feature of AngularJS - whether you understand them or not, if you use AngularJS you've almost certainly been using them for a while.

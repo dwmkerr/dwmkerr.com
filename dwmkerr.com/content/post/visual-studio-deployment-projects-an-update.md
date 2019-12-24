@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["Visual Studio"]
-date = 2013-06-24T12:18:18Z
-description = ""
-draft = false
-slug = "visual-studio-deployment-projects-an-update"
-tags = ["Visual Studio"]
-title = "Visual Studio Deployment Projects - an Update"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Visual Studio
+date: "2013-06-24T12:18:18Z"
+description: ""
+draft: false
+slug: visual-studio-deployment-projects-an-update
+tags:
+- Visual Studio
+title: Visual Studio Deployment Projects - an Update
+---
 
 
 I received the following message in my inbox the other day:

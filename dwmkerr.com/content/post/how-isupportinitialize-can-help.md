@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["C#"]
-date = 2011-09-18T14:49:00Z
-description = ""
-draft = false
-slug = "how-isupportinitialize-can-help"
-tags = ["C#"]
-title = "How ISupportInitialize Can Help"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+date: "2011-09-18T14:49:00Z"
+description: ""
+draft: false
+slug: how-isupportinitialize-can-help
+tags:
+- C#
+title: How ISupportInitialize Can Help
+---
 
 
 I have recently come to discover the [ISupportInitialize](http://msdn.microsoft.com/en-us/library/system.componentmodel.isupportinitialize.aspx) interface and found that it is extremely useful when developing more complicated WinForms controls.

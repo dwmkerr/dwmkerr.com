@@ -1,15 +1,22 @@
-+++
-author = "Dave Kerr"
-categories = ["Docker", "Unix", "Node.js", "CodeProject"]
-date = 2016-06-03T10:45:24Z
-description = ""
-draft = false
-image = "/images/2016/06/Screen-Shot-2016-06-03-at-20-33-20-2.png"
-slug = "testing-the-docker-for-mac-beta"
-tags = ["Docker", "Unix", "Node.js", "CodeProject"]
-title = "Testing the Docker for Mac Beta"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Docker
+- Unix
+- Node.js
+- CodeProject
+date: "2016-06-03T10:45:24Z"
+description: ""
+draft: false
+image: /images/2016/06/Screen-Shot-2016-06-03-at-20-33-20-2.png
+slug: testing-the-docker-for-mac-beta
+tags:
+- Docker
+- Unix
+- Node.js
+- CodeProject
+title: Testing the Docker for Mac Beta
+---
 
 
 I've finally had a chance to install the new Docker for Mac Beta and give it a whirl. In this article I'm going to talk a bit about how Docker works, the challenges of running Docker on a Mac or Windows and how the new Beta helps.

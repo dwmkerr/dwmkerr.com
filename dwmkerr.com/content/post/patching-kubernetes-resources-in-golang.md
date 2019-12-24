@@ -1,15 +1,24 @@
-+++
-author = "Dave Kerr"
-categories = ["Kubernetes", "Golang", "Devops", "Docker", "CodeProject"]
-date = 2018-07-24T06:33:17Z
-description = ""
-draft = false
-image = "/images/2018/07/patch.jpg"
-slug = "patching-kubernetes-resources-in-golang"
-tags = ["Kubernetes", "Golang", "Devops", "Docker", "CodeProject"]
-title = "Patching Kubernetes Resources in Golang"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Kubernetes
+- Golang
+- Devops
+- Docker
+- CodeProject
+date: "2018-07-24T06:33:17Z"
+description: ""
+draft: false
+image: /images/2018/07/patch.jpg
+slug: patching-kubernetes-resources-in-golang
+tags:
+- Kubernetes
+- Golang
+- Devops
+- Docker
+- CodeProject
+title: Patching Kubernetes Resources in Golang
+---
 
 
 Recently I needed to be able to quickly adjust the number of replicas in a Kubernetes Replication Controller. The original solution I'd seen pulled down the spec, modified it, then updated it. There's a better way!
