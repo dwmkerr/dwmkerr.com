@@ -36,4 +36,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BASE_BRANCH: master
         BRANCH: gh-pages
-        FOLDER: ./dwmkerr.com/public
+        FOLDER: dwmkerr.com/public
