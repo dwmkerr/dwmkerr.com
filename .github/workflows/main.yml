@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
+      with:
+        submodules: true
 
     - name: Checkout Submodules
       shell: bash
