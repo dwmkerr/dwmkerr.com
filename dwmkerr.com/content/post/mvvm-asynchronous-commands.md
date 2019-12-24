@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "WPF", "MVVM"]
-date = 2011-10-24T03:51:00Z
-description = ""
-draft = false
-slug = "mvvm-asynchronous-commands"
-tags = ["C#", "WPF", "MVVM"]
-title = "MVVM: Asynchronous Commands"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- WPF
+- MVVM
+date: "2011-10-24T03:51:00Z"
+description: ""
+draft: false
+slug: mvvm-asynchronous-commands
+tags:
+- C#
+- WPF
+- MVVM
+title: 'MVVM: Asynchronous Commands'
+---
 
 
 <p>The latest cut of the Apex Code (<a href="http://apex.codeplex.com/SourceControl/changeset/changes/6701">http://apex.codeplex.com/SourceControl/changeset/changes/6701</a>) contains a very cool new feature - Asynchronous Command Objects.</p>

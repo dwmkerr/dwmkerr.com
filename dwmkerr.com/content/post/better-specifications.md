@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["Git", "Development", "GitHub", "CodeProject"]
-date = 2014-05-05T14:58:43Z
-description = ""
-draft = false
-slug = "better-specifications"
-tags = ["Git", "Development", "GitHub", "CodeProject"]
-title = "Better Specifications"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Git
+- Development
+- GitHub
+- CodeProject
+date: "2014-05-05T14:58:43Z"
+description: ""
+draft: false
+slug: better-specifications
+tags:
+- Git
+- Development
+- GitHub
+- CodeProject
+title: Better Specifications
+---
 
 
 Specifications are absolutely key to the success of a project.

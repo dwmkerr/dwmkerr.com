@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["WCF Data Services"]
-date = 2011-11-09T15:49:00Z
-description = ""
-draft = false
-slug = "idataservicemetadataprovider-entities-missing-in-metadata"
-tags = ["WCF Data Services"]
-title = "IDataServiceMetadataProvider Entities Missing in $metadata"
-
-+++
+---
+author: Dave Kerr
+categories:
+- WCF Data Services
+date: "2011-11-09T15:49:00Z"
+description: ""
+draft: false
+slug: idataservicemetadataprovider-entities-missing-in-metadata
+tags:
+- WCF Data Services
+title: IDataServiceMetadataProvider Entities Missing in $metadata
+---
 
 
 <p>If you are following through the example on creating custom data service providers as on this blog:</p>

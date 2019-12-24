@@ -1,14 +1,23 @@
-+++
-author = "Dave Kerr"
-categories = ["HTML5", "C#", "MVC", "ASP", "BuildButtons"]
-date = 2013-06-18T02:34:59Z
-description = ""
-draft = false
-slug = "build-buttons-for-facebook-twitter-linkedin-github-and-more"
-tags = ["HTML5", "C#", "MVC", "ASP", "BuildButtons"]
-title = "Build Buttons for Facebook, Twitter, LinkedIn, GitHub and More!"
-
-+++
+---
+author: Dave Kerr
+categories:
+- HTML5
+- C#
+- MVC
+- ASP
+- BuildButtons
+date: "2013-06-18T02:34:59Z"
+description: ""
+draft: false
+slug: build-buttons-for-facebook-twitter-linkedin-github-and-more
+tags:
+- HTML5
+- C#
+- MVC
+- ASP
+- BuildButtons
+title: Build Buttons for Facebook, Twitter, LinkedIn, GitHub and More!
+---
 
 
 Recently I've been working on a small project called <a title="Build Buttons" href="http://www.buildbuttons.com" target="_blank">Build Buttons</a>. <a title="Build Buttons" href="http://www.buildbuttons.com" target="_blank">Build Buttons</a> is a website that let's you quickly create buttons for sharing and promoting content. You can use Build Buttons to create Facebook 'Like' or 'Follow' buttons, LinkedIn 'Share' buttons, Google +1 buttons, GitHub Star, Fork and Follow buttons and more. Here's how it works.

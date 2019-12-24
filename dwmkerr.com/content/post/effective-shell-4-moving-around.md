@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["EffectiveShell", "Shell", "CodeProject", "Bash"]
-date = 2019-03-11T09:02:00Z
-description = ""
-draft = false
-slug = "effective-shell-4-moving-around"
-tags = ["EffectiveShell", "Shell", "CodeProject", "Bash"]
-title = "Effective Shell 4: Move Around!"
-
-+++
+---
+author: Dave Kerr
+categories:
+- EffectiveShell
+- Shell
+- CodeProject
+- Bash
+date: "2019-03-11T09:02:00Z"
+description: ""
+draft: false
+slug: effective-shell-4-moving-around
+tags:
+- EffectiveShell
+- Shell
+- CodeProject
+- Bash
+title: 'Effective Shell 4: Move Around!'
+---
 
 
 This is the fourth part of my [Effective Shell](https://github.com/dwmkerr/effective-shell) series, a set of practical examples of ways to be more efficient with everyday tasks in the shell or at the command line.

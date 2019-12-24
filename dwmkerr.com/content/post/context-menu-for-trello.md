@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["SharpShell", "C#", "Trello"]
-date = 2013-06-27T05:40:58Z
-description = ""
-draft = false
-slug = "context-menu-for-trello"
-tags = ["SharpShell", "C#", "Trello"]
-title = "Context Menu for Trello"
-
-+++
+---
+author: Dave Kerr
+categories:
+- SharpShell
+- C#
+- Trello
+date: "2013-06-27T05:40:58Z"
+description: ""
+draft: false
+slug: context-menu-for-trello
+tags:
+- SharpShell
+- C#
+- Trello
+title: Context Menu for Trello
+---
 
 
 I'm on holiday at the moment, back in sunny England. Holiday may not be the right term really, I'm mostly working through charity stuff (for my charity <a title="Namaste - Children's Homes Nepal" href="http://www.childrenshomesnepal.org/" target="_blank">Namaste - Children's Homes Nepal</a>) and company administration. I'm also starting working on a big new project, which is pretty exciting.

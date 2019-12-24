@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["Extensions", "Visual Studio"]
-date = 2013-02-16T14:41:27Z
-description = ""
-draft = false
-slug = "the-visual-studio-experimental-instance"
-tags = ["Extensions", "Visual Studio"]
-title = "The Visual Studio Experimental Instance"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Extensions
+- Visual Studio
+date: "2013-02-16T14:41:27Z"
+description: ""
+draft: false
+slug: the-visual-studio-experimental-instance
+tags:
+- Extensions
+- Visual Studio
+title: The Visual Studio Experimental Instance
+---
 
 
 Working on some addins lately has taught me a few really useful tricks about debugging in Visual Studio. I'll update this post over time.

@@ -1,15 +1,22 @@
-+++
-author = "Dave Kerr"
-categories = ["Terraform", "AWS", "CodeProject", "Infrastructure"]
-date = 2018-12-11T21:24:34Z
-description = ""
-draft = false
-image = "/images/2018/12/screenshot.jpg"
-slug = "dynamic-and-configurable-availability-zones-in-terraform"
-tags = ["Terraform", "AWS", "CodeProject", "Infrastructure"]
-title = "Dynamic and Configurable Availability Zones in Terraform"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Terraform
+- AWS
+- CodeProject
+- Infrastructure
+date: "2018-12-11T21:24:34Z"
+description: ""
+draft: false
+image: /images/2018/12/screenshot.jpg
+slug: dynamic-and-configurable-availability-zones-in-terraform
+tags:
+- Terraform
+- AWS
+- CodeProject
+- Infrastructure
+title: Dynamic and Configurable Availability Zones in Terraform
+---
 
 
 When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.

@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "MVVM", "WPF"]
-date = 2011-10-29T08:31:00Z
-description = ""
-draft = false
-slug = "mvvm-commanding"
-tags = ["C#", "MVVM", "WPF"]
-title = "MVVM Commanding"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- MVVM
+- WPF
+date: "2011-10-29T08:31:00Z"
+description: ""
+draft: false
+slug: mvvm-commanding
+tags:
+- C#
+- MVVM
+- WPF
+title: MVVM Commanding
+---
 
 
 <p>I have written an article that describes commanding in WPF, Silverlight and WP7 in detail. It is on the CodeProject at:</p>

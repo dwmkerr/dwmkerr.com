@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["WordPress", "CMS"]
-date = 2012-11-26T09:04:10Z
-description = ""
-draft = false
-slug = "goodbye-blogengine-net-hello-wordpress"
-tags = ["WordPress", "CMS"]
-title = "Goodbye BlogEngine.NET, Hello WordPress"
-
-+++
+---
+author: Dave Kerr
+categories:
+- WordPress
+- CMS
+date: "2012-11-26T09:04:10Z"
+description: ""
+draft: false
+slug: goodbye-blogengine-net-hello-wordpress
+tags:
+- WordPress
+- CMS
+title: Goodbye BlogEngine.NET, Hello WordPress
+---
 
 
 I run my websites on a Windows Server. Years ago, when I started web development, I ran almost exclusively on LAMP (Linux, Apache, MySQL, PHP) setups, which worked great for the sites I was building.

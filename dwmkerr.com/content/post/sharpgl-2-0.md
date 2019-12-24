@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "SharpGL"]
-date = 2012-02-22T03:42:00Z
-description = ""
-draft = false
-slug = "sharpgl-2-0"
-tags = ["C#", "SharpGL"]
-title = "SharpGL 2.0"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- SharpGL
+date: "2012-02-22T03:42:00Z"
+description: ""
+draft: false
+slug: sharpgl-2-0
+tags:
+- C#
+- SharpGL
+title: SharpGL 2.0
+---
 
 
 <p>SharpGL 2.0 has been released - hit the codeplex site to get it:&nbsp;<a href="http://sharpgl.codeplex.com/">http://sharpgl.codeplex.com/</a></p>

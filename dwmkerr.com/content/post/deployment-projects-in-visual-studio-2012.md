@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["Deployment", "Visual Studio"]
-date = 2012-12-02T05:40:28Z
-description = ""
-draft = false
-slug = "deployment-projects-in-visual-studio-2012"
-tags = ["Deployment", "Visual Studio"]
-title = "Deployment Projects in Visual Studio 2012"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Deployment
+- Visual Studio
+date: "2012-12-02T05:40:28Z"
+description: ""
+draft: false
+slug: deployment-projects-in-visual-studio-2012
+tags:
+- Deployment
+- Visual Studio
+title: Deployment Projects in Visual Studio 2012
+---
 
 
 [Note: They aren't bringing setup projects back, see <a href="http://www.dwmkerr.com/2013/06/visual-studio-deployment-projects-an-update/">http://www.dwmkerr.com/2013/06/visual-studio-deployment-projects-an-update/</a>]

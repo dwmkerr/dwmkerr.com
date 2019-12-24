@@ -1,15 +1,24 @@
-+++
-author = "Dave Kerr"
-categories = ["Kubernetes", "Golang", "Devops", "Docker", "CodeProject"]
-date = 2018-10-08T21:34:02Z
-description = ""
-draft = false
-image = "/images/2018/10/code-1.jpg"
-slug = "manipulating-istio-and-other-custom-kubernetes-resources-in-golang"
-tags = ["Kubernetes", "Golang", "Devops", "Docker", "CodeProject"]
-title = "Manipulating Istio and other Custom Kubernetes Resources in Golang"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Kubernetes
+- Golang
+- Devops
+- Docker
+- CodeProject
+date: "2018-10-08T21:34:02Z"
+description: ""
+draft: false
+image: /images/2018/10/code-1.jpg
+slug: manipulating-istio-and-other-custom-kubernetes-resources-in-golang
+tags:
+- Kubernetes
+- Golang
+- Devops
+- Docker
+- CodeProject
+title: Manipulating Istio and other Custom Kubernetes Resources in Golang
+---
 
 
 In this article I'll demonstrate how to use Golang to manipulate Kubernetes Custom Resources, with Istio as an example. No knowledge of Istio is needed, I'll just use it to demonstrate the concepts!

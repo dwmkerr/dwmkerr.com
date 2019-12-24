@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "WPF"]
-date = 2011-09-30T05:09:00Z
-description = ""
-draft = false
-slug = "drawing-a-dib-section-in-wpf"
-tags = ["C#", "WPF"]
-title = "Drawing a DIB Section in WPF"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- WPF
+date: "2011-09-30T05:09:00Z"
+description: ""
+draft: false
+slug: drawing-a-dib-section-in-wpf
+tags:
+- C#
+- WPF
+title: Drawing a DIB Section in WPF
+---
 
 
 <p>One of the most exciting new features in the forthcoming SharpGL 2.0 (which was actually planned for 2.1 but has been moved to 2.0) is the facility to do OpenGL drawing in a WPF control. This isn't done via a WinFormsHost (which has unpleasant side-effects due to Airspace, see&nbsp;<a href="http://msdn.microsoft.com/en-us/library/aa970688(v=VS.100).aspx">http://msdn.microsoft.com/en-us/library/aa970688(v=VS.100).aspx</a>) but actually via an Image in a WPF UserControl.</p>

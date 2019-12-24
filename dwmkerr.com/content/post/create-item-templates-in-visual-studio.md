@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["Visual Studio"]
-date = 2012-04-13T06:29:00Z
-description = ""
-draft = false
-slug = "create-item-templates-in-visual-studio"
-tags = ["Visual Studio"]
-title = "Create Item Templates in Visual Studio"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Visual Studio
+date: "2012-04-13T06:29:00Z"
+description: ""
+draft: false
+slug: create-item-templates-in-visual-studio
+tags:
+- Visual Studio
+title: Create Item Templates in Visual Studio
+---
 
 
 <p>Part 3 of my series on extending Visual Studio is now available on the CodeProject:</p>

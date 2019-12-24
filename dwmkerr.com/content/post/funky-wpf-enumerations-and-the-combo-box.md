@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "WPF", "MVVM"]
-date = 2012-01-18T03:11:00Z
-description = ""
-draft = false
-slug = "funky-wpf-enumerations-and-the-combo-box"
-tags = ["C#", "WPF", "MVVM"]
-title = "Funky WPF - Enumerations and the Combo Box"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- WPF
+- MVVM
+date: "2012-01-18T03:11:00Z"
+description: ""
+draft: false
+slug: funky-wpf-enumerations-and-the-combo-box
+tags:
+- C#
+- WPF
+- MVVM
+title: Funky WPF - Enumerations and the Combo Box
+---
 
 
 <p class="MsoNormal">Binding a combo box to an enumeration in WPF is more work than it should be, creating an object data provider etc etc:</p>

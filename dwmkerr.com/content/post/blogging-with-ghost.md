@@ -1,14 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["Node.js"]
-date = 2014-05-05T04:35:09Z
-description = ""
-draft = false
-slug = "blogging-with-ghost"
-tags = ["Node.js"]
-title = "Blogging with Ghost"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Node.js
+date: "2014-05-05T04:35:09Z"
+description: ""
+draft: false
+slug: blogging-with-ghost
+tags:
+- Node.js
+title: Blogging with Ghost
+---
 
 
 > **tl;dr** [Ghost](https://ghost.org/) is a blogging platform well worth considering if your blog is all about development.

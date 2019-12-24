@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2018-06-25T23:05:38Z
-description = ""
-draft = true
-slug = "ci-cd-for-docker-images-on-circleci-2"
-title = "CI/CD for Docker Images on CircleCI 2"
-
-+++
+---
+author: Dave Kerr
+date: "2018-06-25T23:05:38Z"
+description: ""
+draft: true
+slug: ci-cd-for-docker-images-on-circleci-2
+title: CI/CD for Docker Images on CircleCI 2
+---
 
 
 2018-06-26: Note; currently blocked as I cannot access the docker ports from build agent, see https://circleci.com/docs/2.0/building-docker-images/

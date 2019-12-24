@@ -1,15 +1,24 @@
-+++
-author = "Dave Kerr"
-categories = ["JavaScript", "SVG", "HTML", "CSS", "CodeProject"]
-date = 2018-07-29T23:36:46Z
-description = ""
-draft = false
-image = "/images/2018/07/smile-1.png"
-slug = "procedural-smiles-animating-svg-with-pure-javascript"
-tags = ["JavaScript", "SVG", "HTML", "CSS", "CodeProject"]
-title = "Procedural Smiles - Animating SVG with pure JavaScript"
-
-+++
+---
+author: Dave Kerr
+categories:
+- JavaScript
+- SVG
+- HTML
+- CSS
+- CodeProject
+date: "2018-07-29T23:36:46Z"
+description: ""
+draft: false
+image: /images/2018/07/smile-1.png
+slug: procedural-smiles-animating-svg-with-pure-javascript
+tags:
+- JavaScript
+- SVG
+- HTML
+- CSS
+- CodeProject
+title: Procedural Smiles - Animating SVG with pure JavaScript
+---
 
 
 I recently needed to be able to generate a simple face image, with the face being able to scale from happy to sad.

@@ -1,14 +1,20 @@
-+++
-author = "Dave Kerr"
-categories = ["Addin", "Visual Studio Extensisbility", "Visual Studio 2012"]
-date = 2013-05-13T02:38:34Z
-description = ""
-draft = false
-slug = "creating-addins-an-error-occurred-and-the-wizard-could-not-generate-the-project"
-tags = ["Addin", "Visual Studio Extensisbility", "Visual Studio 2012"]
-title = "Creating Addins - 'An error occurred, and the wizard could not generate the project.'"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Addin
+- Visual Studio Extensisbility
+- Visual Studio 2012
+date: "2013-05-13T02:38:34Z"
+description: ""
+draft: false
+slug: creating-addins-an-error-occurred-and-the-wizard-could-not-generate-the-project
+tags:
+- Addin
+- Visual Studio Extensisbility
+- Visual Studio 2012
+title: Creating Addins - 'An error occurred, and the wizard could not generate the
+  project.'
+---
 
 
 When doing a little bit of work on a solution that contains a Visual Studio Addin the other day, I noticed that there's a little bit of an issue with Visual Studio. If you create an addin project and you get the message:

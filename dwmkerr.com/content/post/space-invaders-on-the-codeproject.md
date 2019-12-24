@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["HTML", "Javascript", "CSS"]
-date = 2013-11-21T12:24:41Z
-description = ""
-draft = false
-slug = "space-invaders-on-the-codeproject"
-tags = ["HTML", "Javascript", "CSS"]
-title = "Space Invaders on the CodeProject"
-
-+++
+---
+author: Dave Kerr
+categories:
+- HTML
+- Javascript
+- CSS
+date: "2013-11-21T12:24:41Z"
+description: ""
+draft: false
+slug: space-invaders-on-the-codeproject
+tags:
+- HTML
+- Javascript
+- CSS
+title: Space Invaders on the CodeProject
+---
 
 
 I'm currently writing a series of articles on the CodeProject called 'Learn JavaScript' and am pleased to say that the latest article is available now!

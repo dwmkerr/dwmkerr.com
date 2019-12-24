@@ -1,18 +1,18 @@
 ---
-author: "Dave Kerr"
+author: Dave Kerr
 date: "2019-12-24"
 draft: true
-slug: "migrating-from-ghost-to-hugo"
-title: "Migrating from Ghost to Hugo - Why Bother?"
+slug: migrating-from-ghost-to-hugo
 tags:
 - writing
+title: Migrating from Ghost to Hugo - Why Bother?
 ---
 
 With a little bit of free time for a change, I decided to finally migrate my blog from [Ghost](https://ghost.org/) to a static site generator. I've been putting this off because it's one of those things that I knew would take longer than I'd expect, and to be honest, it it ain't broke, then don't fix it.
 
 ## So, Why Bother?
 
-My first website was built on WordPress, which has grown into a very powerful platform over the years, but was overly complex for my needs.
+My first website was built on BlogEngine.net, then WordPress, which has grown into a very powerful platform over the years, but was overly complex for my needs.
 
 When I first tried Ghost, I loved it. A super clean and minimal interface, with all of the content in Markdown. The editing experience was lovely:
 
@@ -198,6 +198,24 @@ jobs:
 
 Any time a change is made to `master` or `feat/static-site` gets built and published.
 
+## Changing Front Matter to YAML
+
+By default the front matter for the blog is written in TOML. This is not rendered well on GitHub:
+
+![Screenshot: TOML front matter](./toml-frontmatter.png)
+
+It also looks less than ideal in `vim`. After running:
+
+```sh
+hugo convert toYAML
+```
+
+Things look a lot nicer:
+
+![Screenshot: YAML front matter](./yaml-frontmatter.png)
+
+YAML front matter is also rendered properly in `vim` for me, 
+
 ## Restructuring the Content
 
 After import, my site structure looked like this:
@@ -206,7 +224,7 @@ After import, my site structure looked like this:
 
 Now this is manageable, but feels awkward. I'd rather keep images next to the blog posts themselves. I want to group posts into years so that there are not too many shown in the file tree at any one time (and adding months/weeks/days makes things too fine grained). It also means that the page doesn't render images on GitHub:
 
-
+![Screenshot: Broken Links](./broken-links.png)
 
 The ideal structure would be just like this post:
 
@@ -221,3 +239,8 @@ Migrating everything by hand would be something of a nightmare, so out comes the
 
 
 https://gohugo.io/content-management/page-bundles/
+
+Fix images like this:
+
+<img width="600px" alt="Image: The Evolution of Windows" src="/images/2019/05/screenshot-windows-evolution.png" />
+

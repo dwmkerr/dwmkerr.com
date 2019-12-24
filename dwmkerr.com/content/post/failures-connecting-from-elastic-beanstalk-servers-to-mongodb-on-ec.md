@@ -1,14 +1,21 @@
-+++
-author = "Dave Kerr"
-categories = ["MongoDB", "AWS", "Elastic Beanstalk", "EC2"]
-date = 2015-03-16T10:34:04Z
-description = ""
-draft = false
-slug = "failures-connecting-from-elastic-beanstalk-servers-to-mongodb-on-ec"
-tags = ["MongoDB", "AWS", "Elastic Beanstalk", "EC2"]
-title = "Failures Connecting from Elastic Beanstalk servers to MongoDB on EC?"
-
-+++
+---
+author: Dave Kerr
+categories:
+- MongoDB
+- AWS
+- Elastic Beanstalk
+- EC2
+date: "2015-03-16T10:34:04Z"
+description: ""
+draft: false
+slug: failures-connecting-from-elastic-beanstalk-servers-to-mongodb-on-ec
+tags:
+- MongoDB
+- AWS
+- Elastic Beanstalk
+- EC2
+title: Failures Connecting from Elastic Beanstalk servers to MongoDB on EC?
+---
 
 
 tl;dr?

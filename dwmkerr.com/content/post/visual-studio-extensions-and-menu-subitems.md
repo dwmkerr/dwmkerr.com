@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2012-12-15T00:21:48Z
-description = ""
-draft = false
-slug = "visual-studio-extensions-and-menu-subitems"
-title = "Visual Studio Extensions and Menu Subitems"
-
-+++
+---
+author: Dave Kerr
+date: "2012-12-15T00:21:48Z"
+description: ""
+draft: false
+slug: visual-studio-extensions-and-menu-subitems
+title: Visual Studio Extensions and Menu Subitems
+---
 
 
 <p>Recently I was working on a Visual Studio Extension for VS2010, instead of a single item in the the tools menu, what I wanted was a single item with a set of child items.</p>

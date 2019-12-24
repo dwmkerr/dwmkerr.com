@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2013-06-05T15:35:39Z
-description = ""
-draft = false
-slug = "introducing-sil"
-title = "Introducing Sil"
-
-+++
+---
+author: Dave Kerr
+date: "2013-06-05T15:35:39Z"
+description: ""
+draft: false
+slug: introducing-sil
+title: Introducing Sil
+---
 
 
 For the last few weeks I've been trying to tie up a project I've been working on for a while called Sil. With lots of other things on my plate at the moment I haven't had much of a chance to work on it, but finally tonight I'm able to release the first version.

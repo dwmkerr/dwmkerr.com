@@ -1,13 +1,15 @@
-+++
-author = "Dave Kerr"
-categories = ["Javascript"]
-date = 2013-11-28T06:10:16Z
-description = ""
-draft = false
-slug = "a-great-read-for-javascript-newcomers"
-tags = ["Javascript"]
-title = "A great read for JavaScript newcomers"
-+++
+---
+author: Dave Kerr
+categories:
+- Javascript
+date: "2013-11-28T06:10:16Z"
+description: ""
+draft: false
+slug: a-great-read-for-javascript-newcomers
+tags:
+- Javascript
+title: A great read for JavaScript newcomers
+---
 
 
 A superb article by Colin Eberhardt has just been published on the CodeProject, called 'Understanding JavaScript Object Creation Patterns'.

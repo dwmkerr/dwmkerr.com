@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["C#", "Visual Studio", "MFC"]
-date = 2012-04-19T09:02:00Z
-description = ""
-draft = false
-slug = "come-on-ms-improve-mfc"
-tags = ["C#", "Visual Studio", "MFC"]
-title = "Come on MS - Improve MFC"
-
-+++
+---
+author: Dave Kerr
+categories:
+- C#
+- Visual Studio
+- MFC
+date: "2012-04-19T09:02:00Z"
+description: ""
+draft: false
+slug: come-on-ms-improve-mfc
+tags:
+- C#
+- Visual Studio
+- MFC
+title: Come on MS - Improve MFC
+---
 
 
 <p>Loads of developers still use MFC. OK - if you're writing a new project, MFC would not be a great choice. But what if you're maintaining a 1.5 million line MFC app?&nbsp;</p>

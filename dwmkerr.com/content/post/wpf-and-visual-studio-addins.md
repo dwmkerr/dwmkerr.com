@@ -1,14 +1,19 @@
-+++
-author = "Dave Kerr"
-categories = ["WinForms", "WPF", "Visual Studio Extensibility"]
-date = 2013-06-12T01:36:18Z
-description = ""
-draft = false
-slug = "wpf-and-visual-studio-addins"
-tags = ["WinForms", "WPF", "Visual Studio Extensibility"]
-title = "WPF and Visual Studio Addins"
-
-+++
+---
+author: Dave Kerr
+categories:
+- WinForms
+- WPF
+- Visual Studio Extensibility
+date: "2013-06-12T01:36:18Z"
+description: ""
+draft: false
+slug: wpf-and-visual-studio-addins
+tags:
+- WinForms
+- WPF
+- Visual Studio Extensibility
+title: WPF and Visual Studio Addins
+---
 
 
 If at all possible nowadays, I write all my Windows UI code in WPF, it's just quicker and easier than WinForms. Recently however, I came across a situation that you should just avoid.

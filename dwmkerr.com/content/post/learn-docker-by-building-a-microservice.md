@@ -1,15 +1,28 @@
-+++
-author = "Dave Kerr"
-categories = ["Node.js", "Javascript", "Docker", "Unix", "Devops", "MySQL", "CodeProject"]
-date = 2016-04-19T08:54:39Z
-description = ""
-draft = false
-image = "/images/2016/04/small_v-trans.png"
-slug = "learn-docker-by-building-a-microservice"
-tags = ["Node.js", "Javascript", "Docker", "Unix", "Devops", "MySQL", "CodeProject"]
-title = "Learn Docker by building a Microservice"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Node.js
+- Javascript
+- Docker
+- Unix
+- Devops
+- MySQL
+- CodeProject
+date: "2016-04-19T08:54:39Z"
+description: ""
+draft: false
+image: /images/2016/04/small_v-trans.png
+slug: learn-docker-by-building-a-microservice
+tags:
+- Node.js
+- Javascript
+- Docker
+- Unix
+- Devops
+- MySQL
+- CodeProject
+title: Learn Docker by building a Microservice
+---
 
 
 If you are looking to get your hands dirty and learn all about [Docker](https://docker.com), then look no further!

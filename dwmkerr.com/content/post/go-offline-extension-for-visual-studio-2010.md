@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["TFS", "Visual Studio"]
-date = 2012-06-18T10:54:00Z
-description = ""
-draft = false
-slug = "go-offline-extension-for-visual-studio-2010"
-tags = ["TFS", "Visual Studio"]
-title = "Go Offline Extension for Visual Studio 2010"
-
-+++
+---
+author: Dave Kerr
+categories:
+- TFS
+- Visual Studio
+date: "2012-06-18T10:54:00Z"
+description: ""
+draft: false
+slug: go-offline-extension-for-visual-studio-2010
+tags:
+- TFS
+- Visual Studio
+title: Go Offline Extension for Visual Studio 2010
+---
 
 
 <p>Such a useful extension that I just had to big it up - the Go Offline extension adds the following menu item:</p>

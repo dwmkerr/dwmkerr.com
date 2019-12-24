@@ -1,15 +1,24 @@
-+++
-author = "Dave Kerr"
-categories = ["EffectiveShell", "Shell", "CodeProject", "Bash", "Devops"]
-date = 2019-05-21T09:22:05Z
-description = ""
-draft = false
-image = "/images/2019/05/diagram3-terminal-and-shell-2.png"
-slug = "effective-shell-part-5-understanding-the-shell"
-tags = ["EffectiveShell", "Shell", "CodeProject", "Bash", "Devops"]
-title = "Effective Shell Interlude: Understanding the Shell"
-
-+++
+---
+author: Dave Kerr
+categories:
+- EffectiveShell
+- Shell
+- CodeProject
+- Bash
+- Devops
+date: "2019-05-21T09:22:05Z"
+description: ""
+draft: false
+image: /images/2019/05/diagram3-terminal-and-shell-2.png
+slug: effective-shell-part-5-understanding-the-shell
+tags:
+- EffectiveShell
+- Shell
+- CodeProject
+- Bash
+- Devops
+title: 'Effective Shell Interlude: Understanding the Shell'
+---
 
 
 This is the first 'interlude' in my [Effective Shell](https://github.com/dwmkerr/effective-shell) series. These interludes give some background, history or more flavour to some of the topics.

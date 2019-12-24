@@ -1,14 +1,23 @@
-+++
-author = "Dave Kerr"
-categories = ["Bootstrap", "MVC", "ASP", "XML", "Razor"]
-date = 2012-12-09T16:11:27Z
-description = ""
-draft = false
-slug = "xpath-studio-first-cut"
-tags = ["Bootstrap", "MVC", "ASP", "XML", "Razor"]
-title = "XPath Studio - First Cut"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Bootstrap
+- MVC
+- ASP
+- XML
+- Razor
+date: "2012-12-09T16:11:27Z"
+description: ""
+draft: false
+slug: xpath-studio-first-cut
+tags:
+- Bootstrap
+- MVC
+- ASP
+- XML
+- Razor
+title: XPath Studio - First Cut
+---
 
 
 I have just uploaded the first cut of my mini-project 'XPath Studio'. This project is a small site that lets you choose a URL to a source webpage, and run any XPath query against it - showing the data that is returned from the query.

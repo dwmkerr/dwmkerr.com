@@ -1,12 +1,11 @@
-+++
-author = "Dave Kerr"
-date = 2019-05-13T03:02:57Z
-description = ""
-draft = true
-slug = "untitled"
-title = "(Untitled)"
-
-+++
+---
+author: Dave Kerr
+date: "2019-05-13T03:02:57Z"
+description: ""
+draft: true
+slug: untitled
+title: (Untitled)
+---
 
 
 ```

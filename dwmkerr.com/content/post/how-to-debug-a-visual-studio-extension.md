@@ -1,14 +1,17 @@
-+++
-author = "Dave Kerr"
-categories = ["Visual Studio", "Debugging"]
-date = 2011-11-28T11:11:00Z
-description = ""
-draft = false
-slug = "how-to-debug-a-visual-studio-extension"
-tags = ["Visual Studio", "Debugging"]
-title = "How to Debug a Visual Studio Extension"
-
-+++
+---
+author: Dave Kerr
+categories:
+- Visual Studio
+- Debugging
+date: "2011-11-28T11:11:00Z"
+description: ""
+draft: false
+slug: how-to-debug-a-visual-studio-extension
+tags:
+- Visual Studio
+- Debugging
+title: How to Debug a Visual Studio Extension
+---
 
 
 <p>Here are a few tips for debugging Visual Studio Extensions.</p>
