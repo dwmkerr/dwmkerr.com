@@ -8,6 +8,12 @@ copyright = "Dave Kerr"
 googleAnalytics = "UA-41728580-1"
 disqusShortname = "dmwkerr"
 
+# Allow Markdown to contain HTML (this is used for tables, some URLs etc.
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [Privacy]
 
 [Privacy.disqus]

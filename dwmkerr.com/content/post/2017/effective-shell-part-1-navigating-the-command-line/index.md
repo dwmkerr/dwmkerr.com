@@ -72,32 +72,32 @@ Navigating around long lines of text is a slow process if you are only relying o
 <tr>
 <td>Go to beginning / end</td>
 <td><p><code>Ctrl + a</code>,  <code>Ctrl + e</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/begin-end.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/begin-end.gif" alt="begin / end" style="max-width:100%;"></a></td>
+<td><a href="images/begin-end.gif" target="_blank"><img src="images/begin-end.gif" alt="begin / end" style="max-width:100%;"></a></td>
 </tr>
 <tr>
 <td>Go backwards / forwards one word</td>
 <td><code>Alt + b</code> / <code>Alt + f</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/forward-backwards.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/forward-backwards.gif" alt="backward / forward" style="max-width:100%;"></a></td>
+<td><a href="images/forward-backwards.gif" target="_blank"><img src="images/forward-backwards.gif" alt="backward / forward" style="max-width:100%;"></a></td>
 </tr>
 <tr>
 <td>Delete a word / undo</td>
 <td><code>Ctrl + w</code> / <code>Ctrl + -</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/delete-undo.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/delete-undo.gif" alt="delete / undo" style="max-width:100%;"></a></td>
+<td><a href="images/delete-undo.gif" target="_blank"><img src="images/delete-undo.gif" alt="delete / undo" style="max-width:100%;"></a></td>
 </tr>
 <tr>
 <td>Delete next word</td>
 <td><code>Alt + d</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/delete-next-word.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/delete-next-word.gif" alt="delete next word" style="max-width:100%;"></a></td>
+<td><a href="images/delete-next-word.gif" target="_blank"><img src="images/delete-next-word.gif" alt="delete next word" style="max-width:100%;"></a></td>
 </tr>
 <tr>
 <td>Delete all the way to the beginning[^1]</td>
 <td><code>Ctrl + u</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/delete-to-beginning.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/delete-to-beginning.gif" alt="delete to beginning" style="max-width:100%;"></a></td>
+<td><a href="images/delete-to-beginning.gif" target="_blank"><img src="images/delete-to-beginning.gif" alt="delete to beginning" style="max-width:100%;"></a></td>
 </tr>
 <tr>
 <td>Delete all the way to the end</td>
 <td><code>Ctrl + k</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/delete-to-end.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/delete-to-end.gif" alt="delete to end" style="max-width:100%;"></a></td>
+<td><a href="images/delete-to-end.gif" target="_blank"><img src="images/delete-to-end.gif" alt="delete to end" style="max-width:100%;"></a></td>
 </tr></tbody></table>
 
 Note that if you are on a Mac, you might need to tweak your console to allow the 'Alt' key to work.
@@ -140,22 +140,22 @@ Here are the same commands applied to the original example:
 <tr>
 <td>Search backwards / forwards</td>
 <td><code>Ctrl + r</code> / Ctrl + s</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/search-history-next.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/search-history-next.gif" alt="find next occurrence" style="max-width:100%;"></a></td>
+<td><a href="images/search-history-next.gif" target="_blank"><img src="images/search-history-next.gif" alt="find next occurrence" style="max-width:100%;"></a></td>
 </tr>
 <tr>
 <td>Run the command</td>
 <td><code>Enter</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/search-history-execute.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/search-history-execute.gif" alt="execute" style="max-width:100%;"></a></td>
+<td><a href="images/search-history-execute.gif" target="_blank"><img src="images/search-history-execute.gif" alt="execute" style="max-width:100%;"></a></td>
 </tr>
 <tr>
 <td>Edit the command</td>
 <td><code>Right Arrow</code> / <code>Right Arrow</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/search-history-edit.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/search-history-edit.gif" alt="edit command" style="max-width:100%;"></a></td>
+<td><a href="images/search-history-edit.gif" target="_blank"><img src="images/search-history-edit.gif" alt="edit command" style="max-width:100%;"></a></td>
 </tr>
 <tr>
 <td>Stop searching</td>
 <td><code>Ctrl + g</code></td>
-<td><a href="https://github.com/dwmkerr/effective-shell/blob/master/1-navigating-the-command-line/images/search-history-cancel.gif" target="_blank"><img src="https://github.com/dwmkerr/effective-shell/raw/master/1-navigating-the-command-line/images/search-history-cancel.gif" alt="cancel search" style="max-width:100%;"></a></td>
+<td><a href="images/search-history-cancel.gif" target="_blank"><img src="images/search-history-cancel.gif" alt="cancel search" style="max-width:100%;"></a></td>
 </tr></tbody></table>
 
 ## Editing In-Place

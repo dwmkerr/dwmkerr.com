@@ -168,14 +168,15 @@ name: Build & Deploy
 on:
   push:
     branches:
-    # - master
-    - feat/static-site # We'll deploy from this branch when testing!
+    - 'master'
+    - 'build/**'
 
 jobs:
   build-deploy:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
       with:
         submodules: true
 
@@ -185,15 +186,15 @@ jobs:
         hugo-version: '0.61.0'
 
     - name: Build
-      run: make build
+      working-directory: ./dwmkerr.com
+      run: hugo --minify
 
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v2
-      env:
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BASE_BRANCH: feat/static-site
         BRANCH: gh-pages
-        FOLDER: ./dwmkerr.com/public
+        FOLDER: dwmkerr.com/public
 ```
 
 Any time a change is made to `master` or `feat/static-site` gets built and published.
@@ -246,7 +247,7 @@ for post_path in dwmkerr.com/content/post/*.md; do
 
     # We know how to get the year as the date line is consistent in all posts:
     # date: "2012-12-09T16:11:27Z"
-    year=${dateline:7:4} # i.e. the four characters from index 7
+    year=${dateline:7:4} # i:perldo.e. the four characters from index 7
 
     # Create the folder for the post.
     new_folder="dwmkerr.com/content/post/$year/$filename"
@@ -264,9 +265,17 @@ This gives a _much_ more manageable folder structure:
 
 However, we still have the images sitting in the `static` folder.
 
-https://gohugo.io/content-management/page-bundles/
+## Bringing the images to the posts
 
-Fix images like this:
+There are two image formats to deal with - the standard markdown image format, and `img` tags, which have been used to customise the size of the image:
 
+```
+![Image Alt Text](image-path.png)
 <img width="600px" alt="Image: The Evolution of Windows" src="/images/2019/05/screenshot-windows-evolution.png" />
+```
+
+The `img` tags don't work at all. So the first step is to turn them into markdown
+
+vimgrep '\<img' dwmkerr.com/content/post/**/*.md
+:cfdo %s/\/content\/images\//\/images\//gc
 
