@@ -4,6 +4,4 @@ A CodeProject article to accompany this video will be published shortly.</descri
 The video below shows this in action, see what you think.
 There is also an accompanying article that describes what's going on. As always, would love to hear feedback!
 http://www.codeproject.com/Articles/371217/Apex-Part-1-Create-Your-First-MVVM-Application</description></item><item><title>Apex 1.2 Released</title><link>http://example.org/apex-1-2-released/</link><pubDate>Tue, 01 Nov 2011 07:31:00 +0000</pubDate><guid>http://example.org/apex-1-2-released/</guid><description>Apex 1.2 has been released, with some new features:
-The 'Compatibility' namespace, which contains classes to address compatibility issues between WPF, Silverlight and WP7.
-The 'Asynchronous Command' object, which provides a powerful way to use Asynchronous Commands in MVVM.
-The release is at:&amp;nbsp;http://apex.codeplex.com/</description></item></channel></rss>
+The 'Compatibility' namespace, which contains classes to address compatibility issues between WPF, Silverlight and WP7. The 'Asynchronous Command' object, which provides a powerful way to use Asynchronous Commands in MVVM. The release is at:&amp;nbsp;http://apex.codeplex.com/</description></item></channel></rss>
