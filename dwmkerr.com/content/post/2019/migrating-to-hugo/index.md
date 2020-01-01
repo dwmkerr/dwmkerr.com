@@ -10,6 +10,29 @@ title: Migrating from Ghost to Hugo - Why Bother?
 
 With a little bit of free time for a change, I decided to finally migrate my blog from [Ghost](https://ghost.org/) to a static site generator. I've been putting this off because it's one of those things that I knew would take longer than I'd expect, and to be honest, it it ain't broke, then don't fix it.
 
+
+<!-- vim-markdown-toc GFM -->
+
+* [So, Why Bother?](#so-why-bother)
+    * [Reason #1 - I write in vim](#reason-1---i-write-in-vim)
+    * [Reason #2 - I backup on GitHub](#reason-2---i-backup-on-github)
+    * [Reason #3 - My workflow sucks for images](#reason-3---my-workflow-sucks-for-images)
+    * [Reason 4 - I have two sources of truth](#reason-4---i-have-two-sources-of-truth)
+    * [Reason 5 - I want to allow people to contribute](#reason-5---i-want-to-allow-people-to-contribute)
+    * [Reason 6 - I don't want to manage a server](#reason-6---i-dont-want-to-manage-a-server)
+    * [Reason 7 - I need to learn how do this](#reason-7---i-need-to-learn-how-do-this)
+* [Picking a Generator](#picking-a-generator)
+    * [Jekyll](#jekyll)
+    * [Gatsby](#gatsby)
+    * [Hugo](#hugo)
+* [The Migration Process](#the-migration-process)
+    * [Automating Build and Deploy](#automating-build-and-deploy)
+    * [Changing Front Matter to YAML](#changing-front-matter-to-yaml)
+    * [Normalising Newlines](#normalising-newlines)
+    * [Restructuring the Content](#restructuring-the-content)
+    * [Bringing the images to the posts](#bringing-the-images-to-the-posts)
+
+<!-- vim-markdown-toc -->
 ## So, Why Bother?
 
 My first website was built on BlogEngine.net, then WordPress, which has grown into a very powerful platform over the years, but was overly complex for my needs.
@@ -158,7 +181,7 @@ This was quick to fix in vim. First I used `vimgrep` to populate the quickfix li
 :cfdo %s/\/content\/images\//\/images\//gc
 ```
 
-## Automating Build and Deploy
+### Automating Build and Deploy
 
 At this stage I had a working site. Setting up a workflow to publish to GitHub pages with GitHub Actions was straightforward, as I've already updated some projects (such as [`spaceinvaders`](https://github.com/dwmkerr/spaceinvaders)) to publish static sites. The workflow is relatively simple:
 
@@ -199,7 +222,7 @@ jobs:
 
 Any time a change is made to `master` or `feat/static-site` gets built and published.
 
-## Changing Front Matter to YAML
+### Changing Front Matter to YAML
 
 By default the front matter for the blog is written in TOML. This is not rendered well on GitHub:
 
@@ -217,7 +240,21 @@ Things look a lot nicer:
 
 YAML front matter is also rendered properly in `vim` for me, 
 
-## Restructuring the Content
+### Normalising Newlines
+
+A lot of the content from 2013 and earlier was either written in WordPress or BlogEngine.net.
+
+Ghost had no problems rendering with Windows Style line endings but I wanted to clean this up a bit.
+
+To convert everything to Unix style file endings, I ran:
+
+```sh
+for $file in ./content/**/*.md; do
+    dos2unix $file
+done
+```
+
+### Restructuring the Content
 
 After import, my site structure looked like this:
 
@@ -265,7 +302,7 @@ This gives a _much_ more manageable folder structure:
 
 However, we still have the images sitting in the `static` folder.
 
-## Bringing the images to the posts
+### Bringing the images to the posts
 
 There are two image formats to deal with - the standard markdown image format, and `img` tags, which have been used to customise the size of the image:
 
