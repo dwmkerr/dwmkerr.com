@@ -21,6 +21,10 @@ const rexMarkdownImage = new RegExp(/\!\[([^\]]*)\]\(([^\)]+)\)/);
  * @returns {undefined}
  */
 function moveFileSafeSync(src, dest) {
+  //  If the source doesn't exist, but the destination does, we've probably
+  //  just already processed the file.
+  if (!fs.existsSync(src) && fs.existsSync(dest)) return;
+
   const directory = path.dirname(dest);
   if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true } );
   fs.copyFileSync(src, dest);
@@ -104,7 +108,7 @@ function processPost(rootPath, postPath) {
         console.log(`    src: ${src}, alt: ${alt}, width: ${width}`);
 
         //  If the source is already in the appropriate location, don't process it.
-        if (/$images\//.test(src)) {
+        if (/^images\//.test(src)) {
           console.log(`    skipping, already processed`);
           outputStream.write(line + os.EOL);
           return;
@@ -117,7 +121,7 @@ function processPost(rootPath, postPath) {
         const newAbsolutePath = path.join(postDirectory, newRelativePath);
 
         //  If the file is on the web, we need to download it...
-        if (/http/.test(src)) {
+        if (/^http/.test(src)) {
           console.log(`    Downloading '${src}' to '${newAbsolutePath}'...`);
           downloadFile(src, newAbsolutePath);
         }
@@ -145,7 +149,7 @@ function processPost(rootPath, postPath) {
         console.log(`    Found markdown image: ${markdownImagePath}`);
 
         //  If the source is already in the appropriate location, don't process it.
-        if (/$images\//.test(markdownImagePath)) {
+        if (/^images\//.test(markdownImagePath)) {
           console.log(`    skipping, already processed`);
           outputStream.write(line + os.EOL);
           return;
@@ -158,7 +162,7 @@ function processPost(rootPath, postPath) {
         const newAbsolutePath = path.join(postDirectory, newRelativePath);
 
         //  If the file is on the web, we need to download it...
-        if (/http/.test(markdownImagePath)) {
+        if (/^http/.test(markdownImagePath)) {
           console.log(`    Downloading '${markdownImagePath}' to '${newAbsolutePath}'...`);
           downloadFile(markdownImagePath, newAbsolutePath);
         }
