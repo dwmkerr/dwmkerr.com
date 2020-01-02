@@ -75,7 +75,7 @@ The Controls
 
 It's readable in it's raw form. This is how it looks on GitHub:
 
-![Login Screen Spec](/images/2014/May/LoginScreenSpec.png)
+![Login Screen Spec](images/LoginScreenSpec.png)
 
 See the real thing at [github.com/dwmkerr/better-specs/blob/master/login/login.md](https://github.com/dwmkerr/better-specs/blob/master/login/login.md).
 
@@ -91,7 +91,7 @@ Specs need to be version controlled. You need to be able to see a history of a s
 
 Even more useful - you should be able to diff specs - what changed between two versions? This is hard to do with programs like word, with version control systems like git, it's a piece of cake. Take a look:
 
-![](/images/2014/May/LoginScreenDiff.png)
+![](images/LoginScreenDiff.png)
 
 We can see easily who changed this spec and when, we can compare revisions.
 
@@ -99,7 +99,7 @@ This not just a powerful feature - it's a required one. Developers and testers c
 
 This is a diff that developers will understand - the red and green make it clear for non-devs too. Modern systems like GitHub can take it further:
 
-![](/images/2014/May/LoginNiceDiff.png)
+![](images/LoginNiceDiff.png)
 
 Pretty clear what's going on.
 
@@ -109,7 +109,7 @@ Let's take the version control aspect further. A spec should have one owner, one
 
 So using services like GitHub or Bitbucket can help here. Anyone can make changes to a spec, but a single approver has to review those changes and decide whether to bring them in.
 
-![](/images/2014/May/LockoutLogic.png)
+![](images/LockoutLogic.png)
 
 [See this pull request on GitHub](https://github.com/dwmkerr/better-specs/pull/1/files?short_path=d645d03#diff-d645d03c7459b43c1e030eeb13d1245b)
 
@@ -123,7 +123,7 @@ That pull request can also be *linked to* later - in the bug tracking or feature
 
 This is very useful. In the pull request shown (which you can [see here](https://github.com/dwmkerr/better-specs/pull/1/files?short_path=d645d03#diff-d645d03c7459b43c1e030eeb13d1245b)) has one innocuous extra line (which we see in green) stating that the user is locked out after three failed password attempts. This isn't in the spec, not until we accept the pull request. And in this case instead we can comment to the person who raised it:
 
-![](/images/2014/May/LoginPullReqComments.png)
+![](images/LoginPullReqComments.png)
 
 I had to make a contrived example and fake a discussion between myself and myself, but I think seeing how this looks helps make the point.
 
@@ -139,7 +139,7 @@ At the time the BA or whoever it might be is working on their specs, they still 
 
 Keep your rich media. Keep images, tables and diagrams - just check them in alongside the spec and link to them from the spec. You still get version control, pull requests and a history. Depending on the media you might even get a nice diff representation - check out this commit:
 
-![](/images/2014/May/LoginImageDiff.png)
+![](images/LoginImageDiff.png)
 
 [See the actual commit here](https://github.com/dwmkerr/better-specs/commit/8a1224812db2ae4909dfb5a30f8483b1ca96ed18?diff-0=0-100)
 

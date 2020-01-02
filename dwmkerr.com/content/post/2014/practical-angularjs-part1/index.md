@@ -10,7 +10,7 @@ title: Practical AngularJS Part 1 – Introducing AngularJS
 
 In this series of articles I'm going to be working with AngularJS, a fantastic framework from Google that helps you rapidly build web applications. We'll see how AngularJS can be used to speed up your development and help you write cleaner, more testable code.
 
-![](/images/2014/May/AngularJSLargeLogo.png)
+![](images/AngularJSLargeLogo.png)
 
 ## Introducing AngularJS
 
@@ -33,7 +33,7 @@ We'll see in this first article how AngularJS can help write applications like t
 
 As we learn about AngularJS, key statements are marked like this:
 
->  ![](/images/2014/May/AngularTip.png) All tips like this are in the Angular Cheat Sheet.
+>  ![](images/AngularTip.png) All tips like this are in the Angular Cheat Sheet.
 
 These statements are in the Angular Cheat Sheet. The cheat sheet is a quick guide that you can open or print as a fast reference for core info and terminology.
 
@@ -53,7 +53,7 @@ The first thing we do is understand the requirements. At this stage, a diagram o
 
 ### Speedmeter
 
-![](/images/2014/May/Speedmeter.jpg)
+![](images/Speedmeter.jpg)
 
 [Note: I apologise deeply for my awful handwriting. And drawing. To be fair, these are far from the worst requirements I've had.]
 
@@ -151,7 +151,7 @@ The first thing we have a link to the angular library. This should always go at 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
 ```
 
-> ![](/images/2014/May/AngularTip.png) Include Angular in the `<head>`, not at the end of the file.
+> ![](images/AngularTip.png) Include Angular in the `<head>`, not at the end of the file.
 
 What do we notice first? ng-app. The ng-app directive tells angular that everything that's in this element should be handled by angular. Angular will only pay attention to directives inside an element that's an app.
 
@@ -163,7 +163,7 @@ The most common place to put an ng-app directive for an application is often dir
 <html ng-app>
 ```
 
-> ![](/images/2014/May/AngularTip.png) Angular will work for everything within an element with the `ng-app` directive.
+> ![](images/AngularTip.png) Angular will work for everything within an element with the `ng-app` directive.
 
 Following this we have an ng-controller directive. This tells angular that it needs to create an instance of the controller specified (which is our main controller we've already defined) use the controller to control the scope of all child elements.
 
@@ -171,7 +171,7 @@ Following this we have an ng-controller directive. This tells angular that it ne
 <div ng-controller="SpeedmonitorController">
 ````
 
-> ![](/images/2014/May/AngularTip.png) The `ng-controller` directive specifies the controller to use.
+> ![](images/AngularTip.png) The `ng-controller` directive specifies the controller to use.
 
 The first thing we do is bind the submit event of the form to the `addUrl()` function. Then we bind the input to the `currentUrl` field. This has shown us two new directives:
 
@@ -183,9 +183,9 @@ The first thing we do is bind the submit event of the form to the `addUrl()` fun
 </form>
 ```
 
-> ![](/images/2014/May/AngularTip.png) The ng-submit directive evaluates the provided expression when a form is submitted.
+> ![](images/AngularTip.png) The ng-submit directive evaluates the provided expression when a form is submitted.
 
-> ![](/images/2014/May/AngularTip.png) The ng-model is used to bind an input to a model property.
+> ![](images/AngularTip.png) The ng-model is used to bind an input to a model property.
 
 The final part of the html is perhaps the most interesting and where we're really starting to see the power of AngularJS.
 
@@ -199,9 +199,9 @@ Here we use an ng-repeat directive to iterate through a collection. Angular will
 <td>{{url.loadSpeed}} ms</td>
 ```
 
-> ![](/images/2014/May/AngularTip.png) Use `ng-repeat="item in set"` to create html for multiple items in a collection. Use $index, $first, $last (and more) special variables for extra control.
+> ![](images/AngularTip.png) Use `ng-repeat="item in set"` to create html for multiple items in a collection. Use $index, $first, $last (and more) special variables for extra control.
 
-> ![](/images/2014/May/AngularTip.png) Use {{handlebars}} to write out the value of an expression.
+> ![](images/AngularTip.png) Use {{handlebars}} to write out the value of an expression.
 
 The final part of the html is where we have the ng-click directive. When the element is clicked on, angular evaluates the expression - and the expression is the removeUrl function called with the $index special property. $index is provided by angular inside the ng-repeat template and evaluates to the index in the array.
 
@@ -209,7 +209,7 @@ The final part of the html is where we have the ng-click directive. When the ele
 <td><a ng-click="removeUrl($index)" href="javascript:void(0)">Delete</a></td>
 ```
 
-> ![](/images/2014/May/AngularTip.png) ng-click evaluates the provided expression when the element is clicked on.
+> ![](images/AngularTip.png) ng-click evaluates the provided expression when the element is clicked on.
 
 ### The Task with Angular: Second Cut
 
@@ -256,7 +256,7 @@ We need to apply the 'red' css class if the round trip time is greater than 100m
 
 We use the ng-class directive here. It allows us to set CSS classes on an element conditionally, based on the result of an expression. Again - no CSS or HTML in the JavaScript to handle this, we do it in the view, where it belongs.
 
-> ![](/images/2014/May/AngularTip.png) Use ng-class to apply CSS classes to elements based on expressions.
+> ![](images/AngularTip.png) Use ng-class to apply CSS classes to elements based on expressions.
 
 #### Item 4: There must be no decimal points in the milliseconds.
 
@@ -268,7 +268,7 @@ Oh so easy with Angular. Again - it's presentation logic, so it stays in the vie
 
 The vertical pipe character shows we're using a filter - this is something that can be used to format data. AngularJS comes with a bunch of filters, we use `number:0` to format as a number with no decimal places.
 
-> ![](/images/2014/May/AngularTip.png) Use the | pipe to apply a filter.
+> ![](images/AngularTip.png) Use the | pipe to apply a filter.
 
 #### Item 5: The submit button must be disabled if there is no value in the url textbox.
 
@@ -280,7 +280,7 @@ By now we're starting to see that this logic is very easy to apply in the view.
 
 We use the ng-disabled directive to apply the disabled attribute to an input based on the value of an expression. AngularJS expressions are powerful ways to quickly apply logic like this.
 
-> ![](/images/2014/May/AngularTip.png) Use ng-disabled to disable an input based on an expression.
+> ![](images/AngularTip.png) Use ng-disabled to disable an input based on an expression.
 
 Here's the final fiddle for the task, with our new functionality.
 
