@@ -99,3 +99,4 @@ https://dwmkerr.github.io/dwmkerr.com/
 - [ ] Create social preview for entire site - maybe markdown and hugo shown as some kind of diagram, such as a CI diagram?
 - [ ] Fix TODOs sitewide
 - [ ] Check for anything needed in `wp-content`
+- [ ] Use `pandoc` to convert old html content to GFM (`pandoc --from html --to gfm --standalone`), see https://stackoverflow.com/questions/7694887/is-there-a-command-line-utility-for-rendering-github-flavored-markdown
