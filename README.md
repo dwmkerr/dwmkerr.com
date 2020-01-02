@@ -87,3 +87,4 @@ make build
 - [ ] Review all drafts, kill or fix
 - [ ] Check remaining content in `static` folder
 - [ ] Featured images are still in the `static` folder
+- [ ] Create social preview for entire site - maybe markdown and hugo shown as some kind of diagram, such as a CI diagram?
