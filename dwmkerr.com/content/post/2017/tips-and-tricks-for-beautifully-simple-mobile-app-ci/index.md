@@ -24,7 +24,7 @@ title: Tips and Tricks for Beautifully Simple Mobile App CI
 
 In this article I'm going to demonstrate some simple tips and tricks which will help you build and maintain beautifully simple mobile build pipelines. These techniques can be applied to different mobile app technologies and integrated into almost any build system:
 
-![Sample App Index](/images/2017/04/0-sample-index.png)
+![Sample App Index](images/0-sample-index.png)
 
 Each tip is demonstrated in the sample apps in the [dwmkerr/beautifully-simple-app-ci](https://github.com/dwmkerr/beautifully-simple-app-ci) repo.
 
@@ -40,13 +40,13 @@ Each tip is demonstrated in the sample apps in the [dwmkerr/beautifully-simple-a
 
 Conceptually, a mobile app CI pipeline is pretty simple:
 
-![Basic CI Pipeline](/images/2017/02/1-basic-ci.png)
+![Basic CI Pipeline](images/1-basic-ci.png)
 
 We take our code, perform some kind of validation (such as testing, linting, whatever), generate our artifacts and then deploy them to some devices.
 
 Often though there's a bit more to it than that:
 
-![Basic CI is not Basic](/images/2017/03/2-basic-not-basic-1.png)
+![Basic CI is not Basic](images/2-basic-not-basic-1.png)
 
 Our source code has some metadata associated with it at the point in time you create your binaries, such as:
 
@@ -107,7 +107,7 @@ The nice feature is that the bulk of the logic is in the main repo source, in th
 
 The [`README.md`](https://github.com/dwmkerr/beautifully-simple-app-ci/blob/master/1_react_native_app/README.md) immediately draws attention to the makefile commands:
 
-![Screenshot of the README.md file](/images/2017/02/3-tip1-readme.png)
+![Screenshot of the README.md file](images/3-tip1-readme.png)
 
 The makefiles do most of the work, that makes setting up CircleCI almost trivial. Here's a snippet of its config:
 
@@ -136,17 +136,17 @@ Our commands are android specific at this stage as Circle don't support iOS buil
 
 The CI automatically tests and builds whenever we have new code commits:
 
-![Screenshot of CircleCI and the artifacts](/images/2017/02/4-tip1-circle.png)
+![Screenshot of CircleCI and the artifacts](images/4-tip1-circle.png)
 
 Also, if a commit is made to the `master` branch, our new app is automatically pushed to TestFairy, which can be configured to automatically update the test team:
 
-![Screenshot of TestFairy](/images/2017/02/5-tip1-testfairy.png)
+![Screenshot of TestFairy](images/5-tip1-testfairy.png)
 
 Makefile syntax is close enough to shell scripting that simple operations are generally straightforward[^2] to implement. The approach is also perfectly valid for server side code and almost any project.
 
 Teams with many projects can build consistent patterns and syntax for building. Take a look at the image below:
 
-![Docker Workflow](http://www.dwmkerr.com/images/2016/11/Simple-Docker-Image-CI.png)
+![Docker Workflow](images/Simple-Docker-Image-CI.png)
 
 This is from my article on [Simple Continuous Integration for Docker Images](http://www.dwmkerr.com/simple-continuous-integration-for-docker-images/) - where exactly the same principles are applied.
 
@@ -207,7 +207,7 @@ done
 
 And all of the version numbers and build numbers are updated and the apps are deployed. In this example project, they're deployed to HockeyApp:
 
-![Screenshot of the newly versioned apps in HockeyApp](/images/2017/04/6-hockey-app.png)
+![Screenshot of the newly versioned apps in HockeyApp](images/6-hockey-app.png)
 
 This build runs on TravisCI, so only builds the Android version. You can clone the code and build the iOS version (and deploy it) using the makefile.
 
@@ -222,7 +222,7 @@ When you are working in a larger team, it can be very useful to label your app i
 
 You might label your icons with build numbers, SHAs, branch names, versions, tags, or even something custom such as 'QA' or 'UAT' for different versions of your app. Here are a few examples:
 
-![Labelled Icons Screenshot](/images/2017/04/8-framed-labelled-icons.png)
+![Labelled Icons Screenshot](images/8-framed-labelled-icons.png)
 
 I've found this to be very useful, so created a command-line tool called '[app-icon](github.com/dwmkerr/app-icon)' to help with the task:
 
@@ -259,7 +259,7 @@ BUILD_NUM=BUDDYBUILD_BUILD_NUMBER make label
 
 This app uses BuddyBuild as a build system, meaning we can just drop this line in the [`buddybuild_postclone.sh`](./buddybuild_postclone.sh) script. You can see the labeled icons directly in the BuddyBuild UI:
 
-![BuddyBuild Icons](/images/2017/04/12-buddybuild-icons.png)
+![BuddyBuild Icons](images/12-buddybuild-icons.png)
 
 The Android build is currently having some issues due to fonts being accessible by the labelling tool (which uses ImageMagick under the hood), with any luck this issue will be fixed soon. This seems to be an issue with the BuddyBuild ImageMagick installation rather than the labelling code itself, which is running fine on all of the other builds!
 
@@ -311,9 +311,9 @@ This small recipe can be very useful in combination with other techniques. Ensur
 
 In the screenshots below, you can see how the presence of the `ENV` environment variable automatically updates the App ID (this is taken from the [Xamarin Sample](./4_xamarinapp), which orchestrates builds with Bitrise[^2]:
 
-![The ENV Environment variable in Bitrise](/images/2017/04/9-bitrise.png)
+![The ENV Environment variable in Bitrise](images/9-bitrise.png)
 
-![The built apps in Bitrise](/images/2017/04/10-bitrise-apps.png)
+![The built apps in Bitrise](images/10-bitrise-apps.png)
 
 **In Summary**
 
@@ -332,7 +332,7 @@ Unfortunately, build related code will often need *more* documentation than usua
 
 When something goes wrong with a build process, or needs to be changed, it is a real pain when only one person knows how the code works. Be rigorous with this code, make sure it is documented and reviewed, and share the knowledge around your team. I tend to like to have a table of commands as a quick index in the README.md file, and then heavily comment the code itself:
 
-![TODO](/images/2017/04/11-document.png)
+![TODO](images/11-document.png)
 
 **In Summary**
 

@@ -33,7 +33,7 @@ I can't think of a better place to start than *navigating the command line*. As 
 
 Here's a quick reference diagram, the rest of the article goes into the details!
 
-[![command line](/images/2017/06/command-line-3.png)](https://github.com/dwmkerr/effective-shell)
+[![command line](images/command-line-3.png)](https://github.com/dwmkerr/effective-shell)
 
 This article, examples and diagrams are available at [github.com/dwmkerr/effective-shell](https://github.com/dwmkerr/effective-shell).
 
@@ -118,11 +118,11 @@ $ command3 param7 param8 param9
 
 You can search backwards or forwards with `Ctrl + r` and `Ctrl + s`. This will search in the current command and then iteratively through previous commands:
 
-![search backwards and forwards](/images/2017/06/search-backwards-and-forwards.gif)
+![search backwards and forwards](images/search-backwards-and-forwards.gif)
 
 This is useful for searching in the current command, but can be also used to quickly search backwards and forwards through the command history:
 
-![search commands backwards and forwards](/images/2017/06/search-commands-backwards-and-forwards-1.gif)
+![search commands backwards and forwards](images/search-commands-backwards-and-forwards-1.gif)
 
 As you type, your command history is searched, the most recent commands coming first. Use the arrow keys to edit the command, press enter to execute it, or `Ctrl + g` to cancel the search.
 
@@ -164,7 +164,7 @@ These tips and tricks are helpful, but if you are working with a really long or 
 
 Use `Ctrl + x , Ctrl + e` to edit-in place:
 
-![edit in place](/images/2017/06/edit-in-place.gif)
+![edit in place](images/edit-in-place.gif)
 
 In a later article I'll talk a little more about how to configure the default editor.
 
@@ -172,7 +172,7 @@ In a later article I'll talk a little more about how to configure the default ed
 
 Probably the shortcut I use the most is `Ctrl + l`, which clears the screen without trashing your current command. Here's how it looks:
 
-![clear screen](/images/2017/06/clear-screen-2.gif)
+![clear screen](images/clear-screen-2.gif)
 
 ## Pro Tip: All The Keys!
 
@@ -201,11 +201,11 @@ This is an extremely useful command to use if you forget the specific keyboard s
 
 If you've mastered all of the commands here and feel like adding something else to your repertoire, try this:
 
-![transpose-word](/images/2017/06/transpose-word.gif)
+![transpose-word](images/transpose-word.gif)
 
 The `Alt + t` shortcut will transpose the last two words. Use `Ctrl + t` to transpose the last two letters:
 
-![transpose-letters](/images/2017/06/transpose-letters.gif)
+![transpose-letters](images/transpose-letters.gif)
 
 These were new to me when I was researching for this article. I can't see myself ever being able to remember the commands more quickly than just deleting the last two words or characters and re-typing them, but there you go!
 

@@ -27,7 +27,7 @@ In this article I'm going to show you how to set up OpenShift to integrate with 
 
 These techniques could easily be adapted for a standard Kubernetes installation as well!
 
-![Screenshot: Counter service splunk](/images/2017/10/counter-service-splunk.png)
+![Screenshot: Counter service splunk](images/counter-service-splunk.png)
 
 The techniques used in this article are based on the [Kubernetes Logging Cluster Administration Guide](https://kubernetes.io/docs/concepts/cluster-administration/logging). I also found Jason Poon's article [Kubernetes Logging with Splunk](http://jasonpoon.ca/2017/04/03/kubernetes-logging-with-splunk/) very helpful.
 
@@ -54,7 +54,7 @@ To create the cluster, you'll need to install the [AWS CLI](https://aws.amazon.c
 
 Before you continue, <font color="red">**be aware**</font>: the machines on AWS we'll create are going to run to about $250 per month:
 
-![AWS Cost Calculator](/images/2017/10/aws-cost.png)
+![AWS Cost Calculator](images/aws-cost.png)
 
 Once you are logged in with the AWS CLI just run:
 
@@ -64,21 +64,21 @@ make infrastructure
 
 You'll be asked to specify a region:
 
-![Specify Region](/images/2017/10/region.png)
+![Specify Region](images/region.png)
 
 Any [AWS region](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions) will work fine, use `us-east-1` if you are not sure.
 
 It'll take about 5 minutes for Terraform to build the required infrastructure, which looks like this:
 
-![AWS Infrastructure](/images/2017/10/splunk-architecture.png)
+![AWS Infrastructure](images/splunk-architecture.png)
 
 Once it's done you'll see a message like this:
 
-![Apply Complete](/images/2017/10/apply-complete.png)
+![Apply Complete](images/apply-complete.png)
 
 The infrastructure is ready! A few of the most useful parameters are shown as output variables. If you log into AWS you'll see our new instances, as well as the VPC, network settings etc etc:
 
-![AWS](/images/2017/10/aws.png)
+![AWS](images/aws.png)
 
 ## Installing OpenShift
 
@@ -90,7 +90,7 @@ make openshift
 
 This command will take quite some time to run (sometimes up to 30 minutes). Once it is complete you'll see a message like this:
 
-![OpenShift Installation Complete](/images/2017/10/openshift-complete.png)
+![OpenShift Installation Complete](images/openshift-complete.png)
 
 You can now open the OpenShift console. Use the public address of the master node (which you can get with `$(terraform output master-url)`), or just run:
 
@@ -100,7 +100,7 @@ make browse-openshift
 
 The default username and password is `admin` and `123`. You'll see we have a clean installation and are ready to create our first project:
 
-![Welcome to OpenShift](/images/2017/10/welcome-to-openshift.png)
+![Welcome to OpenShift](images/welcome-to-openshift.png)
 
 Close the console for now.
 
@@ -120,7 +120,7 @@ make browse-splunk
 
 Again the username and password is `admin` and `123`. You can change the password on login, or leave it:
 
-![Splunk Login](/images/2017/10/splunk-home.png)
+![Splunk Login](images/splunk-home.png)
 
 You can close the Splunk console now, we'll come back to it shortly.
 
@@ -134,19 +134,19 @@ make sample
 
 This will create a simple 'counter' service:
 
-![Screenshot: The counter service](/images/2017/10/counter-service.png)
+![Screenshot: The counter service](images/counter-service.png)
 
 We can see the logs in OpenShift:
 
-![Screenshot: The counter service logs](/images/2017/10/counter-service-logs.png)
+![Screenshot: The counter service logs](images/counter-service-logs.png)
 
 Almost immediately you'll be able to see the data in Splunk:
 
-![Screenshot: The Splunk data explorer](/images/2017/10/counter-service-splunk-data-summary.png)
+![Screenshot: The Splunk data explorer](images/counter-service-splunk-data-summary.png)
 
 And because of the way the log files are named, we can even rip out the namespace, pod, container and id:
 
-![Screenshot: Counter service splunk](/images/2017/10/counter-service-splunk.png)
+![Screenshot: Counter service splunk](images/counter-service-splunk.png)
 
 That's it! You have OpenShift running, Splunk set up and automatically forwarding of all container logs. Enjoy!
 
@@ -164,7 +164,7 @@ The Docker Engine has a [log driver](https://docs.docker.com/engine/admin/loggin
 
 Or visually:
 
-![Diagram: How Docker writes log files](/images/2017/10/logging-docker-1.png)
+![Diagram: How Docker writes log files](images/logging-docker-1.png)
 
 Normally we wouldn't touch this file, in theory it is supposed to be used internally[^1] and we would use `docker logs <container-id>`.
 
@@ -186,7 +186,7 @@ Here we just change the options to default to the `json-file` driver, with a max
 
 Now the cool thing about Kubernetes is that it creates symlinks to the log files, which have much more descriptive names:
 
-![Symlink diagram](/images/2017/10/logging-k8s.png)
+![Symlink diagram](images/logging-k8s.png)
 
 We still have the original container log, in the same location. But we also have a pod container log (which is a symlink to the container log) and another container log, which is a symlink to the pod container log.
 
@@ -200,7 +200,7 @@ This means we can read the container log, and extract some really useful informa
 
 Now that we are writing the log files to a well defined location, reading them is straightforward. The diagram below shows how we use a splunk-forwarder to complete the picture:
 
-![Diagram: How logs are read](/images/2017/10/how-logs-are-read.png)
+![Diagram: How logs are read](images/how-logs-are-read.png)
 
 First, we create a DaemonSet, which ensures we run a specific pod on every node.
 

@@ -23,7 +23,7 @@ There are occasions where you might need to have scripts or commands which wait 
 
 I've come across this need again and again when working with [microservices](/tag/microservices/), to make my life easier I've created a little utility called [wait-port](https://github.com/dwmkerr/wait-port) which will wait for a port to open:
 
-[![Wait Port Screenshot](/images/2017/05/wait-port.gif)](https://github.com/dwmkerr/wait-port)
+[![Wait Port Screenshot](images/wait-port.gif)](https://github.com/dwmkerr/wait-port)
 
 It's built in Node, the project is open source, open for contributions and ready to use:
 

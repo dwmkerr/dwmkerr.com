@@ -58,13 +58,13 @@ You should see the contents of the clipboard. Now we'll look at some ways that s
 
 Don't you hate it when you have to copy formatted text and don't have an easy way to paste it as *unformatted* text? Here's an example, I want to copy this Wikipedia page on 'bash', and paste it into a Word document:
 
-![Copying and pasting with formatting](/images/2017/10/strip-formatting-before.png)
+![Copying and pasting with formatting](images/strip-formatting-before.png)
 
 Many programs have a shortcut to paste the contents of the clipboard  (such as 'command + shift + v') but if you are like me you might find yourself pasting *into* a plain text editor just to copy *out* the plain text.
 
 If you just run the command `pbpaste | pbcopy`, you can easily strip the formatting:
 
-![Stripping formatting from the clipboard](/images/2017/10/strip-formatting-after-2.png)
+![Stripping formatting from the clipboard](images/strip-formatting-after-2.png)
 
 We're just piping out the clipboard (which ends up as plain text, cause we're in a terminal!) and then piping that plain text *back into the clipboard*, replacing the formatted text which was there before.
 
@@ -74,7 +74,7 @@ This little trick can be very useful. But we can use the same pattern to quickly
 
 Let's say someone has emailed me a list of people I need to invite to an event:
 
-![Email List](/images/2017/10/email_list_excel.png)
+![Email List](images/email_list_excel.png)
 
 The problem is:
 
@@ -200,7 +200,7 @@ Some of these commands might be unfamiliar, some might not make sense, and you m
 
 Here's what I mean - you'll see that I actually build a pipeline like this step-by-step:
 
-![Animation of the process of building a pipeline](/images/2017/10/pipeline.gif)
+![Animation of the process of building a pipeline](images/pipeline.gif)
 
 You can see in the screenshots that I start simple, and step by step add the stages we need.
 

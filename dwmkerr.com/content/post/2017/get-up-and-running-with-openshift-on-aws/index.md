@@ -27,7 +27,7 @@ title: Get up and running with OpenShift on AWS
 
 Getting up and running with OpenShift Online is straightforward, as it is a cloud hosted solution. Setting up your own cluster is a little more complex, but in this article I'll show you how to make it fairly painless.
 
-![OpenShift Login](/images/2017/02/welcome.png)
+![OpenShift Login](images/welcome.png)
 
 The repo for this project is at: [github.com/dwmkerr/terraform-aws-openshift](https://github.com/dwmkerr/terraform-aws-openshift).
 
@@ -37,7 +37,7 @@ OpenShift has some fairly specific requirements about what hardware it runs on[^
 
 All in all, for a bare-bones setup, you'll need something like this:
 
-![Network Diagram](/images/2017/02/network-diagram-2.png)
+![Network Diagram](images/network-diagram-2.png)
 
 Which is (deep breath):
 
@@ -68,15 +68,15 @@ $ terraform get && terraform apply
 
 You'll be asked for a region, to deploy the network into, here I'm using `us-west-1`:
 
-![Enter Region](/images/2017/02/Screenshot-at-Feb-02-21-16-44.png)
+![Enter Region](images/Screenshot-at-Feb-02-21-16-44.png)
 
 After a few minutes the infrastructure will be set up:
 
-![Terraform complete](/images/2017/02/output.png)
+![Terraform complete](images/output.png)
 
 A quick glance at the AWS console shows the new hosts we've set up:
 
-![AWS Console](/images/2017/02/aws.png)
+![AWS Console](images/aws.png)
 
 The next step is to install OpenShift.
 
@@ -111,7 +111,7 @@ cat install-from-bastion.sh | ssh -A ec2-user@$(terraform output bastion-public_
 
 There's a [bug](https://github.com/dwmkerr/terraform-aws-openshift/issues/1) which means you might see `ansible-playbook: command not found`, if so, just run the script again. The install script clones the installation scripts and runs them, using the inventory we've provided:
 
-![Ansible Output](/images/2017/02/ansible.png)
+![Ansible Output](images/ansible.png)
 
 This'll probably take about 10 minutes to run. And that's it, OpenShift is installed:
 
@@ -121,11 +121,11 @@ open "https://$(terraform output master-public_dns):8443"
 
 Hit 'advanced' and continue, as we're using a self-signed certificate most browsers will complain:
 
-![Invalid Certificate](/images/2017/02/console1.png)
+![Invalid Certificate](images/console1.png)
 
 Enter any username and password (the system is configured to allow anyone to access it by default) and you'll be presented with the OpenShift console:
 
-![OpenShift console](/images/2017/02/console2.png)
+![OpenShift console](images/console2.png)
 
 As the setup requires three t2.large instances, which are not available on the free plan, you might want to clean up when you are done with:
 

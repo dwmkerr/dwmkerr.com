@@ -49,11 +49,11 @@ Let's say I need to find and replace some text in a file. I know I can do this w
 
 All I need to do is run `tldr sed`:
 
-![tldr sed screenshot](/images/2017/12/tldr-sed.png)
+![tldr sed screenshot](images/tldr-sed.png)
 
 The first example is exactly what I'm looking for. Now for any more detail than a few basic examples, I'm going to have to go to the manual, but it's overkill for the basics. Here's what `man sed` shows me:
 
-![sed manpage](/images/2017/12/man-sed.png)
+![sed manpage](images/man-sed.png)
 
 And this is just page one of six! There's a *lot* of detail, which is great sometimes, but for a quick lookup, `tldr` is perfect.
 
@@ -138,7 +138,7 @@ There are alternative pagers available (on many Unix-y systems you'll have `less
 
 You'll often see tools referred to in manpages with numbers after them. Take a look at `man less`:
 
-![Screenshot of numbers](/images/2017/12/numbers.png)
+![Screenshot of numbers](images/numbers.png)
 
 The number is the manual **Section Number**. The different sections of the manual are documented be found on most unix-like systems in `man`'s documentation, which you can check by running `man man`[^1]. Here's what you'd get on Ubuntu 16:
 
