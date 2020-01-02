@@ -26,7 +26,7 @@ If you have ever worked with Vsix files before you might have noticed that the t
 
 Add more than one project template to your Vsix and try and upload it - this is what you'll see:
 
-<a href="http://www.dwmkerr.com/wp-content/uploads/2014/03/InvalidMultipleZipFilesInVsix.jpg"><img class="alignnone size-full wp-image-527" alt="InvalidMultipleZipFilesInVsix" src="http://www.dwmkerr.com/wp-content/uploads/2014/03/InvalidMultipleZipFilesInVsix.jpg" width="263" height="241" /></a>
+<a href="http://www.dwmkerr.com/wp-content/uploads/2014/03/InvalidMultipleZipFilesInVsix.jpg"><img src="images/InvalidMultipleZipFilesInVsix.jpg" alt="InvalidMultipleZipFilesInVsix" width="263" /></a>
 
 It's a pain to solve this problem - basically you need to change the folder structure within the vsix file, then change the xml that describes it. Now this is not too much of a problem if you do it once or twice, but if you're in the situation where you want to be able to build a release of your code rapidly, including extensions, this will seriously slow you down.
 
