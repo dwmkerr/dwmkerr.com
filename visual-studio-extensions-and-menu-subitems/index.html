@@ -2,65 +2,76 @@
 Strangely enough, documentation on this is quite lacking. So if you need to know how to do it, here's the gist. First, create a standard Visual Studio 2010 extension with the wizard, we'll have some code like the below to start off with, in the OnConnection function:"><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=generator content="Hugo 0.61.0"><meta name=robots content="index,follow"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:title" content="Visual Studio Extensions and Menu Subitems"><meta property="og:description" content="Recently I was working on a Visual Studio Extension for VS2010, instead of a single item in the the tools menu, what I wanted was a single item with a set of child items.
 Strangely enough, documentation on this is quite lacking. So if you need to know how to do it, here's the gist. First, create a standard Visual Studio 2010 extension with the wizard, we'll have some code like the below to start off with, in the OnConnection function:"><meta property="og:type" content="article"><meta property="og:url" content="http://example.org/visual-studio-extensions-and-menu-subitems/"><link rel=stylesheet href=http://example.org/dist/styles.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic"><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous></head><body><script type=application/javascript>var dnt=(navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack);var doNotTrack=(dnt=="1"||dnt=="yes");if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-41728580-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><div id=wrapper><header class=site-header><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class=button-square href=http://example.org/index.xml><i class="fa fa-rss"></i></a><a class="button-square button-social hint--top" data-hint=Twitter title=Twitter href=https://twitter.com/dwmkerr rel=me><i class="fa fa-twitter"></i></a><a class="button-square button-social hint--top" data-hint=Github title=Github href=https://github.com/dwmkerr rel=me><i class="fa fa-github-alt"></i></a><a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href=https://stackoverflow.com/users/1189164/dave-kerr rel=me><i class="fa fa-stack-overflow"></i></a><a class="button-square button-social hint--top" data-hint=LinkedIn title=LinkedIn href=https://www.linkedin.com/in/dwmkerr/ rel=me><i class="fa fa-linkedin"></i></a></div><ul class=site-nav><li class=site-nav-item><a title=Blog href=/>Blog</a></li><li class=site-nav-item><a title=Speaking href=/page/speaking/>Speaking</a></li><li class=site-nav-item><a title=About href=/page/about/>About</a></li></ul></div></header><div id=container><div class=container><article class=post-container itemscope itemtype=http://schema.org/BlogPosting><header class=post-header><h1 class=post-title itemprop="name headline">Visual Studio Extensions and Menu Subitems</h1><p class="post-date post-line"><span>Published <time datetime=2012-12-15 itemprop=datePublished>Sat, Dec 15, 2012</time></span>
 <span>by</span>
-<span itemscope itemprop=author itemtype=https://schema.org/Person><span itemprop=name><a href=https://github.com/dwmkerr itemprop=url rel=author>Dave Kerr</a></span></span></p></header><div class="post-content clearfix" itemprop=articleBody><p>Recently I was working on a Visual Studio Extension for VS2010, instead of a single item in the the tools menu, what I wanted was a single item with a set of child items.</p><p>Strangely enough, documentation on this is quite lacking. So if you need to know how to do it, here's the gist. First, create a standard Visual Studio 2010 extension with the wizard, we'll have some code like the below to start off with, in the OnConnection function:</p><p>[csharp]object []contextGUIDS = new object[] { };
+<span itemscope itemprop=author itemtype=https://schema.org/Person><span itemprop=name><a href=https://github.com/dwmkerr itemprop=url rel=author>Dave Kerr</a></span></span></p></header><div class="post-content clearfix" itemprop=articleBody><p>Recently I was working on a Visual Studio Extension for VS2010, instead of a single item in the the tools menu, what I wanted was a single item with a set of child items.</p><p>Strangely enough, documentation on this is quite lacking. So if you need to know how to do it, here's the gist. First, create a standard Visual Studio 2010 extension with the wizard, we'll have some code like the below to start off with, in the OnConnection function:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#66d9ef>object</span> []contextGUIDS = <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>object</span>[] { };
 Commands2 commands = (Commands2)_applicationObject.Commands;
-string toolsMenuName = "Tools";<p>//Place the command on the tools menu.
-//Find the MenuBar command bar, which is the top-level command bar holding all the main menu items:
-Microsoft.VisualStudio.CommandBars.CommandBar menuBarCommandBar = ((Microsoft.VisualStudio.CommandBars.CommandBars)_applicationObject.CommandBars)["MenuBar"];</p><p>//Find the Tools command bar on the MenuBar command bar:
-CommandBarControl toolsControl = menuBarCommandBar.Controls[toolsMenuName];
-CommandBarPopup toolsPopup = (CommandBarPopup)toolsControl;</p><p>//This try/catch block can be duplicated if you wish to add multiple commands to be handled by your Add-in,
-// just make sure you also update the QueryStatus/Exec method to include the new command names.
-try
+<span style=color:#66d9ef>string</span> toolsMenuName = &amp;quot;Tools&amp;quot;;
+
+<span style=color:#75715e>//Place the command on the tools menu.
+</span><span style=color:#75715e></span><span style=color:#75715e>//Find the MenuBar command bar, which is the top-level command bar holding all the main menu items:
+</span><span style=color:#75715e></span>Microsoft.VisualStudio.CommandBars.CommandBar menuBarCommandBar = ((Microsoft.VisualStudio.CommandBars.CommandBars)_applicationObject.CommandBars)[&amp;quot;MenuBar&amp;quot;];
+
+<span style=color:#75715e>//Find the Tools command bar on the MenuBar command bar:
+</span><span style=color:#75715e></span>CommandBarControl toolsControl = menuBarCommandBar.Controls[toolsMenuName];
+CommandBarPopup toolsPopup = (CommandBarPopup)toolsControl;
+
+<span style=color:#75715e>//This try/catch block can be duplicated if you wish to add multiple commands to be handled by your Add-in,
+</span><span style=color:#75715e></span><span style=color:#75715e>//  just make sure you also update the QueryStatus/Exec method to include the new command names.
+</span><span style=color:#75715e></span><span style=color:#66d9ef>try</span>
 {
-//Add a command to the Commands collection:
-Command command = commands.AddNamedCommand2(_addInInstance, "MyCommand", "MyCommand",
-"Executes the command for MyCommand", true, 59, ref contextGUIDS,
-(int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled,
-(int)vsCommandStyle.vsCommandStylePictAndText, vsCommandControlType.vsCommandControlTypeButton);</p><pre><code>//Add a control for the command to the tools menu:
-if((command != null) &amp;amp;&amp;amp; (toolsPopup != null))
-{
-    command.AddControl(toolsPopup.CommandBar, 1);
+	<span style=color:#75715e>//Add a command to the Commands collection:
+</span><span style=color:#75715e></span>    Command command = commands.AddNamedCommand2(_addInInstance, &amp;quot;MyCommand&amp;quot;, &amp;quot;MyCommand&amp;quot;,
+        &amp;quot;Executes the command <span style=color:#66d9ef>for</span> MyCommand&amp;quot;, <span style=color:#66d9ef>true</span>, <span style=color:#ae81ff>5</span><span style=color:#ae81ff>9</span>, <span style=color:#66d9ef>ref</span> contextGUIDS,
+        (<span style=color:#66d9ef>int</span>)vsCommandStatus.vsCommandStatusSupported + (<span style=color:#66d9ef>int</span>)vsCommandStatus.vsCommandStatusEnabled,
+        (<span style=color:#66d9ef>int</span>)vsCommandStyle.vsCommandStylePictAndText, vsCommandControlType.vsCommandControlTypeButton);
+
+   	<span style=color:#75715e>//Add a control for the command to the tools menu:
+</span><span style=color:#75715e></span>	<span style=color:#66d9ef>if</span>((command != <span style=color:#66d9ef>null</span>) &amp;amp;&amp;amp; (toolsPopup != <span style=color:#66d9ef>null</span>))
+	{
+		command.AddControl(toolsPopup.CommandBar, <span style=color:#ae81ff>1</span>);
+	}
 }
-</code></pre><p>}
-catch(System.ArgumentException)
+<span style=color:#66d9ef>catch</span>(System.ArgumentException)
 {
-//If we are here, then the exception is probably because a command with that name
-// already exists. If so there is no need to recreate the command and we can
-// safely ignore the exception.
-}[/csharp]</p><p>Now what we're going to do first, is change the code so that we don't actually add a Command named MyCommand, but instead a popup:</p><p>[csharp]//This try/catch block can be duplicated if you wish to add multiple commands to be handled by your Add-in,
-// just make sure you also update the QueryStatus/Exec method to include the new command names.
-try
+	<span style=color:#75715e>//If we are here, then the exception is probably because a command with that name
+</span><span style=color:#75715e></span>	<span style=color:#75715e>//  already exists. If so there is no need to recreate the command and we can
+</span><span style=color:#75715e></span>    <span style=color:#75715e>//  safely ignore the exception.
+</span><span style=color:#75715e></span>}
+</code></pre></div><p>Now what we're going to do first, is change the code so that we don't actually add a Command named MyCommand, but instead a popup:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>//This try/catch block can be duplicated if you wish to add multiple commands to be handled by your Add-in,
+</span><span style=color:#75715e></span><span style=color:#75715e>//  just make sure you also update the QueryStatus/Exec method to include the new command names.
+</span><span style=color:#75715e></span><span style=color:#66d9ef>try</span>
 {
-// Have we got the tools popup?
-if(toolsPopup != null)
-{
-// Create 'MyCommand' as a popup.
-var popup = (CommandBarPopup)toolsPopup.Controls.Add(MsoControlType.msoControlPopup);
-popup.Caption = "MyCommand";
+	<span style=color:#75715e>//  Have we got the tools popup?
+</span><span style=color:#75715e></span>	<span style=color:#66d9ef>if</span>(toolsPopup != <span style=color:#66d9ef>null</span>)
+	{
+        <span style=color:#75715e>//  Create &#39;MyCommand&#39; as a popup.
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>var</span> popup = (CommandBarPopup)toolsPopup.Controls.Add(MsoControlType.msoControlPopup);
+        popup.Caption = &amp;quot;MyCommand&amp;quot;;
+	}
 }
+<span style=color:#66d9ef>catch</span>(System.ArgumentException)
+{
+	<span style=color:#75715e>//If we are here, then the exception is probably because a command with that name&amp;lt;br /&amp;gt;
+</span><span style=color:#75715e></span>	<span style=color:#75715e>//  already exists. If so there is no need to recreate the command and we can&amp;lt;br /&amp;gt;
+</span><span style=color:#75715e></span>    <span style=color:#75715e>//  safely ignore the exception.
+</span><span style=color:#75715e></span>}
+</code></pre></div><p>Now that we have the popup object, we can create commands and add them to the popup instead:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>//  Have we got the tools popup?
+</span><span style=color:#75715e></span><span style=color:#66d9ef>if</span>(toolsPopup != <span style=color:#66d9ef>null</span>)
+{
+    <span style=color:#75715e>//  Create &#39;MyCommand&#39; as a popup.
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>var</span> popup = (CommandBarPopup)toolsPopup.Controls.Add(MsoControlType.msoControlPopup);
+    popup.Caption = &amp;quot;MyCommand&amp;quot;;
+    <span style=color:#75715e>//  Create sub item 1.
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>var</span> subItem1Command = commands.AddNamedCommand2(_addInInstance, &amp;quot;MyCommand1&amp;quot;, &amp;quot;My Command Subitem <span style=color:#ae81ff>1</span>&amp;quot;, &amp;quot;My Command Subitem <span style=color:#ae81ff>1</span>&amp;quot;,
+                                                       <span style=color:#66d9ef>true</span>, <span style=color:#ae81ff>5</span><span style=color:#ae81ff>9</span>, <span style=color:#66d9ef>ref</span> contextGUIDS);
+    <span style=color:#75715e>//  Add it.
+</span><span style=color:#75715e></span>    subItem1Command.AddControl(popup.CommandBar, <span style=color:#ae81ff>1</span>);
+    <span style=color:#75715e>//  Create sub item 2.
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>var</span> subItem2Command = commands.AddNamedCommand2(_addInInstance, &amp;quot;MyCommand2&amp;quot;, &amp;quot;My Command Subitem <span style=color:#ae81ff>2</span>&amp;quot;, &amp;quot;My Command Subitem <span style=color:#ae81ff>2</span>&amp;quot;,
+                                                       <span style=color:#66d9ef>true</span>, <span style=color:#ae81ff>5</span><span style=color:#ae81ff>9</span>, <span style=color:#66d9ef>ref</span> contextGUIDS);
+    <span style=color:#75715e>//  Add it.
+</span><span style=color:#75715e></span>    subItem2Command.AddControl(popup.CommandBar, <span style=color:#ae81ff>2</span>);
 }
-catch(System.ArgumentException)
-{
-//If we are here, then the exception is probably because a command with that name&lt;br />
-// already exists. If so there is no need to recreate the command and we can&lt;br />
-// safely ignore the exception.
-}[/csharp]<p>Now that we have the popup object, we can create commands and add them to the popup instead:</p><p>[csharp]// Have we got the tools popup?
-if(toolsPopup != null)
-{
-// Create 'MyCommand' as a popup.
-var popup = (CommandBarPopup)toolsPopup.Controls.Add(MsoControlType.msoControlPopup);
-popup.Caption = "MyCommand";
-// Create sub item 1.
-var subItem1Command = commands.AddNamedCommand2(_addInInstance, "MyCommand1", "My Command Subitem 1", "My Command Subitem 1",
-true, 59, ref contextGUIDS);
-// Add it.
-subItem1Command.AddControl(popup.CommandBar, 1);
-// Create sub item 2.
-var subItem2Command = commands.AddNamedCommand2(_addInInstance, "MyCommand2", "My Command Subitem 2", "My Command Subitem 2",
-true, 59, ref contextGUIDS);
-// Add it.
-subItem2Command.AddControl(popup.CommandBar, 2);
-}[/csharp]</p><p>Now that we have made these changes, if we run the addin, we get a menu structure like this:</p><a href=http://www.dwmkerr.com/wp-content/uploads/2012/12/CommandSubitems.jpg><img src=http://www.dwmkerr.com/wp-content/uploads/2012/12/CommandSubitems.jpg alt title=CommandSubitems width=511 height=47 class="alignnone size-full wp-image-177"></a></div><footer class="post-footer clearfix"><div class=share><a class=icon-twitter href="https://twitter.com/share?text=Visual%20Studio%20Extensions%20and%20Menu%20Subitems&url=http%3a%2f%2fexample.org%2fvisual-studio-extensions-and-menu-subitems%2f" onclick="window.open(this.href,'twitter-share','width=550,height=235');return false;"><i class="fa fa-twitter"></i><span class=hidden>Twitter</span></a>
+</code></pre></div><p>Now that we have made these changes, if we run the addin, we get a menu structure like this:</p><img src=images/CommandSubitems.jpg width=511></div><footer class="post-footer clearfix"><div class=share><a class=icon-twitter href="https://twitter.com/share?text=Visual%20Studio%20Extensions%20and%20Menu%20Subitems&url=http%3a%2f%2fexample.org%2fvisual-studio-extensions-and-menu-subitems%2f" onclick="window.open(this.href,'twitter-share','width=550,height=235');return false;"><i class="fa fa-twitter"></i><span class=hidden>Twitter</span></a>
 <a class=icon-facebook href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fexample.org%2fvisual-studio-extensions-and-menu-subitems%2f" onclick="window.open(this.href,'facebook-share','width=580,height=296');return false;"><i class="fa fa-facebook"></i><span class=hidden>Facebook</span></a></div></footer><div class=comments><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
 var d=document,s=d.createElement('script');s.async=true;s.src='//'+"dmwkerr"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></article></div></div></div><footer class=footer><div class=container><div class=site-title-wrapper><h1 class=site-title><a title=dwmkerr.com href=http://example.org/>dwmkerr.com</a></h1><a class="button-square button-jump-top js-jump-top" href=#><i class="fa fa-angle-up"></i></a></div><p class=footer-copyright><span>&copy; 2019 / Powered by <a href=https://gohugo.io/>Hugo</a></span></p><p class=footer-copyright><span><a href=https://github.com/roryg/ghostwriter>Ghostwriter theme</a> By <a href=http://jollygoodthemes.com>JollyGoodThemes</a></span>
 <span>/ <a href=https://github.com/jbub/ghostwriter>Ported</a> to Hugo By <a href=https://github.com/jbub>jbub</a></span></p></div></footer><script src=http://example.org/js/jquery-1.11.3.min.js></script><script src=http://example.org/js/jquery.fitvids.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=http://example.org/js/scripts.js></script></body></html>
