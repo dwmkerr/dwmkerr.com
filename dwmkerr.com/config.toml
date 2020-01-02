@@ -1,4 +1,4 @@
-baseURL = "http://dwmkerr.com/"
+baseURL = "https://dwmkerr.github.io/dwmkerr.com/"
 disablePathToLower = true
 languageCode = "en-uk"
 title = "dwmkerr.com"
