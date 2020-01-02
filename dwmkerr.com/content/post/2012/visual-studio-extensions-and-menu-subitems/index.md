@@ -10,7 +10,9 @@ title: Visual Studio Extensions and Menu Subitems
 
 <p>Recently I was working on a Visual Studio Extension for VS2010, instead of a single item in the the tools menu, what I wanted was a single item with a set of child items.</p>
 <p>Strangely enough, documentation on this is quite lacking. So if you need to know how to do it, here's the gist. First, create a standard Visual Studio 2010 extension with the wizard, we'll have some code like the below to start off with, in the OnConnection function:</p>
-<p>[csharp]object []contextGUIDS = new object[] { };
+
+```cs
+object []contextGUIDS = new object[] { };
 Commands2 commands = (Commands2)_applicationObject.Commands;
 string toolsMenuName = &quot;Tools&quot;;
 
@@ -43,9 +45,13 @@ catch(System.ArgumentException)
 	//If we are here, then the exception is probably because a command with that name
 	//  already exists. If so there is no need to recreate the command and we can
     //  safely ignore the exception.
-}[/csharp]
+}
+```
+
 <p>Now what we're going to do first, is change the code so that we don't actually add a Command named MyCommand, but instead a popup:</p>
-<p>[csharp]//This try/catch block can be duplicated if you wish to add multiple commands to be handled by your Add-in,
+
+```cs
+//This try/catch block can be duplicated if you wish to add multiple commands to be handled by your Add-in,
 //  just make sure you also update the QueryStatus/Exec method to include the new command names.
 try
 {
@@ -62,9 +68,13 @@ catch(System.ArgumentException)
 	//If we are here, then the exception is probably because a command with that name&lt;br /&gt;
 	//  already exists. If so there is no need to recreate the command and we can&lt;br /&gt;
     //  safely ignore the exception.
-}[/csharp]
+}
+```
+
 <p>Now that we have the popup object, we can create commands and add them to the popup instead:</p>
-<p>[csharp]//  Have we got the tools popup?
+
+```cs
+//  Have we got the tools popup?
 if(toolsPopup != null)
 {
     //  Create 'MyCommand' as a popup.
@@ -80,7 +90,7 @@ if(toolsPopup != null)
                                                        true, 59, ref contextGUIDS);
     //  Add it.
     subItem2Command.AddControl(popup.CommandBar, 2);
-}[/csharp]</p>
+}
+```
 <p>Now that we have made these changes, if we run the addin, we get a menu structure like this:</p>
-<a href="http://www.dwmkerr.com/wp-content/uploads/2012/12/CommandSubitems.jpg"><img src="http://www.dwmkerr.com/wp-content/uploads/2012/12/CommandSubitems.jpg" alt="" title="CommandSubitems" width="511" height="47" class="alignnone size-full wp-image-177" /></a>
-
+<img src="images/CommandSubitems.jpg" width="511" />

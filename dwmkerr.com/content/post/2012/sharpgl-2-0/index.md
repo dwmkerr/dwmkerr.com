@@ -14,7 +14,7 @@ title: SharpGL 2.0
 ---
 
 
-<p>SharpGL 2.0 has been released - hit the codeplex site to get it:&nbsp;<a href="http://sharpgl.codeplex.com/">http://sharpgl.codeplex.com/</a></p>
+<p>SharpGL 2.0 has been released - hit the GitHub site to get it:&nbsp;<a href="https://github.com/dwmkerr/sharpgl">https://github.com/dwmkerr/sharpgl</a></p>
 <p>Some new features:</p>
 <ul>
 <li>Full support for all OpenGL functions up to OpenGL 4.2</li>
@@ -28,11 +28,11 @@ title: SharpGL 2.0
 <div>And a few screenshots:</div>
 <div>&nbsp;</div>
 <div>&nbsp;The Radial Blur Sample</div>
-<p><img src="/wp-content/uploads/2012/imported/RadialBlurSample.png" alt="" /></p>
+<p><img src="images/RadialBlurSample.png" /></p>
 <p>The New Project Types</p>
-<p><img src="/wp-content/uploads/2012/imported/NewWpfApplication.png" alt="" /></p>
+<p><img src="images/NewWpfApplication.png" /></p>
 <p>WPF Support</p>
-<p><img src="/wp-content/uploads/2012/imported/TeapotSample.png" alt="" /></p>
+<p><img src="images/TeapotSample.png" /></p>
 <p>Text Rendering</p>
-<p><img src="/wp-content/uploads/2012/imported/TextRenderingSample.png" alt="" /></p>
+<p><img src="images/TextRenderingSample.png" /></p>
 

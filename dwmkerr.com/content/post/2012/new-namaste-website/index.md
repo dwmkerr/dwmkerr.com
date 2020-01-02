@@ -14,6 +14,6 @@ title: New Namaste Website
 
 <p>Today I uploaded the new version of the Namaste - Children's Homes Nepal website, please have a look!</p>
 <p><a title="Children's Homes Nepal" href="http://www.childrenshomesnepal.org" target="_blank">http://www.childrenshomesnepal.org</a></p>
-<p>&nbsp;<img style="border-style: initial; border-color: initial;" src="/wp-content/uploads/2012/imported/temp.jpg" alt="" /></p>
+<p>&nbsp;<img src="images/temp.jpg" /></p>
 <p>Any comments or suggestions would be most welcome :)</p>
 

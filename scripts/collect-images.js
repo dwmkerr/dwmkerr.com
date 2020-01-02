@@ -3,6 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const readline = require('readline');
+const child_process = require('child_process')
 
 //  Regexes we'll use repeatedly to find image tags or markdown images.
 const rexImgTag = new RegExp(/<img\s+([^>]*)[/]?>/);
@@ -23,6 +24,21 @@ function moveFileSafeSync(src, dest) {
   if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true } );
   fs.copyFileSync(src, dest);
   fs.unlinkSync(src);
+}
+
+/**
+ * downloadFile - download a file from the web, ensures the folder for the
+ * destination exists.
+ *
+ * @param src - the source fiile
+ * @param dest - the download destination
+ * @returns {undefined}
+ */
+function downloadFile(src, dest) {
+  const directory = path.dirname(dest);
+  if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true } );
+  const command = `wget "${src}" -P "${directory}"`;
+  return child_process.execSync(command);
 }
 
 // Thanks: https://gist.github.com/kethinov/6658166
@@ -83,16 +99,7 @@ function processPost(rootPath, postPath) {
         const src = regImgSrcAttribute.test(imageTagInner) && regImgSrcAttribute.exec(imageTagInner)[1];
         const alt = regImgAltAttribute.test(imageTagInner) && regImgAltAttribute.exec(imageTagInner)[1];
         const width = regImgWidthAttribute.test(imageTagInner) && regImgWidthAttribute.exec(imageTagInner)[1];
-        console.log(`    src: ${src}`);
-        console.log(`    alt: ${alt}`);
-        console.log(`    width: ${width}`);
-
-        //  TODO: if the image is remote, download it.
-        if (/http/.test(src)) {
-          console.log(`    skipping, needs download`);
-          outputStream.write(line + os.EOL);
-          return;
-        }
+        console.log(`    src: ${src}, alt: ${alt}, width: ${width}`);
 
         //  If the source is already in the appropriate location, don't process it.
         if (/images\//.test(src)) {
@@ -101,18 +108,26 @@ function processPost(rootPath, postPath) {
           return;
         }
 
-
-        //  Now that we have the details of the image tag, we can copy
-        //  the image into the appropriate location.
+        //  Now that we have the details of the image tag, we can work out the
+        //  desired destination in the images folder.
         const imageFileName = path.basename(src);
-        const absoluteSrc = path.join(rootPath, src);
         const newRelativePath = path.join("images", imageFileName);
         const newAbsolutePath = path.join(postDirectory, newRelativePath);
-        moveFileSafeSync(absoluteSrc, newAbsolutePath);
-        console.log(`    Copied '${absoluteSrc}' to '${newAbsolutePath}'`);
+
+        //  If the file is on the web, we need to download it...
+        if (/http/.test(src)) {
+          console.log(`    Downloading '${src}' to '${newAbsolutePath}'...`);
+          downloadFile(src, newAbsolutePath);
+        }
+        //  ...otherwise we can just move it.
+        else {
+          const absoluteSrc = path.join(rootPath, src);
+          moveFileSafeSync(absoluteSrc, newAbsolutePath);
+          console.log(`    Copied '${absoluteSrc}' to '${newAbsolutePath}'`);
+        }
 
         //  Now re-write the image tag.
-        const newImgTag = `<img src="${newRelativePath}"${alt ? ` alt="${alt}` : ''}${width ? ` width="${width}` : ''} />`;
+        const newImgTag = `<img src="${newRelativePath}"${alt ? ` alt="${alt}"` : ''}${width ? ` width="${width}"` : ''} />`;
         console.log(`    Changing : ${imageTag}`);
         console.log(`    To       : ${newImgTag}`);
         line = line.replace(imageTag, newImgTag);
