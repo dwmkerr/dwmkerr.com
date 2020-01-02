@@ -37,7 +37,7 @@ CodePen: [codepen.io/dwmkerr/pen/ejejeX](https://codepen.io/dwmkerr/pen/ejejeX)
 
 This is quite a simple effect to achieve, the trick is just to work out how the geometry of the smile will work:
 
-<img alt="Smile Geometry" src="/images/2018/07/points.jpg" style="width: 240px;">
+<img src="images/points.jpg" alt="Smile Geometry" />
 
 
 The black points are the start and end point of the smile, the red points are the control points for the [bezier curve](^1). This means that we can scale from a smile to a frown by just interpolating the position of the anchor and control points from the two extremes shown above.

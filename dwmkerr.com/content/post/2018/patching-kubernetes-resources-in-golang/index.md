@@ -23,7 +23,7 @@ title: Patching Kubernetes Resources in Golang
 
 Recently I needed to be able to quickly adjust the number of replicas in a Kubernetes Replication Controller. The original solution I'd seen pulled down the spec, modified it, then updated it. There's a better way!
 
-![Kuberentes Patch API](/images/2018/07/patch-1.jpg)
+![Kuberentes Patch API](images/patch-1.jpg)
 
 There's a [patch API for Kubernetes resources](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/). Patching resources is faster and easier than pulling them and updating the spec wholesale. However, the documentation is a little limited.
 

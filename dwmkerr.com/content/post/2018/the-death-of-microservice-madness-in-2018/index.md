@@ -35,13 +35,13 @@ I'm going to describe in detail what microservices are, why the pattern is so ap
 
 I'll finish with a set of simple questions might be valuable to ask yourself when you are considering whether microservices are the right pattern *for you*. The questions are at the end of the article.
 
-![Letterbox sample of diagram](/images/2018/01/letterbox.png)
+![Letterbox sample of diagram](images/letterbox.png)
 
 ## What are microservices, and why are they so popular?
 
 Let's start with the basics. Here is how a hypothetical video sharing platform might be implemented, first in the form of a monolith (single large unit) and then in the form of microservices:
 
-![Diagram: Comparison of a Video Sharing Platform, Monolith vs Microservice](/images/2018/01/video-platform-monolith-microservices.png)
+![Diagram: Comparison of a Video Sharing Platform, Monolith vs Microservice](images/video-platform-monolith-microservices.png)
 
 The difference between the two systems is that the first is a single large unit; a monolith. The second is a set of small, specific services. Each service has a specific role.
 
@@ -165,7 +165,7 @@ Overall - the transition is still likely to be for the best, but doesn't come wi
 
 Avoid the madness by making careful and considered decisions. To help out on this I've noted a few questions you might want to ask yourself, and what the answers might indicate:
 
-![Diagram: Questions to ask yourself when considering microservices](/images/2018/01/questions.png)
+![Diagram: Questions to ask yourself when considering microservices](images/questions.png)
 
 You can download a PDF copy here: [microservice-questions.pdf](https://github.com/dwmkerr/blog/blob/master/articles/2018/microservice-madness/images/microservice-questions.pdf)
 

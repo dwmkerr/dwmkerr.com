@@ -84,3 +84,5 @@ make build
 - [ ] re-arrange posts into folders (by year?)
 - [ ] Keep images with the posts themselves.
 - [ ] There are various different `language` specifications used in fenced code blocks, needs fixing
+- [ ] Review all drafts, kill or fix
+- [ ] Check remaining content in static folder

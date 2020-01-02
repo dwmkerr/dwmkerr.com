@@ -21,15 +21,15 @@ title: A portable and magic-free way to open Pull Requests from the Command Line
 
 This little bash snippet will let you open a GitHub or GitLab pull request from the command line on most Unix-like systems (OSX, Ubuntu, etc), without using any magic libraries, ZSH tricks or other dependencies.
 
-![gpr](/images/2018/10/gpr.png)
+![gpr](images/gpr.png)
 
 Here's how it looks in action OSX:
 
-![gpr](/images/2018/10/gpr.gif)
+![gpr](images/gpr.gif)
 
 And Ubuntu:
 
-![gpr-ubuntu](/images/2018/10/gpr-ubuntu.gif)
+![gpr-ubuntu](images/gpr-ubuntu.gif)
 
 The script is available as the [`gpr.sh`](https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d) gist. You can also find it in my [dotfiles](https://github.com/dwmkerr/dotfiles), in the [git.sh](https://github.com/dwmkerr/dotfiles/blob/master/profile/git.sh) file.
 

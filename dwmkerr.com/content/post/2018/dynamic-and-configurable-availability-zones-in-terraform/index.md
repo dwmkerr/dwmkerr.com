@@ -23,7 +23,7 @@ When building Terraform modules, it is a common requirement to want to allow the
 
 I've seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I've come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we'll support.
 
-![screenshot](/images/2018/12/screenshot-1.jpg)
+![screenshot](images/screenshot-1.jpg)
 
 To demonstrate, I've set up a module which deploys a cluster of web servers. My goal is to be able to configure the region, VPC CIDR block, subnets and subnet CIDR blocks as below:
 

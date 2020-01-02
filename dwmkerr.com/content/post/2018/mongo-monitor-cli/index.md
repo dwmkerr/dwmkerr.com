@@ -27,7 +27,7 @@ The `mongo-monitor` CLI is a lean and simple tool to check the status of a Mongo
 
 Here's how it looks in action:
 
-![Screenshot: Using the mongo-monitor CLI to monitor a sharded cluster](/images/2018/05/overview.gif)
+![Screenshot: Using the mongo-monitor CLI to monitor a sharded cluster](images/overview.gif)
 
 In this animation I am monitoring a simple sharded cluster, and running some example maintenance operations, adding a node to a replicaset, stepping down a primary and shutting down a replicaset node.
 
@@ -59,7 +59,7 @@ Once a connection is established, the tool will periodically check the status of
 
 Here's the kind of output you might get from a replicaset:
 
-![Screenshot: Replicaset Status](/images/2018/05/replicaset.jpg)
+![Screenshot: Replicaset Status](images/replicaset.jpg)
 
 The name of the replicaset is shown, along with each member. The status of each member is also shown, updating automatically every second.
 
@@ -69,7 +69,7 @@ This is convenient when administering replicasets, stepping down a master, addin
 
 When connecting to a sharded cluster, you will get output like this:
 
-![Screenshot: Sharded Cluster Status](/images/2018/05/sharded-cluster.jpg)
+![Screenshot: Sharded Cluster Status](images/sharded-cluster.jpg)
 
 Each shard is shown, along with the details of the replicaset which make it up.
 

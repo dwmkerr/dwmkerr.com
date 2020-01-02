@@ -23,7 +23,7 @@ title: Manipulating Istio and other Custom Kubernetes Resources in Golang
 
 In this article I'll demonstrate how to use Golang to manipulate Kubernetes Custom Resources, with Istio as an example. No knowledge of Istio is needed, I'll just use it to demonstrate the concepts!
 
-![code](/images/2018/10/code-2.jpg)
+![code](images/code-2.jpg)
 
 [Istio](https://istio.io) is a highly popular Service Mesh platform which allows engineers to quickly add telemetry, advanced traffic management and more to their service-based applications.
 
@@ -35,7 +35,7 @@ In this article I'll show you how to interface with these Custom Resources using
 
 When you set up Istio for your cluster, one common thing you will likely do is specify how you will route traffic. This can be quite sophisticated, as shown below:
 
-![TrafficManagementOverview](/images/2018/10/TrafficManagementOverview.svg)
+![TrafficManagementOverview](images/TrafficManagementOverview.svg)
 
 [Figure 1: Istio Traffic Management Examples, from istio.io](https://istio.io/docs/concepts/traffic-management/)
 

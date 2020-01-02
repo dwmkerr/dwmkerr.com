@@ -31,7 +31,7 @@ In this article I'll show you how you can manage CI/CD pipelines for Docker imag
 
 This is what our original CircleCI 1.0 build pipeline looked like:
 
-![Diagram: CircleCI 1.0 Build Pipeline](/images/2018/06/Simple-Docker-Image-CI.png)
+![Diagram: CircleCI 1.0 Build Pipeline](images/Simple-Docker-Image-CI.png)
 
 Essentially we only need to do three things:
 
@@ -87,7 +87,7 @@ Essentially, if we are looking at providing some kind of automated quality assur
 
 Here's what a simple build pipeline could look like. This example is for a Docker Image I just created for local DynamoDB development - [dwmkerr/dynamodb](github.com/dwmkerr/docker-dynamodb):
 
-![Simple Continous Intergration Pipeline](/images/2016/11/Simple-Docker-Image-CI.png)
+![Simple Continous Intergration Pipeline](images/Simple-Docker-Image-CI.png)
 
 Let's dissect what we've got here.
 
@@ -189,11 +189,9 @@ The rest of this post is a bit of a deep dive into some specific areas I found i
 
 ## Appendix 1: Why not Docker Hub Automated Builds?
 
-There are automated builds available in the Docker Hub:
+There are automated builds available in the Docker Hub.
 
-![Docker Hub Automated Builds](/images/2016/11/dockerhubbuilds.png)
-
-I'm not using this feauture at the moment, here's a brief roundup of what I think are the current pros and cons:
+I'm not using this feature at the moment, here's a brief roundup of what I think are the current pros and cons:
 
 Pros
 
@@ -215,15 +213,15 @@ By doing the testing in a CI system for every pull request and only merging PRs 
 
 I started coding with a commandline compiler in DOS. When I used my first GUI (Borland Turbo C++) it felt like a huge leap:
 
-![Borland Turbo C++](/images/2016/11/turbocpp.png)
+![Borland Turbo C++](images/turbocpp.png)
 
 Later on I moved onto Microsoft Visual C++ 4.2:
 
-![Visual C++ 4.2](/images/2016/11/visualcpp.png)
+![Visual C++ 4.2](images/visualcpp.png)
 
 And you cannot imagine the excitement when I got my boxed edition of Visual Studio .NET:
 
-![Visual Studio .NET](/images/2016/11/visualstudiodotnet.jpg)
+![Visual Studio .NET](images/visualstudiodotnet.jpg)
 
 Wow!
 
