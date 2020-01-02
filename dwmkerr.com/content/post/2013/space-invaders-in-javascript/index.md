@@ -18,7 +18,7 @@ title: Space Invaders in JavaScript
 
 If you take a look at the<a title="Introducing Experiments" href="http://www.dwmkerr.com/2013/08/introducing-experiments/"> Experiments Page</a> you'll see that there's a new entry - <a title="Space Invaders" href="http://www.dwmkerr.com/experiments/spaceinvaders" target="_blank">Space Invaders</a>.
 
-<a href="http://www.dwmkerr.com/experiments/spaceinvaders" target="_blank"><img class="alignnone size-full wp-image-344" alt="spaceinvaders" src="http://www.dwmkerr.com/wp-content/uploads/2013/08/spaceinvaders.jpg" width="640" height="505" /></a>
+<a href="http://www.dwmkerr.com/experiments/spaceinvaders" target="_blank"><img src="images/spaceinvaders.jpg" alt="spaceinvaders" width="640" /></a>
 
 Space Invaders is a great little game to code if you're learning a new language or technology (and JavaScript is still very much in that category for me). I'll be writing up how I made the game on the CodeProject soon enough (if you're interested you can <a href="http://www.codeproject.com/Articles/642499/Learn-JavaScript-Part-1-Create-a-Starfield" target="_blank">see how I made the starfield background in JavaScript</a>).
 

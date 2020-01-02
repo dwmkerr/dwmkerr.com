@@ -20,7 +20,7 @@ Using Web Deploy is a nice and easy way to publish websites and web applications
 
 Let's imagine I administer a webserver that hosts the site www.something.com. I've installed the Remote Management tools for IIS and the Web Deploy stuff, and have also configured the site to allow Web Deploy. I now try and deploy using Visual Studio, with the settings below:
 
-<a href="http://www.dwmkerr.com/wp-content/uploads/2013/06/somesite.jpg"><img class="alignnone size-full wp-image-312" alt="somesite" src="http://www.dwmkerr.com/wp-content/uploads/2013/06/somesite.jpg" width="600" height="471" /></a>
+<a href="http://www.dwmkerr.com/wp-content/uploads/2013/06/somesite.jpg"><img src="images/somesite.jpg" alt="somesite" width="600" /></a>
 
 Validating the connection fails with the message:
 

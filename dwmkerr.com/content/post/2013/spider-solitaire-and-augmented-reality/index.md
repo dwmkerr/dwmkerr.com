@@ -20,7 +20,7 @@ A while ago, I made an implementation of Solitaire and Spider Solitaire using WP
 
 Anyway, just recently I got a very interesting message from rupam rupam, who has made an augmented reality version of the project! In his application, you use your webcam to play the game physically by picking up cards with gestures. Other gestures, like thumbs up and thumbs down are bound to commands in the game - here's a screenshot:
 
-<a href="https://www.youtube.com/watch?v=wCOjuPdBooI"><img class="alignnone  wp-image-234" alt="SpiderAugmented" src="http://www.dwmkerr.com/wp-content/uploads/2013/02/SpiderAugmented.jpg" /></a>
+<a href="https://www.youtube.com/watch?v=wCOjuPdBooI"><img src="images/SpiderAugmented.jpg" alt="SpiderAugmented" /></a>
 
 The project is called GesCard and as far as I know there isn't a page showing the code - but there are more links on the YouTube video for the page. Check out the YouTube video with the link here <a href="https://www.youtube.com/watch?v=wCOjuPdBooI">https://www.youtube.com/watch?v=wCOjuPdBooI</a>. Thanks to rupam for getting in touch and sharing this very cool code!
 

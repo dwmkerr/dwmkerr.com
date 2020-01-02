@@ -22,5 +22,5 @@ I'm currently writing a series of articles on the CodeProject called 'Learn Java
 
 In this article we take a look at how to create the classic space invaders game with plain JavaScript and HTML - no libraries or frameworks. You can see it in action on the page <a title="Space Invaders" href="http://www.dwmkerr.com/experiments/spaceinvaders/" target="_blank">experiments/spaceinvaders</a>. Check it out - as always, comments are welcome!
 
-<a href="http://www.dwmkerr.com/experiments/spaceinvaders/"><img class="alignnone size-full wp-image-344" alt="spaceinvaders" src="http://www.dwmkerr.com/wp-content/uploads/2013/08/spaceinvaders.jpg" width="640" height="505" /></a>
+<a href="http://www.dwmkerr.com/experiments/spaceinvaders/"><img src="images/spaceinvaders.jpg" alt="spaceinvaders" width="640" /></a>
 

@@ -18,7 +18,7 @@ I don't know when I learnt that Windows + E opened up Windows Explorer. It must 
 
 So I wrote FireKeys - a lightweight application that lets you assign hotkeys to actions. These actions could be opening program, a folder or a URL, but the underlying model is designed to be extensible.
 
-<a href="http://www.dwmkerr.com/wp-content/uploads/2013/03/FireKeysMain.jpg"><img class="alignnone size-full wp-image-248" alt="FireKeysMain" src="http://www.dwmkerr.com/wp-content/uploads/2013/03/FireKeysMain.jpg" width="600" height="400" /></a>
+<a href="http://www.dwmkerr.com/wp-content/uploads/2013/03/FireKeysMain.jpg"><img src="images/FireKeysMain.jpg" alt="FireKeysMain" width="600" /></a>
 
 You can get the tool from the <a title="FireKeys" href="http://www.dwmkerr.com/firekeys/">FireKeys</a> page. There's an article on how it was developed on the CodeProject, <a href="http://www.codeproject.com/Articles/559500/FireKeys-Open-Programs-Folders-or-URLs-with-Hot-Ke">FireKeys - Open Programs, Folders and URLs with Hot Keys</a>.
 

@@ -16,7 +16,7 @@ I think it can be very useful sometimes to see what's going on in the code your 
 
 Here's a screenshot of how the code editor looks after I've just right clicked on a method and chosen 'Disassemble':
 
-<a href="http://www.dwmkerr.com/wp-content/uploads/2013/06/ResultSized.png"><img class="alignnone size-full wp-image-276" alt="ResultSized" src="http://www.dwmkerr.com/wp-content/uploads/2013/06/ResultSized.png" width="640" height="469" /></a>
+<a href="http://www.dwmkerr.com/wp-content/uploads/2013/06/ResultSized.png"><img src="images/ResultSized.png" alt="ResultSized" width="640" /></a>
 
 It's not too shabby - syntax highlighting and a few options to see more detail. As I've disassembled a method, from the bottom of the window I can also expand the scope to the parent class or the whole assembly.
 

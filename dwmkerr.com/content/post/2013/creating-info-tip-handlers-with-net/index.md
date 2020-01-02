@@ -21,7 +21,7 @@ title: Creating Info Tip Handlers with .NET
 I have just added an article to the CodeProject that discusses how to create Info Tip shell extensions in .NET. These extensions are used by the shell to customise the tooltips shown over shell items.
 
 
-<a href="http://www.dwmkerr.com/2013/01/creating-info-tip-handlers-with-net/shellinfotiphandler/" rel="attachment wp-att-210"><img src="http://www.dwmkerr.com/wp-content/uploads/2013/01/ShellInfoTipHandler.png" alt="ShellInfoTipHandler" width="385" height="160" class="alignnone size-full wp-image-210" /></a>
+<a href="http://www.dwmkerr.com/2013/01/creating-info-tip-handlers-with-net/shellinfotiphandler/" rel="attachment wp-att-210"><img src="images/ShellInfoTipHandler.png" alt="ShellInfoTipHandler" width="385" /></a>
 
 The article shows how you can use <a title="SharpShell on CodePlex" href="http://sharpshell.codeplex.com">SharpShell </a>to very quickly create these extensions, you can find it at: <a title="Shell Info Tip Handlers" href="http://www.codeproject.com/Articles/527058/NET-Shell-Extensions-Shell-Info-Tip-Handlers">http://www.codeproject.com/Articles/527058/NET-Shell-Extensions-Shell-Info-Tip-Handlers</a>.
 

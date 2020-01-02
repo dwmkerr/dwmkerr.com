@@ -20,7 +20,7 @@ I'm on holiday at the moment, back in sunny England. Holiday may not be the righ
 
 Anyway, I got a nice message from a fellow coder <a title="Goerge Hahn on Twitter" href="https://twitter.com/George_Hahn" target="_blank">George Hahn</a> who has put together a pretty cool project that lets you send files directly to <a title="Trello" href="https://trello.com/" target="_blank">Trello</a> as an attachment to a card, or even as a new card. Here's a screenshot of it in action:
 
-<a href="http://www.dwmkerr.com/wp-content/uploads/2013/06/TrelloContextMenuExample.png"><img class="alignnone size-full wp-image-320" alt="TrelloContextMenuExample" src="http://www.dwmkerr.com/wp-content/uploads/2013/06/TrelloContextMenuExample.png" width="503" height="236" /></a>
+<a href="http://www.dwmkerr.com/wp-content/uploads/2013/06/TrelloContextMenuExample.png"><img src="images/TrelloContextMenuExample.png" alt="TrelloContextMenuExample" width="503" /></a>
 
 It's a nice project, you can check it out on GitHub:
 <table>

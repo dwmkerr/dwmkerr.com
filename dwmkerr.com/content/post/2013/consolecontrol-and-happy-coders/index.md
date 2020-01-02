@@ -10,7 +10,7 @@ title: ConsoleControl and Happy Coders
 
 Sometimes I write up an article and some code on the CodeProject and get a good response, other times it seems an article sinks beneath the waves without any notice. Looking over some emails the other day, I noticed that my ConsoleControl article had actually received a slow and steady response of extremely positive feedback - people are using it and suggesting improvements.
 
-<a href="http://www.dwmkerr.com/wp-content/uploads/2013/09/screenshot.png"><img class="alignnone size-full wp-image-348" alt="screenshot" src="http://www.dwmkerr.com/wp-content/uploads/2013/09/screenshot.png" width="600" height="394" /></a>
+<a href="http://www.dwmkerr.com/wp-content/uploads/2013/09/screenshot.png"><img src="images/screenshot.png" alt="screenshot" width="600" /></a>
 
 This is great, it's one of the things I love about the community of developers that I'm part of. So I decided to try and put a bit more back with ConsoleControl. I've moved the source code to GitHub, so that anyone can fork it and work on it easily:
 

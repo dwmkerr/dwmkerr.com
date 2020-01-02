@@ -27,11 +27,11 @@ Sending a response in Express with a call like <em>res.send(status, body)</em> w
 
 Testing the C# code showed me something that was a bit odd - GETs and POSTSs were working fine, but PUTs and DELETEs were showing an HTTP Status code of '1' (which isn't a valid code). Here's the what I was seeing:
 
-<a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/requests.png"><img class="alignnone size-full wp-image-330" alt="requests" src="http://www.dwmkerr.com/wp-content/uploads/2013/07/requests.png" width="600" height="476" /></a>
+<a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/requests.png"><img src="images/requests.png" alt="requests" width="600" /></a>
 
 Checking the node server showed the same thing - DELETEs were returning status 1.
 
-<a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/console.png"><img class="alignnone size-full wp-image-329" alt="console" src="http://www.dwmkerr.com/wp-content/uploads/2013/07/console.png" width="600" height="105" /></a>
+<a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/console.png"><img src="images/console.png" alt="console" width="600" /></a>
 
 The server code is very lightweight so it's quick to see what's going on:
 
