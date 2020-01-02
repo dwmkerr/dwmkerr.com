@@ -30,15 +30,15 @@ The simple app we'll build is at [github.com/dwmkerr/react-es6-starter](https://
 
 Our goal will be to have a single `index.html` file which includes our Javascript files. We're aiming for something like this:
 
-![Build Process 1](/images/2015/09/Build-Process.png)
+![Build Process 1](images/Build-Process.png)
 
 But browsers don't handle ES6 yet. So our loose files, which reference each other, are going to have to be transpiled into ES5 and bundled into a single file. We need a build process:
 
-![Build Process 2](/images/2015/09/Build-Process-2.png)
+![Build Process 2](images/Build-Process-2.png)
 
 [Webpack](webpack.github.io) can handle all of this for us. Given an entrypoint file, webpack will traverse all of the `require` and `import` statements and build a single bundle file. It also allows us to configure 'loaders', which let us pass these files through other tools:
 
-![Build Process 3](/images/2015/09/Build-Process-3.png)
+![Build Process 3](images/Build-Process-3.png)
 
 We'll need the following libraries:
 
@@ -326,11 +326,11 @@ webpack: {
   
 Anything that is not a spec or from `node_modules` gets instrumented. Now we have a ES6 code coverage report:
 
-![Code Coverage Report](/images/2015/09/CapturFiles_8.png)
+![Code Coverage Report](images/CapturFiles_8.png)
 
 With this in place, you can go even further and integrate with other CI or publish to code quality systems (for example this repo integrates to [coveralls.io](https://coveralls.io)). This is often used to show badges for repos:
 
-[![Coverage Status](https://coveralls.io/repos/dwmkerr/react-es6-starter/badge.svg?branch=master&service=github)](https://coveralls.io/github/dwmkerr/react-es6-starter?branch=master)
+[![Coverage Status](images/badge.svg)](https://coveralls.io/github/dwmkerr/react-es6-starter?branch=master)
 
 Another use case is to gate checkins unless they maintain a certain code coverage threshhold.
 

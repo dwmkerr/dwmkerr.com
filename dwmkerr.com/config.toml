@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "http://dwmkerr.com/"
 disablePathToLower = true
 languageCode = "en-uk"
 title = "dwmkerr.com"
@@ -35,7 +35,7 @@ disqusShortname = "dmwkerr"
     mainSections = ["post"]
     intro = true
     headline = "dwmkerr.com"
-    description = "My description"
+    description = "Writing about the craft of software development. No ads, sponsored content, just love of the geekery."
     github = "https://github.com/dwmkerr"
     linkedin = "https://www.linkedin.com/in/dwmkerr/"
     twitter = "https://twitter.com/dwmkerr"

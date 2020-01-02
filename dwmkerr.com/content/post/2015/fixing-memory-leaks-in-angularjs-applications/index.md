@@ -134,11 +134,11 @@ Well browsers can allocate memory and use it how they want to. A page it is rend
 
 Open the Chrome developer tools. Go to 'Timeline' select 'Memory' and hit 'Record'.
 
-![Start Recording](/images/2015/02/StartRecording.png)
+![Start Recording](images/StartRecording.png)
 
 Now start using your application. After you are done, stop recording. You'll see a graph of memory usage.
 
-![Memory Usage](/images/2015/02/MemoryUsage.png)
+![Memory Usage](images/MemoryUsage.png)
 
 This is **almost** exactly what we need. I'll explain the almost shortly, but lets take a look at this graph.
 
@@ -149,19 +149,19 @@ This is **almost** exactly what we need. I'll explain the almost shortly, but le
 
 So what should we be looking for in this graph? That depends on what our app is doing. But let's imagine the we are navigating through different photo albums in the albums app. We'll need more memory to see each album, but once we leave an album we don't need that memory any more. So we should get a healthy saw-tooth pattern<sup><a href="#fn3" id="ref3">3</a></sup>:
 
-![Timeline Sawtooth](/images/2015/03/TimelineSawtooth.png)
+![Timeline Sawtooth](images/TimelineSawtooth.png)
 
 Here we see that we use more and more memory, up until the point that Chrome garbage collects, then goes back to where we started. This is repeated again and again. This is a good sign - when Chrome garbage collects we go back to the same place we started, a strong indication we are not leaking much memory.
 
 If we are doing some work which simply needs more and more memory, and we don't release it, we would expect to see steps instead<sup><a href="#fn4" id="ref4">4</a></sup>:
 
-![Timeline Steps](/images/2015/03/TimelineSteps-1.png)
+![Timeline Steps](images/TimelineSteps-1.png)
 
 An example of this might be an infinite scroll situation. I'm looking through a vast photo album, and when I get to the bottom of the screen I load more images automatically. The ones I've loaded are still in the DOM so cannot be released. We see no saw-tooth because there's no release of memory. However, this is not a memory leak - it's just increasing memory usage. It does mean that if we allow the user to scroll too much we may run out of resources though.
 
 The **dangerous** case is the one below:
 
-![Leaky Sawtooth](/images/2015/03/TimelineLeakySawtooth.png)
+![Leaky Sawtooth](images/TimelineLeakySawtooth.png)
 
 Let's imaging we're using the application, navigating through albums, returning the the home page, looking through some more albums and so on. We keep using memory, and Chrome keeps on garbage collecting, but we never quite get back to where we started. We are trending towards increasing memory usage. This indicates we *might* be leaking memory.
 
@@ -175,19 +175,19 @@ Unfortunately, you cannot always trust this graph. See Mystery 1 for the ugly de
 
 Let's look at a different way of seeing if we've got a leak, the 'Heap Allocations' view. In the developer tools, go to 'Profiles' and 'Record Heap Allocations':
 
-![Record Heap Allocations](/images/2015/02/HeapAllocations.png)
+![Record Heap Allocations](images/HeapAllocations.png)
 
 When we record heap allocations we get a chart showing us spikes as we allocate memory. These spikes are initially blue (meaning Chrome is using the memory), then change to grey once the memory is freed. If we see spikes or sections of spikes that remain blue, we may have a problem.
 
 Try this, go to the Ablums app and start recording. Click on the 'India' album, then go back to the home page. You should see a chart like this:
 
-![Heap Allocations Example 1](/images/2015/03/HeapAllocationsEx1.png)
+![Heap Allocations Example 1](images/HeapAllocationsEx1.png)
 
 So we start recording and nothing is being allocated. Then we click on the 'India' album (point 1) and we get a few spikes, as chrome allocates memory needed for the content in the new page. Then we click back on the home page (point 2). Some of the memory used in the India album is released (it looks like about half). One spike of memory used for the home page is still in use (what we'd expect) and another spike or two seem to be freed. These other spikes might be memory used for the actual transition, for example in logic in the router.
 
 So this looks like we may have a problem in the album page. In fact, we can drag a selection box around those first three spikes and see what is *still* in memory (i.e. what might be a potential leak) in the view below:
 
-![Heap Allocations Example 2](/images/2015/03/HeapAllocationsEx2.png)
+![Heap Allocations Example 2](images/HeapAllocationsEx2.png)
 
 Dissecting this view we have:
 
@@ -206,7 +206,7 @@ This is good! It means this is probably not a leak. When I first visit the album
 
 So if we have the albums page in a cache, in theory the next time we visit the page and then return to the home page, we should free a lot more of the memory (because the *new* memory we allocate will be just for the page itself, not the cache which is already set up). Let's try it. We'll record going to the album page, back to the homepage, then the album page and back again:
 
-![Heap Allocations Example 3](/images/2015/03/HeapAllocationsEx3.png)
+![Heap Allocations Example 3](images/HeapAllocationsEx3.png)
 
 This is looking good.
 
@@ -222,11 +222,11 @@ The heap allocations chart is exceptionally useful in identifying memory leaks, 
 
 One thing we noticed from this brief analysis was that the initial result was slightly misleading. With the heap allocations view repeated operations can help you identify trends. In the Albums application I've actually set up part of the app to run repeated operations, so we can try to consistently test scenarions. The 'scenarios' menu lets us run them. Let's try running scenario 1.
 
-![Scenario 1](/images/2015/03/Scenario1.png)
+![Scenario 1](images/Scenario1.png)
 
 This scenario will navigate from `/` (the home page) to `/nowhere` ten times. `/nowhere` isn't matched by the router so takes us back to the home page. This has the effect of reloading the home page 20 times (just reloading doesn't work, the router is smart enough to realise we're staying on the same page).
 
-![Scenario 1 Heap Allocations](/images/2015/03/Scneario1HeapAllocations.png)
+![Scenario 1 Heap Allocations](images/Scneario1HeapAllocations.png)
 
 While you are recording the chart you can see peaks go from blue to grey as memory is freed. Let's see what we've got.
 
@@ -239,7 +239,7 @@ Altogether this a very healthy looking scenario. The huge majority of what we al
 
 Before we say goodbye to the Heap Allocations view (for now) let's do the same for Scenario 2 (moving from the home page to the top rated page 10 times).
 
-![Scenario 2 Heap Allocations](/images/2015/03/Scenario2HeapAllocations.png)
+![Scenario 2 Heap Allocations](images/Scenario2HeapAllocations.png)
 
 We are not going to analyse this issue (yet!) but this is an example of a much less healthy chart. In this chart we seem to be allocating memory for each page view and not releasing it. This kind of chart definitely indicates that there could be problems.
 
@@ -249,7 +249,7 @@ So we've seen the Heap Allocations view, which is a bit more sophisticated than 
 
 The final method of identifying memory leaks is the most sophisticated and finely controlled. We will take snapshots at specific points in time and analyse the differences between them. To take a snapshot, we go to the Profiles view and choose 'Take Heap Snapshot':
 
-![Take Heap Snapshot](/images/2015/03/TakeHeapSnapshot.png)
+![Take Heap Snapshot](images/TakeHeapSnapshot.png)
 
 When we take a heap snapshot Chrome simply records the details of all memory allocated.
 
@@ -257,7 +257,7 @@ When we take a heap snapshot Chrome simply records the details of all memory all
 
 A heap snapshot shows you exactly the same kind of data you get in the Heap Allocations view, except that you are seeing ALL memory in use, not just objects which were allocated and are still alive:
 
-![A Heap Snapshot](/images/2015/03/HeapSnapshot1.png)
+![A Heap Snapshot](images/HeapSnapshot1.png)
 
 This view is very complete but not necessarily very useful. There's some extra ways to see the data (if you change from 'Summary' to another view or change 'All Objects' but we'll see that later).
 
@@ -275,7 +275,7 @@ Let's take some snapshots, try this:
 
 Now we can do something really cool. Select snapshot 3, and choose to view data allocated between snapshot 1 and 2. This means we're seeing data allocated for the top rated page, which is *still* in use when we go back to the home page, i.e. probably leaked.
 
-![Snapshot Comparison](/images/2015/03/SnapshotComparison.png)
+![Snapshot Comparison](images/SnapshotComparison.png)
 
 So what are we seeing now?
 
@@ -289,7 +289,7 @@ This is the best way to identify memory leaks. So now that we've seen how to ide
 
 If we think we have a memory leak, we need to be able to look at the heap data and see what's going on. Whether we are seeing heap data from a selection of allocations from the Heap Allocations view or from the Heap Snapshots, we see the same kind of information:
 
-![Heap Data](/images/2015/03/HeapData.png)
+![Heap Data](images/HeapData.png)
 
 Starting from the left we have the 'Constructor' column. This is the type of object we have. Some of these objects we can see are JavaScript classes (constructed with a `new` call to a function), such as `Scope`. As well as our own classes, we have some special classes of data:
 
@@ -305,7 +305,7 @@ There are also plenty of objects that are created by Chrome, such as `HTMLDivEle
 
 Let's dissect some of these objects in detail. Running **Scenario 3** allocates some data and puts it on the `window` object. This is really trivial data but shows a lot. You can use the Heap Allocations View or Heap Snapshots to see the data. I've taken three snapshots (once before pressing OK, once after the data is allocated, and the final one when the last modal is closed):
 
-![Heap Data Analysis Part 1](/images/2015/03/HeapDataAnalysis2.png)
+![Heap Data Analysis Part 1](images/HeapDataAnalysis2.png)
 
 This data has come from the code below:
 
@@ -352,7 +352,7 @@ We've got a little bit of everything here, some code, some closures, some object
 
 As we've put most of this data on the `heapData` object, which is an instance of `HeapData` we can easily find the object:
 
-![Heap Data Analysis 3](/images/2015/03/HeapDataAnalysis3.png)
+![Heap Data Analysis 3](images/HeapDataAnalysis3.png)
 
 So we can see the `HeapData` constructor, expanding it we see an *instance* of `HeapData`. The `@420269` is a unique ID assigned by Chrome. If we have lots of heap data objects, we can use this to distinguish between them when we're looking at other parts of the snapshot. What else do we see?
 
@@ -365,7 +365,7 @@ Notice that our instance of `HeapData` is highlighted in yellow? That's a conven
 
 Let's see some other data we allocated:
 
-![Heap Data Analysis 4](/images/2015/03/HeapDataAnalysis4-1.png)
+![Heap Data Analysis 4](images/HeapDataAnalysis4-1.png)
 
 Now we're looking at closures. We have two closures in yellow next to each other, clicking on one shows the retainer graph. What is going on here?
 
@@ -375,7 +375,7 @@ Now we're looking at closures. We have two closures in yellow next to each other
 
 The last thing we'll look at in this snapshot is the div element.
 
-![Heap Data Analyis 5](/images/2015/03/HeapDataAnalysis5.png)
+![Heap Data Analyis 5](images/HeapDataAnalysis5.png)
 
 We can see the div element is retained by the `div` variable in the `heapData` object. We can also see it is made up of a prototype and some native object. The native object shows no size - don't be fooled. That just means its taking up no JavaScript heap memory. It is still using memory (just in V8 engine not the JavaScript code).
 
@@ -397,7 +397,7 @@ We saw that **Scenario 2** (switching to and from the 'top rated' view) seemed t
 
 We can now look at the memory allocated between 1 and 2 which is present in 3 (i.e. what we allocated for the top rated view and potentially leaked):
 
-![Scenario 2 Snapshot 1](/images/2015/03/Scenario2Snapshot1.png)
+![Scenario 2 Snapshot 1](images/Scenario2Snapshot1.png)
 
 Some things jump out immediately:
 
@@ -406,7 +406,7 @@ Some things jump out immediately:
 
 This looks like a classic leak situation. Let's start by looking at some objects we recognise. There are some `Scope` objects near the top of the chart, let's look at those.
 
-![Scenario 2 Part 2](/images/2015/03/Scenario1Part2.png)
+![Scenario 2 Part 2](images/Scenario1Part2.png)
 
 We've got some `Scope` objects, three in fact. These objects contain the usual AngularJS fields such as `$parent`, the only field which distinguishes this scope is the `album` field. If we look at out `aml-rated-album` directive it looks like it could be the isolated scope for this directive:
 
@@ -429,17 +429,17 @@ Scopes know about their parents. They also know about their children, and siblin
 
 Why? The graph below should show why. I 'leak' a scope, and by doing so I retain all of the other scopes, because they are connected. Having a connected graph of scopes is required for angular to work, but it means that we we are extremely susceptible to leaking a **lot** of data.
 
-![Scope leak graph](/images/2015/03/ScopeLeakGraph1.png)
+![Scope leak graph](images/ScopeLeakGraph1.png)
 
 This graph shows `$parent` retained relationships, but don't forget scopes also know about their children and their siblings, so real graph is even more highly connected.
 
 So just grabbing a specific scope is not good enough. We need to try and be a little bit more specific. Let's try starting from an element instead. Here we take a look at a div element and its retainers:
 
-![Scenario 2 Part 3](/images/2015/03/Scenario2Part3.png)
+![Scenario 2 Part 3](images/Scenario2Part3.png)
 
 Resting the mouse over the instance of a leaked `HTMLElement` shows a bit of data about it, it's a `aml-rated-album` and it is detached. Definitely a symptom of our leak. Let's see the retainers:
 
-![Scenario 2 Part 4](/images/2015/03/Scenario2Part4-1.png)
+![Scenario 2 Part 4](images/Scenario2Part4-1.png)
 
 Ouch. This is nasty. Again, we are not seeing much that is particularly useful. We have a long graph of retainers starting with the `compileNode` function, we also have an array in a `n.fn.init` function. To cut a long story short, we're are not going to easily find the root cause here. But I will share some hints.
 
@@ -472,14 +472,14 @@ angular.module('app')
 
 Now when we run the analysis again, we can search in the snapshot for `TopRatedControllerTag`:
 
-![Scenario 2 Part 5](/images/2015/03/Scenario2Part5.png)
+![Scenario 2 Part 5](images/Scenario2Part5.png)
 
 1. We search for 'Tag', finding one instance of the `TopRatedControllerTag`.
 2. Bingo - it is retained by a Scope, with id `@534851`
 
 Let's look at this scope in more detail. Right click on it and choose 'Review in Summary View', so we can see what is retaining it:
 
-![Scenario 2 Part 6](/images/2015/03/Scenario2Part6.png)
+![Scenario 2 Part 6](images/Scenario2Part6.png)
 
 1. We can now see the root scope for the actual view.
 2. We can see the usual pattern of `$$ChildScope` and `$parent` properties, but what else have we got?
@@ -492,7 +492,7 @@ What is a context variable?
 
 So basically we have a closure which refers to a variable called `$scope`, which is the root scope of our view. We can see in detail the closure:
 
-![Scenario 2 Part 7](/images/2015/03/Scenario2Part7.png)
+![Scenario 2 Part 7](images/Scenario2Part7.png)
 
 1. `$scope` is retained by a `context` for a closure.
 2. The closure is in the `refresh` function (this is why the `context` is retained by `refresh`).
@@ -515,11 +515,11 @@ Let's talk about this a bit more.
 
 We saw before that a chain of retainers can pin an object, such as a scope, to a GC root. We also saw that AngularJS scopes are part of a highly connected graph, meaning that if we leak part of it, we probably leak it all:
 
-![Scope Leak Graph 1](/images/2015/03/ScopeLeakGraph1-1.png)
+![Scope Leak Graph 1](images/ScopeLeakGraph1-1.png)
 
 However, things can get worse. Remember how in an angular app you can get the scope for an element with `$(selector).scope()`? This connection between a scope an an element is maintained in the jQuery data cache. This lets us associate arbitrary data with an element. This introduces another layer of connectivity:
 
-![Scope Leak Graph 2](/images/2015/03/ScopeLeakGraph2.png)
+![Scope Leak Graph 2](images/ScopeLeakGraph2.png)
 
 In this graph, we see the jQuery data cache entries (in grey) associating DOM elements to scopes, introducing more connectivity.
 
