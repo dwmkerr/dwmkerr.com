@@ -85,4 +85,5 @@ make build
 - [ ] Keep images with the posts themselves.
 - [ ] There are various different `language` specifications used in fenced code blocks, needs fixing
 - [ ] Review all drafts, kill or fix
-- [ ] Check remaining content in static folder
+- [ ] Check remaining content in `static` folder
+- [ ] Featured images are still in the `static` folder

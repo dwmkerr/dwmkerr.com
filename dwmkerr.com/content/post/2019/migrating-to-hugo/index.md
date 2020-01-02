@@ -39,7 +39,7 @@ My first website was built on BlogEngine.net, then WordPress, which has grown in
 
 When I first tried Ghost, I loved it. A super clean and minimal interface, with all of the content in Markdown. The editing experience was lovely:
 
-![Screenshot: Thee Ghost UI](ghost-ui.png)
+![Screenshot: Thee Ghost UI](images/ghost-ui.png)
 
 Ghost is great, and I've been a happy user for years. I'd highly recommend it to _anyone_ who wants a lean and clean content management system. However, there were a few key reasons I decided to change. This article is not be advocating for my new setup, or a criticism of Ghost, but might be useful for people who are considering similar changes.
 
@@ -49,7 +49,7 @@ The Ghost UI is lovely, but I do all of my writing in vim. Writing in the Ghost 
 
 Right now, this is what my screen looks like:
 
-![Screenshot: vim editing](./vim-screenshot.png)
+![Screenshot: vim editing](images/vim-screenshot.png)
 
 Again, I'm not advocating for vim, it's just what works for me. The screenshot is with my 'focus' mode setup, which removes all unnecessary clutter (all of my configuration is available on my [dotfiles repo](https://github.com/dotfiles).
 
@@ -61,7 +61,7 @@ I'm writing all of my content in vim, and storing it in a folder. Some posts tak
 
 Because I am writing in vim, and creating screenshots and images, I need to link to them. This means that what I have in my local markdown file won't work for Ghost. With Ghost I need to upload the image, and it will put it in a content folder. But I want to be able to keep my images close to the text, and have consistent addresses for local writing, like so:
 
-![Screenshot: Folder structure for a post](./folder-structure-screenshot.png)
+![Screenshot: Folder structure for a post](images/folder-structure-screenshot.png)
 
 ### Reason 4 - I have two sources of truth
 
@@ -106,7 +106,7 @@ A little bit of research suggested that there were three main contenders:
 
 I actually tried all three. Each engine is popular on GitHub:
 
-![Comparison of Blogging Platforms](./blogging-platforms.png)
+![Comparison of Blogging Platforms](images/blogging-platforms.png)
 
 The number of stars a project has is of course not a genuine indicator of quality, but it is interesting to see how quickly Gatsby and Hugo have caught up to Jekyll.
 
@@ -226,7 +226,7 @@ Any time a change is made to `master` or `feat/static-site` gets built and publi
 
 By default the front matter for the blog is written in TOML. This is not rendered well on GitHub:
 
-![Screenshot: TOML front matter](./toml-frontmatter.png)
+![Screenshot: TOML front matter](images/toml-frontmatter.png)
 
 It also looks less than ideal in `vim`. After running:
 
@@ -236,7 +236,7 @@ hugo convert toYAML
 
 Things look a lot nicer:
 
-![Screenshot: YAML front matter](./yaml-frontmatter.png)
+![Screenshot: YAML front matter](images/yaml-frontmatter.png)
 
 YAML front matter is also rendered properly in `vim` for me, 
 
@@ -258,15 +258,15 @@ done
 
 After import, my site structure looked like this:
 
-![Screenshot: Site structure](posts-and-images-screenshot.png)
+![Screenshot: Site structure](images/posts-and-images-screenshot.png)
 
 Now this is manageable, but feels awkward. I'd rather keep images next to the blog posts themselves. I want to group posts into years so that there are not too many shown in the file tree at any one time (and adding months/weeks/days makes things too fine grained). It also means that the page doesn't render images on GitHub:
 
-![Screenshot: Broken Links](./broken-links.png)
+![Screenshot: Broken Links](images/broken-links.png)
 
 The ideal structure would be just like this post:
 
-![Screenshot: Ideal Structure](./ideal-structure.png)
+![Screenshot: Ideal Structure](images/ideal-structure.png)
 
 It turns out that this is absolutely fine to do - as long as you name the post markdown `index.md`. This took an hour to work out! The feature is known as [Page Bundles](https://gohugo.io/content-management/page-bundles/). This is a delight - the content renders on GitHub just as well as it does on the site!
 
@@ -298,7 +298,7 @@ done
 
 This gives a _much_ more manageable folder structure:
 
-![Screenshot: Better Folder Structure](./folder-structure-screenshot.png)
+![Screenshot: Better Folder Structure](images/folder-structure-screenshot.png)
 
 However, we still have the images sitting in the `static` folder.
 
@@ -307,7 +307,6 @@ However, we still have the images sitting in the `static` folder.
 There are two image formats to deal with - the standard markdown image format, and `img` tags, which have been used to customise the size of the image:
 
 ```
-![Image Alt Text](image-path.png)
 <img width="600px" alt="Image: The Evolution of Windows" src="/images/2019/05/screenshot-windows-evolution.png" />
 ```
 

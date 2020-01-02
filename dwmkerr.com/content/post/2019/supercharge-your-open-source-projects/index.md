@@ -12,7 +12,7 @@ I love the world of open-source. Communities of people working together to solve
 
 I have contributed to a number of open-source projects over the years, but also built up a healthy number of projects of my own:
 
-![github-repos](/images/2019/04/github-repos.png)
+![github-repos](images/github-repos.png)
 
 Obviously these are not hugely popular projects, but they get activity and usage, and take a reasonable amount of time to maintain. Looking a little bit deeper, with the excellent [`starz`](https://github.com/yyx990803/starz) tool, there's actually quite a few projects which have a reasonable following[^1]:
 
