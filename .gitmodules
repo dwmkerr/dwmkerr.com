@@ -4,3 +4,7 @@
 [submodule "dwmkerr.com/themes/herring-cove"]
 	path = dwmkerr.com/themes/herring-cove
 	url = https://github.com/spf13/herring-cove.git
+[submodule "dwmkerr.com/themes/hugo_theme_pickles"]
+	path = dwmkerr.com/themes/hugo_theme_pickles
+	url = git@github.com:mismith0227/hugo_theme_pickles.git
+	branch = release
