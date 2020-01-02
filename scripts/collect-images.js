@@ -10,6 +10,7 @@ const rexImgTag = new RegExp(/<img\s+([^>]*)[/]?>/);
 const regImgSrcAttribute = new RegExp(/src=\"([^"]+)"/);
 const regImgAltAttribute = new RegExp(/alt=\"([^"]+)"/);
 const regImgWidthAttribute = new RegExp(/width=\"([^"]+)"/);
+const rexMarkdownImage = new RegExp(/<\!\[([^\]]*)\]\(([^\)]+)\)/);
 
 /**
  * moveFileSafeSync - move src to dest, ensuring all required folders in the
@@ -88,7 +89,7 @@ function processPost(rootPath, postPath) {
 
     //  Process each line, looking for image info.
     rl.on('line', (line) => {
-      //  Check for image tags.
+      //  Check for html image tags.
       if (rexImgTag.test(line)) {
         const imageTagResults = rexImgTag.exec(line);
         const imageTag = imageTagResults[0];
@@ -134,8 +135,50 @@ function processPost(rootPath, postPath) {
         changed = true;
       }
       
+      //  Check for markdown image tags.
+      if (rexMarkdownImage.test(line)) {
+        const markdownImageCaptures = rexMarkdownImage.exec(line);
+        const markdownImage = markdownImageCaptures[0];
+        const markdownImageDescription = markdownImageCaptures[0];
+        const markdownImagePath = markdownImageCaptures[1];
+        console.log(`    Found markdown image: ${markdownImagePath}`);
+
+        //  If the source is already in the appropriate location, don't process it.
+        if (/images\//.test(markdownImagePath)) {
+          console.log(`    skipping, already processed`);
+          outputStream.write(line + os.EOL);
+          return;
+        }
+
+        //  Now that we have the details of the image tag, we can work out the
+        //  desired destination in the images folder.
+        const imageFileName = path.basename(markdownImagePath);
+        const newRelativePath = path.join("images", imageFileName);
+        const newAbsolutePath = path.join(postDirectory, newRelativePath);
+
+        //  If the file is on the web, we need to download it...
+        if (/http/.test(markdownImagePath)) {
+          console.log(`    Downloading '${markdownImagePath}' to '${newAbsolutePath}'...`);
+          downloadFile(markdownImagePath, newAbsolutePath);
+        }
+        //  ...otherwise we can just move it.
+        else {
+          const absoluteSrc = path.join(rootPath, markdownImagePath);
+          moveFileSafeSync(absoluteSrc, newAbsolutePath);
+          console.log(`    Copied '${absoluteSrc}' to '${newAbsolutePath}'`);
+        }
+
+        //  Now re-write the markdown.
+        const newMarkdownImage = `![${markdownImageDescription}](${newRelativePath})`;
+        console.log(`    Changing : ${markdownImage}`);
+        console.log(`    To       : ${newMarkdownImage}`);
+        line = line.replace(markdownImage, newMarkdownImage);
+        changed = true;
+      }
+
       outputStream.write(line + os.EOL);
     });
+
 
     rl.on('error', (err) => {
       console.log(`  Error reading file: ${err}`);
