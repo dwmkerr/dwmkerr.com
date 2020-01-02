@@ -10,6 +10,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
     * [Setting up the Ghost server](#setting-up-the-ghost-server)
     * [Backup](#backup)
 * [Hugo](#hugo)
+* [CI/CD](#cicd)
 * [Tasks](#tasks)
 
 <!-- vim-markdown-toc -->
@@ -72,6 +73,14 @@ The site can be built with:
 make build
 ```
 
+## CI/CD
+
+Any changes to the `master` branch, or a branch which matches the `build/*` pattern will trigger a deployment to GitHub Pages.
+
+The address of the deployed site is:
+
+https://dwmkerr.github.io/dwmkerr.com/
+
 ## Tasks
 
 - [ ] The preview image should not be shown on each page.
@@ -88,3 +97,6 @@ make build
 - [ ] Check remaining content in `static` folder
 - [ ] Featured images are still in the `static` folder
 - [ ] Create social preview for entire site - maybe markdown and hugo shown as some kind of diagram, such as a CI diagram?
+- [ ] Fix TODOs sitewide
+- [ ] Check for anything needed in `wp-content`
+- [ ] Use `pandoc` to convert old html content to GFM (`pandoc --from html --to gfm --standalone`), see https://stackoverflow.com/questions/7694887/is-there-a-command-line-utility-for-rendering-github-flavored-markdown
