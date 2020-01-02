@@ -17,7 +17,7 @@ title: Is it worth persevering with Golang?
 
 I recently decided to try out [the Go Programming Language](https://golang.org/), by building a little project called [google-it](http://www.github.com/dwmkerr/google-it) which let's me run a google search from a terminal:
 
-![google-it screenshot](/images/2016/06/google-it.gif)
+![google-it screenshot](images/google-it.gif)
 
 The idea behind the project is simple - avoid jumping into a browser if you need to quickly look up something which you can find in the first line of a Google search result. The idea is to try and stay in the zone. For example, forgotten how to split panes in tmux?
 
@@ -269,11 +269,11 @@ I've found everything I've needed so far on [Go's own documentation](https://gol
 
 OK - this is not a language feature. But if you are a noob like me moving from this:
 
-![Vim vanilla](/images/2016/06/VimGoVanilla-1.jpg)
+![Vim vanilla](images/VimGoVanilla-1.jpg)
 
 to this:
 
-![Vim with vim-go plugin screenshot](/images/2016/06/VimWithVimGo.jpg)
+![Vim with vim-go plugin screenshot](images/VimWithVimGo.jpg)
 
 made a big difference. The excellent [vim-go](https://github.com/fatih/vim-go) plugin gives syntax highlighting and supports some really useful commands. As a learner, regularly running `:GoLint` is really helping me write more 'conventional' Go.
 

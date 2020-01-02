@@ -23,7 +23,7 @@ I've finally had a chance to install the new Docker for Mac Beta and give it a w
 
 *Below: The welcome message for the new Docker for Mac app*
 
-![Docker for Mac Icon](/images/2016/06/Screen-Shot-2016-06-03-at-20-33-20.png)
+![Docker for Mac Icon](images/Screen-Shot-2016-06-03-at-20-33-20.png)
 
 # So What is Docker for Mac?
 
@@ -33,7 +33,7 @@ You may be aware that Docker creates processes in isolated containers using some
 
 This is described in detail on the [Understand the Docker Architecture](https://docs.docker.com/engine/understanding-docker/) page, but essentially means we can do this:
 
-![Docker Running on Ubuntu](/images/2016/06/Docker-on-Ubuntu.png)
+![Docker Running on Ubuntu](images/Docker-on-Ubuntu.png)
 
 Here I have:
 
@@ -58,7 +58,7 @@ The container was created on my machine (in the host) and addressable using my l
 
 This is all great, but things get a little harder on a Mac or Windows. MacOS and the Windows OS don't have the same kernel level support for process isolation, control groups and so on, so the Docker Host cannot run on these operating systems. Instead, an extra layer and component is introduced:
 
-![Docker on OSX](/images/2016/06/Docker-on-MacOS.png)
+![Docker on OSX](images/Docker-on-MacOS.png)
 
 What's new?
 
@@ -112,7 +112,7 @@ I'll get an error - because my docker instance cannot communicate with the host.
 
 Again, the Docker Toolkit is set up to try and make things easy. If I install the toolkit I can run an app called Docker Quickstart Terminal:
 
-![Docker Quickstart Terminal](/images/2016/06/Quickstart.jpg)
+![Docker Quickstart Terminal](images/Quickstart.jpg)
 
 And this will open a terminal where I *can* use these commands. It will also start the docker machine VM if it has to. It's even smart enough to recognise if I have multiple terminal apps, such as iTerm, and ask which one I want to use.
 
@@ -130,7 +130,7 @@ This fast gets painful - the container image takes time to build and slows down 
 
 In container development is pretty much what it sounds like. Instead of editing your code on your machine, building an image and creating a container to debug, you simply create the container with what you need, **mount your code** in to the container and run all of your development tooling from inside the container:
 
-![Docker In Container Development](/images/2016/06/In-Container-Development.png)
+![Docker In Container Development](images/In-Container-Development.png)
 
 In this diagram, I have my code locally on my machine. I have built a container which runs `nodemon`, watching a directory on the container. That directory is actually just a volume containing my code which I have mounted into my container.
 
@@ -164,19 +164,19 @@ Removing the three pain points discussed and a clean and simple setup process is
 
 Piece of cake. Download the beta, install, run, enter the beta key and pop, there's the new docker:
 
-![Docker Welcome Message](/images/2016/06/Screen-Shot-2016-06-03-at-20-33-20-1.png)
+![Docker Welcome Message](images/Screen-Shot-2016-06-03-at-20-33-20-1.png)
 
 The new status bar icon gives me a way to quickly see the status of the machine. Some of the commands hint at features to come, others offer the instructions needed. Settings are fairly basic, but I'm not sure what else you'd need:
 
-![Status Bar Screenshot 1](/images/2016/06/Screen-Shot-2016-06-04-at-00-09-56.png)
+![Status Bar Screenshot 1](images/Screen-Shot-2016-06-04-at-00-09-56.png)
 
-![Status Bar Screenshot 2](/images/2016/06/Screen-Shot-2016-06-04-at-00-10-07.png)
+![Status Bar Screenshot 2](images/Screen-Shot-2016-06-04-at-00-10-07.png)
 
-![Status Bar Screenshot 3](/images/2016/06/Screen-Shot-2016-06-04-at-00-10-23.png)
+![Status Bar Screenshot 3](images/Screen-Shot-2016-06-04-at-00-10-23.png)
 
-![Status Bar Screenshot 4](/images/2016/06/Screen-Shot-2016-06-04-at-00-44-04.png)
+![Status Bar Screenshot 4](images/Screen-Shot-2016-06-04-at-00-44-04.png)
 
-![Status Bar Screenshot 5](/images/2016/06/Screen-Shot-2016-06-04-at-00-44-12.png)
+![Status Bar Screenshot 5](images/Screen-Shot-2016-06-04-at-00-44-12.png)
 
 ### 1. Localhost vs docker-machine IP
 
@@ -188,7 +188,7 @@ mysql -uroot -p123 -h127.0.0.1
 > show databases;
 ```
 
-![Localhost Screenshot](/images/2016/06/Screen-Shot-2016-06-03-at-23-37-39.png)
+![Localhost Screenshot](images/Screen-Shot-2016-06-03-at-23-37-39.png)
 
 Great news!
 
@@ -198,7 +198,7 @@ How this works under the hood is a mystery to me. If anyone knows, I'd be intere
 
 Quick and easy to test - running any terminal any way I like lets me access containers using the `docker` executable - no magic needed:
 
-![Shells](/images/2016/06/Screen-Shot-2016-06-03-at-23-46-57.png)
+![Shells](images/Screen-Shot-2016-06-03-at-23-46-57.png)
 
 Here's a screenshot of iTerm3, the Terminal App and the Terminal App running `zsh`, all of which are happily communicating with the docker deamon through the `docker` app.
 
@@ -233,7 +233,7 @@ docker run -it -v `pwd`:/src incontainerdev]
 
 Immediately, I open a new window and change the source code and save (on my local Mac, not in the container). Voila:
 
-![Live Reloading](/images/2016/06/Screen-Shot-2016-06-04-at-00-03-23.png)
+![Live Reloading](images/Screen-Shot-2016-06-04-at-00-03-23.png)
 
 Live reloading works without a hitch! `nodemon` picks up my changes, using `inotify` from the VM (all through a lightweight userspace hypervisor).
 

@@ -33,7 +33,7 @@ I'm going to share my experiences of experimenting in Angular 2 with you, from t
 
 Let me highlight a few key moments in my UI development experiences, to give a bit of context to my ramblings.
 
-![The Journey So Far](/images/2016/04/Journey.jpg)
+![The Journey So Far](images/Journey.jpg)
 
 Reading about redux was a lightbulb moment for me - rather than a complex framework it's a simply library to help apply a few common sense functional programming principles - state is immutable, functions apply predictable transformations to data to produce new data.
 
@@ -64,13 +64,13 @@ You can check the code at this stage here:
 
 https://github.com/dwmkerr/angular2-starter/tree/step1
 
-![Step 1 GitHub Screenshot](/images/2016/04/Step1.png)
+![Step 1 GitHub Screenshot](images/Step1.png)
 
 ## Node & NPM Issues
 
 At this stage the quickstart says you can run `npm install` and all will be well:
 
-![npm install screenshot](/images/2016/04/npm-install.png)
+![npm install screenshot](images/npm-install.png)
 
 ```
 npm ERR! cb() never called!
@@ -118,15 +118,15 @@ Essentially we now have:
 
 At this stage, running `npm start` gives us a browerserified app to play with:
 
-![Step 2 Screenshot](/images/2016/04/Step2.png)
+![Step 2 Screenshot](images/Step2.png)
 
 Clear enough so far, although the code in Sublime is not looking so pretty:
 
-![Step 2 Sublime Text Screenshot](/images/2016/04/Step2Sublime.png)
+![Step 2 Sublime Text Screenshot](images/Step2Sublime.png)
 
 Quickly installing the [TypeScript plugin](https://github.com/Microsoft/TypeScript-Sublime-Plugin) from Microsoft[^n] seems to do the trick:
 
-![Step 2 Sublime Text with TypeScript plugin](/images/2016/04/Step2SublimeFormatted.png)
+![Step 2 Sublime Text with TypeScript plugin](images/Step2SublimeFormatted.png)
 
 If you need more details, here's a gist with the full setup for Sublime 3, assuming you've got nothing installed.
 
@@ -140,9 +140,9 @@ At this stage the quick started guide starts going into more detail, guiding you
 
 Within not much time I had the some basic components, input and output, bindings and so on. Some screenshots:
 
-![Goals Screenshot 1](/images/2016/04/Goals-Screenshot-1.png)
+![Goals Screenshot 1](images/Goals-Screenshot-1.png)
 
-![Goals Screenshot 2](/images/2016/04/Goals-Screenshot-2-1.png)
+![Goals Screenshot 2](images/Goals-Screenshot-2-1.png)
 
 You can take a look at the code at this stage by checking out the 'step3' branch:
 

@@ -22,7 +22,7 @@ I recently found a surprisingly helpful approach for server-side development whi
 
 The scenario can be roughly simplified to this:
 
-![Planned Architecture](/images/2016/11/0-problem.png)
+![Planned Architecture](images/0-problem.png)
 
 We are building a mobile app and application server. This will take data from a user, transform it and then pass it to the enterprise system processing.
 
@@ -30,7 +30,7 @@ The problem is that the enterprise system doesn't exist yet!
 
 Now this is not too much of a challenge, the first thing we did was build a simple mock of the enterprise system in Node.js, so that we can at least talk to *something*:
 
-![The Mock System](/images/2016/11/0-problem-2.png)
+![The Mock System](images/0-problem-2.png)
 
 So now we have the question - is our application server transforming the data correctly?
 
@@ -44,17 +44,17 @@ Our testers want to make sure that the enterprise system will receive the right 
 
 It's a trivial change to our mock server to send the received messages to Slack:
 
-![Slack Diagram](/images/2016/11/1-slack.png)
+![Slack Diagram](images/1-slack.png)
 
 Now our testers can input data in the mobile app and then watch a slack channel to see the data our application server will actually send to the enterprise system. They can verify the logic has been implemented correctly.
 
 Here's how it might look - in the image below I am running my mock enterprise server, which has Swagger UI to show the mocked APIs and allow me to call them:
 
-![Swagger UI](/images/2016/11/4-swagger.png)
+![Swagger UI](images/4-swagger.png)
 
 The message is received on the server, sent to slack and we can check the result:
 
-![Slack](/images/2016/11/5-slack.png)
+![Slack](images/5-slack.png)
 
 Now this is obviously a trivial and contrived example, but Slack offers a lot of capabilities. Imagine you have a server which watermarks images, you could send an image file to render to the screen. There are a whole bunch of ways you can extend this use case.
 
@@ -70,11 +70,11 @@ Here's how you go about it.
 
 Step 1: Set up a webhook on slack
 
-![Menu](/images/2016/11/1-menu.png)
+![Menu](images/1-menu.png)
 
-![Webhook](/images/2016/11/1-incoming-webhook.png)
+![Webhook](images/1-incoming-webhook.png)
 
-![](/images/2016/11/3-hook.png)
+![](images/3-hook.png)
 
 Step 2: Use the HTTP APIs from Slack, or a client from your platform of choice to send the message:
 

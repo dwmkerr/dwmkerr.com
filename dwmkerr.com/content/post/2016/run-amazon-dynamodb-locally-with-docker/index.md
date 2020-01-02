@@ -27,7 +27,7 @@ docker run -d -p 8000:8000 dwmkerr/dynamodb
 
 Try it out by opening the shell, [localhost:8000/shell](http://localhost:8000/shell):
 
-![DynamoDB Shell](/images/2016/10/banner.jpg)
+![DynamoDB Shell](images/banner.jpg)
 
 That's all there is to it!
 

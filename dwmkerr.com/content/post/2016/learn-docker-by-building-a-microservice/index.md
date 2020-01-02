@@ -32,7 +32,7 @@ In this article I'm going to show you how Docker works, what all the fuss is abo
 We'll use a simple Node.js service with a MySQL backend as an example, going from code running locally to containers running a microservice and database.
 
 <p align="center">
-<img src="/images/2016/04/Article.png" style="width:400px;" />
+<img src="images/Article.png" />
 </p>
 
 Once you've read the article, you can find the source code here:
@@ -87,7 +87,7 @@ What you are seeing is the bash shell of an *isolated* container running Ubuntu,
 
 Here's a diagram and breakdown of what just happened (the digram is from the ['Understanding the Architecture' Docker Documentation](https://docs.docker.com/v1.8/introduction/understanding-docker/), which is great):
 
-![Docker Run Flow](/images/2016/04/Flow.png)
+![Docker Run Flow](images/Flow.png)
 
 1. We issue a docker command:
   * `docker`: run the docker client
