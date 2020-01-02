@@ -1,0 +1,150 @@
+/***************************************
+ Menu 1 
+ **************************************/
+
+/* The menu wrapper "bar" */
+#menu1-wrapper {
+	z-index: 				1000;
+	background: 			#ffffff;
+	
+	/* stick to bottom on 960 */
+	position: 				absolute;
+	bottom: 					0;
+	right:					0;
+	
+	/* next 2 lines enhance the "smooth-menu" animation slightly, not vital */
+	border-bottom: 		solid 1px #cccccc;
+	margin-bottom: 		-1px; 
+}
+
+@media only screen and (max-width: 959px) {
+	#menu1-wrapper {
+		position: 			relative;
+	}
+}
+
+/* 1st level UL */
+#menu1, 
+#menu1-smooth  {
+	display: 				table; /* center without having to specify width */
+	margin: 					0 auto; /* center menu, "comment" or delete both 2 lines to left-align menu */
+}
+
+#menu1 > li {
+	background: 			transparent url(%tpldir%/images/menuline.png) 0 center no-repeat; 
+	box-shadow: 			2px 4px 20px -18px #000;
+}
+
+#menu1 > li:first-child {
+	background: 			none;
+}
+
+/* The <i> tag are inserted with Javascript.
+The <i> tags allows adding background images from a "sprite" image = 
+background-image with  */
+#menu1 > li > a > i { 
+	display:					block;
+	width: 					24px;
+	height: 					24px;
+	margin: 					0 auto 5px auto;
+	background: 			transparent url(%tpldir%/images/menu-icons-0090d3.png) 0 0 no-repeat; 
+}
+
+#menu1 > li:hover > a > i { 
+	background: 			transparent url(%tpldir%/images/menu-icons-0090d3.png) -24px 0 no-repeat; 
+}
+	
+#menu1 .page-blog > a > i 					{ background-position: 0px 0px ; }
+#menu1 .page-contact-us > a > i 			{ background-position: 0px -24px; }
+#menu1 .page-features > a > i 			{ background-position: 0px -48px ; }
+#menu1 .page-level-1 > a > i 				{ background-position: 0px -72px; }
+#menu1 .page-news > a > i 					{ background-position: 0px -96px }
+#menu1 .page-parent-page > a > i 		{ background-position: 0px -120px; }
+#menu1 .page-support > a > i 				{ background-position: 0px -144px; }
+#menu1 .page-wordpress-themes > a > i 	{ background-position: 0px -168px; }
+
+#menu1 .page-blog:hover > a > i 					{ background-position: -24px 0px ; }
+#menu1 .page-contact-us:hover > a > i 			{ background-position: -24px -24px; }
+#menu1 .page-features:hover > a > i 			{ background-position: -24px -48px ; }
+#menu1 .page-level-1:hover > a > i 				{ background-position: -24px -72px; }
+#menu1 .page-news:hover > a > i 					{ background-position: -24px -96px }
+#menu1 .page-parent-page:hover > a > i 		{ background-position: -24px -120px; }
+#menu1 .page-support:hover > a > i 				{ background-position: -24px -144px; }
+#menu1 .page-wordpress-themes:hover > a > i 	{ background-position: -24px -168px; }
+
+/* Global link style */
+#menu1 a, 
+#menu1-smooth a { 
+	font-family: 			'Yanone Kaffeesatz', sans-serif;
+	font-size: 				22px; 
+	font-weight: 			300;
+	color: 					#000; 
+	padding: 				12px 15px 20px 15px; 
+	line-height: 			22px;
+}
+/* 2nd level link style. With (#menu1-smooth) and without animation */
+#menu1 ul a, #menu1-smooth a { 
+	font-size: 				18px; 
+}
+
+/* 1st level links */
+#menu1 > li > a span.firstpart {
+	color:					#ccc;
+}
+
+
+#menu1 a:hover, 
+#menu1-smooth a:hover,
+#menu1 .active a, 
+#menu1-smooth .active a { 
+	color: 					#0090d3; 
+}
+
+/* Line above 1st level menu items on hover */
+#menu1 > li { 
+	border-top: 			solid 5px transparent; /* placeholder for border "on hover" */
+}
+
+
+#menu1 > li:hover,
+#menu1 > li.active ,
+#menu1 > li.ancestor { 
+	border-top: 			solid 5px #0090d3;
+}
+
+/* 2nd+ levels */
+#menu1 .sub-menu, 
+#menu1-smooth .sub-menu {
+	list-style: 			none;
+	background:				#ffffff; /* for IE8 */
+	background: 			hsla(36, 100%, 100%, 0.95);
+	border: 					solid 1px #ddd;
+	font-size: 				18px; 
+	padding: 				5px 15px;
+	box-shadow: 			5px 5px 20px -15px #000;
+}
+
+#menu1 .sub-menu a, 
+#menu1-smooth .sub-menu a { 
+	padding: 				5px 0;
+}
+
+#menu1 > ul > li > ul { 
+	margin-left: 			-20px;
+}
+
+/* border between list items */
+#menu1 .sub-menu li, 
+#menu1-smooth .sub-menu li { 
+	border-top: 			solid 1px #eee;
+}
+#menu1 .sub-menu li:first-child, 
+#menu1-smooth .sub-menu li:first-child { 
+	border-top: 			none;
+}
+
+#menu1 .sub-menu .sub-menu, 
+#menu1-smooth .sub-menu .sub-menu li:first-child {
+	margin-top: 			-38px; /* - (line-height + padding) */
+}
+

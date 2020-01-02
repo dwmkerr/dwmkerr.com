@@ -1,0 +1,66 @@
+/************************************
+ Breadcrumbs
+ ***********************************/
+
+.breadcrumbs {
+	color: 					#666666;
+	font-size: 				13px;
+}
+
+.breadcrumbs ol {
+	list-style: 			none;
+	padding: 				0;
+	margin: 					0;
+}
+
+.breadcrumbs ol li {
+	float:					left;
+	line-height:			32px;
+}
+
+.breadcrumbs ol li a {
+	color: 					#333333;
+	margin-left: 			10px;
+}
+
+.breadcrumbs ol li a:hover {
+	color: 					#0090d3;
+	margin-left: 			10px;
+}
+
+.breadcrumbs .bc-current, .breadcrumbs .bc-pagenumber {
+	margin-left: 			10px;
+}
+
+.breadcrumbs ol li.bc-home a {
+	display: 				block;
+	width: 					12px;
+	height: 					12px;
+	background: 			transparent url(%tpldir%/images/icons.png) -36px -108px no-repeat;
+	margin: 					8px 15px 0 5px;
+}
+
+.breadcrumbs ol li.bc-home a:hover {
+	background: 			transparent url(%tpldir%/images/icons.png) -48px -108px no-repeat;
+	text-decoration: 		none;
+}
+
+.breadcrumbs ol li i {
+	margin: 					0 0 0 5px;
+	display: 				block;
+	float: 					right;
+	width: 					17px;
+	height: 					32px;
+	background: 			transparent url(%tpldir%/images/breadcr-arr.png) center left no-repeat;
+}
+
+#breadcrumbs1 {
+	padding: 				5px 0 5px 30px;
+}
+
+#breadcrumbs1-bg {
+	border-top: 			solid 1px #cccccc;
+	border-bottom: 		solid 1px #cccccc;
+	background: 			#f7f7f7;
+	position:				relative;
+}

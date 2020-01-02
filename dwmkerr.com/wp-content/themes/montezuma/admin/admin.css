@@ -1,0 +1,846 @@
+.wrap h2 {
+	margin-bottom: 15px;
+}
+.wrap textarea {
+	width: 100%;
+	height: 100px;
+	margin: 10px 0 20px 0;
+}
+.wrap input[type="checkbox"], .wrap input[type="radio"] {
+    margin: 5px 3px 0;
+    padding: 0;
+    vertical-align: -3px;
+}
+
+
+/* Help tabs - overwrite WP settings */
+#contextual-help-back {
+	left: 170px;
+}
+.contextual-help-tabs {
+	width: 170px;
+}
+#contextual-help-wrap .codeContainer {
+	position: relative; 
+	border:solid 1px #ccc;
+	background: #f7f7f7;
+	padding:10px;
+	margin-bottom: 10px;
+}
+#contextual-help-wrap .codeContainer code.codehighlight {
+	float:left;
+	color:blue;
+	border:dotted 1px #ccc; 
+	display:block;
+	font-size:14px;
+	background:#fff;
+}
+
+#ata-wrap {
+	display: table;
+	table-layout: fixed;
+	border-spacing: 0;
+	border-collapse: separate;
+	width: 100%;
+	direction: rtl; /* #ataadminmenu must be after #ataadmincontent due to wait for other function, 
+	fixing this with rtl / ltr */
+	border-spacing: 0;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+
+
+/*******************************
+Buttons
+******************************/
+#ata-wrap button {
+	font-size: 18px;
+	line-height: 36px;
+}
+#ata-wrap button:hover {
+	color: #21759B;
+}
+#ata-wrap button i {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	margin-right: 10px;
+	vertical-align: -6px;
+	background: url(images/admin-icons.png) 0 0px no-repeat;
+}
+
+
+#ata-wrap #reset-all i { background-position: 0 0; }
+#ata-wrap #reset-all:hover i { background-position: -24px 0; }
+#ata-wrap #save-all i { background-position: 0 -24px; }
+#ata-wrap #save-all:hover i { background-position: -24px -24px; }
+#ata-wrap button.ata-add-item i { background-position: 0 -48px; }
+#ata-wrap button.ata-add-item:hover i { background-position: -24px -48px; }
+#ata-wrap #import_montezuma_button i { background-position: 0 -72px; }
+#ata-wrap #import_montezuma_button:hover i { background-position: -24px -72px; }
+#ata-wrap button.ata-delete-item i { background-position: 0 -96px; }
+#ata-wrap button.ata-delete-item:hover i { background-position: -24px -96px; }
+
+#ata-wrap #save-all {
+	margin: 50px 0 30px 15px;
+}
+#ata-wrap #reset-all {
+	float:right; margin: -70px 0 30px 20px;
+}
+
+/* small single reset buttons */
+#ata-wrap button.reset-single {
+	font-size: 13px;
+	line-height: 15px;
+}
+#ata-wrap button.reset-single i {
+	width: 12px;
+	height: 12px;
+	margin-right: 6px;
+	vertical-align: -1px;
+	background: url(images/admin-icons.png) 0 -228px no-repeat;
+}
+#ata-wrap button.reset-single:hover i {
+	background-position: -12px -228px;
+}
+
+
+
+
+
+#topsubmit {
+	position: fixed;
+	top: 0;
+	right: 200px;
+	width: 140px;
+	z-index: 100000;
+	display: none;
+
+}
+#topsubmit:hover {
+
+	cursor:pointer;
+}
+#topsubmit div {
+	font-size: 20px;
+	letter-spacing:1px;
+	font-weight: bold;
+	margin:1px 0 -1px 0;
+}
+
+
+#ata-wrap code {
+	font-size: 13px;
+	line-height: 1.5;
+	background: #f7f7f7;
+	color: navy;
+	border: dotted 1px #ccc;
+
+}
+/* ! codemirror uses pre, too */
+#ata-wrap .ata-option > pre {
+	padding: 10px;
+	background: #f7f7f7;
+	border: dashed 1px #ccc;
+
+}
+
+
+
+
+
+#ata-wrap h4 {   
+	font-size: 17px;
+	margin: 20px 0 5px 0;
+	color: #999;
+}
+#ata-wrap h4 span {   
+	color: #000;
+}
+#ata-wrap h3 {   
+	font-size: 22px;
+	line-height: 24px;
+	color: #000;
+	margin-top: 30px;
+}
+#ata-wrap h2 {
+	font-size:28px;
+	font-weight: normal;
+	color: #000;
+}
+
+#bfa_used_colors {
+	padding: 3px;
+	border: solid 1px #ccc;
+}
+#bfa_used_colors span {
+	display: inline-block;
+	padding: 3px;
+	border: solid 1px #ccc;
+	background: #f7f7f7;
+}
+#bfa_used_colors i {
+	display: inline-block;
+	width: 30px;
+	height: 20px;
+	border: solid 1px #000;
+	margin: 0 2px 2px 0;
+	vertical-align: -9px;
+}
+
+#ataadmincontent {
+	display: table-cell;
+	direction: ltr;
+}
+
+
+
+#ataadminmenu  {
+	display: table-cell;
+	direction: ltr;
+	width: 190px;
+	vertical-align: top;
+	line-height: 13px;
+	background: #eee;
+}
+#ataadminmenu ul { 
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+	list-style: none;
+	font-weight: bold;
+	font-size: 14px;
+}
+#ataadminmenu li { 
+	margin: 0;
+	padding: 0;
+}
+
+#ataadminmenu ul ul {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+	font-size: 13px;
+}
+
+#ataadminmenu  > ul > li {
+}
+#ataadminmenu  > ul > li > a {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+#ataadminmenu  > ul > li > a.tab-parent-highlight {
+	background: #d2e5ed;
+}
+
+#ataadminmenu  a {
+	text-decoration: none;
+	display: block;
+	padding: 5px;
+	display:block;
+	border-top: solid 3px #ccc;
+
+}
+#ataadminmenu  a:hover {
+	background: #fff;
+}
+
+
+#ataadminmenu  ul ul a {
+	padding: 7px 10px 7px 5px;
+	background: white;
+	border-top: solid 1px #ddd;
+}
+#ataadminmenu  ul ul li:first-child a {
+	border-top: solid 3px #ccc;
+}
+#ataadminmenu  ul ul a i {
+	width: 12px;
+	height: 12px;
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: -2px;
+	background: url(images/littleicons.png) 0px 0px no-repeat;
+}
+
+#ataadminmenu  ul ul a:hover , #ataadminmenu  ul ul a.tab-highlight {
+	background: #f7f7f7;
+	color: #d54e21;
+}
+#ataadminmenu  ul ul a:hover i , #ataadminmenu  ul ul a.tab-highlight i {
+	background: url(images/littleicons.png) -12px 0px no-repeat;
+}
+
+/* "Add" icon */
+#ataadminmenu  li#menu-addmaintemplate i,
+#ataadminmenu  li#menu-addsubtemplate i  {
+	background: url(images/littleicons.png) 0px -36px no-repeat;
+	vertical-align: -1px; /* These start with char up unlike small char "edit" items */
+}
+#ataadminmenu  li#menu-addmaintemplate a:hover i,
+#ataadminmenu  li#menu-addmaintemplate a.tab-highlight i,
+#ataadminmenu  li#menu-addsubtemplate a:hover i,
+#ataadminmenu  li#menu-addsubtemplate a.tab-highlight i {
+	background: url(images/littleicons.png) -12px -36px no-repeat;
+}
+
+/* "Import/export" icon */
+#ataadminmenu  li#menu-exportsettings i,
+#ataadminmenu  li#menu-importsettings i  {
+	background: url(images/littleicons.png) 0px -48px no-repeat;
+	vertical-align: -1px; 
+}
+#ataadminmenu  li#menu-exportsettings a:hover i,
+#ataadminmenu  li#menu-exportsettings a.tab-highlight i,
+#ataadminmenu  li#menu-importsettings a:hover i,
+#ataadminmenu  li#menu-importsettings a.tab-highlight i {
+	background: url(images/littleicons.png) -12px -48px no-repeat;
+}
+
+/* "Info" icon */
+#ataadminmenu  li#menu-editingcss i,
+#ataadminmenu  li#menu-aboutdropdownmenus i,
+#ataadminmenu  li#menu-aboutsubtemplates i,
+#ataadminmenu  li#menu-aboutmaintemplates i  {
+	background: url(images/littleicons.png) 0px -24px no-repeat;
+	vertical-align: -1px; 
+}
+#ataadminmenu  li#menu-editingcss a:hover i,
+#ataadminmenu  li#menu-editingcss a.tab-highlight i,
+#ataadminmenu  li#menu-aboutdropdownmenus a:hover i,
+#ataadminmenu  li#menu-aboutdropdownmenus a.tab-highlight i,
+#ataadminmenu  li#menu-aboutsubtemplates a:hover i,
+#ataadminmenu  li#menu-aboutsubtemplates a.tab-highlight i,
+#ataadminmenu  li#menu-aboutmaintemplates a:hover i,
+#ataadminmenu  li#menu-aboutmaintemplates a.tab-highlight i {
+	background: url(images/littleicons.png) -12px -24px no-repeat;
+}
+
+/* "Settings" icon */
+#ataadminmenu  li#menu-choosecssgrid i,
+#ataadminmenu  li#menu-addgooglefonts i,
+#ataadminmenu  li#menu-highlightedcode i,
+#ataadminmenu #topmenu-head li i,
+#ataadminmenu #topmenu-comments li i  {
+	background: url(images/littleicons.png) 0px -12px no-repeat;
+	vertical-align: -1px; 
+}
+#ataadminmenu  li#menu-choosecssgrid a:hover i,
+#ataadminmenu  li#menu-choosecssgrid a.tab-highlight i,
+#ataadminmenu  li#menu-addgooglefonts a:hover i,
+#ataadminmenu  li#menu-addgooglefonts a.tab-highlight i,
+#ataadminmenu  li#menu-highlightedcode a:hover i,
+#ataadminmenu  li#menu-highlightedcode a.tab-highlight i ,
+#ataadminmenu #topmenu-head li a:hover i,
+#ataadminmenu #topmenu-head li a.tab-highlight i ,
+#ataadminmenu #topmenu-comments li a:hover i,
+#ataadminmenu #topmenu-comments li a.tab-highlight i {
+	background: url(images/littleicons.png) -12px -12px no-repeat;
+}
+
+
+/* Color Icons */
+#ataadminmenu  li#menu-colorpickersolid i,
+#ataadminmenu  li#menu-colorpickertransparent i {
+	background: url(images/littleicons.png) 0px -60px no-repeat;
+	vertical-align: -1px; /* These start with char up unlike small char "edit" items */
+}
+#ataadminmenu  li#menu-colorpickersolid a:hover i,
+#ataadminmenu  li#menu-colorpickersolid a.tab-highlight i,
+#ataadminmenu  li#menu-colorpickertransparent a:hover i,
+#ataadminmenu  li#menu-colorpickertransparent a.tab-highlight i {
+	background: url(images/littleicons.png) -12px -60px no-repeat;
+}
+
+/* Google Fonts */
+#ataadminmenu  li#menu-addgooglefonts i{
+	background: url(images/littleicons.png) 0px -72px no-repeat;
+	vertical-align: -1px; /* These start with char up unlike small char "edit" items */
+}
+#ataadminmenu  li#menu-addgooglefonts a:hover i,
+#ataadminmenu  li#menu-addgooglefonts a.tab-highlight i {
+	background: url(images/littleicons.png) -12px -72px no-repeat;
+}
+
+
+
+.ata-option-pack-container {
+	margin-left: 15px;
+}
+.ata-option-pack-container h2 {
+	margin-top: 0px;
+	padding-top: 0;
+}
+
+.ata-option-pack-container ul  {
+	list-style-type: disc;
+	margin-left: 20px;
+
+}
+.ata-option-pack-container ul  li {
+	padding-top: 0;
+	margin-bottom: 0; /* reset default WP style */
+}
+
+
+
+.templatenameinfo {
+	width: 150px;
+	float: right;
+	margin: 0 0 10px 20px;
+	padding: 0 5px 5px 15px;
+	border-left: solid 1px #ccc;
+}
+
+.colcount3 {
+	-moz-column-count:3; /* Firefox */
+	-webkit-column-count:3; /* Safari and Chrome */
+	column-count:3;
+}
+
+.colcount2 {
+	-moz-column-count:2; /* Firefox */
+	-webkit-column-count:2; /* Safari and Chrome */
+	column-count:2;
+}
+
+ul.tpllist {
+
+	-moz-column-count:5; /* Firefox */
+	-webkit-column-count:5; /* Safari and Chrome */
+	column-count:5;
+}
+ul.tpllist li {
+   /*width: 28%;
+   margin: .5em 2%;
+   float:left;
+   */
+
+}
+ul.tpllist.red {
+	color:red;
+}
+
+
+
+
+
+
+
+
+
+
+.imagelist-item {
+	margin-bottom: 5px;
+	padding: 0;
+	position: relative;
+	border-bottom: solid 1px #ddd;
+}
+.imagelist-item:hover {
+	background: #ddd;
+}
+.imagelist-image {
+	display: block;
+	background-repeat: no-repeat;
+	background-position: center center; 
+	width: 100%;
+	height: 60px;
+}
+#imagelist-popup {
+	display: none;
+	box-shadow: 0 0 50px #000;
+	padding: 10px;
+	border: solid 1px #000;
+}
+#imagelist-popup:hover {
+	cursor: pointer;
+}		
+#center-container {
+	display: table;
+	z-index: 10000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+#center-container > div {
+	display: table-cell;
+	vertical-align:middle;
+	text-align:center;
+	padding:0;
+}
+.movehandle {
+	width: 55px;
+	height: 38px;
+	background: url(images/moveThis.png) no-repeat top left;
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	display: none;
+}
+.movehandle:hover {
+	background: url(images/moveThis.png) no-repeat bottom left;
+	cursor:move;
+}	
+.closehandle {
+	background: url(images/close.png) no-repeat top left;
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	top: 3px;
+	right: 3px;	
+	display: none;
+}
+.closehandle:hover {
+	background: url(images/close.png) no-repeat bottom left;	
+	cursor: pointer;
+}	
+.image-here {
+	background: url(images/map-opacity.png) repeat top left;		
+}
+#link-color-example {
+	border: 1px solid #DFDFDF;
+	border-radius: 4px 4px 4px 4px;
+	margin: 0 7px 0 3px;
+	padding: 4px 14px;
+}
+
+
+
+
+
+
+
+.wrap .section-container {
+	/*background: #f7f7f7;*/
+	
+	margin-bottom: 20px;
+	
+}
+.wrap .section-container > h3 {
+	margin: 0 0 10px 0;
+	font-size: 20px;
+}
+.wrap .section-container > p {
+	margin: 0px;
+}
+
+.wrap .section-title {
+	background: #eee;
+	cursor: pointer;			
+	line-height: 17px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.wrap .section-title:hover {
+	background: #ddd;
+	color: #000;			
+}
+.wrap .section-title h3 {
+	float: left;
+	width: 200px;
+	color: #21759b;
+	font-size: 13px;
+	text-align:right;
+	padding: 8px 0px;
+	margin: 0;
+}
+
+.wrap .form-table tr th {
+}
+.wrap .form-table {
+}
+.wrap .form-table  td {
+	padding: 0 0 0 10px;
+}
+.wrap .form-table  td:hover {
+}
+.wrap .form-table  td:hover td {
+	background: #none;
+}
+.wrap .form-table .option-title {
+	color: #176fa5;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 7px;
+	background: #eee;
+	border: solid 1px #ddd;
+	margin: 20px 0 10px -10px;
+}
+.wrap .form-table  td td {
+	padding: 0; border: none;
+}
+.wrap .section-toggle {
+	width: 100px;
+	display: block;
+	float: right;
+	text-align: right;
+}
+.wrap .section-descr {
+	color: #000;
+}
+
+
+/* align checkboxes */
+/* http://stackoverflow.com/questions/306252/how-to-align-checkboxes-and-their-labels-consistently-cross-browsers */
+/* Note: This doesn't require <br> after each checkbox anymore (due to label getting "display:block") */
+.wrap label {
+    display: block;
+    padding-left: 20px;
+    text-indent: -20px;
+}
+.wrap input[type="checkbox"] {
+    width: 13px;
+    height: 16px;
+    padding: 0;
+    margin:0 3px 0 0;
+    vertical-align: -4px;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+.wrap .plupcontainer label {
+	display: inline;
+}
+.wrap input.regular-text {
+	color: blue;
+	width: 45em;
+	font-family: consolas, monaco, monospace;
+	margin-bottom: 5px;
+}
+
+
+
+.clicktip {
+	padding: 0px 4px;
+	background: #fff;
+	border: solid 1px #999;
+	color: #666;
+	border-radius: 10px;
+	position: relative;
+	font-size:10px;
+	font-weight: bold;
+}
+.clicktip:hover {
+	background: #eee;
+	color: #000;
+	cursor: help;
+}
+.hidden {
+	display: none;
+}
+#clickTipContainer {
+	background: #fff;
+	padding: 20px;
+	box-shadow: 0 0 30px -5px #666;
+	border-radius: 10px;
+	display: none;
+	position: absolute;
+	z-index:100;
+	margin-right: 20px;
+}
+#clickTipContainer:hover {
+	cursor: pointer;
+}
+
+/* reset button */
+
+input#reset-all {
+	float: right;
+	background: #000;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 5px;
+	margin-bottom: 50px;
+}
+input#reset-all:hover {
+	background: #cc0000;
+	cursor: pointer;
+}
+
+
+/* arrows */
+.arrow-down, .arrow-left {
+	padding-left: 12px;
+	line-height: 12px;
+}
+
+.arrow-down {
+	background: url(images/arrow-down.png) no-repeat top left;
+}
+.arrow-left {
+	background: url(images/arrow-left.png) no-repeat top left;
+}
+
+
+.showmore {
+	display: inline-block;
+	padding: 1px 6px;
+	border: solid 1px #ddd;
+	background: #f7f7f7;
+	border-radius: 3px;
+	font-size: 11px;
+}
+.showmore:hover {
+	border: solid 1px #ccc;
+	background: #eee;
+	cursor: pointer;
+}
+.showmore-content {
+	padding: 7px;
+	border: dashed 1px #ddd;
+	display: none;
+}
+
+/*****************************
+	Codemirror
+*********************************/
+.CodeMirror {
+	border: solid 1px #999;
+	width: 100%;
+	font-size: 16px;
+
+	border-radius: 5px;
+	box-shadow: 0 0 5px #ccc inset;
+	margin: 20px 0;
+}
+/*
+.CodeMirror-scroll {
+	height: 400px;
+	width: 100%;
+}
+*/
+.CodeMirror-scroll {
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+
+/* Clearfix */
+.cf:before,
+.cf:after {
+	content:"";
+	display:table;
+}
+.cf:after {
+	clear:both;
+}
+.cf {
+	zoom:1;	/* For IE 6/7 (trigger hasLayout) */
+}
+
+
+.picker-container-wrap {
+   background-image: url('images/transparent.gif');
+	margin-top: 10px;
+}
+
+.picker-container {
+	padding: 5px;
+	border: solid 1px #ccc;
+	background: #f7f7f7;
+}
+#ata-wrap .picker-container h3 {
+	margin: 0 0 5px 0;
+}
+
+/* needed for live preview */
+/*
+.picker-preview {
+	position: relative;
+   background-image: url('images/transparent.gif');
+	vertical-align: top;
+}
+.picker-preview .body {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #fff;
+	padding:50px;
+}
+.picker-preview .element {
+	margin: 30px;
+	padding: 10px;
+	border: solid 5px #ccc;
+	background: #fff;
+	box-shadow: 0 0 30px #000;
+}
+*/
+
+/*************************************
+Colorpicker
+************************************/
+div.colorpicker {
+  margin: 0;
+  position: relative;
+}
+div.colorpicker canvas {
+  float: left;
+}
+div.colorpicker div.circle {
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  background-clip: padding-box;
+}
+div.colorpicker div.circle.alpha {
+  background-image: url('images/transparent.gif');
+  opacity: 0.0;
+}
+div.colorpicker div.circle.lightness {
+  background-color: rgba(0,0,0,0.0);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  border: 1px solid #fff;
+  margin: -1px 0 0 -1px;
+}
+div.colorpicker span.picker, div.colorpicker span.handle {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: rgba(0,0,0,0.4);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 0 4px #000 inset;
+  border: 1px solid #fff;
+  cursor: pointer;
+  margin: -5px;
+  position: absolute;
+  z-index: 2;
+}
+div.colorpicker div.slider {
+  width: 6px;
+  background-color: #fff;
+  background-clip: padding-box;
+  border-radius: 6px;
+  border: 1px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.2) inset;
+  float: left;
+  margin: -1px 0 0 10px;
+}
+div.colorpicker div.slider span.handle {
+  margin: -5px -2px -5px -2px;
+}
+div.colorpicker div.slider.lightness {
+  background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,1));
+  background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,1));
+  background-image: linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,1));
+}
+div.colorpicker div.slider.alpha {
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1.0), rgba(255,255,255,0.6)), url('images/transparent.gif') center;
+  background: -moz-linear-gradient(top, rgba(255,255,255,1.0), rgba(255,255,255,0.6)), url('images/transparent.gif') center;
+  background: linear-gradient(top, rgba(255,255,255,1.0), rgba(255,255,255,0.6)), url('images/transparent.gif') center;
+}
+div.colorpicker input.colorInput {
+  margin-top: 10px;
+  border: 1px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  background-color: #fafafa;
+  border-radius: 3px;
+  padding: 5px 8px;
+
+}

@@ -24,7 +24,7 @@ title: SharpGL 2.0 Beta 1 Released
 </ul>
 <div>Below is a screenshot of SharpGL in a WPF application:</div>
 <div>&nbsp;</div>
-<div>&nbsp;<img style="border-style: initial; border-color: initial;" src="/wp-content/uploads/2012/imported/MainWindow-Final.png" alt="" /></div>
+<div>&nbsp;<img src="images/MainWindow-Final.png" /></div>
 <div>&nbsp;</div>
 <div>And here's a link to a new CodeProject article describing how to use SharpGL in a WPF application:</div>
 <div>&nbsp;</div>

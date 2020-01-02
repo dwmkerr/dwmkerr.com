@@ -1,0 +1,24 @@
+/* CSS Grid */
+
+.row, .row5, .lw { width: 100%; margin: 0 auto; } 
+.row > div, .row5 > div { float: left; position: relative; margin-left: 4.4% } 
+.row > div:first-child, .row5 > div:first-child { margin-left: 0; } 
+
+/* column widths */
+.col1 {width:4.3%}		.col2 {width:13%}		.col3 {width:21.7%}		.col4 {width:30.4%}
+.col5 {width:39.1%}		.col6 {width:47.8%}		.col7 {width:56.5%}		.col8 {width:65.2%}
+.col9 {width:73.9%}		.col10 {width:82.6%}		.col11 {width:91.3%}		.col12 {width:100%}
+
+/* Source ordering */
+.push1 {left:8.7%}		.push2 {left:17.4%}		.push3 {left:26.1%}		.push4 {left:34.8%}
+.push5 {left:43.5%}		.push6 {left:52.2%}		.push7 {left:60.9%}		.push8 {left:69.6%}
+.push9 {left:78.3%}		.push10 {left:87%}		.push11 {left:95.7%}
+.pull1 {right:8.7%}		.pull2 {right:17.4%}		.pull3 {right:26.1%}		.pull4 {right:34.8%}
+.pull5 {right:43.5%}		.pull6 {right:52.2%}		.pull7 {right:60.9%}		.pull8 {right:69.6%}
+.pull9 {right:78.3%}		.pull10 {right:87%}		.pull11 {right:95.7%}
+
+/* 5 equal width columns */
+.row5 > div {width:16.48%}
+.row5 .push1 {left:20.88%}	.row5 .push2 {left:37.36%}	.row5 .push3 {left:53.84%}	.row5 .push4 {left:70.32%}
+.row5 .pull1 {right:20.88%}	.row5 .pull2 {right:37.36%}	.row5 .pull3 {right:53.84%}	.row5 .pull4 {right:70.32%}
+

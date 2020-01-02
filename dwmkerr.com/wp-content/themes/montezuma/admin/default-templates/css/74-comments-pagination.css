@@ -1,0 +1,69 @@
+/**********************
+Comment Pagination
+Styles for all comment paginations 
+(Example: You have 2, one before, one after comment list)
+**********************/
+
+.comment-pagination {
+	padding-left: 			20px;
+	margin-top: 			10px;
+}
+
+.comment-pagination a, 
+.comment-pagination .current  {
+	border: 					solid 1px #dddddd;
+	padding: 				3px 12px;
+	display: 				inline-block;
+	text-decoration: 		none;
+}
+
+.comment-pagination a  {
+	background: 			#fcfcfc;
+}
+
+.comment-pagination a:hover {
+	background: 			#0090d3;
+	border: 					solid 1px #0090d3;
+	color: 					#ffffff;
+}
+
+
+/**********************
+Comment Pagination
+Specific styles for #comment-pagination-1
+**********************/
+
+#comment-pagination-1 {
+	border-bottom: 		solid 1px #dddddd;
+}
+
+#comment-pagination-1 a, #comment-pagination-1 .current {
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	margin-bottom: 		-1px;
+}
+
+#comment-pagination-1 .current {
+	border-bottom: 		solid 1px #ffffff;
+}
+
+
+/**********************
+Comment Pagination
+Specific styles for #comment-pagination-2
+**********************/
+
+#comment-pagination-2 {
+	border-top: 			solid 1px #dddddd;
+}
+
+#comment-pagination-2 a, #comment-pagination-2 .current {
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	margin-top: 			-1px;
+}
+
+#comment-pagination-2 .current {
+	border-top: 			solid 1px #ffffff;
+}
+

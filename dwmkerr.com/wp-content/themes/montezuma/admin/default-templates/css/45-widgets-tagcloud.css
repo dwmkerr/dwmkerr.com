@@ -1,0 +1,30 @@
+/********************************************************************
+	Tag cloud Widget
+********************************************************************/
+/* The hardcoded "font-size:..." tags are removed from the tag cloud 
+links and tagsize-1 ... tagsize-6 classes are added by Javascript */
+
+.tagcloud a {
+	font-size: 			13px;
+	padding: 			2px 6px 4px 6px;
+	border-radius: 	2px;
+	white-space: 		nowrap; 
+	margin: 				0 3px 6px 0;
+	color: 				#333333; 
+	border: 				solid 1px #ddd;
+	background: 		#fcfcfc;
+	display: 			inline-block;
+}
+.tagcloud a:hover {
+	color: 				#ffffff !important;
+	border: 				solid 1px #0090d3;
+	background: 		#0090d3;
+	text-decoration: 	none;
+}
+.tagcloud a.tagsize-1 { }
+.tagcloud a.tagsize-2 { }
+.tagcloud a.tagsize-3 { }
+.tagcloud a.tagsize-4 { }
+.tagcloud a.tagsize-5 { }
+.tagcloud a.tagsize-6 { }
+

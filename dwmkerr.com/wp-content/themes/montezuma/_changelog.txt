@@ -1,0 +1,50 @@
+Changelog 1.1.9:
+
+- Possible security issue with included SWF Clipboard. Removed that functionality altogether as it wasn't vital
+- Post thumbs were not linked anymore and fancy border/shadow not displayed. Save one (any) post to update the post thumb caches and reset 
+  Montezuma Options -> Sub Templates -> postformat.php to get the old style again, with shadows and borders.
+
+Changelog 1.1.8:
+
+- Favicon setting now blank as per default
+- removed PHP notices in thumb.php
+
+Changelog 1.1.7:
+
+- functions.php / includes/thumb.php:
+	replaced deprecated image_resize with wp_get_image_editor
+	
+Changelog 1.1.6:
+
+- Another error in postformat.php
+
+Changelog 1.1.5:
+
+- Error in postformat.php
+
+Changelog 1.1.4:
+
+- localized back end
+- get_virtual_template.php line 52, $frontpage_id = get_option( 'page_on_front' );
+- removed 'thumb-shadow' and 'post-thumb' divs from postformat.php
+- fixed issue with multiple categories on a post only showing one
+- fixed issue with using 'the_content()' in a virtual template
+- fixed issue where site is squished on mobile devices
+- fixed issue where subtemplates were not getting '.php' extension and were not working
+- fixed issue where the_author and other 'Limited PHP code' did not work
+- fixed issue where bfa_get_template_part did not work in Virtual templates
+
+Changelog 1.1.3:
+
+- Added note to readme.txt regading wrapping of menu items in drop down menu
+- /functions.php line 344: Added textdomain
+- /admin/default-templates/sub-templates/footer.php line 4: Added textdomain
+- /includes/not_found.php line 3,4: Added textdomain
+- /includes/breadcrumbs.php line 78,81,85,88,95: Added textdomain
+- /includes/meta_box_template.php line 13,15: Removed textdomain 'montezuma-backend'
+- /includes/widget_meta.php line 6,7,108,115,121,131,136,142,146,152: Removed textdomain
+- /admin/default-templates/sub-templates/comments-comment.php line 27: added class "comment-text"
+- /admin/default-templates/css/10-content.css line ~230-380: various CSS changes / additions
+- /admin/options/400_css_settings.php line 644: added '.comment-text ul li' to list of elements to <i> inserted for CSS sprite image
+- /includes/get_javascript.php line 136: add class 'alternate' to even table rows
+- Replaced bfa_list_pages with wp_list_pages in single.php and page.php

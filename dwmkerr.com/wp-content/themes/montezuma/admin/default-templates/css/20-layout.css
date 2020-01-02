@@ -1,0 +1,63 @@
+/* Uncomment for boxed style,
+also uncomment div#container in main templates */
+/*
+#container {
+	display: table;
+	-moz-box-sizing: content-box; 
+	-webkit-box-sizing: content-box; 
+	box-sizing: content-box;	
+	-o-box-sizing: content-box;	
+	margin: 0 auto;
+	box-shadow: 0 0 30px -20px #999;
+	border: solid 1px #ddd;
+}
+*/
+
+/* The header area full width background */
+#banner-bg 	{ 
+}
+
+/* The header area */
+#banner {
+	position: 				relative;
+}
+
+#logo-area {
+	margin-left: 			20px;
+}
+
+@media only screen and (max-width: 959px) {
+	#banner > div, #banner > nav {
+		float: none;
+		width: 100%;
+	}
+}
+
+
+/* The main row, with the #content column and perhaps sidebars left/right */
+#main 	{ 
+	padding: 				30px 0;
+}
+
+/* A sidebar */
+#widgetarea-one {  
+	padding: 				0 20px;
+}	
+
+/* The content column */
+#content{ 
+	padding: 				0 20px;
+}
+
+/* The footer full width background */
+#footer-bg { 
+	background: 			#fcfcfc; 
+	padding: 				30px 0; 
+	border-top: 			solid 1px #ddd;
+}
+
+/* Footer content area */
+#footer { 
+	text-align: 			center;
+	color:					#666666;
+}

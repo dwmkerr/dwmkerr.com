@@ -1,0 +1,111 @@
+/********************************************************************
+	Comment FORM
+********************************************************************/
+
+/* #respond HTML structure:
+<div id="respond">
+	<h3 id="reply-title">
+		Leave a Reply
+	</h3>
+	<form id="commentform">
+		...
+	</form>
+</div>
+*/
+
+/* #respond wraps "Leave a Reply" and the actual form element */
+#respond {
+	margin: 					30px 0 20px 0;
+	padding-bottom: 		40px;
+	border-bottom: 		solid 1px #eee;
+}
+
+#reply-title {
+	margin: 					0 0 10px 0;
+}
+
+#commentform { }
+
+
+/* #commentform HTML structure:
+<form id="commentform">
+	<p><input id="comment-author"> <label for="author"><strong>Author</strong> (required)</label></p>
+	<p><input id="comment-email"> <label for="email"><strong>Email</strong>(will not be published)(required)</label></p>
+	<p><input id="comment-url"> <label for="url">Website</label></p>
+	<p>
+		<div id="qt_comment-form_toolbar" class="quicktags-toolbar">
+			...
+		</div>
+		<textarea id="comment-form" tabindex="4" cols="60" rows="10" name="comment">
+		</textarea>
+	</p>
+	<p class="form-submit"><input id="submit" value="Post Comment"></p>
+</form>
+*/
+
+
+/**********************
+Quicktag buttons
+**********************/
+
+/* quicktags container above comment form */
+.quicktags-toolbar {
+	margin-bottom: 		10px;
+}
+
+/* quicktag buttons inside quicktags container */
+.ed_button {
+	color: 					#333333;
+	background: 			#eeeeee;
+	border: 					solid 1px #dddddd;
+	margin-right: 			5px;
+	padding: 				3px 8px;
+	border-radius: 		3px;
+}
+
+.ed_button:hover {
+	color: 					#ffffff;
+	background: 			#0090d3;
+	border: 					solid 1px #0090d3;
+	cursor: 					pointer;
+}
+
+/* comment form textarea */
+#comment-form {
+	width: 100%;
+}
+#comment-author { }
+#comment-url { }
+#comment-email { }
+.logged-in-as { }
+#comment { }
+.form-submit { }
+
+#submit {
+	display: 				inline-block;
+	outline: 				none;
+	cursor: 					pointer;
+	text-align: 			center;
+	text-decoration: 		none;
+	font-size: 				14px;
+	padding: 				5px 10px;
+	border-radius: 		5px;
+	color: 					#333333;
+	border: 					solid 1px #dddddd;
+	background: 			#eeeeee;
+}
+
+#submit:hover {
+	color: 					#ffffff;
+	border: 					solid 1px #0090d3;
+	background: 			#0090d3;
+}
+
+.button:hover {
+	text-decoration: 		none;
+}
+
+.button:active {
+	position: 				relative;
+	top: 						1px;
+}

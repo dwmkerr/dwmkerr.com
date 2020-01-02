@@ -1,0 +1,41 @@
+/* Clearfix fixes some floating issues */
+.sub-menu:before, .sub-menu:after,
+.cf:before, .cf:after,
+.row:before, .row:after,
+.row20:before, .row20:after,
+.row:before, .row:after,
+.row:before, .row:after,
+.row:before, .row:after,
+.lw:before, .lw:after {
+  	content: "."; 
+  	display: block; 
+  	height: 0; 
+  	clear: both; 
+  	visibility: hidden;
+	}
+
+.sub-menu:after, 
+.cf:after, 
+.row:after, 
+.row20:after, 
+.lw:after {
+  	clear: both; 
+	}
+
+.sub-menu,	
+.cf, 
+.row, 
+.row20, 
+.lw {
+	min-width: 0;		/* trigger hasLayout for IE7 */
+	display: inline-block;
+	/* \*/	display: block;	/* Hide from IE Mac */
+	}
+
+* html .sub-menu,	
+* html .cf, 
+* html .row, 
+* html .row20, 
+* html .lw {
+	/* \*/  height: 1%;	/* Hide from IE Mac */ 
+	}

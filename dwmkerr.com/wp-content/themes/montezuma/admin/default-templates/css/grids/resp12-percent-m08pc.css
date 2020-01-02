@@ -1,0 +1,45 @@
+/* CSS Grid */
+
+.row, .row5, .lw { width: 100%; margin: 0 auto; } 
+.row > div, .row5 > div { float: left; position: relative; margin-left: 0.8% } 
+.row > div:first-child, .row5 > div:first-child { margin-left: 0; } 
+
+/* column widths */
+.col1 {width:7.6%}		.col2 {width:16%}		.col3 {width:24.4%}		.col4 {width:32.8%}
+.col5 {width:41.2%}		.col6 {width:49.6%}		.col7 {width:58%}		.col8 {width:66.4%}
+.col9 {width:74.8%}		.col10 {width:83.2%}		.col11 {width:91.6%}		.col12 {width:100%}
+
+/* Source ordering */
+.push1 {left:8.4%}		.push2 {left:16.8%}		.push3 {left:25.2%}		.push4 {left:33.6%}
+.push5 {left:42%}		.push6 {left:50.4%}		.push7 {left:58.8%}		.push8 {left:67.2%}
+.push9 {left:75.6%}		.push10 {left:84%}		.push11 {left:92.4%}
+.pull1 {right:8.4%}		.pull2 {right:16.8%}		.pull3 {right:25.2%}		.pull4 {right:33.6%}
+.pull5 {right:42%}		.pull6 {right:50.4%}		.pull7 {right:58.8%}		.pull8 {right:67.2%}
+.pull9 {right:75.6%}		.pull10 {right:84%}		.pull11 {right:92.4%}
+
+/* 5 equal width columns */
+.row5 > div {width:19.36%}
+.row5 .push1 {left:20.16%}	.row5 .push2 {left:39.52%}	.row5 .push3 {left:58.88%}	.row5 .push4 {left:78.24%}
+.row5 .pull1 {right:20.16%}	.row5 .pull2 {right:39.52%}	.row5 .pull3 {right:58.88%}	.row5 .pull4 {right:78.24%}
+
+
+/********************************
+ Mobile 
+ *******************************/
+@media only screen and (max-width: 767px) {		
+body { width: 100%; min-width: 0; margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; }
+
+.row, .row5, .lw { width: 100%; min-width: 0; margin-left: 0; margin-right: 0; }
+.row > div, .row5 > div { margin: 0 !important; float: none !important }
+
+/* All columns full width */
+.col1, .col2, .col3, .col4, .col5, .col6, 
+.col7, .col8, .col9, .col10, .col11, .col12,
+.row5 > div	{ width:100% !important; }
+	
+/* No source ordering on mobile */
+.push1, .push2, .push3, .push4, .push5, .push6, 
+.push7, .push8, .push9, .push10, .push11, .push12 { left:auto !important; } 
+.pull1, .pull2, .pull3, .pull4, .pull5, .pull6, 
+.pull7, .pull8, .pull9, .pull10, .pull11, .pull12 { right:auto !important; } 
+}

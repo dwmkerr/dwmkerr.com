@@ -22,6 +22,6 @@ title: How to Debug a Visual Studio Extension
 <p>This will ensure the locked file is moved out of the way first - very useful!</p>
 <p><strong>Visual Studio 2010</strong></p>
 <p>Every time I do a clean checkout of one of my projects, it seems to lose the ability to be run in the Experimental mode of visual studio. Here's a quick tip - if you lose the ability to debug your visual studio extension, make sure you have the 'Debug' tab of your project set up as below:</p>
-<p><img style="border-style: initial; border-color: initial;" src="/wp-content/uploads/2012/imported/screenshot.png" alt="" /></p>
+<p><img src="images/screenshot.png" /></p>
 <p>Specifically with the external program set as visual studio and the command line arguments as <strong>/rootsuffix exp</strong>. This will run your extension in the Experimental Instance of Visual Studio.</p>
 

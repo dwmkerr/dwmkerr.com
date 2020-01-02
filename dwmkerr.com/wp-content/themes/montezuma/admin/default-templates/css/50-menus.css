@@ -1,0 +1,84 @@
+/**************************************************
+	Menu Bars 
+ *************************************************/
+ 
+.menu-wrapper {
+	position: 				relative; /* or else doesn't get mouseover due to pos. relative of #banner */
+}
+
+/* General menu mechanics applied on class .menu */
+.menu {
+	list-style-type: 		none; 
+	line-height: 			33px; 
+	margin: 					0; 
+	padding: 				0;
+}
+
+/* 2nd level: "drop down" */
+.menu ul {
+	float: 					left; 
+	height: 					auto; 
+	left: 					-999em; 
+	position: 				absolute;
+}
+
+/* 3rd+ levels: "fly out" */
+.menu ul ul {
+	margin-top: 			-33px; /* - line-height(.menu ul) */
+	margin-left: 			150px; /* width(.menu ul a) */
+}
+
+.menu li { 
+	float: 					left; 
+	padding: 				0; 
+	margin: 					0; 
+	width: 					auto; 
+	display: 				block;
+}
+
+.menu ul li { 
+	float: 					none; /* reset float for 2nd+ level LI's */
+	width: 					100%; 
+}
+
+.menu a, 
+#menu1-smooth a, 
+#menu2-smooth a  { 
+	display: 				block; 
+	padding: 				0 8px; 
+	text-decoration: 		none; 
+	white-space: 			nowrap; 
+	width: 					auto; /* <-- change this to a px width for fixed width on first level items */ 
+}
+
+.menu ul a, 
+#menu1-smooth a, 
+#menu2-smooth a { 
+	width: 					150px; 
+	white-space: 			normal; /* 2nd level items we DO want to wrap */
+}
+
+/* Make sure grand children are not shown on hover 
+Only direct children will be shown, see next CSS rule */
+.menu li:hover ul ul ,
+.menu li:hover ul ul ul, 
+.menu li:hover ul ul ul ul,
+.menu li:hover ul ul ul ul ul,
+.menu li:hover ul ul ul ul ul ul,
+.menu li:hover ul ul ul ul ul ul ul {
+	left: 					-999em;
+}
+
+/* Show direct children on hover */
+.menu li:hover ul, 
+.menu li li:hover ul, 
+.menu li li li:hover ul,
+.menu li li li li:hover ul ,
+.menu li li li li li:hover ul,
+.menu li li li li li li:hover ul,
+.menu li li li li li li li:hover ul,
+.menu li li li li li li li li:hover ul {
+	left: 					auto; 
+	z-index: 				100000; 
+}
+

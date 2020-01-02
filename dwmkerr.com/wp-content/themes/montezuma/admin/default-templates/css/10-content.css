@@ -1,0 +1,381 @@
+/********************************************************************
+	BORDER-BOX
+	Browser-support: IE8+
+	See also http://paulirish.com/2012/box-sizing-border-box-ftw/
+********************************************************************/
+
+* { 
+	-moz-box-sizing: 		border-box; 
+	-webkit-box-sizing: 	border-box; 
+	box-sizing: 			border-box;	
+	o-box-sizing: 			border-box;
+}
+
+.row, .lw { 
+	-moz-box-sizing: 		content-box; 
+	-webkit-box-sizing: 	content-box; 
+	box-sizing: 			content-box;	
+	o-box-sizing: 			content-box;
+}
+
+
+/********************************************************************
+	<BODY> for TEXT
+********************************************************************/
+
+body {
+	margin: 					0; 
+	padding: 				0; 
+	font-family: 			"Segoe UI", "Lucida Grande", "Helvetica Neue", sans-serif;
+	font-size: 				15px;
+	opacity: 				0; /* <--- will be turned on ( = set to '1' ) with jQuery 
+									after google fonts, if any, have loaded and masonry layout, 
+									if any, was applied */
+}
+
+
+/********************************************************************
+	HTML5 tags for IE8 and older
+********************************************************************/
+
+article, aside, details, 
+figcaption, figure, footer, 
+header, hgroup, menu, 
+nav, section { 
+	display: 				block; 
+}
+
+
+/********************************************************************
+	<A> LINKS
+********************************************************************/
+
+a  { 
+	color: 					#0090d3; 
+	text-decoration: 		none; 
+}
+
+a:hover 	{ 
+	text-decoration: 		underline; 
+}
+
+a:active { }
+a:visited { }
+
+/* These get a fat dotted underline on hover */
+.post-bodycopy a,
+.widget a,
+.singlenav a,
+.commentlist a,
+.logged-in-as a  { 
+	border-bottom: 		dotted 2px transparent; /* "invisible" placeholder for link hover color */
+}
+
+.post-bodycopy a:hover,
+.widget a:hover,
+.singlenav a:hover,
+.commentlist a:hover,
+.logged-in-as a:hover {
+	border-bottom-color: #0090d3;
+	text-decoration: 		none;
+	color: 					#0090d3;	
+}
+
+
+/********************************************************************
+	Animation
+	Add all CSS selectors that should be animated on hover
+********************************************************************/
+
+a,
+.widget > h3, 
+.widget > h3 i,
+.ed_button,
+#submit,
+.thumb-shadow,
+.firstpart,
+#menu1 i,
+.commentlist li > div,
+.commentlist .avatar {
+	transition: 			all 0.5s ease-out;
+	-webkit-transition: 	all 0.5s ease-out;
+	-moz-transition: 		all 0.5s ease-out;
+	-o-transition: 		all 0.5s ease-out;
+}	
+
+
+/********************************************************************
+	<H1> - <H6> HEADINGS
+********************************************************************/
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 			'Yanone Kaffeesatz', sans-serif;
+	font-weight: 			normal; 
+	margin: 					20px 0 10px 0;
+}
+
+h1 { font-size: 40px; line-height: 44px; }
+h2 { font-size: 36px; line-height: 40px; }
+h3 { font-size: 32px; line-height: 35px; }
+h4 { font-size: 28px; line-height: 33px; }
+h5 { font-size: 24px; line-height: 27px; }
+h6 { font-size: 20px; line-height: 22px; }
+
+
+/********************************************************************
+	<IMG> IMAGES
+********************************************************************/
+
+a img { border: none; }
+
+.wp-caption {
+}
+
+.wp-caption.alignleft,
+.wp-caption.alignnone {
+	margin-left: 			-9px;
+}
+
+.wp-caption.alignright {
+	margin-right: 			-9px;
+}
+
+.wp-caption img {
+	background: 			#fff; 
+	padding: 				10px; 
+	border: 					solid 2px #cccccc;
+}
+
+.wp-caption-text 	{ 
+	color:					#999999;
+	font-size: 				14px; 
+	text-align: 			center; 
+	padding: 				5px; 
+	margin-bottom:			0; /* this is a p element, turn off its bottom margin */
+}
+
+iframe .player-container {
+	border: 					solid 3px #000000;
+}
+
+.alignleft { 
+	float: 					left; 
+	margin: 					5px 15px 10px 0; 
+}
+
+.alignright { 
+	float: 					right; 
+	margin: 					5px 0 10px 15px; 
+}
+
+.aligncenter { 
+	display: 				block; 
+	margin: 					0 auto; 
+}
+
+.gallery-caption {
+}
+
+/* images inside posts on singular pages */
+body.page .hentry img,
+body.single .hentry img {
+	padding: 				7px;
+	border: 					solid 1px #dddddd;
+}
+
+
+/********************************************************************
+ Resizing content
+********************************************************************/
+
+.widget, .hentry {
+	word-wrap: 				break-word;
+}
+
+input, 
+textarea {
+	max-width: 				100%;
+}
+
+img { 
+	max-width: 				100%; 
+	height: 					auto; 
+	display: 				block;
+	width: 					auto; /* makes IE8 keep aspect ratio, adjusts the height */
+}
+
+img.wp-smiley {
+	display: 				inline; /* reset display:block for smileys */
+}
+
+.wp-caption {
+	max-width: 				100% !important; 	/* WP adds 'width="..."' inline to images with .wp-caption, and 
+															to embedded videos, adding !important to overwrite that */
+	width: 					auto; /* makes IE8 keep aspect ratio, adjusts the height */
+	height: 					auto;
+}
+
+embed {
+	max-width: 				100% !important; 	/* WP adds 'width="..."' inline to images with .wp-caption, 
+															and to embedded videos, adding !important to overwrite that */
+	border: 					none; 
+	height: 					auto;
+}
+
+
+
+/********************************************************************
+	<UL> UNORDERED LISTS in post and comment bodies
+********************************************************************/
+
+.hentry ul,
+.comment-text ul {
+	list-style: 			none; 
+	margin: 					10px 0;
+	padding-left:			25px;
+}
+
+.hentry ul li,
+.comment-text ul li {
+	padding-left: 			0px;
+	margin-bottom: 		2px;
+}
+
+.hentry ul li i,
+.comment-text ul li i {
+	display: 				inline-block;
+	width: 					12px; 
+	height: 					12px; 
+	margin-right: 			10px; 
+	margin-left: 			-20px;
+	background: 			transparent url(%tpldir%/images/icons.png) -48px -84px no-repeat;
+}
+
+.hentry ul ul li i,
+.comment-text ul ul li i {
+	background: 			transparent url(%tpldir%/images/icons.png) 0px -48px no-repeat;
+}
+
+.hentry ul ul,
+.comment-text ul ul {
+	margin-top: 			2px; 
+	margin-bottom: 		3px; 
+	margin-left: 			0px;
+	padding-left:			22px;
+}
+
+
+
+/********************************************************************
+	<OL> ORDERED LISTS in post and comment bodies
+********************************************************************/
+
+.hentry ol,
+.comment-text ol { 
+	margin: 					0; 
+	padding: 				0 0 0 35px; 
+	list-style: 			decimal;
+}
+
+.hentry ol li,
+.comment-text ol li { 
+	margin-bottom: 		5px; 
+}
+
+.hentry ol ol,
+.comment-text ol ol { 
+	list-style: 			lower-roman; 
+}
+
+.hentry ol ol ol,
+.comment-text ol ol ol { 
+	list-style: 			lower-alpha; 
+}
+
+
+/********************************************************************
+	<DL> Definition Lists in post and comment bodies
+********************************************************************/
+
+.hentry dl,
+.comment-text dl { 
+	margin:					20px 0;
+}
+
+.hentry dt,
+.comment-text dt { 
+	font-weight: 			bold; 
+	margin:					10px 0;
+}
+
+.hentry dd,
+.comment-text dd { 
+	margin-left:			0;
+	padding-left:			20px;
+}
+
+
+/********************************************************************
+	<TABLE> in post and comment bodies
+********************************************************************/
+
+.hentry table,
+.comment-text table {
+	border-collapse:		collapse;
+	border-bottom:			solid 1px #e7e7e7;
+	margin-bottom:			10px;
+}
+
+.hentry  table caption,
+.comment-text table caption {
+	color: 					#707070; 
+	font-size: 				14px; 
+	letter-spacing: 		1px;
+	text-transform: 		uppercase; 
+	padding: 				4px;
+}
+
+.hentry  table th,
+.comment-text table th {
+	padding: 				6px 8px 6px 9px; 
+	text-align: 			left;
+}
+
+.hentry  table td,
+.comment-text table td {
+	padding: 				5px 8px;
+	border-top:				solid 1px #e7e7e7;
+}
+
+/* zebra-stripe even table rows. Class 'alternate' added with jQuery */
+.hentry  table tr.alternate td,
+.comment-text table tr.alternate td {
+	background: 			#f7f7f7;
+}
+
+
+/********************************************************************
+	<BLOCKQUOTE>
+********************************************************************/
+
+blockquote {
+	color: 					#777777;
+	border-left: 			5px solid #dddddd;
+	margin: 					15px 30px 0px 10px;
+	padding-left: 			20px;
+}
+
+blockquote p {
+
+}
+
+/********************************************************************
+	<PRE>
+********************************************************************/
+
+pre {
+	padding:				10px;
+	border:				dashed 1px #cccccc; 
+}
+
+

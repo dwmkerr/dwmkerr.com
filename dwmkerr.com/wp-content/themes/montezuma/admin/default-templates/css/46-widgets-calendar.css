@@ -1,0 +1,103 @@
+/********************************************************************
+	#wp-calendar - The default WordPress Calendar Widget
+********************************************************************/
+
+/* DIV wrapping the calendar table */
+#calendar_wrap {
+}
+
+/* The actual calendar table element */
+#wp-calendar {
+	border-collapse: 		separate; /* or: "separate" */
+	line-height: 			20px; /* instead of padding */
+	width: 					100%;
+	text-align: 			center;
+}
+
+/* Table caption: "February 2012" */
+#wp-calendar caption {
+	letter-spacing: 		3px;
+	border-bottom: 		0;
+	line-height: 			25px;
+	font-size: 				15px;
+	text-transform: 		uppercase;
+}
+
+/* Table head with "M T W T F S S" */
+#wp-calendar thead {
+}
+
+/* Rows inside the thead */
+#wp-calendar thead tr {
+}
+
+/* Cells inside the thead "M", "T", "W"... */
+#wp-calendar thead th {
+	border: 					solid 1px #ddd;
+	font-weight: 			normal;
+}
+
+/* Table body, containing the 31 days "1", "2" ... */
+#wp-calendar tbody {
+}
+
+/* Each row inside the tbody */
+#wp-calendar tbody tr {
+}
+
+/* Each cell inside the tbody. Each one contains 
+a day 1...31, except a few empty ones, see below */
+#wp-calendar tbody td {
+	border: 					solid 1px #ddd;
+	color: 					#999;
+	padding: 				0;
+	border-radius: 		3px;
+}
+
+/* Each empty cell in the tbody 
+There are also empty cells in tfoot, see below */
+#wp-calendar tbody .pad {
+	border: 					none;
+}
+
+/* A linked day  */
+#wp-calendar tbody a {
+	background: 			#eee;
+	display: 				block;
+}
+
+/* A linked day when hovered */
+#wp-calendar tbody a:hover {
+}
+
+/* Table footer */
+#wp-calendar tfoot {
+}
+
+/* The row inside tfoot */
+#wp-calendar tfoot tr {
+}
+
+/* Each cell inside tfoot */
+#wp-calendar tfoot td {
+}
+
+/* Each empty cell inside tfoot */
+#wp-calendar tfoot .pad {
+}
+
+/* Each link inside tfoot. "<< Jan", "Mar >>" */
+#wp-calendar tfoot a {
+}
+
+/* Links inside tfoot, hovered */
+#wp-calendar tfoot a:hover {
+}
+
+/* Cell containing the "<< Jan" link */
+#prev {
+}
+
+/* Cell containing the "Mar >>" link */
+#next {
+}

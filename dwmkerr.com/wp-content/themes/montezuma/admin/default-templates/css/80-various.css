@@ -1,0 +1,132 @@
+/* This will be a H1 on the front page and something else e.g. H3 on 
+other pages, so it should be styled very detailed to avoid being 
+altered by default styles of tags, e.g. H1 or H3 tags */
+#sitetitle {
+	font-family: 			'Yanone Kaffeesatz', sans-serif;
+	font-size:				70px; 
+	font-weight: 			normal; 
+	margin:					25px auto 10px auto;
+	line-height:			55px; /* Yanone has a tall default line-height */
+	/*
+	height: 70px; 
+	background: transparent url("%tpldir%/images/logo2.png") -10px 0px no-repeat;
+	padding-left: 60px; 
+	*/
+}
+@media only screen and (max-width: 959px) {
+	#sitetitle {
+		display: 				table; /* center without providing width */
+	}
+}
+
+
+#sitetitle a .firstpart {
+	color: 					#000000;
+}
+
+#sitetitle a:hover {
+	text-decoration: 		none;
+}
+
+#tagline {
+	font-family: 			'Yanone Kaffeesatz', sans-serif;
+	font-weight: 			200;
+	font-size: 				26px; 
+	letter-spacing: 		0px;
+	color: 					#4f4f4f; 
+	margin: 					0 auto 20px auto;
+}
+@media only screen and (max-width: 959px) {
+	#tagline {
+		display: 			table; /* center without providing width */
+	}
+}
+
+
+a.rsslink {
+	position: 				absolute; 
+	top: 						60px; 
+	right: 					30px;
+	width: 					24px; 
+	height: 					24px; 
+	display: 				block;
+	background-image: 	url(%tpldir%/images/icons.png);
+	background-position: -120px -48px;
+}
+
+#banner:hover a.rsslink {
+	background-position: -96px -48px;
+}
+
+a.rsscommentslink {
+	float: 					right; 
+	margin-top: 			5px; 
+	margin-right: 			8px;
+}
+
+/* searchform */
+.searchform .field {
+	padding: 				5px;
+	width: 					200px;
+	border: 					solid 1px #dddddd;
+}
+
+.searchform .submit {
+	width: 					28px;
+	height: 					28px;
+	background: 			url(%tpldir%/images/searchicon.png) 0 -5px no-repeat;
+	overflow: 				hidden;
+	border: 					none;
+	margin-left: 			3px;
+}
+
+#post-0 .searchform {
+	position:				relative;
+	margin:					30px 0;
+	width: 					90%;
+}
+#post-0 .searchform .field {
+	width: 					95%; 
+	max-width: 				100%; 
+}
+
+/* searchform as widget */
+.widget .searchform {
+	position: 				relative;
+	top: 						0;
+	left: 					0;
+}
+
+.widget .submit {
+	display: 				none;
+}
+
+.widget .searchform .field {
+	width: 					100%; 
+	max-width: 				300px; 
+	background: 			url(%tpldir%/images/searchicon.png) right center no-repeat;
+}
+
+/* Page titles, typically on top of post loop. */
+.page-title {
+	color: 					#999999; 
+	font-size: 				24px; 
+	margin: 					10px 0; 
+}
+
+.page-title span {
+	color: 					#000000;
+}
+
+.credit-link {
+	font-size: 				13px;
+	color:					#aaaaaa;
+	margin-top:				30px;
+	margin-bottom:			0;
+}
+.credit-link a {
+	color:					#aaaaaa;
+	font-weight:			bold;
+	text-decoration: 		none;
+}
+

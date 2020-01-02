@@ -1,0 +1,20 @@
+/* CSS Grid */
+
+.row, .row5, .lw { width: 960px; margin: 0 auto; } 
+.row > div, .row5 > div { float: left; position: relative; margin-left: 48px } 
+.row > div:first-child, .row5 > div:first-child { margin-left: 0; } 
+
+/* columns */
+.col1 {width:36px}		.col2 {width:120px}		.col3 {width:204px}		.col4 {width:288px}
+.col5 {width:372px}		.col6 {width:456px}		.col7 {width:540px}		.col8 {width:624px}
+.col9 {width:708px}		.col10 {width:792px}		.col11 {width:876px}		.col12 {width:960px}
+
+/* Source order */
+.push1 {left:84px}		.push2 {left:168px}		.push3 {left:252px}		.push4 {left:336px}
+.push5 {left:420px}		.push6 {left:504px}		.push7 {left:588px}		.push8 {left:672px}
+.push9 {left:756px}		.push10 {left:840px}		.push11 {left:924px}
+
+.pull1 {right:84px}		.pull2 {right:168px}		.pull3 {right:252px}		.pull4 {right:336px}
+.pull5 {right:420px}		.pull6 {right:504px}		.pull7 {right:588px}		.pull8 {right:672px}
+.pull9 {right:756px}		.pull10 {right:840px}	.pull11 {right:924px}
+

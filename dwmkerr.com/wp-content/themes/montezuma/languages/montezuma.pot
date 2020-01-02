@@ -1,0 +1,2852 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Montezuma 1.1.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-26 09:06+0100\n"
+"PO-Revision-Date: 2013-03-26 09:08+0100\n"
+"Last-Translator: BytesForAll <lmmmuc@gmail.com>\n"
+"Language-Team: BytesForAll\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:145
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: functions.php:223
+msgid "Menu 1"
+msgstr ""
+
+#: functions.php:223
+msgid "Menu 2"
+msgstr ""
+
+#: functions.php:344
+msgid "read more"
+msgstr ""
+
+#: image.php:36
+#: admin/default-templates/main-templates/image.php:31
+msgid "Pages:"
+msgstr ""
+
+#: image.php:41
+#: admin/default-templates/main-templates/image.php:36
+#: admin/default-templates/main-templates/page.php:22
+#: admin/default-templates/main-templates/single.php:32
+#: admin/default-templates/sub-templates/comments-comment.php:23
+msgid "Edit"
+msgstr ""
+
+#: admin/default-templates/main-templates/page.php:17
+#: admin/default-templates/main-templates/single.php:27
+msgid "<p class=\"post-pagination\">Pages:"
+msgstr ""
+
+#: admin/default-templates/main-templates/single.php:21
+msgid "<p class=\"post-tags\">Tags: "
+msgstr ""
+
+#: admin/default-templates/sub-templates/comments-closed.php:1
+msgid "Comments are closed."
+msgstr ""
+
+#: admin/default-templates/sub-templates/comments-comment.php:7
+msgid "Reply"
+msgstr ""
+
+#: admin/default-templates/sub-templates/comments-comment.php:8
+msgid "Log in to Reply"
+msgstr ""
+
+#: admin/default-templates/sub-templates/comments-comment.php:24
+msgid "Delete"
+msgstr ""
+
+#: admin/default-templates/sub-templates/comments-comment.php:25
+msgid "Spam"
+msgstr ""
+
+#: admin/default-templates/sub-templates/comments-comment.php:29
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: admin/default-templates/sub-templates/comments-password.php:3
+msgid "This post is password protected. Enter the password to view any comments."
+msgstr ""
+
+#: admin/default-templates/sub-templates/comments-pingback.php:3
+msgid "Pingback:"
+msgstr ""
+
+#: admin/default-templates/sub-templates/footer.php:4
+msgid "All Rights Reserved."
+msgstr ""
+
+#: admin/default-templates/sub-templates/header.php:21
+msgid "Subscribe to RSS Feed"
+msgstr ""
+
+#: admin/default-templates/sub-templates/postformat.php:28
+msgid "read more &rarr;"
+msgstr ""
+
+#: admin/options/050_start.php:4
+msgid "Montezuma Start"
+msgstr ""
+
+#: admin/options/050_start.php:10
+msgid "Montezuma"
+msgstr ""
+
+#: admin/options/050_start.php:11
+msgid ""
+"<p><strong>Thanks</strong> for using Montezuma. This is the new and second theme (for wordpress.org) from the author of the very popular \n"
+"<a target=\"_blank\" href=\"http://wordpress.bytesforall.com/\">Atahualpa</a> theme. The codebase is completely different though.</p>\n"
+"<h4>Unique features</h4>\n"
+"<p>Montezuma has a \"Virtual File System\" \n"
+"that lets you edit and create page templates online, in the theme admin area, without \n"
+"the need to upload files through FTP. Then there's auto post thumbs, advanced excerpts, \n"
+"auto gallery slideshow, various SEO features, and much more. For total customization  \n"
+"you can use the 60+ WordPress and Montezuma PHP functions, see the button \"Limited PHP code\" \n"
+"on the top right. For even more control you can still work the traditional way, by creating \n"
+"page templates in an editor, on your desktop computer, and uploading those files through FTP.</p>\n"
+"<h4>Support &amp; Community</h4>\n"
+"<p>For questions see our active <a target=\"_blank\" href=\"http://forum.bytesforall.com\">BytesForAll Forums</a>.</p>"
+msgstr ""
+
+#: admin/options/050_start.php:23
+msgid "Donate"
+msgstr ""
+
+#: admin/options/050_start.php:25
+msgid ""
+"<p>Creating a theme like this takes months of full time work and Montezuma does not even have a footer credit link. \n"
+"At the forum, we have a <a target=\"_blank\" href=\"http://forum.bytesforall.com/awcoding.php?do=payment&sid=ds\">PayPal Donation Page</a>. \n"
+"<strong>Please donate if you find Montezuma useful. You can also donate to individual forum moderators.</strong></p>\n"
+"<h4>Rate Montezuma</h4>\n"
+"<p>You can <a target=\"_blank\" href=\"http://wordpress.org/extend/themes/montezuma\">rate Montezuma at wordpress.org</a>. You would need \n"
+"to create a free account at wordpress.org to be able to do this. \n"
+"</p><p>Greetings,<br>Flynn,<br><a target=\"_blank\" href=\"http://wordpress.bytesforall.com/\">WordPress.BytesForAll.com</a></p>"
+msgstr ""
+
+#: admin/options/100_head.php:3
+msgid "&lt;HEAD&gt;"
+msgstr ""
+
+#: admin/options/100_head.php:4
+msgid "Configure the Document Head - the area between <code>&lt;HEAD&gt;</code> and <code>&lt;/HEAD&gt;</code>"
+msgstr ""
+
+#: admin/options/100_head.php:10
+msgid "Favicon image"
+msgstr ""
+
+#: admin/options/100_head.php:13
+msgid ""
+"A favicon is that little 16x16 pixel image in the Microsoft \".ico\" format that you \n"
+"\t\t\t\tsee in various places in the browser, e.g. in Firefox, in front of the URL in the URL field.\n"
+"\t\t\t\t<span class=\"clicktip\">?</span>\n"
+"\t\t\t\t<div class=\"hidden\">\n"
+"\t\t\t\tYou should set a favicon file even if you don't really want one, and here's why:<br><br>\n"
+"\t\t\t\tAll browsers will check your web site for a <code>favicon.ico</code> file in the root directory of your domain \n"
+"\t\t\t\tand if neither that nor another one is set, you get a 404 error printed in your web server's error log \n"
+"\t\t\t\ton each pageview.<br><br>\n"
+"\t\t\t\t\"ico\" is an actual file format, so instead of simply renaming a .png or .gif file you should create an \n"
+"\t\t\t\tactual .ico file. Transform an \n"
+"\t\t\t\texisting .png (can be transparent, too) online <a target=\"_new\" href=\"http://tools.dynamicdrive.com/favicon/\">here</a> \n"
+"\t\t\t\tor even create one from scratch <a target=\"_new\" href=\"http://www.favicon.cc/\">here</a>. Various desktop \n"
+"\t\t\t\tgraphic programs can also be used for this.\n"
+"\t\t\t\t</div>"
+msgstr ""
+
+#: admin/options/100_head.php:33
+msgid "Meta tags"
+msgstr ""
+
+#: admin/options/100_head.php:34
+msgid "<span>X-UA-Compatible</span> Meta Tag"
+msgstr ""
+
+#: admin/options/100_head.php:36
+msgid ""
+"<br>Adjustment for Internet Explorer, will only be printed if browser \n"
+"\t\t\t\tis IE. Leave empty to remove.<br>"
+msgstr ""
+
+#: admin/options/100_head.php:44
+msgid "<span>Viewport</span> Meta Tag"
+msgstr ""
+
+#: admin/options/100_head.php:46
+msgid "<br>Adjustment for mobile users. Leave empty to remove."
+msgstr ""
+
+#: admin/options/100_head.php:53
+msgid "<span>Generator</span> Meta Tag"
+msgstr ""
+
+#: admin/options/100_head.php:55
+msgid ""
+"<code>&lt;meta name=\"generator\" content=\"WordPress 3.7\" /&gt;</code>\n"
+"\t<br>Prints the WordPress version being used for the current site. Uncheck to remove."
+msgstr ""
+
+#: admin/options/100_head.php:63
+msgid "<span>XFN</span> Link"
+msgstr ""
+
+#: admin/options/100_head.php:65
+msgid ""
+"<code>&lt;link rel=\"profile\" href=\"http://gmpg.org/xfn/11\" /&gt;</code>\n"
+"\t\t<br>The <a target=\"_blank\" href=\"http://gmpg.org/xfn/\">XHTML Friends Network</a> \"represents human relationships using hyperlinks\". Uncheck to remove."
+msgstr ""
+
+#: admin/options/100_head.php:73
+msgid "<span>WLW</span> Link"
+msgstr ""
+
+#: admin/options/100_head.php:75
+#, php-format
+msgid ""
+"<code>&lt;link rel=\"wlwmanifest\" type=\"application/wlwmanifest+xml\" href=\"%1$s/wp-includes/wlwmanifest.xml\" /&gt;</code><br>\n"
+"\tThe WLW Manifest link is for the <a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/Windows_Live_Writer\">Windows Live Writer</a>, a Windows desktop software for publishing posts and pages from your desktop \n"
+"\tcomputer to your blog. Uncheck to remove."
+msgstr ""
+
+#: admin/options/100_head.php:84
+msgid "<span>RSD</span> Link"
+msgstr ""
+
+#: admin/options/100_head.php:86
+#, php-format
+msgid ""
+"<code>&lt;link rel=\"EditURI\" type=\"application/rsd+xml\" title=\"RSD\" href=\"%1$s/xmlrpc.php?rsd\" /&gt;</code>\n"
+"\t<br><a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/Really_Simple_Discovery\">Really Simple Discovery</a> is an XML format and a publishing \n"
+"\tconvention for making services exposed by a blog, or other web software, discoverable by client software. Uncheck to remove."
+msgstr ""
+
+#: admin/options/100_head.php:95
+msgid "<span>Feed</span> Links"
+msgstr ""
+
+#: admin/options/100_head.php:97
+#, php-format
+msgid ""
+"<code>&lt;link rel=\"alternate\" type=\"application/rss+xml\" title=\"%1$s &raquo; Feed\" href=\"%2$s/feed/\" /&gt;\n"
+"<br>&lt;link rel=\"alternate\" type=\"application/rss+xml\" title=\"%3$s &raquo; Comments Feed\" href=\"%4$s/comments/feed/\" /&gt;</code>\n"
+"\t<br>Prints the the links to the general feeds: Post and Comment Feed. Uncheck to remove."
+msgstr ""
+
+#: admin/options/100_head.php:106
+msgid "<span>Extra Feed</span> Links"
+msgstr ""
+
+#: admin/options/100_head.php:108
+#, php-format
+msgid ""
+"<code>&lt;link rel=\"alternate\" type=\"application/rss+xml\" title=\"%1$s &raquo; Title of post here Comments Feed\" href=\"http://test.bytesforall.com/2011/11/title-of-post-here/feed/\" /&gt;</code>\n"
+"\t<br>Prints the links to the extra feeds, such as category feeds on category pages, and the comments feed for a given post on its dedicated single post page. Uncheck to remove."
+msgstr ""
+
+#: admin/options/100_head.php:116
+msgid "<span>Adjacent Posts</span> Link"
+msgstr ""
+
+#: admin/options/100_head.php:118
+msgid ""
+"<code>&lt;link rel='prev' title='Title of previous post here' href='URL of previous post here/' /&gt;\n"
+"<br>&lt;link rel='next' title='Title of next post here' href='URL of next post here' /&gt;</code>\n"
+"\t<br>Prints next and previous post links. Uncheck to remove."
+msgstr ""
+
+#: admin/options/100_head.php:127
+msgid "Insert code"
+msgstr ""
+
+#: admin/options/100_head.php:128
+msgid ""
+"<h3><code>&lt;HEAD&gt;</code> Top</h3>\n"
+"\t\t\t\t<p>Insert HTML/Javascript code right after the opening <code>&lt;HEAD&gt;</code> tag. \n"
+"\t\t\t\t<span class=\"clicktip\">?</span></p>\n"
+"\t\t\t\t<div class=\"hidden\">\n"
+"\t\t\t\tDon't put visible HTML here such as <code>&lt;div class=\"someclass\"&gt;Some text here&lt;/div&gt;</code><br>\n"
+"\t\t\t\tOnly <code>&lt;base&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;script&gt;</code>, \n"
+"\t\t\t\tand <code>&lt;style&gt;</code> tags. <a target=\"_blank\" href=\"http://www.w3schools.com/html/html_head.asp\">More info at w3schools</a>.\n"
+"\t\t\t\t</div>"
+msgstr ""
+
+#: admin/options/100_head.php:142
+msgid ""
+"<h3><code>&lt;HEAD&gt;</code> Bottom</h3>\n"
+"\t\t\t\t<p>Insert HTML/Javascript code right before the closing <code>&lt;/HEAD&gt;</code> tag. \n"
+"\t\t\t\t<span class=\"clicktip\">?</span></p>\n"
+"\t\t\t\t<div class=\"hidden\">\n"
+"\t\t\t\tDon't put visible HTML here such as <code>&lt;div class=\"someclass\"&gt;Some text here&lt;/div&gt;</code><br>\n"
+"\t\t\t\tOnly <code>&lt;base&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;script&gt;</code>, \n"
+"\t\t\t\tand <code>&lt;style&gt;</code> tags. <a target=\"_blank\" href=\"http://www.w3schools.com/html/html_head.asp\">More info at w3schools</a>.\n"
+"\t\t\t\t</div>"
+msgstr ""
+
+#: admin/options/300_comments.php:5
+msgid "Comments"
+msgstr ""
+
+#: admin/options/300_comments.php:6
+msgid "Configure the comment area"
+msgstr ""
+
+#: admin/options/300_comments.php:14
+msgid "Comments title"
+msgstr ""
+
+#: admin/options/300_comments.php:15
+#, php-format
+msgid "If there is 1 comment. <code>%2$s</code> = Post Title: <span class=\"arrow-down\">&nbsp;</span><br>"
+msgstr ""
+
+#: admin/options/300_comments.php:23
+#, php-format
+msgid ""
+"If there are 2 or more comments. <code>%1$s</code> = comment number, <code>%2$s</code> \n"
+"\t\t\t\t= Post Title: <span class=\"arrow-down\">&nbsp;</span><br>"
+msgstr ""
+
+#: admin/options/300_comments.php:36
+msgid "Avatar image"
+msgstr ""
+
+#: admin/options/300_comments.php:37
+msgid "Put a number between 30 and 80 here. (50 means Avatar is 50x50 pixels):<br>"
+msgstr ""
+
+#: admin/options/300_comments.php:38
+msgid " &nbsp;<span class=\"arrow-left\">&nbsp;</span> Default Avatar size"
+msgstr ""
+
+#: admin/options/300_comments.php:47
+msgid " &nbsp;<span class=\"arrow-left\">&nbsp;</span> Avatar size for 2nd+ level comments"
+msgstr ""
+
+#: admin/options/300_comments.php:58
+msgid "Default Avatar image URL: <span class=\"arrow-down\">&nbsp;</span><br>"
+msgstr ""
+
+#: admin/options/300_comments.php:59
+msgid "Leave empty to use the default avatar image as set in WP Admin -> Settings -> Discussion -> Default Avatar<br>"
+msgstr ""
+
+#: admin/options/300_comments.php:71
+msgid "List \"quicktag\" buttons to display above the comment form. Separate with comma, without spaces: <span class=\"arrow-down\">&nbsp;</span><br>"
+msgstr ""
+
+#: admin/options/300_comments.php:72
+msgid ""
+"<br>Leave empty to not display any \"quicktag\" button. Available buttons: <code>strong</code>, \n"
+"\t\t\t\t<code>em</code>, <code>link</code>, <code>block</code>, <code>code</code>, <code>close</code>. \n"
+"\t\t\t\tThis does not affect the HTML tags that are actually allowed. For that, see the next option."
+msgstr ""
+
+#: admin/options/300_comments.php:76
+msgid "Quicktag buttons"
+msgstr ""
+
+#: admin/options/300_comments.php:112
+msgid "Allowed HTML"
+msgstr ""
+
+#: admin/options/300_comments.php:116
+msgid "Check the HTML tags you want to allow inside comments. Uncheck all to not allow any HTML tags in comments:<br><br>"
+msgstr ""
+
+#: admin/options/300_comments.php:126
+msgid "Code before/after form"
+msgstr ""
+
+#: admin/options/300_comments.php:127
+msgid ""
+"Custom text or HTML right before the comment form text area. Will only be displayed to users that are not logged in \n"
+"(just like the name, email &amp; url input fields): <span class=\"arrow-down\">&nbsp;</span><br>"
+msgstr ""
+
+#: admin/options/300_comments.php:136
+msgid ""
+"Custom text or HTML right after the comment form text area: Will only be displayed to users that are not logged in \n"
+"(just like the name, email &amp; url input fields): <span class=\"arrow-down\">&nbsp;</span><br>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:6
+#: admin/options/450_css_files.php:13
+msgid "CSS"
+msgstr ""
+
+#: admin/options/400_css_settings.php:7
+msgid ""
+"For referencing background or other images use the following placeholders:\n"
+"\t<ul>\n"
+"\t<li><code>%tpldir%</code> = Template Directory = http://www.yourdomain.com/wp-content/themes/Montezuma</li>\n"
+"\t<li><code>%tplupldir%</code> = Template's own folder inside WP Uploads = http://www.yourdomain.com/wp-content/uploads/Montezuma</li>\n"
+"\t<li><code>%upldir%</code> = Default WordPress Uploads directory = http://www.yourdomain.com/wp-content/uploads</li>\n"
+"\t<li><span class=\"closemirror\">Close Mirror</span></li>\n"
+"\t"
+msgstr ""
+
+#: admin/options/400_css_settings.php:43
+msgid "Choose CSS Grid"
+msgstr ""
+
+#: admin/options/400_css_settings.php:45
+msgid ""
+"<h3>Choose one of these 20 CSS Grids</h3>\n"
+"<p>Choose one of these 20 grids to be used throughout the site. </p>\n"
+"<p>All grids have 12 columns. \"Margin\" means the margin between columns, sometimes also called \"Gutter Width\". The margins \n"
+"have these seemingly awkward values like \"36px\" or \"4.4%\" on purpose. It needs to be that way to have the columns widths and margins \n"
+"of each row add up to exactly the row width. </p>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:50
+msgid ""
+"<p>10 Grids are responsive, 10 are not. \n"
+"Out of the 10 that are not responsive \n"
+"5 have a percent width so they DO adjust to the screen width however contrary to the responsive Grids \n"
+"they don't make bigger re-arrangements of the layout when the screen gets very small, e.g. on mobile devices.</p>\n"
+"\n"
+"<h3>Custom width columns</h3> \n"
+"<p>You can \"<strong>break out</strong>\" of these predefined column widths by providing custom width and margin values for \n"
+"all columns of a certain row. You would keep using the class <code>row</code> for the container because that centers \n"
+"the container and makes the children DIV's align \"side by side\" (with <code>float:left</code>). Example:</p>\n"
+"<pre style=\"color:blue\">\n"
+"&lt;div <span style=\"color:red\">class=\"row\"</span>&gt;\n"
+"   &lt;div <span style=\"color:red\">style=\"width:200px\"</span>&gt;\n"
+"      <span style=\"color:#666\">... column on the left that is 200 pixels wide</span>\n"
+"   &lt;/div&gt;\n"
+"   &lt;div <span style=\"color:red\">style=\"width:500px; margin-left:20px; margin-right:20px;\"</span>&gt;\n"
+"      <span style=\"color:#666\">... column in the middle, 500 pixels wide, 20 pixels margin left and right.\n"
+"      ... Simply leave out the margin code if you don't need margins between columns. \n"
+"      ... Alternatively you can always put padding inside a column.</span>\n"
+"   &lt;/div&gt;\n"
+"   &lt;div <span style=\"color:red\">style=\"width:220px\"</span>&gt;\n"
+"      <span style=\"color:#666\">... See, I gave this a width of 220px because:\n"
+"      960 (row width, if a pixel based Grid was chosen) \n"
+"      - 200 (left col width) \n"
+"      - 500 (center col width) \n"
+"      - 20 (center col margin left)\n"
+"      - 20 (center col margin left)\n"
+"      =============================\n"
+"      = 220 remaining width</span>\n"
+"   &lt;/div&gt;\n"
+"&lt;/div&gt;\n"
+"</pre>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:88
+msgid "Add Google Fonts"
+msgstr ""
+
+#: admin/options/400_css_settings.php:90
+msgid ""
+"<p>Before you can use Google Fonts in your CSS you need to add the fonts here. \n"
+"You should not add more than a few fonts or else your site may slow down. </p>\n"
+"<h3>Adding Google Fonts to Montezuma</h3>\n"
+"<p>Start by visting the <a target=\"_blank\" href=\"http://www.google.com/webfonts/\">Google Web Fonts Site</a>, \n"
+"browse through the fonts there and for each font you want click its \"<strong>Quick-use</strong>\" link \n"
+"which will lead to a page with more info about that font. </p>\n"
+"<p>On that second page do this:</p>\n"
+"<p><strong>1.</strong> In the section \"<strong>Choose the styles you want</strong>\" check (the checkboxes of) all the styles you want.</p>\n"
+"<p><strong>2.</strong> In the section \"<strong>Choose the character sets you want</strong>\" check the character sets you want.</p>\n"
+"<p><strong>3.</strong> Look at the \"<strong>Page Load</strong>\" graphic at the top right. Consider removing some \n"
+"character sets and/or styles you \n"
+"may not need, if that \"Page Load\" indicates that you are in the \"red\" area.</p>\n"
+"<p><strong>4.</strong> In the blue section \"<strong>Add this code to your web site</strong>\" click the little \"Javascript\" tab.</p>\n"
+"<p><strong>5.</strong> Copy the text <strong>inside the single quotes</strong>:<br>\n"
+"<pre>\n"
+"google: { families: [ '<span style=\"color:red;background:#fff;border:dotted 1px #000;padding:5px 10px\">Anonymous+Pro:400,400italic,700:cyrillic-ext,latin,latin-ext</span>' ] }\n"
+"</pre> \n"
+"and paste it into the textarea below. All fonts you want, one font code per line, and finally click the \n"
+"\"<strong>Save Changes</strong>\" button.</p>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:109
+msgid ""
+"<h3>Using the Fonts in your CSS</h3>\n"
+"</p>Now you can use those fonts in your CSS like you'd use any other font: <br>\n"
+"<pre>h2 { font-family: 'Anonymous Pro', sans-serif; font-weight: normal }\n"
+"h1 { font-family: 'Yanone Kaffeesatz', sans-serif; font-weight: normal; }</pre>\n"
+"You can also use numbers for font-weight such as <code>font-weight: 700;</code> if you added that \"weight\" number for that font from Google fonts. \n"
+"Note: Not all fonts have all weights. You see the available weights listed under \"<strong>1. Choose the styles you want</strong>\".\n"
+"</p>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:124
+msgid "Editing CSS"
+msgstr ""
+
+#: admin/options/400_css_settings.php:126
+msgid ""
+"<h3>About CSS Grids</h3>\n"
+"<p  class=\"colcount3\">\n"
+"A CSS Grid system is of a bunch of predefined CSS classes (<code>row</code>, <code>col1</code>, \n"
+"<code>col2</code> ... <code>col12</code>). You apply these CSS classes to your \n"
+"layout containers (usually <code>&lt;div&gt;...&lt;/div&gt;</code>) to build CSS layouts in a streamlined, fast and easy fashion. \n"
+"The CSS Grid takes care of aligning the columns of a layout \"side by side\" and making sure the columns have the right width \n"
+"and fill up the row. \n"
+"Some CSS Grids provide additonal classes (<code>push</code>, <code>pull</code>) for \"source ordering\" \n"
+"which means re-arranging the columns in the source code (what the search engines see) without changing \n"
+"their visual order (what humans see), for possible search engine optimization benefits. All the Montezuma CSS Grids \n"
+"offer these additonal classes but you don't need to use them. Here are some basic examples, without source ordering:\n"
+"</p>\n"
+"<h3>Example: Basic 3 columns, followed by 4 columns</h3>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:152
+msgid ""
+"<h3>Class <code>row</code> for rows and <code>col1</code> ... <code>col12</code> for columns</h3>\n"
+"<p>\n"
+"Note how each \"row\" container has a class <code>row</code>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:160
+msgid "and all column containers have a class \"col<strong>X</strong>\" with <strong>X</strong> being a number between 1-12, such as <code>col3</code> or <code>col6</code>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:164
+msgid ""
+"<h3> Column class numbers always add up to 12</h3>\n"
+"Also note how \n"
+"the sum of those numbers at the end of column class names ( col<span style=\"color:red\">X</span> ) always is exactly 12 in each row"
+msgstr ""
+
+#: admin/options/400_css_settings.php:174
+msgid "In this first row above it's 3+6+3 = 12."
+msgstr ""
+
+#: admin/options/400_css_settings.php:183
+msgid "In the second row above it's 3+3+3+3 = 12."
+msgstr ""
+
+#: admin/options/400_css_settings.php:185
+msgid ""
+"The sum has to be 12 because we're using \n"
+"\"12 column grids\" here. If we used a 16 column grid, the class numbers in each row would have to add up to \n"
+"exactly 16.</p>\n"
+"<h3>About col1, col2, col3 ... col12</h3>\n"
+"<p  class=\"colcount3\">\n"
+"In a CSS Grid you don't provide real width values for columns such as <code>210px</code> or <code>25%</code>. Instead you \n"
+"just add one of these classes to each column container DIV: "
+msgstr ""
+
+#: admin/options/400_css_settings.php:196
+msgid ""
+"Each one of these 12 classes represents a certain predefined width.\n"
+"<br><br>\n"
+"The actual, exact width value and the width unit (pixels or percent) depend  \n"
+"on the CSS Grid being used. <code>col3</code> is always approximately \"one fourth\" because \"3\" is \"one fourth of 12\".  \n"
+"Or, in other words, and for a grid that is 960 pixels wide, <code>col3</code> is 960 pixels / 12 * <strong>3</strong> = 240 pixels.  \n"
+"However, the exact width will usually be slightly smaller because a small fraction of the available row width \n"
+"is needed for the margin between the columns. \n"
+"<br><br>\n"
+"Except if you use a CSS Grid with no margin between columns at all, such as \n"
+"<code>Responsive 960px. Margin 0</code> or <code>960px. Margin 0</code> (See \"Choose CSS Grid\"). In a CSS Grid with \n"
+"more margin between columns -  e.g. the <code>Responsive 960px. Margin 48px</code> Grid - \n"
+"the actual width of the columns will be smaller \n"
+"than in a Grid with less margin between columns such as the <code>Responsive 960px. Margin 0</code> Grid. Bigger margins \n"
+"consume more of the available total width of a row (960 pixels or 100%), leaving less width to the columns.\n"
+"</p>\n"
+"<h3>Why not just use actual values for the column widths?</h3> \n"
+"<p  class=\"colcount3\">\n"
+"For one, you don't need to do complicated \n"
+"maths such as adding and substracting numbers like \"214\", \"139\", \"712\". The only math you do is to make sure \n"
+"that those numbers in the col<strong>X</strong> column classes always add up to 12 within the same row. Then, CSS Grids \n"
+"make creating \"Responsive\" layouts much easier. Advantage 3: Easy \"source ordering\" for possible SEO benefits. Finally,\n"
+"these CSS Grids provide more than just the width of columns, they also deal with everything else needed to \n"
+"create a layout.    \n"
+"</p>\n"
+"<h3>So, the CSS Grid columns have predefined widths. What if I need columns with exact, custom widths?</h3>\n"
+"<p  class=\"colcount3\">\n"
+"A disadvantage of CSS Grids is that custom widths aren't built in. However you CAN still have \n"
+"custom widths, by doing whatever you would have done to create custom column width if you were not using a Grid, \n"
+"such as providing actual pixel or percent width values for the columns, either inline (putting the CSS \n"
+"right on the element, in a template) or in one of the CSS files (such as <code>layout.css</code> or <code>various.css</code>). \n"
+"The CSS Grid isn't taking away that possibility. You can even put a width value on a \n"
+"column that is part of a CSS Grid row. In that case you should put width values on <strong>all</strong> columns in that row. \n"
+"You will also have to make sure that all column widths plus the margins between the columns add up to the row width, \n"
+"which usually is 960 pixels in pixel based Grids and 100% in percent based Grids. (10 pixel and 10 percent Grids are \n"
+"included in Montezuma).   \n"
+"Paddings inside the columns and borders on the columns do not add to the width of a column and thus do not affect the total \n"
+"row width, because the global CSS rule <code>box-sizing: border-box;</code> applies to all HTML elements in Montezuma, \n"
+"which of course includes columns, whether they have custom widths or not."
+msgstr ""
+
+#: admin/options/400_css_settings.php:237
+msgid "column on the left, 217 pixels wide"
+msgstr ""
+
+#: admin/options/400_css_settings.php:238
+msgid "column in the center, 594 pixels wide"
+msgstr ""
+
+#: admin/options/400_css_settings.php:239
+msgid "column on the right, 149 pixels wide"
+msgstr ""
+
+#: admin/options/400_css_settings.php:242
+msgid ""
+"<p>You should also abandon the idea of source ordering and responsiveness when using custom column widths. \n"
+"It is possible to combine custom column widths, responsiveness and source ordering but that is a very manual process and \n"
+"requires good CSS knowledge.\n"
+"</p>\n"
+"<h3>box-sizing: border-box</h3>\n"
+"<p  class=\"colcount3\">\n"
+"All Grids use <code>box-sizing: border-box</code> as do <strong>all</strong> HTML elements in Montezuma. \n"
+"In other words * everything * is set to <code>box-sizing: border-box</code>.  \n"
+"This means the width of HTML elements is calculated in a more reasonable, human way by counting the padding \n"
+"(\"inner space\") and the border of an element to its total width. \n"
+"<br><br>\n"
+"So if you add padding or borders to \n"
+"an element it doesn't change its width, instead the content inside the element gets narrowed a bit to make \n"
+"room for the padding or border.  \n"
+"This means you can apply borders and padding right on the column DIV's without affecting the column widths\n"
+"(Margin would still affect the column width).  \n"
+"<br><br>\n"
+"In traditional CSS Grids doing this * would * affect the column widths, the column would get too wide and the \n"
+"right-most column would \"drop down\" all the way to the bottom of the layout. In traditional CSS Grids this \n"
+"is fixed by putting another extra DIV (important: without specified width) inside each column DIV. \n"
+"But this increases the amount of DIV's by 1 extra DIV for each column, and thus \n"
+"pollutes your source code with unnecessary code leading to a less optimal \"noise to signal ratio\". \n"
+"<br><br>\n"
+"The only downside is that <code>box-sizing: border-box</code> is only supported natively by IE8 and up, however \n"
+"as of July 2012 IE7 is at 2-3% market share and dropping at a fast rate so it should be at 1% and less by the end of 2012 / early 2013 . \n"
+"For the sake of building for the future and now, and for keeping the code clean instead of carrying around numerous \n"
+"browser hacks, Montezuma starts dropping IE7 support now. <a href=\"http://paulirish.com/2012/box-sizing-border-box-ftw/\">\n"
+"More about box-sizing: border-box</a>\n"
+"</p>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:278
+msgid "About DropDown Menus"
+msgstr ""
+
+#: admin/options/400_css_settings.php:282
+msgid "Creating custom menus and assigning them to Montezuma's \"Theme Locations\" at WP > Appearance > Menus"
+msgstr ""
+
+#: admin/options/400_css_settings.php:284
+#, php-format
+msgid ""
+"<h3>Montezuma provides 2 menus: \"Menu 1\" (Fallback: Page Menu) and \"Menu 2\" (Fallback: Category Menu)</h3>\n"
+"<p>Montezuma has 2 built in menus which you can configure at \n"
+"WP > Appearance > Menus (see screenshot on the right). The Montezuma menu \"locations\" are \n"
+"<code>Menu 1</code> and <code>Menu 2</code>. If you don't assign a custom menu to any of these \n"
+"built in Theme \"locations\" then they will fall back to displaying automatic menus:\n"
+"<ul><li><code>Menu 1</code>. Fallback: Displays Page Menu.</li>\n"
+"<li><code>Menu 2</code>. Fallback: Displays Category Menu.</li></ul>\n"
+"</p><h3>Display a menu by coyping &amp; pasting some code into a template</h3>\n"
+"<div style=\"width:384px;padding:15px;background:#eee;border:solid 1px #666;float:right;margin: 0 0 15px 15px;text-align:center\">\n"
+"<img src=\"%1$s/admin/images/editmenucode.png\" />\n"
+"<br>Displaying a menu in Sub Templates > <code>header.php</code>. You could place this code in a Main Template as well, \n"
+"e.g. <code>index.php</code>\n"
+"</div>\n"
+"<p>To display a menu copy some code (see screenshot on the right) into a sub template or main template. \n"
+"The code on the right shows 2 menus being displayed in the \"header\" of the theme, thus the code \n"
+"needs to be put into <code>header.php</code>. The code could be placed in main templates as well, e.g. \n"
+"<code>index.php</code>. In that code the menus are referenced with that single id that is highlighted in the \n"
+"screenshot on the right:\n"
+"<ul><li><code>Menu 1</code>: Displayed with <code>menu1</code>.</li>\n"
+"<li><code>Menu 2</code>: Displayed with <code>menu2</code>.</li></ul>\n"
+"</p><h3>Montezuma streamlines the HTML output of the various WordPress menus</h3>\n"
+"<p>WordPress prints different HTML, including different CSS classes for (1) custom menus, \n"
+"(2) page menus and (3) category menus. Montezuma removes some code and adjust the rest \n"
+"so that the HTML and CSS is always the same, no matter if a custom menu, a fallback page menu or \n"
+"a fallback category menu is used. \n"
+"<h3>Montezuma provides lean and meaningful CSS across all menu types</h3>\n"
+"<p>Montezuma replaces the ID based CSS classes that WordPress \n"
+"provides as a means for styling individual menu items, with more intuitive \"slug\" based CSS classes. \n"
+"So if you look at your CSS or HTML and see <code>.cat-uncategorized</code> you actually know that \n"
+"this is about the category \"Uncategorized\", whereas <code>.cat-item-48</code> doesn't tell you much. \n"
+"Also, when you move your site with Wp's export/import the slugs stay the same and the CSS stays valid whereas \n"
+"item ID's change after a WP export/import. Montezuma also  \n"
+"removes quite a bit of unnecessary CSS classes for lighter code and adds these short, meaningful and useful CSS classes across \n"
+"all menu types (custom, fallback page, fallback category):\n"
+"<ul>\n"
+"<li><code>.active</code>: The current item gets <code>&lt;li class=\"active\"&gt;</code></li>\n"
+"<li><code>.ancestor</code>: All parents and grand parents of the current item get <code>&lt;li class=\"ancestor\"&gt;</code> \n"
+"(Per default WordPress does not add \"ancestor\" classes to category menus).</li>\n"
+"<li><code>.parent</code>: The direct parent of the current item gets \"parent\" in addition to \"ancestor\" <code>&lt;li class=\"parent ancestor\"&gt;</code></li>\n"
+"<li><code>.sub-menu</code>: All sub menu UL's get <code>&lt;ul class=\"sub-menu\"&gt;</code> (Per default WordPress is inconsistent here \n"
+"and uses \"children\" for fallback menus and \"sub-menu\" for custom menus which means you'd have to account for both in \n"
+"your CSS or else the styles would break when a custom menu gets assigned or un-assigned.).</li>\n"
+"<li><code>.has-sub-menu</code>: All items that have children get <code>&lt;li class=\"has-sub-menu\"&gt;</code> \n"
+"(Useful for adding those arrow or whatever icons that indicate that sub menus exist below an item. WordPress does not add this at all).</li>\n"
+"<li><code>.cat-item-48</code> becomes <code>.cat-uncategorized</code> in category menus and custom menus</li>\n"
+"<li><code>.page-item-174</code> becomes <code>.page-our-products</code> in page menus and custom menus</li>\n"
+"<li>custom links get <code>.item-link-text-here</code></li>\n"
+"</ul>\n"
+"</p>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:355
+#, php-format
+msgid ""
+"A custom menu was assigned to \"%1$s\" at WP > Appearance > Menus. \n"
+"\t\tSo the example CSS below will apply to that custom menu. Should you ever remove the custom menu \n"
+"\t\tfrom \"%2$s\" then the CSS for the default WP %3$s will \n"
+"\t\tbe displayed here because the default WP %4$s is the \"Fallback\" Menu for \"%5$s\"."
+msgstr ""
+
+#: admin/options/400_css_settings.php:383
+#, php-format
+msgid ""
+"No custom menu was assigned to \"%1$s\" at WP > Appearance > Menus. \n"
+"\t\tSo the example CSS below will apply to the default WP %2$s because \n"
+"\t\tthat is the \"Fallback\" Menu for \"%3$s\"."
+msgstr ""
+
+#: admin/options/400_css_settings.php:426
+#, php-format
+msgid ""
+"<h4>CSS for icons in \"%1$s\"</h4>Replace the second numbers and copy/paste the whole code into %2$s (see menu on the left). \n"
+"\tIf you don't want the icons to change on hover you don't need the second Part 2 of the code:"
+msgstr ""
+
+#: admin/options/400_css_settings.php:438
+msgid "Using Menu Icons"
+msgstr ""
+
+#: admin/options/400_css_settings.php:456
+#, php-format
+msgid ""
+"<h3>100 menu icons included to get you started</h3>\n"
+"<p>The icons on the right are all combined into one image <code>images/menu-icons-0090d3.png</code>. The \"0090d3\" stands for \n"
+"the color of the 2nd icon versions. The images contains 100 icons in gray (#666666) and blue (#0090d3). \n"
+"The reason both color versions are in the same file is to avoid any delay while \"replacing\" the \n"
+"background image on mouse hover. Scroll down for info about creating your own icon \"Sprite Image\" (Container image \n"
+"that contains many smaller images) in Photoshop.\n"
+"</p>\n"
+"<h4>Using the included icons</h4>\n"
+"<p>Below you see a list of the 100 included icons. Copy &amp; paste the number of the icon into the CSS code below, (1) as the \n"
+"<strong>second number</strong> (2) for the menu item you want to use it for (3) into the textarea of the appropriate menu, \n"
+"like this:<br>\n"
+"<code>#menu1 .page-<span style=\"color:red\">sample-page</span> > a > i { background-position: 0px <span style=\"color:red\">-1464px</span>; }</code>\n"
+"<div style=\"margin: 20px 0;\" class=\"menuicon-container\">%1$s</div>\n"
+"%2$s\n"
+"<h4>About \"Sprite Images\"</h4>\n"
+"<p>The reason all different icons are in one file is to save HTTP requests. Of course the selection of 100 images is arbitrary \n"
+"and will not fit your needs. The file is 45 kByte which is not terribly big but also not ideal especially if you use only 2 or 3 \n"
+"of the icons. But these included icons are mainly for demonstration purposes and to get you started. And if you find some of the icons \n"
+"useful you could in fact use them for production.</p>\n"
+"<h3>Creating your own \"CSS Sprite\" image for icons in Photoshop</h3>\n"
+"<p>The included selection will probably not cover all your icon needs so you will probably end up creating your \n"
+"own icon image at some point. The included set was created with Photoshop and Photoshop \"Custom Shapes\" that you can get for free \n"
+"or buy for about $10-$50 on the web. </p>\n"
+"<ul>\n"
+"<img style=\"float:right;margin: 0 0 5px 15px\" src=\"%3$s/admin/images/ps-customshapetool.png\" />\n"
+"<li>Search for \"Photoshop Custom Shapes\" in \"csh\" format and buy/download them. \n"
+"Facebook or other social icons are rare because legally you aren't allowed to alter the original versions \n"
+"although \"everyone is doing it\". But \n"
+"beyond that there is a huge range of nice icons at reasonable prices. \n"
+"</li><li>\n"
+"After you downloaded you probably have to extract a ZIP file. After that you should have 1 or several .csh files.\n"
+"Place them in the Photoshop Custom Shapes folder on your computer, e.g. \"Programs > Adobe > Adobe Photoshop CS 5 (64bit) \n"
+"> Presets > Custom Shapes\". After you placed the .csh file(s) in Photoshop's Custom Shapes folder, restart Photoshop.\n"
+"</li><li>\n"
+"In Photoshop turn on \"View > Show > Grid\", \"View > Snap\" and \"View > Snap To > Grid\". \n"
+"Change the grid size at \"Edit > Preferences > Guides, Grids & Slices\" to e.g. 12 pixels. That will let you snap \n"
+"icons to a size of 12x12px and 24x24px. Or set the grid size to 6 pixels for possible icon sizes of \n"
+"12x12, 18x18, 24x24 etc...\n"
+"</li><li>Open a new file with File > New, with transparent background and these sizes: Width: 2 x the width of the planned icon size, \n"
+"e.g. 48pixels (or 24px if you don't plan to make 2 color versions of each icon). Height: A multiple of \n"
+"planned icon size, e.g. 480 pixels tall to have room for 20 icons at 24x24 pixels each. You can always crop the image later to \n"
+"something less tall.  \n"
+"</li><li>\n"
+"<img style=\"float:right;margin: 0 0 5px 15px\" src=\"%4$s/admin/images/ps-customshapetool-2.png\" />\n"
+"Click the \"Custom Shape\" button on the left, it should \n"
+"be the 18th or so from top of the little tools icons on the left. It is probably hidden under the \"Rectangle\" or \"Line\" tool. \n"
+"Then click the little arrow as shown in the screenshot on the right, to open the drop dwon with all available custom shapes. \n"
+"Click on one of the shapes, then click into approximately the top left corner of one of your 12x12px grid boxes on your canvas, \n"
+"hold and drag the mouse pointer to approximately the bottom right corner of the 12x12px grid box. Release the mouse button. \n"
+"</li><li>\n"
+"Place all icons on the canves, arrange them below each other and leave room on the right for \n"
+"a second color version if you plan to have two colors. Placing them below each other, with the 2nd color version \n"
+"to the right of each icon, also lets you do some \n"
+"programmatical things with PHP or JS later because you know \n"
+"the position of the next image is \"+24 pixels down\", and the X-position (first value in \n"
+"<code>background-position: Xpx Ypx</code>) is -24px.\n"
+"</li><li>\n"
+"You can do all this manually, e.g. create one, then the same again with another color etc... Or, more advanced, \n"
+"place one version of all icons first, then select all layers with \"Shift+click\" or \"Ctrl+click\", right click and \"group\" them,\n"
+"\"duplicate\" the group, press the \"v\" key (or click the \"Move Tool\" icon, on the top left), then click on one of the icons and by \n"
+"pressing the cursor keys the whole copied group should move. \"merge\" the group and now you can change the color of all copied icons at once.\n"
+"Another way to do this would be with an \"Adjustment Layer\" but I found the \"Merge\" technique to be easier for changing just the fill \n"
+"color. It might be different if you want to have effects like inner shadow on the 2nd group of icons. \n"
+"</li></ul>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:525
+msgid "Insert &lt;i&gt; for Icons"
+msgstr ""
+
+#: admin/options/400_css_settings.php:537
+msgid ""
+"<p>Add all the CSS selectors, one by line, into which you want to \"prepend\" (insert at beginning) a \n"
+"&lt;i&gt; tag. Example:</p>\n"
+"<pre>\n"
+"&lt;li&gt;\n"
+"\t<span style=\"color:red\">&lt;i&gt;&lt;/i&gt;</span>   &lt;-- This is the prepended tag for the icon\n"
+"\t&lt;a href\"...\"&gt;Link Text&lt;/a&gt;\n"
+"&lt;/li&gt;\n"
+"</pre>\n"
+"<p>This tag is not inserted per default because it is only needed for adding icons \n"
+"to HTML elements such as links or titles. A &lt;i&gt; is used for brevity, this could also have been \n"
+"a &lt;span&gt; tag. The need for an extra tag is caused by the usage of \"CSS Sprite Images\" for icons. \n"
+"These images have many icons side by side and by adding an extra tag just for the icon it will be \n"
+"avoided that the other neighbor icons \"lurk through\" the background. \n"
+"</p>"
+msgstr ""
+
+#: admin/options/400_css_settings.php:557
+msgid "Dual Title Colors"
+msgstr ""
+
+#: admin/options/400_css_settings.php:565
+msgid ""
+"<p>Add all text based CSS selectors where you want to have the first half of the text wrapped with a <code>&lt;span class=\"firstpart\"&gt;</code> \n"
+"tag so that you can address and thus style that part differently, e.g. give it a different color. This is \n"
+"the effect you see on site, post &amp; widget titles in Montezuma's default style. Example:"
+msgstr ""
+
+#: admin/options/400_css_settings.php:576
+msgid ""
+"<p>With odd word counts the first part will wrap the bigger part, e.g. \n"
+"if the text has 3 words, the <code>&lt;span class=\"firstpart\"&gt;</code> will wrap the first 2 words."
+msgstr ""
+
+#: admin/options/400_css_settings.php:588
+msgid "Color Picker - Solid"
+msgstr ""
+
+#: admin/options/400_css_settings.php:589
+#, php-format
+msgid ""
+"Use this color picker to create CSS color codes which you can <strong>copy and paste</strong> into \n"
+"the appropriate CSS files.\n"
+"<h3 style=\"margin-bottom:10px\">Solid Color for Text, Borders & Shadows</h3>\n"
+"Solid Color Picker with HEX values. Useful for cross-browser (text-) color, border-color and shadow-color. \n"
+"<div class=\"picker-container-wrap\">\n"
+"\t<div class=\"picker-container\">\n"
+"\t\t<input type=\"text\" class=\"code hslapicker\" id=\"picker-hex\" name=\"Montezuma[colorpicker][hex]\" value=\"%1$s\" />\n"
+"\t</div>\n"
+"</div>\n"
+"<h4>Copy & Paste:</h4>\n"
+"<input class=\"regular-text code\" type=\"text\" id=\"picker-color-text\" value=\"\">\n"
+"<h4>Currently used colors:</h4>\n"
+"<div id=\"bfa_used_colors\"></div>\n"
+"<h4>Usage Example</h4>\n"
+"For solid colors there is no IE8 issue. Use them like this:"
+msgstr ""
+
+#: admin/options/400_css_settings.php:618
+msgid "Color Picker - Transparent"
+msgstr ""
+
+#: admin/options/400_css_settings.php:619
+msgid "Use this color picker to create CSS color codes which you can <strong>copy and paste</strong> into the appropriate CSS files."
+msgstr ""
+
+#: admin/options/400_css_settings.php:621
+msgid "Transparent Color Picker with HSLA values, incl. Microsoft IE8+ fix with -ms-filter. Useful for cross-browser transparent background-color."
+msgstr ""
+
+#: admin/options/400_css_settings.php:622
+#: admin/options/400_css_settings.php:640
+#: admin/options/400_css_settings.php:656
+msgid "More/Less"
+msgstr ""
+
+#: admin/options/400_css_settings.php:624
+msgid ""
+"HSLA works in all modern browsers incl. IE9 and is more intuitive than RGBA. RGBA has the advantage that \n"
+"its colors can be exactly transferred from Photoshop's RGB values but in Montezuma HSLA is favored due to the \n"
+"the very understandable color format which makes manual editing (darker/lighter & more/less saturation) of colors easy. \n"
+"You don't have to come back to the color picker here just to make small adjustments. It is also good practise and \"looks \n"
+"good\" if your let the \"Hue\", the \"H\" = first value in HSLA, which is basically the \"color\", stay the same throughout a site \n"
+"and only change the other 3 values to create pleasing variations of one color."
+msgstr ""
+
+#: admin/options/400_css_settings.php:636
+msgid "For IE8 use:"
+msgstr ""
+
+#: admin/options/400_css_settings.php:638
+msgid "Transparent Color Examples"
+msgstr ""
+
+#: admin/options/400_css_settings.php:639
+msgid "IE8 needs to be targeted separately because it does not know HSLA colors."
+msgstr ""
+
+#: admin/options/400_css_settings.php:641
+msgid ""
+"The <code>-ms-filter: ...</code> fixes that well. HSLA works in IE9 but unfortunately -ms-filter \"works\", too, \n"
+"but with slightly off colors, and takes precedence in IE9 if present in the same CSS selector. To fix this you'd have to set a separate background style for IE8 \n"
+"as shown in the example below:"
+msgstr ""
+
+#: admin/options/400_css_settings.php:655
+msgid "You could use HSLA colors for text, border and shadows as well but it won't work in IE8."
+msgstr ""
+
+#: admin/options/400_css_settings.php:657
+msgid ""
+"Fixing that with various -ms-filter's is messy and thus not included in Montezuma. \n"
+"One possible workaround is to specify solid colors first, followed by HSLA colors. \n"
+"IE8 should use the solid colors while other browsers will overwrite them with the HSLA colors:"
+msgstr ""
+
+#: admin/options/450_css_files.php:14
+#: admin/options/450_css_files.php:41
+msgid "For referencing background or other images use the following placeholders"
+msgstr ""
+
+#: admin/options/450_css_files.php:16
+#: admin/options/450_css_files.php:43
+msgid "Template Directory"
+msgstr ""
+
+#: admin/options/450_css_files.php:17
+#: admin/options/450_css_files.php:44
+msgid "Template's own folder inside WP Uploads"
+msgstr ""
+
+#: admin/options/450_css_files.php:18
+#: admin/options/450_css_files.php:45
+msgid "Default WordPress Uploads directory"
+msgstr ""
+
+#: admin/options/450_css_files.php:19
+msgid "Close Mirror"
+msgstr ""
+
+#: admin/options/600_main_templates.php:6
+#: admin/options/650_sub_templates.php:4
+msgid "Edit Main Templates"
+msgstr ""
+
+#: admin/options/600_main_templates.php:7
+#: admin/options/650_sub_templates.php:5
+msgid "Edit the default WordPress page templates."
+msgstr ""
+
+#: admin/options/600_main_templates.php:16
+msgid "About main templates"
+msgstr ""
+
+#: admin/options/600_main_templates.php:18
+msgid "There are 2 types of main templates: \"Default WP templates\" and \"Custom Page Templates\""
+msgstr ""
+
+#: admin/options/600_main_templates.php:19
+msgid ""
+"<strong>Default WP Templates</strong> and <strong>Custom Page Templates</strong> are  \n"
+"(named) <strong>Main Templates</strong> (here in the Montezuma Admin), because they have everything to display a complete page. \n"
+"Contrary to that <strong>Sub templates</strong> cannot display a whole page on their own, they are just parts of a Main Template."
+msgstr ""
+
+#: admin/options/600_main_templates.php:23
+msgid ""
+"It's the <span style=\"text-decoration:underline;font-weight:bold\">name</span> of a Main Template \n"
+"that makes it become either a \"Default WP template\" OR a \"Custom Page Template\""
+msgstr ""
+
+#: admin/options/600_main_templates.php:26
+msgid ""
+"Whether a <strong>Main Template</strong> is a <strong>Default WP Template</strong> or a <strong>Custom Page Template</strong> \n"
+"depends on the template <span style=\"text-decoration:underline\">name</span>. \n"
+"There is no 'setting' for that. If a template has one of the reserved Default WP Template names, then \n"
+"it is a Default WP Template. All other Main Templates are Custom Page Templates. Reserved Default WP Template names are \n"
+"<code>index</code>, <code>page</code>, <code>single</code>, <code>category</code>, <code>tag</code>, <code>author</code>, \n"
+"<code>search</code> and many more. For a complete list see the image at \n"
+"<a target=\"_blank\" href=\"http://codex.wordpress.org/Template_Hierarchy\">WordPress Template Hierarchy</a>."
+msgstr ""
+
+#: admin/options/600_main_templates.php:34
+msgid "\"Default WP templates\" and \"Custom Page Templates\" are treated differently by WordPress"
+msgstr ""
+
+#: admin/options/600_main_templates.php:35
+msgid ""
+"Default WP Templates are <span style=\"text-decoration:underline\">used automatically by WordPress</span></h4>\n"
+"<p>A \"Default WP template\" will be used by WordPress <strong>automatically</strong> (there's no 'setting' for this anywhere) \n"
+"based on 2 things: \n"
+"</p>\n"
+"<ol>\n"
+"<li><p>The \"type\" of page being requested by the visitor of your site, e.g. whether it is a \"list of posts in category X\", a \"search results for term Y\" and so on.</p></li>\n"
+"<li><p>The physical (in Montezuma also: virtual) presence of the best - or any - <strong>matching</strong> template for the requested page type.</p></li>\n"
+"</ol>\n"
+"<p>\n"
+"Condition 1. and 2. are dealt with by WordPress based on a set of rules also known as the \n"
+"<a target=\"_blank\" href=\"http://codex.wordpress.org/Template_Hierarchy\">WordPress Template Hierarchy</a>.\n"
+"</p>\n"
+"<h4>&raquo; Custom Page Templates <span style=\"text-decoration:underline\">must be assigned by you</span> to certain pages \n"
+"(in Montezuma you can also assign them to posts, too) before they get used</h4>\n"
+"<p>\n"
+"Contrary to Default WP Templates, Custom Page Templates are not chosen automatically. If you don't assign a Custom \n"
+"Page Template to one or more individual posts or pages then that Custom Page Template, e.g. <code>my-custom-template.php</code>,\n"
+" won't be used, ever.\n"
+"</p>\n"
+"<h3>Montezuma adds a \"Virtual Template System\" on top of WP's template system</h3>"
+msgstr ""
+
+#: admin/options/600_main_templates.php:57
+msgid ""
+"WordPress chooses the right page template for displaying a page based on the \n"
+"<a target=\"_blank\" href=\"http://codex.wordpress.org/Template_Hierarchy\">WordPress Template Hierarchy</a>. \n"
+"That WordPress Template Hierarchy is based on <strong>physically existing</strong> files inside the theme's \n"
+"(e.g. Montezuma's) main directory. In addition to this Montezuma adds a virtual file system, with virtual 'files' \n"
+"saved in the database. The virtual file system acts like the WP Template Hierarchy. It also \n"
+"looks for the best matching template first (e.g. <code>category-cameras.php</code>) and then for the next best matching \n"
+"template (<code>category.php</code>), then the next best (<code>archive.php</code>) until it arrives at the \"template of last resort\" \n"
+"(<code>index.php</code>). The purpose of \n"
+"this virtual file system is to avoid writing files into the theme's directory, while at the same time \n"
+"allowing you to edit and even create templates online, right in the Montezuma backend, with code \n"
+"highlighting, bracket matching, auto intendation etc... The Montezuma virtual file system does <strong>not</strong> get in the \n"
+"way of the WP Template Hierarchy. Only if the WP Template Hierarchy fails to find a matching, physically existing template \n"
+"file in the theme's main directory and is about to use the \"template of last resort\" <code>index.php</code> then the Montezuma \n"
+"virtual file system takes over. This allows you to keep working with the traditional approach of editing real files \n"
+"on your desktop computer and uploading them to your WordPress installation through FTP."
+msgstr ""
+
+#: admin/options/600_main_templates.php:73
+msgid ""
+"Convenience or total control: Edit &amp; add virtual files online or - for full PHP access - create & upload physical template files. \n"
+"Physical templates take precedence over virtual templates"
+msgstr ""
+
+#: admin/options/600_main_templates.php:76
+msgid ""
+"Montezuma's virtual file system offers convenient \n"
+"online editing and creation of templates. For full \n"
+"access to all PHP functions you can still \n"
+"work the traditional way, e.g. with a child theme, real files, and uploading those files with FTP. \n"
+"If a template is requested by WP, for instance \"my-template.php\", the virtual \"my-template.php\" is only used if no real \n"
+"\"my-template.php\" exists in the main directory of the theme. \n"
+"This applies to both main and sub templates."
+msgstr ""
+
+#: admin/options/600_main_templates.php:84
+msgid "Let WordPress/Montezuma figure out the best matching virtual template, or assign specific virtual templates to specific posts or pages"
+msgstr ""
+
+#: admin/options/600_main_templates.php:88
+msgid ""
+"You will see the dropdown menu \"Virtual Template\" at the bottom right on Page &amp; Post write panels in the \n"
+"WP admin. You can apply any of the virtual main templates to any post or page, or choose \"Best match based on WP Hierarchy\"."
+msgstr ""
+
+#: admin/options/600_main_templates.php:92
+msgid ""
+"As mentioned, Montezuma's virtual file system works like the \"WP Template Hierarchy\" in that \n"
+"it chooses the best matching template based on the type of page being requested. The match is \n"
+"figured out based on the template's name."
+msgstr ""
+
+#: admin/options/600_main_templates.php:97
+msgid ""
+"On top of that you can also assign a main template to individual posts or pages.  \n"
+"All existing virtual main templates will be listed in a select dropdown menu \n"
+"named <strong>Virtual Template</strong>, located on the right hand side of the WP post and page write panels."
+msgstr ""
+
+#: admin/options/600_main_templates.php:101
+msgid ""
+"2 differences between the WordPress \"Template\" setting and \n"
+"Montezuma's \"Virtual Template\" setting:"
+msgstr ""
+
+#: admin/options/600_main_templates.php:104
+msgid ""
+"1. All (virtual) main templates will be available, not just the (virtual) \"Custom Page Templates\" but also the \n"
+"(virtual) \"Default WP Templates\", just in case you want to assign one of the Default Templates to an indivdual post or page."
+msgstr ""
+
+#: admin/options/600_main_templates.php:106
+msgid "2. Unlike pyhsical templates &amp; the WP \"Template\" setting, Virtual Templates can be assigned to posts as well, not just to pages."
+msgstr ""
+
+#: admin/options/600_main_templates.php:113
+msgid "+ Add main template"
+msgstr ""
+
+#: admin/options/600_main_templates.php:116
+#: admin/options/650_sub_templates.php:163
+msgid "Template names must be unique"
+msgstr ""
+
+#: admin/options/600_main_templates.php:117
+#: admin/options/650_sub_templates.php:164
+msgid "You cannot have a main template <code>whatever</code> and a sub template <code>whatever</code> at the same time."
+msgstr ""
+
+#: admin/options/600_main_templates.php:118
+#: admin/options/650_sub_templates.php:165
+msgid "Template names already in use"
+msgstr ""
+
+#: admin/options/600_main_templates.php:124
+#: admin/options/650_sub_templates.php:171
+msgid "Template name, without \".php\". No spaces. Only letters, numbers, <strong>-</strong> and <strong>_</strong>:"
+msgstr ""
+
+#: admin/options/600_main_templates.php:128
+#: admin/options/650_sub_templates.php:174
+msgid "Make new template a copy of:"
+msgstr ""
+
+#: admin/options/600_main_templates.php:130
+#: admin/options/650_sub_templates.php:175
+msgid "none (empty template)"
+msgstr ""
+
+#: admin/options/600_main_templates.php:134
+msgid "ADD Main Template"
+msgstr ""
+
+#: admin/options/600_main_templates.php:136
+msgid ""
+"The <span style=\"color:red;font-weight:bold\">name</span> of a main template constitutes whether it is a \n"
+"<span style=\"text-decoration:underline\">Default</span> WP template or a <span style=\"text-decoration:underline\">Custom</span> page template:</h3> \n"
+"<div style=\"padding:10px;border:solid 1px #ccc;background:#f7f7f7;margin: 0 180px 10px 0;\">\n"
+"<h4 style=\"margin-top:0\">&rarr; <span style=\"text-decoration:underline\">Default</span> WP template</h4> \n"
+"<p class=\"colcount2\">\n"
+"To create a Default WP template use one of the still unused Default WP template names. \n"
+"Templates with a predefined Default name such as \"search\", \"category\" or \"tag\" will be automatically selected by WP \n"
+"to display the matching page type (a search page, a category page, a tag page etc.) according to the \n"
+"<a target=\"_blank\" href=\"http://codex.wordpress.org/File:Template_Hierarchy.png\" title=\"External link, opens in new tab\">\n"
+"WP Template Hierarchy</a>: "
+msgstr ""
+
+#: admin/options/600_main_templates.php:147
+msgid "Currently unused default WP template names:"
+msgstr ""
+
+#: admin/options/600_main_templates.php:153
+msgid "Default</span> WP template with \"parameter\""
+msgstr ""
+
+#: admin/options/600_main_templates.php:154
+msgid ""
+"<p>To match a more specific pageview (e.g. category page for \"Cameras\") use a Default WP template name with a \"parameter\":</p>\n"
+"<strong>Always available default WP template names with parameter</strong> (as long as the -XXX part is different):"
+msgstr ""
+
+#: admin/options/600_main_templates.php:160
+msgid ""
+"Replace <code>XXX</code> with the slug or ID of the category, tag, author, etc... according to \n"
+"the <a target=\"_blank\" href=\"http://codex.wordpress.org/File:Template_Hierarchy.png\" title=\"External link, opens in new tab\">\n"
+"WP Template Hierarchy</a>. For instance, <code>category-cameras</code> would be used by WordPress to display the category \n"
+"for the category \"Cameras\".  \n"
+"Assuming here that the \"slug\" of that category is <code>cameras</code>. The \"slug\" of an item is displayed \n"
+"in many places in the WP admin. The slugs of categories you can see at Posts -> Categories -> See \"Slug\" column in category list."
+msgstr ""
+
+#: admin/options/600_main_templates.php:169
+msgid "<span style=\"text-decoration:underline\">Custom</span> template:"
+msgstr ""
+
+#: admin/options/600_main_templates.php:171
+msgid ""
+"A template with a custom name will not be automatically selected by WP for anything. \n"
+"The point of these custom templates is that you can assign them to individual posts or pages.   \n"
+"For posts at WP -> Posts -> Add New / All Posts and for static pages at WP -> Pages -> Add New / All Pages."
+msgstr ""
+
+#: admin/options/600_main_templates.php:175
+msgid ""
+"<strong>Examples for custom template names:</strong>\n"
+"<ul class=\"tpllist cf\"><li>whatever</li>\n"
+"<li>anything-abc</li>\n"
+"<li>my-template</li>\n"
+"<li>blue-landing-page</li>\n"
+"</ul>"
+msgstr ""
+
+#: admin/options/600_main_templates.php:204
+#, php-format
+msgid ""
+"Edit the <code>%1$s<span style=\"color:#999\">.php</span></code> main template. You can use HTML and \n"
+"\t\t<a href=\"#\" class=\"limitedphpcode\">this limited set of PHP code</a> to insert dynamic info. \n"
+"\t\t<p>Don't be afraid if you don't \"know\" PHP. You can just copy &amp; paste the pieces of PHP code (starting with <code>&lt;?php</code> and ending with \n"
+"\t\t<code>?&gt;</code>), and then adjust the parts inside the braces - the so-called \"parameters\" - if there are any, and if \n"
+"\t\tyou want / need to adjust them. Always stay close to the original PHP code you found in a template. Don't introduce \n"
+"\t\tline breaks, don't add comments, etc...</p>"
+msgstr ""
+
+#: admin/options/600_main_templates.php:232
+#: admin/options/650_sub_templates.php:308
+#, php-format
+msgid "Delete \"%1$s\""
+msgstr ""
+
+#: admin/options/650_sub_templates.php:13
+msgid "About sub templates"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:15
+msgid "Use sub templates for redundant layout parts - if you want"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:17
+msgid ""
+"The purpose of creating sub templates is to put layout parts that are likely to appear in more than just 1 \n"
+"main template into a separate \"sub\" template for easy inclusion in various main templates. Once you want to change something in that \n"
+"specific layout part you only need to do <strong>one</strong> edit in that <strong>one</strong> sub template. \n"
+"If you had not created a sub template for that redundant layout part \n"
+"but had put the corresponding code right into multiple main templates instead, you would have to edit all those main templates \n"
+"whenever you want to change something in that particular layout part."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:24
+msgid "Don't create sub templates for every little thing"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:27
+msgid ""
+"Whether it is better to use a sub template for some layout part, or to put the code right into the \n"
+"affected main templates is a tradeoff between more complexity (= more files to deal with, \"in which \n"
+"sub template did I put that code again...?\") and more legwork (= having to do the same changes in \n"
+"several main templates). \n"
+"Technically you don't need to create additional sub templates on top of the already included ones, \n"
+"see below. You could as well put everything right into the main templates. Typically, if the required \n"
+"piece of HTML/PHP code is short, you might prefer to just put it into various main templates repeatedly, instead \n"
+"of creating yet another sub template for it. This really comes down to personal preference. \n"
+"VBulletin (a forum software) for instance has a rather \"atomic\" approach by using sub templates for \n"
+"even the smallest bits of code, which leads to a huge amount of sub templates. In WordPress the amount \n"
+"of sub templates is typically much smaller. A reasonable amount of redundant code between main templates, \n"
+"and the resulting legwork, is commonly accepted for the sake of keeping the amount of templates low."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:40
+msgid "Some sub templates are already included and should be used: Header, Footer, Comments, Searchform and 1 basic Post Format template"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:42
+msgid ""
+"Even if you want to keep the number of sub templates low, i.e. you don't want to create any sub templates \n"
+"on your own: <strong>Post format</strong> templates and the <strong>comments</strong> template <em>must</em>, \n"
+"<strong>header</strong> and <strong>footer</strong> <em>should</em> be sub templates."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:47
+msgid "Header &amp; Footer sub templates"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:49
+msgid ""
+"It is a convention in WordPress (and in overall web development) to have a \"header\" and a \"footer\". After all, most web sites have \n"
+"a section at the top and one at the bottom which stay the same on most if not all pages of a web site. \n"
+"The \"header\" and \"footer\" sub templates \n"
+"are per default included in Montezuma and cannot be deleted. However, <strong>you can remove them from any main template</strong> by simply \n"
+"removing from all main templates in question the particular piece of code that includes those sub templates: \n"
+"To remove the header from a main template remove <code>&lt;?php get_header(); ?&gt;</code>. \n"
+"To remove the footer remove <code>&lt;?php get_footer(); ?&gt;</code>. \n"
+"<br><br>\n"
+"By the way, the reason you can simply remove the header and footer from any main template is that they are \n"
+"fully self-contained sub templates in Montezuma - contrary to the default WP Themes and most other themes, which usually mimick \n"
+"those default themes closely. In Montezuma, the header.php does <strong>not</strong> contain the vital \"document head\" \n"
+"(&lt;head&gt;...&lt;/head&gt;) and the footer.php does <strong>not</strong> close some DIV containers that were opened \n"
+"by another template. The header.php and footer.php sub templates are self-contained just like the comments.php and the searchform.php \n"
+"templates so you can easily remove them from a main template without breaking anything."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:64
+msgid "Comments sub template"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:67
+msgid ""
+"The comments template is a complex template with a lot of code and easily deserves to be its own sub template. It is also expected \n"
+"to have such a comments template in a WP theme - not just as a convention, as it is the case with header and footer, but technically, too. \n"
+"In fact the comments template even has its own sub templates in Montezuma, \n"
+"\"sub-sub-templates\" so to say. The comments template exists per default in Montezuma and cannot be deleted, but you can \n"
+"remove it from a main template by removing the corresponding code that includes it, which is this:\n"
+"<code>&lt;?php comments_template( '', true ); ?&gt;</code>. For instance, <strong>you may want to remove that code from the \n"
+"\"page.php\" main template if you don't want comments on any static page</strong>. Another option is to leave that code there and to turn off comments for \n"
+"individual pages, at the WP pages write panel."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:76
+msgid "Only the \"Standard\" Post Format sub template is included, you can create the 9 special ones"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:79
+msgid ""
+"\"Post format\" is a WordPress feature introduced with WP version 3.1. Don't confuse it with \"Post Types\" which is a much \n"
+"bigger feature. Post Formats are a small albeit useful feature for \"bloggish\" sites that aren't satisfied with having \n"
+"posts that all look the same but want to have \"Video Posts\" and \"Audio Posts\" etc., too. The term \"format\" stands for \"the piece of HTML/PHP code that \n"
+"is going to be used to display a certain post\". So \"format\" refers to the way each post will look, whether the full post or just an \n"
+"excerpt will be displayed, whether the author or the post date will be displayed and so on. This is done in 2 steps. Step 1 is to \n"
+"assign one of the 10 available post formats to a post, in the WP post write panel. Step 2 is to \n"
+"have actual templates for each one of the 10 post formats. \n"
+"There is also a fallback mechanism built in, that is, <strong>WP will fall back to using the standard post format template if the more specific \n"
+"one</strong> for the given post - e.g. a \"video\" template for a post that was set to format \"Video\" - <strong>does not exist</strong>."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:89
+msgid "Montezuma uses post formats only on multi post pages"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:91
+msgid ""
+"Montezuma uses this feature like WP's own \"Twenty Eleven\" theme, that is, \n"
+"post formats are used for controlling the display of posts on <strong>multi post pages</strong> - not on single post pages. \n"
+"Single post pages are rather individual anyway because the full post text and all images are displayed instead of just an excerpt \n"
+"as it is usually the case on multi post pages. And in case you want to have different templates for single post pages as well you \n"
+"can always create a custom main template and assign it to a particular post, in the WP posts write panel. In Montezuma you can \n"
+"assign Custom Page Templates to posts, too, not just to static pages."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:98
+msgid "Per default, only the \"Standard\" post format exists in Montezuma - create the others as needed"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:100
+msgid ""
+"In Montezuma only the \"Standard\" post format template <code>postformat</code> exists per default. To make full use of the WP \n"
+"post formats feature, you can create the 9 \"missing\" special post format sub templates, which are <code>postformat-aside</code>, \n"
+"<code>postformat-audio</code>, <code>postformat-chat</code>, <code>postformat-gallery</code> etc....\n"
+"Additionally, and this is a special Montezuma feature, you can also create whole new \"sets\" of post format templates such as: \n"
+"<code>myotherformat</code>, <code>myotherformat-aside</code>, \n"
+"<code>myotherformat-audio</code>, <code>myotherformat-chat</code>, <code>myotherformat-gallery</code> etc....\n"
+"Neither the default set (name starting with \"postformat\") nor your custom post template sets need to be complete, due to the \n"
+"built-in fallback mechanism, however the standard templates ( \"postformat\", \"myotherformat\" ) of the set should exist."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:110
+msgid "Searchform sub template"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:112
+msgid ""
+"The searchform template is not editable but you can add / remove it from main templates by adding /removing this: \n"
+"<code>&lt;?php get_searchform(); ?&gt;</code>. You can also create a new custom searchform template. See below on \n"
+"how to include sub templates in main templates."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:116
+msgid "Should a widget area be a sub template?"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:118
+msgid ""
+"No, because in Montezuma all it takes to put a widget area anywhere into a main template is this short piece of code: \n"
+"<code>&lt;?php dynamic_sidebar( 'Name of the widget area here' ); ?&gt;</code>. So even though the resulting HTML code  \n"
+"of a browser-rendered widget area may be huge (if you've put many widgets into that widget area) the actual (in this case: PHP-) code to \n"
+"display that widget area is very short and hardly justifies messing with yet another sub template. \n"
+"Of course if you really want to, you can. \n"
+"<br><br>By the way, that code also creates that widget area in the WordPress backend, \n"
+"so it is really <strong>all</strong> you need to display <strong>and</strong> create a widget area in one go."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:126
+msgid "So, which custom sub templates should I create?"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:128
+msgid ""
+"None, if you have nothing in mind. The existing sub templates should be enough for many use cases. Create a \n"
+"custom sub template for redundant layout parts (parts that appear in more than just 1 main template) that \n"
+"consist of more than just 1 line of HTML and/or PHP. Even with more code sub templates are optional - you can \n"
+"as well put everything into main templates instead of creating custom sub templates."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:133
+msgid ""
+"<h3>How to include sub templates in main templates. It's different for default and custom sub templates.</h3> \n"
+"<h4>Including \"header.php\" and \"footer.php\"</h4>\n"
+"<p><code>&lt?php get_header(); ?&gt;</code> and <code>&lt?php get_footer(); ?&gt;</code></p>\n"
+"<h4>Including \"comments.php\"</h4>\n"
+"<p><code>&lt?php comments_template( '', true ); ?&gt;</code></p>\n"
+"<h4>Including \"searchform.php\"</h4>\n"
+"<p><code>&lt?php get_searchform(); ?&gt;</code></p>\n"
+"<h4>Including Post Format templates</h4>\n"
+"<p>\n"
+"<code>&lt?php bfa_loop( 'postformat' ); ?&gt;</code> and for other sets of post format templates you may have created, \n"
+"e.g. \"my-other-format\": <code>&lt?php bfa_loop( 'my-other-format' ); ?&gt;</code>. Note: This will include \n"
+"whatever special post format templates exist, so you <strong>don't do this</strong>: \n"
+"<code>&lt?php bfa_loop( 'postformat-video' ); ?&gt;</code> (except if you want WP to use <code>postformat-video.php</code> \n"
+"even for posts that are <strong>not</strong> set to format \"Video\"). You put only the \"basename\" of your post format set into the \n"
+"brackets, e.g. \"postformat\" for Montezuma's default post format template set. WordPress figures out the rest <strong>on its own</strong> \n"
+"- it's software after all. For instance, WordPress knows very well that it should add \"-video\" to the template name and look for \n"
+"a template named <code>postformat-video.php</code> for a post that you've set to \"Format: Video\" in the WP post write panel.\n"
+"</p>\n"
+"<h4>Including Custom sub templates</h4>\n"
+"<p>\n"
+"Including <strong>custom</strong> sub templates (those that don't fall into any of the \n"
+"groups listed above) in a main template is done with <code>&lt?php bfa_get_template_part( 'name-of-sub-template' ); ?&gt;</code>.\n"
+"</p>"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:161
+msgid "+ Add sub template"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:178
+msgid "ADD Sub Template"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:179
+msgid ""
+"<h3>If you want to create a \"post format\" template, name the template like this:</h3>\n"
+"<h3><code style=\"font-size:20px\">[basename]</code> or <code style=\"font-size:20px\">[basename]-[format]</code></h3>\n"
+"<p><code>[basename]</code> can be anything. Montezuma's standard post format template basename is \n"
+"<code>postformat</code>.</p>\n"
+"<p><code>[format]</code> must be one of the 9 special post format names: \n"
+"<code>aside</code>, \n"
+"<code>audio</code>, \n"
+"<code>chat</code>, \n"
+"<code>gallery</code>, \n"
+"<code>image</code>, \n"
+"<code>link</code>, \n"
+"<code>quote</code>, \n"
+"<code>status</code>, \n"
+"<code>video</code>.</p>\n"
+"<h3>The \"basename\" becomes important when you start using post format templates:</h3>\n"
+"<p>Inside main templates, you call the post format templates with <code>&lt;php bfa_loop( 'postformat' ); ?&gt;</code> \n"
+"or <code>&lt;php bfa_loop( 'smallexcerpt' ); ?&gt;</code>. The word inside the brackets is the \"basename\". \n"
+"For a post that you've set to post format \"Video\" in the WP post write panel, the code \n"
+"<code>&lt;php bfa_loop( 'smallexcerpt' ); ?&gt;</code> would look for a template \n"
+"<code>smallexcerpt-video</code> first, and if that does not exist, for a template \n"
+"<code>smallexcerpt</code>.</p>\n"
+"<h3>Creating the \"missing\" post format templates for the default set, or creating a new set</h3>\n"
+"<h4>1. Creating missing post format templates for the default set with the basename \"postformat\":</h4>\n"
+"<p>Add all or a few of the 9 special post format templates to an existing \"set\". \n"
+"The complete set of post format templates for the default set with the basename \"postformat\" would be:</p>\n"
+"<ul>\n"
+"<li><code>postformat</code> - default in Montezuma, used for posts set to \"Standard\" and also other posts if the corresponding \n"
+"post format template does not exist.</li>\n"
+"<li><strong>postformat-aside</strong> - would be used for posts set to \"Aside\" (at WP -> Posts -> Add New -> \"Format\").</li>\n"
+"<li><strong>postformat-audio</strong> - would be used for posts set to \"Audio\".</li>\n"
+"<li><strong>postformat-chat</strong> - would be used for posts set to \"Chat\".</li>\n"
+"<li><strong>postformat-gallery</strong> - would be used for posts set to \"Gallery\".</li>\n"
+"<li><strong>postformat-image</strong> - would be used for posts set to \"Image\".</li>\n"
+"<li><strong>postformat-link</strong> - would be used for posts set to \"Link\".</li>\n"
+"<li><strong>postformat-quote</strong> - would be used for posts set to \"Quote\".</li>\n"
+"<li><strong>postformat-status</strong> - would be used for posts set to \"Status\".</li>\n"
+"<li><strong>postformat-video</strong> - would be used for posts set to \"Video\".</li>\n"
+"</ul>\n"
+"<p>You would use this set of post format templates with <code>&lt;php bfa_loop( 'postformat' ); ?&gt;</code></p>\n"
+"<h4>2. Creating a whole new \"set\" of post formats altogether:</h4>\n"
+"<p><strong>Examples:</strong></p>\n"
+"<ul>\n"
+"<li><code>myotherformat</code> - default, used for posts set to \"Standard\" and also other posts if the corresponding \n"
+"post format template does not exist.</li>\n"
+"<li><code>myotherformat-aside</code> - would be used for posts set to \"Aside\" (at WP -> Posts -> Add New -> \"Format\").</li>\n"
+"<li><code>myotherformat-audio</code> - would be used for posts set to \"Audio\".</li>\n"
+"<li><code>myotherformat-chat</code> - would be used for posts set to \"Chat\".</li>\n"
+"<li><code>myotherformat-gallery</code> - would be used for posts set to \"Gallery\".</li>\n"
+"<li><code>myotherformat-image</code> - would be used for posts set to \"Image\".</li>\n"
+"<li><code>myotherformat-link</code> - would be used for posts set to \"Link\".</li>\n"
+"<li><code>myotherformat-quote</code> - would be used for posts set to \"Quote\".</li>\n"
+"<li><code>myotherformat-status</code> - would be used for posts set to \"Status\".</li>\n"
+"<li><code>myotherformat-video</code> - would be used for posts set to \"Video\".</li>\n"
+"</ul>\n"
+"<p>You would use this set of post format templates with <code>&lt;php bfa_loop( 'myotherformat' ); ?&gt;</code></p>"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:241
+msgid "Edit the header sub template."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:242
+msgid ""
+"This \"header\" sub template can be included in main templates with <code>&lt;?php get_header(); ?&gt;</code> <br>\n"
+"\t To have no \"header\" in a main template, simply remove <code>&lt;?php get_header(); ?&gt;</code> from that main template's code."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:246
+msgid "Edit the footer sub template."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:247
+msgid ""
+"This \"footer\" sub template can be included in main templates with &lt;?php get_footer(); ?&gt;<br>\n"
+"\t To have no \"header\" in a main template, simply remove <code>&lt;?php get_header(); ?&gt;</code> from that main template's code."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:251
+msgid ""
+"<strong>You cannot edit comments.php itself.</strong> Instead, you can edit the following parts of comments.php:<h4>Password Required</h4> Edit the comment template section \"Password Required\". It will be displayed if \n"
+"\ta password is required to view comments.<br>"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:255
+msgid ""
+"<h4>Comments Closed</h4> Edit the comment template section \"Comments Closed\". It will be displayed if there are comments, but comments are now closed. \n"
+"\t( If there are no comments, nothing gets displayed. )<br>"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:259
+msgid "<h4>Comment List</h4> Edit the comment list in the comment template.<br>"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:262
+msgid ""
+"<h4>One Comment in Comment List</h4> Edit single \"Comment\" item.<br>\n"
+"\tWrap everything into a <code>&lt;li&gt;</code> element that is <strong>NOT</strong> closed: <code>&lt;li&gt; ....</code> (<- no closing &lt/li&gt;)<br>"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:266
+msgid ""
+"<h4>One Pingback in Comment List</h4> Edit single \"Pingback\" item. <br>\n"
+"\tWrap everything into a <code>&lt;li&gt;</code> element that is <strong>NOT</strong> closed: <code>&lt;li&gt; ....</code> (<- no closing &lt/li&gt;)<br>"
+msgstr ""
+
+#: admin/options/650_sub_templates.php:270
+msgid "<h4>Comment Form</h4> Edit the comment template section \"Comment Form\"."
+msgstr ""
+
+#: admin/options/650_sub_templates.php:273
+msgid ""
+"<h4>Default postformat template</h4> - Edit the \"Standard\" post format template. \n"
+"\tThis one cannot be deleted. It will be used \n"
+"\t\twhen there is no better matching post format template. It will be used for all excerpts on all multi post pages, \n"
+"\t\tif there is no better matching post format template, such as <code>postformat-video</code> for a \n"
+"\t\tpost that you've set to Format: \"Video\" in the WP Post Write panel."
+msgstr ""
+
+#: admin/options/900_export_import.php:5
+msgid "Export / Import Settings"
+msgstr ""
+
+#: admin/options/900_export_import.php:6
+msgid ""
+"Export the Montezuma settings to import them into another WP/Montezuma installation, \n"
+"or import the settings that you exported from another Montezuma installation"
+msgstr ""
+
+#: admin/options/900_export_import.php:12
+msgid "Export Settings"
+msgstr ""
+
+#: admin/options/900_export_import.php:14
+msgid ""
+"<p>These are the current Montezuma settings. You can save them to import them into another WordPress / Montezuma installation.</p>\n"
+"\t<p><strong>1.</strong> Click into the textarea below, highlight everything (Ctrl+a on Win, Cmd+a on Mac) and \n"
+"\tcopy everything (Ctrl+c on Win, Cmd+c on Mac)</p>\n"
+"\t<p><strong>2.</strong> Open a new file in a text editor <strong style=\"font-size:20px\">*</strong>, click into the blank file \n"
+"\tand paste the contents of your clipboard into the file (Ctrl+v on Win, Cmd+v on Mac)</p>\n"
+"\t<p><strong>3.</strong> Save the file as a text file, e.g. as <code>montezuma-mydomain.txt</code>.</p>\n"
+"\t<strong>Current Montezuma Settings:</strong>"
+msgstr ""
+
+#: admin/options/900_export_import.php:22
+msgid ""
+"This must be a text editor such as as \"Notepad\" on Windows or \"TextEdit\" on Mac. \n"
+"\t<strong>Do not use</strong> a word processor such as MS Word, OpenOffice, LibreOffice etc..."
+msgstr ""
+
+#: admin/options/900_export_import.php:29
+#: admin/options/900_export_import.php:36
+msgid "Import Settings"
+msgstr ""
+
+#: admin/options/900_export_import.php:31
+msgid ""
+"Here you can import Montezuma settings that you exported from another (or this) Montezuma installation. \n"
+"\tYou should have saved those settings in a text file. The content of the file should look similar to (but be much more than) this example excerpt:"
+msgstr ""
+
+#: admin/options/900_export_import.php:35
+msgid "After you pasted the contents of your Montezuma settings file into the textarea above, click this button:"
+msgstr ""
+
+#: admin/options/950_admin_settings.php:3
+msgid "Admin Settings"
+msgstr ""
+
+#: admin/options/950_admin_settings.php:4
+msgid "Configure the admin area"
+msgstr ""
+
+#: admin/options/950_admin_settings.php:9
+msgid "Font used for code in text areas"
+msgstr ""
+
+#: admin/options/950_admin_settings.php:11
+msgid ""
+"<strong>Font Family</strong> of code in text areas. \n"
+"\tDefault: <code>consolas, monaco, monospace</code><br>Separate with comma, and put font names with spaces inside quotes: <code>arial, \"times new roman\", verdana</code>"
+msgstr ""
+
+#: admin/options/950_admin_settings.php:21
+msgid "<strong>Font Size</strong> of code in text areas. Default: <code>13</code>"
+msgstr ""
+
+#: admin/options/950_admin_settings.php:31
+msgid "<strong>Line Height</strong> of code in text areas. Default: <code>18</code>"
+msgstr ""
+
+#: admin/options/help.php:10
+msgid "Close This"
+msgstr ""
+
+#: admin/options/help.php:11
+msgid ""
+"<h3>Limited Set of PHP code</h3>\n"
+"<p>\n"
+"This is a list of 60+ PHP functions that you can use in Montezuma's main- and sub templates. \n"
+"Simply copy a function here (with <code>Ctrl+c</code> on Windows or <code>Cmd+c</code> on Mac) \n"
+"and paste it (with <code>Ctrl+v</code> on Windows or <code>Cmd+v</code> on Mac) into a template at \n"
+"Montezuma > Main Templates or Montezuma > Sub Templates. \n"
+"Then save the template and reload a front end page of your site to see the result.\n"
+"</p>\n"
+"<p>\n"
+"Note: This is a <strong>limited</strong> set of PHP functions. You <strong>cannot</strong> use \n"
+"arbitrary PHP code. You can only use the functions that are listed here. You can also not use \n"
+"PHP conditions or loops etc... Just what you see listed here.\n"
+"</p>\n"
+"<p>If you need full PHP access you would have to create actual \"physical\" template files \n"
+"in a text editor on your desktop computer. Those physical template files you'd either put \n"
+"into the Montezuma theme directory, or you create a child theme and put the files there.\n"
+"</p>\n"
+"<p>\n"
+"In physical template files you can use the functions listed here \"as is\", that means you can just copy \n"
+"a main or sub template's content from a textarea here in the Montezuma admin and paste it into \n"
+"the physical template on your desktop computer.\n"
+"</p>"
+msgstr ""
+
+#: admin/options/help.php:103
+msgid "PHP Code - Full List"
+msgstr ""
+
+#: includes/admin.php:248
+msgid "Successfully imported new settings! Reloading now..."
+msgstr ""
+
+#: includes/admin.php:252
+#, php-format
+msgid "Sorry, but this does not appear to be a valid %1$s Settings File."
+msgstr ""
+
+#: includes/admin.php:283
+msgid "Settings were reset! Reloading now..."
+msgstr ""
+
+#: includes/admin.php:285
+msgid "Sorry, could not reset settings."
+msgstr ""
+
+#: includes/admin.php:287
+msgid "Settings were reset, however new and old settings were the same! Reloading now..."
+msgstr ""
+
+#: includes/admin.php:324
+msgid "Setting was reset! Reloading now..."
+msgstr ""
+
+#: includes/admin.php:326
+msgid "Sorry, could not reset setting."
+msgstr ""
+
+#: includes/admin.php:328
+msgid "Setting was reset, but it was the default value anyway! Reloading now..."
+msgstr ""
+
+#: includes/admin.php:355
+#, php-format
+msgid "Successfully added new %1$s item %2$s..."
+msgstr ""
+
+#: includes/admin.php:357
+#, php-format
+msgid "Item named \"%1$s\" already exists!"
+msgstr ""
+
+#: includes/admin.php:399
+#, php-format
+msgid "Successfully deleted <code>%1$s.php</code>! Reloading now..."
+msgstr ""
+
+#: includes/admin.php:401
+#, php-format
+msgid "Could not delete <code>%1$s.php</code> because:"
+msgstr ""
+
+#: includes/admin.php:403
+msgid "It does not exist."
+msgstr ""
+
+#: includes/admin.php:405
+msgid "It is an item that cannot be deleted."
+msgstr ""
+
+#: includes/admin.php:406
+msgid "Reloading now..."
+msgstr ""
+
+#: includes/admin.php:488
+msgid "saved..."
+msgstr ""
+
+#: includes/admin.php:1016
+#: includes/admin.php:1119
+msgid "No Posts Available"
+msgstr ""
+
+#: includes/admin.php:1043
+#: includes/admin.php:1168
+msgid "No Pages Available"
+msgstr ""
+
+#: includes/admin.php:1065
+#: includes/admin.php:1133
+msgid "No Categories Available"
+msgstr ""
+
+#: includes/admin.php:1087
+#: includes/admin.php:1147
+msgid "No Tags Available"
+msgstr ""
+
+#: includes/admin.php:1094
+msgid "Select One"
+msgstr ""
+
+#: includes/admin.php:1108
+msgid "Select One Post"
+msgstr ""
+
+#: includes/admin.php:1113
+#, php-format
+msgid "Post without Title - ID #%1$s"
+msgstr ""
+
+#: includes/admin.php:1127
+msgid "Select One Category"
+msgstr ""
+
+#: includes/admin.php:1141
+msgid "Select One Tag"
+msgstr ""
+
+#: includes/admin.php:1155
+msgid "Select One Page"
+msgstr ""
+
+#: includes/admin.php:1161
+#, php-format
+msgid "Page without Title - ID #%1$s"
+msgstr ""
+
+#: includes/admin.php:1201
+msgid "Upload"
+msgstr ""
+
+#: includes/admin.php:1211
+msgid "Select Color"
+msgstr ""
+
+#: includes/admin.php:1212
+msgid "Default:"
+msgstr ""
+
+#: includes/admin.php:1214
+msgid "Clear"
+msgstr ""
+
+#: includes/admin.php:1232
+msgid "1. Upload Images"
+msgstr ""
+
+#: includes/admin.php:1234
+msgid "Upload settings:"
+msgstr ""
+
+#: includes/admin.php:1237
+msgid ""
+"Resizing &amp; thumbnail creation happens <strong>while</strong> images are being uploaded.  \n"
+"\t\t\t\tTo resize or create thumbnails for existing images, delete those images (Step 2), \n"
+"\t\t\t\tand upload them again."
+msgstr ""
+
+#: includes/admin.php:1245
+msgid "Resize Images"
+msgstr ""
+
+#: includes/admin.php:1248
+#: includes/admin.php:1269
+msgid "Width:"
+msgstr ""
+
+#: includes/admin.php:1249
+#: includes/admin.php:1270
+msgid "Height:"
+msgstr ""
+
+#: includes/admin.php:1250
+msgid "Quality:"
+msgstr ""
+
+#: includes/admin.php:1252
+msgid ""
+"Possible values: Number between 1 and 99. \n"
+"\t\t\t\t\t\t Reasonable values: 50-95. Recommended: 65-85. \n"
+"\t\t\t\t\t\t <br><br>Higher number means better image quality but also bigger file size. \n"
+"\t\t\t\t\t\t <br><br>It is a good idea to use this option if have not already \n"
+"\t\t\t\t\t\t shrinked the file size of your images, i.e. with an image editing program, on your desktop computer.\n"
+"\t\t\t\t\t\t <br><br>Tip: Try a value and after the upload view the size value displayed below each image, and click \n"
+"\t\t\t\t\t\t the image to inspect its quality. If the quality is too bad or the file size too big, simply delete \n"
+"\t\t\t\t\t\t the image and repeat the upload with a different quality value."
+msgstr ""
+
+#: includes/admin.php:1266
+msgid "Create Thumbnails"
+msgstr ""
+
+#: includes/admin.php:1271
+msgid "Crop"
+msgstr ""
+
+#: includes/admin.php:1274
+msgid ""
+"Checking this will force the thumbnail to have the specified width &amp; \n"
+"\t\t\t\t\t\theight, by cutting image parts appropriately."
+msgstr ""
+
+#: includes/admin.php:1283
+msgid ""
+"<p>After you clicked the \"Upload Images\" button you can select &amp; upload multiple images at once.</p>\n"
+"\t\t\t\t<p>Uploaded images will appear at the bottom of existing images. This may take 1-3 seconds per image.</p>"
+msgstr ""
+
+#: includes/admin.php:1287
+msgid "2. Re-order &amp; delete images"
+msgstr ""
+
+#: includes/admin.php:1293
+msgid ""
+"Pointing your mouse at an image shows its \"Move\" and \"Delete\" handles in the top left and right corners. \n"
+"\t\t\t\tClick the \"Delete\" handle in the top right corner to delete the image from this list. \n"
+"\t\t\t\tThis will also delete the image from the server."
+msgstr ""
+
+#: includes/admin.php:1305
+msgid "Click to view full size image"
+msgstr ""
+
+#: includes/admin.php:1307
+msgid "Click, hold & move to change this image position in list"
+msgstr ""
+
+#: includes/admin.php:1308
+msgid "Click to remove this image from list"
+msgstr ""
+
+#: includes/admin.php:1315
+msgid "image src"
+msgstr ""
+
+#: includes/admin.php:1316
+msgid "size"
+msgstr ""
+
+#: includes/admin.php:1317
+msgid "width"
+msgstr ""
+
+#: includes/admin.php:1318
+msgid "height"
+msgstr ""
+
+#: includes/admin.php:1325
+msgid "thumb"
+msgstr ""
+
+#: includes/admin.php:1326
+msgid "twidth"
+msgstr ""
+
+#: includes/admin.php:1327
+msgid "theight"
+msgstr ""
+
+#: includes/admin.php:1341
+msgid "3. Add additional data to images (optional)"
+msgstr ""
+
+#: includes/admin.php:1344
+msgid ""
+"Right after the upload each image gets 4 basic attributes applied to it \n"
+"\t\t\t\tautomatically: <strong>src</strong>, (file) <strong>size</strong>, \n"
+"\t\t\t\t<strong>width</strong> and <strong>height</strong>.<br><br>\n"
+"\t\t\t\tHowever, you may need more data than those 4 attributes.<br><br>\n"
+"\t\t\t\tExample: You want to link each image, so you need to add an URL to each image. \n"
+"\t\t\t\tIn that case you'd probably add an <strong>href</strong> attribute. \n"
+"\t\t\t\t(Technically, you could give it any name, like 'whatever' instead of 'href'). <br><br>\n"
+"\t\t\t\tHere in this section, you'll just add the data name, such as 'href'. The data value \n"
+"\t\t\t\t(such as 'http://mysite.com/link.html') you will add directly below each image.<br><br>\n"
+"\t\t\t\tThe text input field for the data value will appear below each image, \n"
+"\t\t\t\timmediately after you clicked 'Add &raquo;'."
+msgstr ""
+
+#: includes/admin.php:1356
+msgid "Data name:"
+msgstr ""
+
+#: includes/admin.php:1357
+msgid "Add"
+msgstr ""
+
+#: includes/admin.php:1358
+msgid "Examples: href, alt, title, rel, target, whatever, anything..."
+msgstr ""
+
+#: includes/admin.php:1359
+msgid "Added data (Click to remove):"
+msgstr ""
+
+#: includes/admin.php:1378
+#, php-format
+msgid "Reset option %1$s to default"
+msgstr ""
+
+#: includes/admin.php:1400
+#, php-format
+msgid "%1$s updated"
+msgstr ""
+
+#: includes/admin.php:1407
+msgid "Saving..."
+msgstr ""
+
+#: includes/admin.php:1433
+msgid "SAVE Changes"
+msgstr ""
+
+#: includes/admin.php:1437
+msgid "Reset ALL"
+msgstr ""
+
+#: includes/breadcrumbs.php:78
+msgid "Search results for: "
+msgstr ""
+
+#: includes/breadcrumbs.php:81
+msgid "Posts tagged: "
+msgstr ""
+
+#: includes/breadcrumbs.php:85
+msgid "Articles posted by: "
+msgstr ""
+
+#: includes/breadcrumbs.php:88
+msgid "Error 404"
+msgstr ""
+
+#: includes/breadcrumbs.php:95
+msgid "Blog"
+msgstr ""
+
+#: includes/comment_form.php:17
+msgid "<strong>Author</strong> (required)"
+msgstr ""
+
+#: includes/comment_form.php:21
+msgid "<strong>Email</strong> (will not be published)(required)"
+msgstr ""
+
+#: includes/comment_form.php:25
+msgid "Website"
+msgstr ""
+
+#: includes/comment_form.php:37
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr ""
+
+#: includes/comment_form.php:44
+#, php-format
+msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\" title=\"Log out of this account\">Log out?</a>"
+msgstr ""
+
+#: includes/comment_form.php:54
+msgid "Leave a Reply"
+msgstr ""
+
+#: includes/comment_form.php:55
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr ""
+
+#: includes/comment_form.php:56
+msgid "Cancel Reply"
+msgstr ""
+
+#: includes/comment_form.php:57
+msgid "Post Comment"
+msgstr ""
+
+#: includes/get_whitelist.php:18
+#, php-format
+msgid "<?php printf( __( 'Published in %1$s on %2$s', 'montezuma' ), the_date(), the_category( ' &middot; ' ) ); ?>"
+msgstr ""
+
+#: includes/get_whitelist.php:19
+msgid "Prints and replaces the variables."
+msgstr ""
+
+#: includes/get_whitelist.php:27
+msgid "Includes <code>header.php</code> sub template."
+msgstr ""
+
+#: includes/get_whitelist.php:29
+msgid ""
+"In case you created a second 'header' sub template in addition to the standard <code>header.php</code>, \n"
+"\t\t\tsuch as <code>header-2.php</code>, you could include it with <?php get_header( '2' ); ?>. Whatever you put into the \n"
+"\t\t\tbrackets will be appended to <code>header</code> with a dash <code>-</code> in between, and that file will be included: \n"
+"\t\t\tE.g. to include <code>header-whatever.php</code> in a main template you would use <code><?php get_header( 'whatever' ); ?></code>"
+msgstr ""
+
+#: includes/get_whitelist.php:38
+msgid "Includes <code>footer.php</code> sub template."
+msgstr ""
+
+#: includes/get_whitelist.php:40
+msgid "Same as <code>get_header</code> but for the 'footer' sub template"
+msgstr ""
+
+#: includes/get_whitelist.php:46
+msgid "Includes <code>searchform.php</code> sub template."
+msgstr ""
+
+#: includes/get_whitelist.php:48
+msgid ""
+"Similar to <code>get_header</code> and <code>get_header</code> but without the option to \n"
+"\t\t\tinclude alternative sub template versions by providing a parameter inside the brackets. Use as is."
+msgstr ""
+
+#: includes/get_whitelist.php:56
+msgid "Replaces text with translated version"
+msgstr ""
+
+#: includes/get_whitelist.php:58
+msgid ""
+"Note how that single quote is \"escaped\" with a backslash, \n"
+"\t\t\t\tbecause single quotes are also used to wrap the string in  this example."
+msgstr ""
+
+#: includes/get_whitelist.php:61
+msgid ""
+"Note how the double quotes are \"escaped\" with a backslash, \n"
+"\t\t\t\tbecause double quotes are also used to wrap the string in this example. <strong>(Note: This exmaple \n"
+"\t\t\t\tmight not show a success window when copied with icon button but should copy regardless)</strong>"
+msgstr ""
+
+#: includes/get_whitelist.php:65
+msgid ""
+"These are 2 underscore characters followed by 2 paramaters inside brackets. \n"
+"\t\t\tThe first parameter is always the text string, the second is <code>montezuma</code>. If you wrap the string into \n"
+"\t\t\tsingle quotes then single quotes inside the string need to be escaped with a backslash but double quotes don't need to \n"
+"\t\t\tbe escaped. And the other way around with double quotes: If you wrap the string with double quotes you escape any double quotes \n"
+"\t\t\tinside the string with a backslash while single quotes inside the string don't need to be escaped. Escaping means telling \n"
+"\t\t\tthat you want to print this character literally and that it is not supposed to be a string delimiter. \n"
+"\t\t\tThis function <code>__(...)</code> only makes sense as a parameter inside another function because it does not print anything \n"
+"\t\t\ton itself. Example: <code><?php edit_post_link( __('Edit', 'montezuma'), '<div class=\"post-edit\">', '</div>' ); ?></code>"
+msgstr ""
+
+#: includes/get_whitelist.php:78
+msgid "Displays \"Text\" or the translated version of it"
+msgstr ""
+
+#: includes/get_whitelist.php:80
+msgid "This prints the translation whereas __( ... ) just returns it."
+msgstr ""
+
+#: includes/get_whitelist.php:87
+#: includes/get_whitelist.php:91
+msgid "Displays the contents of a widget area named <code>Widget Area ONE</code>"
+msgstr ""
+
+#: includes/get_whitelist.php:89
+msgid "Displays the contents of a widget area named <code>My other widget area</code>"
+msgstr ""
+
+#: includes/get_whitelist.php:93
+msgid ""
+"Creates and displays widget areas in one go. \n"
+"\t\t\tSimply put this short one-liner into a template to display the \n"
+"\t\t\tcontents of that widget area (= the widgets placed therein) at exactly the place in the template where you put the code. \n"
+"\t\t\tThis also creates that widget area in the WP backend at WP -> Appearance -> Widgets"
+msgstr ""
+
+#: includes/get_whitelist.php:102
+msgid ""
+"Displays the content of the field labeled \"Site Address (URL)\" \n"
+"\t\t\t\t\tin WP -> General -> Settings, usually without trailing slash. <code>http://www.mydomain.com</code>"
+msgstr ""
+
+#: includes/get_whitelist.php:105
+msgid "<code>home_url</code> does not print anything on its own, so use it with <code>echo</code> as shown in the example."
+msgstr ""
+
+#: includes/get_whitelist.php:111
+msgid ""
+"Displays the content of the field labeled \"WordPress Address (URL)\" in WP -> Settings -> General, \n"
+"\t\t\t\tusually without trailing slash. This can but doesn't have to be the same as <code>site_url</code>. <code>http://www.mydomain.com</code> \n"
+"\t\t\t\tor <code>http://www.mydomain.com/wordpress</code>"
+msgstr ""
+
+#: includes/get_whitelist.php:115
+msgid "<code>site_url</code> does not print anything on its own, so use it with <code>echo</code> as shown in the example."
+msgstr ""
+
+#: includes/get_whitelist.php:122
+msgid "Just another WordPress blog"
+msgstr ""
+
+#: includes/get_whitelist.php:136
+msgid ""
+"<code>bloginfo</code> displays many different bits of global information about the site based on the \n"
+"\t\t\tparameter inside the brackets."
+msgstr ""
+
+#: includes/get_whitelist.php:144
+msgid ""
+"Prints menu bar with the links as set in WP -> Appearance -> Menus -> Theme Locations -> menu1. \n"
+"\t\t\t\t\tIf no menu has been configured for \"Theme Location: menu1\", the menu \"bfa_page_menu\" will be used as default menu. \n"
+"\t\t\t\t\tAvailable default menus: <code>bfa_page_menu</code> (Page Menu, uses all static pages that exist \n"
+"\t\t\t\t\tin this WP installation), <code>bfa_cat_menu</code> \n"
+"\t\t\t\t\t(Category menu, uses all categories that exist in this WP installation)"
+msgstr ""
+
+#: includes/get_whitelist.php:150
+msgid ""
+"Like above but with \"Theme Location: menu2\" and \"bfa_cat_menu\" as the default fallback if no menu was configured for \n"
+"\t\t\t\t\tTheme Location menu2"
+msgstr ""
+
+#: includes/get_whitelist.php:153
+msgid "Displays a navigation menu created in WP -> Appearance -> Menus."
+msgstr ""
+
+#: includes/get_whitelist.php:161
+msgid "Displays dropdown HTML content of users"
+msgstr ""
+
+#: includes/get_whitelist.php:163
+#: includes/get_whitelist.php:172
+#: includes/get_whitelist.php:180
+#: includes/get_whitelist.php:188
+#: includes/get_whitelist.php:196
+#: includes/get_whitelist.php:239
+msgid "Use as is or with one/some of the many parameters available, see WP Docs."
+msgstr ""
+
+#: includes/get_whitelist.php:169
+msgid ""
+"Displays a list of the sites's authors (users), and if the user has authored any posts, \n"
+"\t\t\t\tthe author name is displayed as a link to their posts. Optionally this tag displays each author's post count and RSS feed link."
+msgstr ""
+
+#: includes/get_whitelist.php:178
+msgid "Displays bookmarks found in WP -> Links"
+msgstr ""
+
+#: includes/get_whitelist.php:186
+msgid "Displays HTML dropdown list of categories."
+msgstr ""
+
+#: includes/get_whitelist.php:194
+msgid "Displays a list of Categories as links."
+msgstr ""
+
+#: includes/get_whitelist.php:203
+msgid ""
+"Displays a list of tags in what is called a 'tag cloud', where the size of each tag is \n"
+"\t\t\t\tdetermined by how many times that particular tag has been assigned to posts."
+msgstr ""
+
+#: includes/get_whitelist.php:206
+msgid ""
+"In Montezuma the different sizes of tags in the cloud is removed for a stramlined display. CSS classes are available \n"
+"\t\t\t(see Widgets/Tag Cloud in the CSS section) for applying not just different sizes but any kind of style based on popularity of a tag. \n"
+"\t\t\tUse as is or with one/some of the many parameters available, see WP Docs."
+msgstr ""
+
+#: includes/get_whitelist.php:214
+msgid "Displays the \"term\" title for the current page."
+msgstr ""
+
+#: includes/get_whitelist.php:215
+msgid ""
+"Displays \"Currently browsing \" \n"
+"\t\t\t\tfollowed by the \"term\" title for the current page."
+msgstr ""
+
+#: includes/get_whitelist.php:218
+msgid ""
+"Displays the title for a taxonomy on taxonomy pages. \n"
+"\t\t\tCan be used instead of single_cat_title() and single_tag_title()."
+msgstr ""
+
+#: includes/get_whitelist.php:236
+msgid ""
+"Displays all comments for a post or Page based on a variety \n"
+"\t\t\t\t\tof parameters including ones set in the administration area."
+msgstr ""
+
+#: includes/get_whitelist.php:263
+msgid ""
+"Displays the list of posts (the WordPress \"Loop\") on multi post pages. \n"
+"\t\t\t\t\tFor each post it uses the default post format sub template <code>postformat.php</code> as the base \n"
+"\t\t\t\t\ttemplate if no other base post format template is provided inside the brackets."
+msgstr ""
+
+#: includes/get_whitelist.php:266
+msgid ""
+"Displays the list of posts (the WordPress \"Loop\") on multi post pages. \n"
+"\t\t\t\t\tFor each post it uses the sub template <code>otherformat.php</code>. You would have to create \n"
+"\t\t\t\t\tthat sub template <code>otherformat.php</code> in Montezuma (See \"Add sub template\")."
+msgstr ""
+
+#: includes/get_whitelist.php:270
+msgid ""
+"This function will first look for the specific version of a post format template (e.g. \n"
+"\t\t\t\t\t<code>postformat-video.php</code> for a post that was set to Format: 'Video' in the WP posts panel) \n"
+"\t\t\t\t\tand then, if that does not exist (because you did not create a sub template named <code>postformat-video.php</code> \n"
+"\t\t\t\t\tin Montezuma) \n"
+"\t\t\t\t\tfall back to using the base version <code>postformat.php</code>. And if you\\'re working \n"
+"\t\t\t\t\twith a new set of post format templates (which you created as sub templates in Montezuma, e.g \n"
+"\t\t\t\t\t<code>otherformat.php</code>, <code>otherformat-video.php</code>, <code>otherformat-link.php</code> ...) \n"
+"\t\t\t\t\tand you use <code><?php bfa_loop( 'otherformat' ); ?></code> then it will look for (again, if a post \n"
+"\t\t\t\t\twas set to Format: 'Video' for instance) for <code>otherformat-video.php</code>, and if that does not exist, \n"
+"\t\t\t\t\tit will fall back to using <code>otherformat.php</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:304
+msgid "Displays the breadcrumbs navigation."
+msgstr ""
+
+#: includes/get_whitelist.php:305
+msgid ""
+"Displays the breadcrumbs navigation and adds the CSS ID <code>breadcrumbs1</code>\n"
+"\t\t\t\t\tto the container element. Useful if you want to display the breadcrumbs more than once on a page, and style them differently."
+msgstr ""
+
+#: includes/get_whitelist.php:314
+msgid "Displays a numbered comment navigation."
+msgstr ""
+
+#: includes/get_whitelist.php:315
+msgid ""
+"Displays a numbered comment navigation and \n"
+"\t\t\t\t\t\tadds the CSS ID <code>comment-pagination-1</code> to the container element. \n"
+"\t\t\t\t\t\tUseful if you want to display the comment navigation more than once on a page (for instance: above and below the \n"
+"\t\t\t\t\t\tcomment list), and style them differently."
+msgstr ""
+
+#: includes/get_whitelist.php:326
+msgid "Displays the comment form."
+msgstr ""
+
+#: includes/get_whitelist.php:334
+msgid ""
+"Displays various CSS classes for each single comment based on position of comment, whether \n"
+"\t\t\t\t\tthe comment is from the post author etc... These CSS classes can then be used to style single comments."
+msgstr ""
+
+#: includes/get_whitelist.php:337
+#: includes/get_whitelist.php:345
+#: includes/get_whitelist.php:353
+#: includes/get_whitelist.php:421
+#: includes/get_whitelist.php:449
+msgid "This should be used in <code>comments-comment.php</code> - the sub template for a single comment."
+msgstr ""
+
+#: includes/get_whitelist.php:343
+msgid "Displays the numeric ID of the current comment."
+msgstr ""
+
+#: includes/get_whitelist.php:351
+msgid "Displays the avatar of a comment author."
+msgstr ""
+
+#: includes/get_whitelist.php:359
+msgid "Displays the comment author's name linked to his/her URL, if one was provided."
+msgstr ""
+
+#: includes/get_whitelist.php:361
+msgid ""
+"This should be used in <code>comments-comment.php</code> and <code>comments-pingback.php</code> \n"
+"\t\t\t\t- the sub templates for a single comment and a single pingback/trackback."
+msgstr ""
+
+#: includes/get_whitelist.php:368
+msgid "Displays a numbered navigation on multi post pages."
+msgstr ""
+
+#: includes/get_whitelist.php:370
+msgid ""
+"Should be used on multi post pages (index, tag, category, search...) but not on single post pages \n"
+"\t\t\t\t(single, page, 404, custom templates that are meant to be single post pages...)"
+msgstr ""
+
+#: includes/get_whitelist.php:385
+msgid ""
+"Display \"permalink\" URL of a single comment. This is the URL that you or someone else can use to \n"
+"\t\t\t\t\tlink exactly to a specific comment, instead of linking to just the page the comment is displayed on"
+msgstr ""
+
+#: includes/get_whitelist.php:388
+msgid ""
+"This should be used in <code>comments-comment.php</code> - the sub template for a single comment.\n"
+"\t\t\t\t\tThis is commonly used with the comment date (see <code><?php comment_date(); ?></code>) as the link text. \n"
+"\t\t\t\t\tThis way the comment date serves a second purpose instead of just displaying the comment date."
+msgstr ""
+
+#: includes/get_whitelist.php:396
+msgid "Displays the date a comment was posted, using the default date format set in WordPress."
+msgstr ""
+
+#: includes/get_whitelist.php:397
+msgid "Displays the date a comment was posted, in the format <code>6-30-2014</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:399
+msgid ""
+"This should be used in the sub templates <code>comments-comment.php</code> and \n"
+"\t\t\t\t<code>comments-pingback.php</code>. For more date formatting options see \n"
+"\t\t\t\t<a target=\"_blank\" href=\"http://codex.wordpress.org/Formatting_Date_and_Time\">WP Date & Time Formats</a>"
+msgstr ""
+
+#: includes/get_whitelist.php:407
+msgid "Displays the time a comment was posted, using the default date format set in WordPress."
+msgstr ""
+
+#: includes/get_whitelist.php:408
+msgid "Displays the time a comment was posted, in the format <code>22:04:11</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:410
+msgid ""
+"This should be used in the sub templates <code>comments-comment.php</code> and \n"
+"\t\t\t\t<code>comments-pingback.php</code>. For more time formatting options see \n"
+"\t\t\t\t<a target=\"_blank\" href=\"http://codex.wordpress.org/Formatting_Date_and_Time\">WP Date & Time Formats</a>"
+msgstr ""
+
+#: includes/get_whitelist.php:418
+msgid "Displays a link to edit the current comment, if the user is logged in and allowed to edit the comment."
+msgstr ""
+
+#: includes/get_whitelist.php:419
+msgid "Displays a link to edit the current comment, with \"Edit\" as the text link."
+msgstr ""
+
+#: includes/get_whitelist.php:427
+msgid "Displays a link for deleting a comment."
+msgstr ""
+
+#: includes/get_whitelist.php:429
+#: includes/get_whitelist.php:440
+msgid ""
+"Will only be displayed if current user is logged in and allowed to delete comments. \n"
+"\t\t\t\tThis should be used in <code>comments-comment.php</code> - the sub template for a single comment."
+msgstr ""
+
+#: includes/get_whitelist.php:436
+msgid ""
+"Displays a link for deleting and tagging a comment as spam, without link text. \n"
+"\t\t\t\t\tCould be used to style this as a graphical link, with a background image."
+msgstr ""
+
+#: includes/get_whitelist.php:438
+msgid "Displays a link to delete and tag a comment as spam, with \"Spam\" as the link title."
+msgstr ""
+
+#: includes/get_whitelist.php:447
+msgid "Displays the text of a comment."
+msgstr ""
+
+#: includes/get_whitelist.php:456
+msgid ""
+"Displays \"Your comment is awaiting moderation.\" is comments are being \"moderated\" (= checked first \n"
+"\t\t\t\t\tby site owner before being published, instead of being published immediately. According to setting at \n"
+"\t\t\t\t\tWP -> Settings -> Discussion -> Before a comment appears."
+msgstr ""
+
+#: includes/get_whitelist.php:460
+msgid "This will only be displayed to the person that submitted a comment, not to everyone."
+msgstr ""
+
+#: includes/get_whitelist.php:467
+msgid ""
+"The PHP date() function. Prints the current date and/or time in the specified format. This example prints the year as 4-digit number e.g. 2014. For \n"
+"\t\t\t\t\tpossible parameters see <a target=\"_blank\" href=\"http://www.php.net/manual/en/function.date.php\">PHP Date (External)</a>."
+msgstr ""
+
+#: includes/get_whitelist.php:470
+#: includes/get_whitelist.php:480
+msgid "This functions does not print by itself. Always use it in combination with <echo>echo</code> as shown in the example."
+msgstr ""
+
+#: includes/get_whitelist.php:478
+msgid "Displays the Database queries consumed to render the page."
+msgstr ""
+
+#: includes/get_whitelist.php:485
+msgid "Displays the time needed to render the page."
+msgstr ""
+
+#: includes/get_whitelist.php:487
+msgid "Useful to check the impact of settings or plugins etc..."
+msgstr ""
+
+#: includes/get_whitelist.php:494
+msgid "Print 'h1' if current page is the front page, else print 'h3'"
+msgstr ""
+
+#: includes/get_whitelist.php:496
+msgid ""
+"This could be used to switch the HTML tag used e.g. for the site title from h1 on the front page to h2 or h3 or even a div on all other pages, \n"
+"\t\t\tto put the SEO focus on the title of a post, a page or a category title or whatever the essence of a given page is. You can (and usually will) make the site title \n"
+"\t\t\tlook the same, through CSS. It is \n"
+"\t\t\tcommony accepted good SEO practise to give the site title an H1 only on the front page and nowhere else. You mileage may vary if your \n"
+"\t\t\tsite title is very important and/or full of relevant keywords. You usually use this function twice, once to open a tag, then again to close the tag, like this: \n"
+"\t\t\t<code><<?php bfa_if_front_else( \"h1\", \"h3\" ); ?>>Some Title</<?php bfa_if_front_else( \"h1\", \"h3\" ); ?>></code>. The first parameter is \n"
+"\t\t\twhat will be printed on the front page, the second what will be printed on all other pages."
+msgstr ""
+
+#: includes/get_whitelist.php:514
+msgid "Default. Same as <?php bfa_excerpt( 55, ' ...' ); ?>"
+msgstr ""
+
+#: includes/get_whitelist.php:515
+msgid "Print first 40 words, followed by ' ... read more'"
+msgstr ""
+
+#: includes/get_whitelist.php:516
+msgid "Print first 100 words, followed by by link to full post with post title as link text"
+msgstr ""
+
+#: includes/get_whitelist.php:518
+msgid ""
+"This should be used in post format templates, e.g. <code>postformat.php</code>. \n"
+"\t\t\t<code>%url%</code> will be replaced with the post permalink URL, \n"
+"\t\t\t<code>%title%</code> with the post title."
+msgstr ""
+
+#: includes/get_whitelist.php:526
+msgid "Default. Same as <?php previous_post_link( '&laquo; %link', '%title', FALSE ); ?>"
+msgstr ""
+
+#: includes/get_whitelist.php:527
+msgid "Linked post must be in same category"
+msgstr ""
+
+#: includes/get_whitelist.php:528
+msgid "Exclude categories with the IDs 1, 5 and 15. Must have the word \" and \" between the cat IDs"
+msgstr ""
+
+#: includes/get_whitelist.php:529
+msgid "Link text is \"Previous Post\" instead of actual post title"
+msgstr ""
+
+#: includes/get_whitelist.php:530
+msgid "Some text before and after the link"
+msgstr ""
+
+#: includes/get_whitelist.php:532
+msgid "The default has reasonable settings. Simply use <?php previous_post_link(); ?> if you're unsure."
+msgstr ""
+
+#: includes/get_whitelist.php:538
+msgid "Default. Same as <?php next_post_link( '&laquo; %link', '%title', FALSE ); ?>"
+msgstr ""
+
+#: includes/get_whitelist.php:540
+msgid "For more examples see <code>previous_post_link</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:546
+msgid "Displays various CSS classes related to the current post."
+msgstr ""
+
+#: includes/get_whitelist.php:548
+#: includes/get_whitelist.php:560
+#: includes/get_whitelist.php:572
+#: includes/get_whitelist.php:585
+#: includes/get_whitelist.php:596
+#: includes/get_whitelist.php:625
+#: includes/get_whitelist.php:637
+#: includes/get_whitelist.php:685
+#: includes/get_whitelist.php:696
+msgid ""
+"Should be used in templates where single posts or static pages are displayed: \n"
+"\t\t\t\t\tIn post format templates such as <code>postformat.php</code>, <code>postformat-video.php</code>, \n"
+"\t\t\t\t\t<code>postformat-link.php</code>, <code>my-other-format.php</code>,  <code>my-other-format-video.php</code> etc... \n"
+"\t\t\t\t\tAlso in <code>single.php</code> and <code>page.php</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:557
+msgid ""
+"Displays the ID of the current post. Commonly used to print a CSS ID of a post, so that \n"
+"\t\t\t\t\teach post can be styled individually."
+msgstr ""
+
+#: includes/get_whitelist.php:569
+msgid ""
+"Displays the title of the current post. \n"
+"\t\t\t\t\tIf the post is protected or private, this will be noted by the words \"Protected: \" or \"Private: \" prepended to the title."
+msgstr ""
+
+#: includes/get_whitelist.php:581
+msgid ""
+"Displays the title of the current post. It somewhat duplicates the \n"
+"\t\t\t\t\tfunctionality of <code>the_title()</code>, but provides a 'clean' version of the title for use in HTML attributes \n"
+"\t\t\t\t\tby stripping HTML tags and converting certain characters (including quotes) to their character entity equivalent"
+msgstr ""
+
+#: includes/get_whitelist.php:594
+msgid "Displays the permalink URL for the current post."
+msgstr ""
+
+#: includes/get_whitelist.php:605
+msgid "Displays the time and/or date the current post was published at, using the default date/time format set in WordPress."
+msgstr ""
+
+#: includes/get_whitelist.php:606
+msgid "Displays post time as 10:36 pm"
+msgstr ""
+
+#: includes/get_whitelist.php:607
+msgid "Displays post time as 17:24"
+msgstr ""
+
+#: includes/get_whitelist.php:615
+msgid "Displays the post date in the default WP format."
+msgstr ""
+
+#: includes/get_whitelist.php:623
+msgid "Displays the value in the post author's 'Display name publicly as' field."
+msgstr ""
+
+#: includes/get_whitelist.php:634
+msgid ""
+"Displays a link to the Website for the author of a post. The Website field is set in \n"
+"\t\t\t\tthe user's profile (WP -> Users -> Your Profile). The text for the link is the author's Profile 'Display name publicly as' field."
+msgstr ""
+
+#: includes/get_whitelist.php:646
+#: includes/get_whitelist.php:647
+#: includes/get_whitelist.php:648
+#: includes/get_whitelist.php:649
+#: includes/get_whitelist.php:650
+#: includes/get_whitelist.php:651
+#: includes/get_whitelist.php:652
+#: includes/get_whitelist.php:653
+#: includes/get_whitelist.php:654
+#: includes/get_whitelist.php:655
+#: includes/get_whitelist.php:656
+#: includes/get_whitelist.php:657
+#: includes/get_whitelist.php:658
+#: includes/get_whitelist.php:659
+#: includes/get_whitelist.php:660
+#: includes/get_whitelist.php:661
+#: includes/get_whitelist.php:662
+#: includes/get_whitelist.php:663
+#: includes/get_whitelist.php:664
+#: includes/get_whitelist.php:665
+#: includes/get_whitelist.php:666
+#: includes/get_whitelist.php:667
+#: includes/get_whitelist.php:668
+#: includes/get_whitelist.php:669
+#: includes/get_whitelist.php:670
+#: includes/get_whitelist.php:671
+msgid "See parameter name inside brackets"
+msgstr ""
+
+#: includes/get_whitelist.php:673
+msgid ""
+"Displays meta info about the post author, based on the parameter inside the brackets. \n"
+"\t\t\t\t\tShould be used in templates where single posts or static pages are displayed: \n"
+"\t\t\t\t\tIn post format templates such as <code>postformat.php</code>, <code>postformat-video.php</code>, \n"
+"\t\t\t\t\t<code>postformat-link.php</code>, <code>my-other-format.php</code>,  <code>my-other-format-video.php</code> etc... \n"
+"\t\t\t\t\tAlso in <code>single.php</code> and <code>page.php</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:683
+msgid "Displays the total number of posts an author has published. Drafts and private posts aren't counted."
+msgstr ""
+
+#: includes/get_whitelist.php:694
+msgid "Displays a link to all posts by an author. The link text is the user's 'Display name publicly as' field."
+msgstr ""
+
+#: includes/get_whitelist.php:706
+msgid "Displays an excerpt of the current post."
+msgstr ""
+
+#: includes/get_whitelist.php:708
+msgid ""
+"Use in post format templates such as <code>postformat.php</code>, <code>postformat-video.php</code>, \n"
+"\t\t\t\t\t<code>postformat-link.php</code>, <code>my-other-format.php</code>,  <code>my-other-format-video.php</code> etc... "
+msgstr ""
+
+#: includes/get_whitelist.php:715
+msgid ""
+"Displays the contents of the current post. This default version is sufficient on single.php and page.php because there no \n"
+"\t\t\t\t\t\"Read more\" link is displayed anyway."
+msgstr ""
+
+#: includes/get_whitelist.php:717
+msgid "Displays the contents of the current post."
+msgstr ""
+
+#: includes/get_whitelist.php:719
+msgid ""
+"Should be used in <code>single.php</code> and <code>page.php</code>. Can also be used \n"
+"\t\t\t\t\tinstead of <code>the_excerpt()</code> in post format templates: <code>postformat.php</code>, <code>postformat-video.php</code>, \n"
+"\t\t\t\t\t<code>postformat-link.php</code>, <code>my-other-format.php</code>,  <code>my-other-format-video.php</code> etc..."
+msgstr ""
+
+#: includes/get_whitelist.php:728
+#: includes/get_whitelist.php:737
+msgid "Displays page-links for paginated posts."
+msgstr ""
+
+#: includes/get_whitelist.php:730
+msgid "This will only display something in posts that include the <code>&lt;!--nextpage--&gt;</code> Quicktag one or more times."
+msgstr ""
+
+#: includes/get_whitelist.php:739
+msgid ""
+"This will only display something in posts that include the <code>&lt;!--nextpage--&gt;</code> Quicktag one or more times. \n"
+"\t\t\tThis is a advanced version of <code>wp_link_pages()</code>. Unlike the WP version, this function wraps the current page number into a span to be able to style that, too."
+msgstr ""
+
+#: includes/get_whitelist.php:746
+msgid "Displays a link to edit the current post."
+msgstr ""
+
+#: includes/get_whitelist.php:748
+msgid "This will only display something if a user is logged in and allowed to edit the post."
+msgstr ""
+
+#: includes/get_whitelist.php:754
+msgid "Displays a link to the category or categories a post belongs to, with \" &middot; \" as the separator between multiple category names."
+msgstr ""
+
+#: includes/get_whitelist.php:756
+msgid ""
+"Could be used in post format templates \n"
+"\t\t\t\t\t(<code>postformat.php</code>, <code>postformat-video.php</code>, \n"
+"\t\t\t\t\t<code>postformat-link.php</code>, <code>my-other-format.php</code>,  <code>my-other-format-video.php</code> etc... ) \n"
+"\t\t\t\t\tand in <code>single.php</code> and <code>page.php</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:766
+msgid "This template tag displays a link to the tag or tags a post belongs to, with \" &middot; \" as the separator between multiple tag names."
+msgstr ""
+
+#: includes/get_whitelist.php:768
+msgid ""
+"If no tags are associated with the current entry, nothing is displayed. Could be used in post format templates \n"
+"\t\t\t\t\t(<code>postformat.php</code>, <code>postformat-video.php</code>, \n"
+"\t\t\t\t\t<code>postformat-link.php</code>, <code>my-other-format.php</code>,  <code>my-other-format-video.php</code> etc... ) \n"
+"\t\t\t\t\tand in <code>single.php</code> and <code>page.php</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:777
+msgid "Displays the taxonomies for a post."
+msgstr ""
+
+#: includes/get_whitelist.php:785
+msgid "Displays the comment template."
+msgstr ""
+
+#: includes/get_whitelist.php:787
+msgid "For use in <code>single.php</code>, <code>page.php</code> and other \"singular\" templates."
+msgstr ""
+
+#: includes/get_whitelist.php:794
+msgid "This shows the available parameters and their default values if any."
+msgstr ""
+
+#: includes/get_whitelist.php:796
+msgid ""
+"Displays a post thumbnail with width 620px, height 180px, cropped, nothing before, \n"
+"\t\t\t\tnothing after, linked to post."
+msgstr ""
+
+#: includes/get_whitelist.php:799
+msgid ""
+"Should be used in post format templates (<code>postformat.php</code>, <code>postformat-video.php</code>, \n"
+"\t\t\t\t\t<code>postformat-link.php</code>, <code>my-other-format.php</code>,  <code>my-other-format-video.php</code> etc...).\n"
+"\t\t\t\tIf a \"Featured Image\" was set for the post, that one will \n"
+"\t\t\t\tbe used. Else, the first attached/inserted local image in the post will be used. \n"
+"\t\t\t\tElse the first local image URL will be used. External images will not be used. Will create thumbnail on the fly if it does \n"
+"\t\t\t\tnot exist. You can use different values for width, height and crop (true/false) in each post format template.\t\n"
+"\t\t\t\tPossible values for <code>$link</code>: 'permalink' (links to post) or empty (not linked). TODO: Add 'fullsize' to link to full size version of image."
+msgstr ""
+
+#: includes/get_whitelist.php:811
+msgid "Displays link to comments of a post IF there are comments. Can show the comment number."
+msgstr ""
+
+#: includes/get_whitelist.php:813
+msgid ""
+"Can be used in post format templates (<code>postformat.php</code>, <code>postformat-video.php</code>, \n"
+"\t\t\t\t\t<code>postformat-link.php</code>, <code>my-other-format.php</code>,  <code>my-other-format-video.php</code> etc... ). \n"
+"\t\t\t\t\tShould not be used in singular templates like <code>single.php</code> and <code>page.php</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:821
+#: includes/get_whitelist.php:851
+msgid "Displays number of comments IF there are any."
+msgstr ""
+
+#: includes/get_whitelist.php:834
+msgid "Displays direct reply link for individual comment."
+msgstr ""
+
+#: includes/get_whitelist.php:836
+msgid "Should be used in sub templates <code>comments-comment.php</code>"
+msgstr ""
+
+#: includes/get_whitelist.php:843
+msgid "Prints the URL of an attachment."
+msgstr ""
+
+#: includes/get_whitelist.php:845
+#: includes/get_whitelist.php:861
+#: includes/get_whitelist.php:869
+#: includes/get_whitelist.php:877
+msgid "Use on attachment templates such as image.php"
+msgstr ""
+
+#: includes/get_whitelist.php:853
+msgid "Use on attachment templates such as image.php. Replace $size with <code>thumbnail</code>, <code>medium</code>, <code>large</code> or <code>full</code>."
+msgstr ""
+
+#: includes/get_whitelist.php:859
+msgid "Prints the permalink of the post's PARENT."
+msgstr ""
+
+#: includes/get_whitelist.php:867
+msgid "Prints the title of the post's PARENT."
+msgstr ""
+
+#: includes/get_whitelist.php:875
+msgid "Prints caption of an attachment, if it exists, with some HTML before and after."
+msgstr ""
+
+#: includes/get_whitelist.php:896
+msgid "Displays all image meta data, alphabetically sorted, with the specified HTML tags."
+msgstr ""
+
+#: includes/get_whitelist.php:898
+msgid "Same as above. Uses the default settings."
+msgstr ""
+
+#: includes/get_whitelist.php:908
+msgid ""
+"Displays only the image meta data specified in parameter \"keys\" (and in that order), wrapped in a paragraph tag with class \n"
+"\t\t\t\t\t\"my-image-meta\", with a comma between the data items, and a \"= \" after each key."
+msgstr ""
+
+#: includes/get_whitelist.php:911
+msgid ""
+"Useful on image.php template for displaying details of the given image. The default full set of \"keys\" is: \n"
+"\t\t\twidth, height, aperture, credit, camera, caption, created_timestamp, copyright, focal_length, iso, shutter_speed, title."
+msgstr ""
+
+#: includes/image_meta.php:69
+msgid "Aperture"
+msgstr ""
+
+#: includes/image_meta.php:70
+msgid "Credit"
+msgstr ""
+
+#: includes/image_meta.php:71
+msgid "Camera"
+msgstr ""
+
+#: includes/image_meta.php:72
+msgid "Caption"
+msgstr ""
+
+#: includes/image_meta.php:73
+msgid "Timestamp"
+msgstr ""
+
+#: includes/image_meta.php:74
+msgid "Copyright"
+msgstr ""
+
+#: includes/image_meta.php:75
+msgid "Focal Length"
+msgstr ""
+
+#: includes/image_meta.php:76
+msgid "ISO"
+msgstr ""
+
+#: includes/image_meta.php:77
+msgid "Shutter Speed"
+msgstr ""
+
+#: includes/image_meta.php:78
+msgid "Title"
+msgstr ""
+
+#: includes/not_found.php:3
+msgid "Not Found"
+msgstr ""
+
+#: includes/not_found.php:4
+msgid "Sorry, but you are looking for something that is not here."
+msgstr ""
+
+#: includes/template_tags.php:97
+msgid "Nothing Found"
+msgstr ""
+
+#: includes/template_tags.php:99
+msgid "Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post."
+msgstr ""
+
+#: includes/widget_meta.php:12
+msgid "Meta"
+msgstr ""
+
+#: includes/widget_meta.php:41
+msgid "Syndicate this site using RSS 2.0"
+msgstr ""
+
+#: includes/widget_meta.php:41
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr ""
+
+#: includes/widget_meta.php:45
+msgid "The latest comments to all posts in RSS"
+msgstr ""
+
+#: includes/widget_meta.php:45
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr ""
+
+#: includes/widget_meta.php:49
+msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr ""
+
+#: includes/widget_meta.php:51
+msgid "WordPress.org"
+msgstr ""
+

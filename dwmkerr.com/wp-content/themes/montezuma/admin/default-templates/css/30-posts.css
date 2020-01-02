@@ -1,0 +1,312 @@
+/*****************************************
+POST Container, contains all post parts
+******************************************
+
+/* all post containers = .hentry elements */
+.hentry {
+	position: 				relative; /* <-- This relative so that child elements can be positioned absolutely */
+	padding: 				30px 0 25px 0;
+	border-top: 			solid 1px #eee;
+}
+
+/* First post container */
+.hentry:first-child { 
+	border-top: 			none; 
+}
+
+/* All links inside post container .hentry */
+.hentry a { 
+	color: 					#0090d3; 
+	text-decoration: 		none; 
+}
+
+
+/*****************************************
+POST HEADLINES
+<div class="hentry"><h2><span class="post-format"></span>
+<a><span class="firstpart">Post</span> Title</a></h2></div>
+******************************************/
+
+.hentry > h1, 
+.hentry > h2 { 
+	margin: 					0; 
+	font-weight: 			normal; 
+}
+
+.hentry > h2 { 
+	font-size: 				40px; 
+	line-height: 			38px; 
+	margin: 					0 0 15px 0; 
+}
+
+/* On single post pages and static pages: */
+.hentry > h1 { 
+	color: 					#0090d3;
+	font-size: 				50px; 
+	line-height: 			45px; 
+	margin: 					0 0 20px 0; 
+}
+
+.hentry h2 a .firstpart,
+.hentry h1 .firstpart  { 
+	color: 					#000000; 
+	text-decoration: 		none; 
+}
+
+/* change on .hentry hover */
+.hentry:hover h2 a .firstpart {
+	color: 					#0090d3;
+}
+
+.post-format {
+	display: 				none;
+	background: 			url(%tpldir%/images/icons.png) -120px -144px no-repeat;
+	width: 					24px; 
+	height: 					24px;
+	padding: 				5px 13px;
+	margin: 					0 10px 0 0; 
+	vertical-align: 		8px;
+	font-size: 				10px; 
+
+}
+
+
+/*****************************************
+Comment Bubble
+******************************************/ 
+
+.hentry .comment-bubble {
+	display: 				inline-block;
+	height: 					36px; 
+	width: 					36px;
+	color: 					#999; 
+	line-height: 			27px; 
+	font-family: 			arial, sans-serif;
+	font-size: 				18px;
+	font-weight: 			bold; 
+	text-align: 			center; 
+	background: 			url(%tpldir%/images/icons.png) -168px -108px no-repeat;
+	margin-left: 			8px; 
+	vertical-align: 		8px;
+}
+
+/* change on .hentry hover */
+.hentry:hover .comment-bubble {
+	color: 					#fff; 
+	background: 			url(%tpldir%/images/icons.png) -168px -72px no-repeat;
+	text-decoration: 		none;
+}
+
+
+/*****************************************
+POST THUMBNAIL
+<div class="thumb-shadow"><div class="post-thumb"><a><img><span></span></a></div></div>
+******************************************/
+
+.thumb-shadow { 
+	background: 			#fff url(%tpldir%/images/shadow.png) center 50px no-repeat;	
+	padding-bottom: 		5px;
+	margin-top: 			7px;
+	margin-left: 			-6px;
+}
+
+.hentry:hover .thumb-shadow { 
+	background-position: center bottom;
+}
+
+.post-thumb { 
+	margin: 					0 auto 15px auto; 
+	display: 				block; 
+	padding: 				6px 6px 5px 6px;
+	border: 					solid 1px #ddd;
+	border-bottom: 		solid 1px #ccc;
+	background: 			#ffffff;
+}
+
+.post-thumb a { 
+	position: 				relative;
+	display: 				block;
+}
+
+/* .img_wrapper added  & wrapped around <img> by Javascript */
+.post-thumb .img_wrapper{
+}
+
+.post-thumb img {
+	-webkit-filter: 		grayscale(0);
+	opacity: 				0; 
+	filter: 					alpha(opacity=0); 
+	-ms-filter: 			"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	display:					block;
+}
+
+.post-thumb img.img_grayscale { 
+	filter: 					grayscale(100%); /* Current draft standard */
+	-ms-filter: 			grayscale(100%); 
+	-o-filter: 				grayscale(100%); /* opera */ 
+	filter: 					url("%tpldir%/images/gray-filter.svg#grayscale"); /* Firefox */
+	filter: 					gray; /* IE */
+	-webkit-filter: 		grayscale(1); /* Old WebKit */
+	-webkit-filter: 		grayscale(100%); /* New WebKit */
+}
+
+/* Container for the shadow. Parent is position:relative. Putting it "on top" of image */
+.post-thumb span {
+	position: 				absolute;
+	top: 						0; 
+	bottom: 					0;
+	left: 					0; 
+	right: 					0;
+	box-shadow: 			inset 15px 15px 20px -20px #000; /* inner shadow top and left */
+	z-index: 				20000;
+}
+
+
+/*****************************************
+POST BODYCOPY
+******************************************
+<div class="post-bodycopy cf"><div class="post-date"></div><a class="comment-bubble">13</a>
+	<p>...</p><p>...</p>
+</div>
+******************************************/
+
+.post-bodycopy { 
+	/* text-align: 		justify; */ 
+}
+.post-bodycopy p {
+
+}
+
+
+/*****************************************
+POST PAGINATION
+******************************************/
+/*
+<div class="post-pagination"><span>Page</span> <a>1</a> 2 <a>3</a></div>
+*/
+
+/* Box that contains the pagination links */
+p.post-pagination {
+	clear: both;
+	margin: 20px 0;
+}
+p.post-pagination ol {
+	margin: 15px 0;
+}
+p.post-pagination a { 
+
+}
+
+
+
+.post-edit-link {
+	display: 				block;
+	margin-top: 			10px;
+}
+
+
+/*****************************************
+POST DATE
+******************************************
+<div class="post-date">
+	<p class="post-month">Jul</p>
+	<p class="post-day">19</p>
+	<p class="post-year">2013</p>
+</div>
+******************************************/
+
+.post-date {
+	border-right: 			solid 1px #999; 
+	float: 					left;
+	text-align: 			center;
+	margin-right: 			10px; 
+	margin-top: 			4px;
+	margin-bottom: 		8px;
+	padding-right: 		10px; 
+}
+
+.post-day { 
+	font-size: 				20px; 
+	line-height: 			20px; 
+	margin: 					4px auto 0px auto; 
+}
+
+.post-month { 
+	font-size: 				14px; 
+	line-height: 			14px; 
+	margin:					0px auto; 
+	text-transform: 		uppercase; 
+}
+.post-year { 
+	font-size: 11px; 
+	line-height: 14px; 
+	margin: 0px auto; 
+}
+
+
+/*****************************************
+POST FOOTER
+******************************************
+<div class="post-footer">
+	<p class="post-categories"><i></i><a>Category Title</a></p>
+	<p class="post-tags"><i></i><a>Tag 1</a> <a>Tag 1</a></p>
+</div>
+ ******************************************/
+ 
+.post-footer {
+	color: 					#bbbbbb;
+	margin-top: 			10px;
+}
+
+.post-footer a {
+	color: 					#aaaaaa;
+	padding: 				2px 10px 4px 10px;
+	border-radius: 		3px;
+	border: 					none;
+}
+
+.hentry:hover .post-footer a {
+	color: 					#0090d3;
+}
+
+.hentry:hover .post-footer a:hover {
+	text-decoration: 		none;
+	color: 					#ffffff;
+	background: 			#0090d3;
+}
+
+/* Post tags and categories: */
+.post-tags, 
+.post-categories  { 
+	margin: 					0; /* Turn off default margins of <p> paragraph element */
+	display: 				inline-block;
+}
+
+.post-tags  { 
+	margin-left: 			20px;
+
+}
+
+/* This <i></i> element is inserted by Javascript, as container for icons */
+.post-tags i, 
+.post-categories i {
+	display: 				inline-block; 
+	width: 					12px; 
+	height: 					12px;
+	margin-right: 			5px;
+	background-image: 	url(%tpldir%/images/icons.png);
+}
+
+.post-tags i { 
+	background-position: -168px -192px; 
+}
+
+.post-categories i { 
+	background-position: -12px -228px; 
+}
+
+.post-readmore { 
+	float: 					right;
+	margin-top: 			-5px;
+}
+

@@ -1,0 +1,18 @@
+.singlenav {
+	margin-bottom: 		10px;
+}
+
+.singlenav .older {
+	float: 					left;
+}
+
+.singlenav .newer {
+	float: 					right;
+}
+
+#singlenav2 {
+	border-top: 			3px solid #ededed;
+	border-bottom: 		0px none #f5f5f5;
+	margin-top: 			18px;
+	padding-top: 			13px;
+}

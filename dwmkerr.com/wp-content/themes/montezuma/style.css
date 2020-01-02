@@ -1,0 +1,29 @@
+/*
+Theme Name: Montezuma
+Theme URI: http://wordpress.bytesforall.com/wordpress-themes/montezuma/
+Description: Montezuma is a responsive, customizable and search engine optimized HTML5 / CSS3 theme. Choose between responsive, flexible and static layouts. Edit or create new page templates online, without FTP uploads. Add custom widget areas everywhere. Colorbox slideshow for standard WP galleries, auto post thumbs, advanced excerpts, Google fonts, transparent color picker, import/export settings and more. This is the second theme from the author of the popular "Atahualpa" theme. Active community at forum.bytesforall.com. 
+
+Version: 1.1.9
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: light, white, gray, blue, one-column, two-columns, three-columns, left-sidebar, right-sidebar, fixed-width, flexible-width, custom-menu, featured-images, post-formats, sticky-post, theme-options, threaded-comments, translation-ready
+Text Domain: montezuma
+Author: BytesForAll
+Author URI: http://wordpress.bytesforall.com/
+*/
+
+/* 
+	Don't edit this file. You can edit the CSS of in the theme's admin area, at:
+	WP Admin at "http://www.yoursite.com/wp-admin/" -> "Appearance" -> "Montezuma Options" -> "CSS Files"
+*/
+   
+.alignleft 			{ float: left;  }
+.alignright 			{ float: right;  }
+.aligncenter 		{ display: block; margin: 0 auto; }
+.wp-caption 			{}
+.wp-caption-text 	{ font-size: 12px; }
+.gallery-caption  	{}
+.sticky  				{}
+.bypostauthor 		{} 
+
+

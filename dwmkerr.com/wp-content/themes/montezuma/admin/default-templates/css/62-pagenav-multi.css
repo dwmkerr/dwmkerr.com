@@ -1,0 +1,55 @@
+/* .multinav = both navigation bars */
+.multinav {
+	margin: 					20px 0;
+	padding-left: 			20px;
+}
+
+.multinav a,
+.multinav span  {
+	padding: 				3px 12px;
+	border: 					solid 1px #ddd;
+	text-decoration: 		none;
+	display: 				inline-block;
+	background: 			#fcfcfc;
+}
+
+.multinav a:hover {
+	background: 			#0090d3;
+	border: 					solid 1px #0090d3;
+	color: 					#ffffff;
+}
+
+.multinav .current {
+	background: 			#ffffff;
+}
+
+/* #multinav2 = only the 2nd navigation bar */
+#multinav1 {
+	border-bottom: 		solid 1px #dddddd;
+	margin-bottom: 0;
+}
+
+#multinav1 a,
+#multinav1 span  {
+	margin-bottom: 		-1px; 
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;	
+}
+
+#multinav1 .current {
+	border-bottom: 		solid 1px #ffffff;
+}
+
+/* #multinav2 = only the 2nd navigation bar */
+#multinav2 {
+	border-top: 			solid 1px #dddddd;
+}
+#multinav2 a,
+#multinav2 span  {
+	margin-top: 			-1px; 
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;	
+}
+#multinav2 .current {
+	border-top: 			solid 1px #ffffff;
+}

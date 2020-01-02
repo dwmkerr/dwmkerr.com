@@ -1,0 +1,162 @@
+/**********************
+Whole Comment container and title
+**********************/
+
+#comments {
+	padding-top: 			20px;
+	border-top: 			solid 1px #dddddd;
+}
+
+#comments-title {
+	color: 					#999999;
+	margin: 					0 0 20px 0;
+	font-size: 				28px;
+}
+
+#comments-title span {
+	color: 					#000000;
+}
+
+
+/**********************
+Comment List
+**********************/
+.commentlist {
+	background: 			#ffffff;
+	padding: 				0;
+	list-style: 			none;
+	margin: 					20px 0;
+}
+
+.commentlist ul {
+	list-style: 			none;
+}
+
+.commentlist li {
+	padding: 				0px; 
+}
+
+.commentlist li > div {
+	border: 					solid 1px #dddddd;
+	background: 			#fcfcfc;
+	padding: 				20px 20px 3px 20px; /* bottom padding provided by last <p> paragraph */
+	position: 				relative;
+	margin-bottom: 		20px;
+	margin-left: 			85px;
+	border-radius: 		5px;
+}
+
+.commentlist .pingback {
+	margin-bottom: 		20px;
+}
+
+.commentlist li > div:hover {
+	background: 			#ffffff;
+}
+
+.commentlist li > div:before {
+	content: 				url(%tpldir%/images/commentarrow.png);
+	left: 					-17px;
+	top: 						25px;
+	position: 				absolute;
+	z-index: 				1000000;
+}
+
+.commentlist li > div:hover:before {
+    content: 				url(%tpldir%/images/commentarrow-white.png);
+}
+
+
+/**********************
+Avatar
+**********************/
+
+.commentlist .avatar {
+	position: 				absolute;
+	top: 						3px;
+	left: 					-80px;
+	border-radius: 		50%;
+	box-shadow: 			0 0 0 3px #cccccc; /* this simulates a border. "border" doesn't work/look good in Chrome */
+}
+
+/* avatars on 2nd level comments */
+.commentlist li li .avatar {
+	left: 					-70px;
+}
+
+
+/**********************
+Comment Reply Link
+**********************/
+
+.comment-reply-link {
+	position: 				absolute; 
+	top: 						60px; 
+	left: 					-80px; 
+	font-size: 				13px; 
+	width: 					50px; 
+	text-align: 			center;
+	color: 					#cccccc;
+}
+
+/* reply link on 2nd level comments */
+li li .comment-reply-link {
+	top: 						45px; 
+	left: 					-70px; 
+}
+
+/* Change reply link color when comment is hovered */
+.commentlist li > div:hover > .comment-reply-link {
+	color: 					#0090d3;
+}
+
+
+/**********************
+Comment Author (link if author has provied URL)
+**********************/
+
+.comment-author {
+	font-weight: 			bold;
+	font-size: 				16px;
+}
+
+
+/**********************
+Comment Date Link. 
+It is common to make the comment date a "permalink" of the individual comment.
+**********************/
+
+.comment-date-link {
+	position: 				absolute;
+	top: 						5px;
+	right: 					10px;
+	font-size: 				11px;
+	line-height: 			13px;
+	text-align: 			right;
+}
+
+.comment-date-link a {
+	color: 					#aaaaaa;
+}
+
+/* Change comment date (which links to comment permalink) color when comment is hovered */
+.commentlist li > div:hover .comment-date-link a {
+	color: 					#0090d3;
+}
+
+
+/**********************
+Some utility links
+**********************/
+
+.comment-edit-link { }
+.comment-delete-link { }
+.comment-spam-link { }
+
+
+/**********************
+Comment text container
+**********************/
+/* contents inside .comment-text are styled at CSS Files > Content */
+.comment-text { }
+

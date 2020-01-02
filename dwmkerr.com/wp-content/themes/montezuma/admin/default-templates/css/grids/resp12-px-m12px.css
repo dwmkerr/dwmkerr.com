@@ -1,0 +1,72 @@
+/* CSS Grid */
+
+.row, .row5, .lw { width: 960px; margin: 0 auto; } 
+.row > div, .row5 > div { float: left; position: relative; margin-left: 12px } 
+.row > div:first-child, .row5 > div:first-child { margin-left: 0; } 
+
+/* column widths */
+.col1 {width:69px}		.col2 {width:150px}		.col3 {width:231px}		.col4 {width:312px}
+.col5 {width:393px}		.col6 {width:474px}		.col7 {width:555px}		.col8 {width:636px}
+.col9 {width:717px}		.col10 {width:798px}		.col11 {width:879px}		.col12 {width:960px}
+
+/* Source order */
+.push1 {left:81px}		.push2 {left:162px}		.push3 {left:243px}		.push4 {left:324px}
+.push5 {left:405px}		.push6 {left:486px}		.push7 {left:567px}		.push8 {left:648px}
+.push9 {left:729px}		.push10 {left:810px}		.push11 {left:891px}
+.pull1 {right:81px}		.pull2 {right:162px}		.pull3 {right:243px}		.pull4 {right:324px}
+.pull5 {right:405px}		.pull6 {right:486px}		.pull7 {right:567px}		.pull8 {right:648px}
+.pull9 {right:729px}		.pull10 {right:810px}	.pull11 {right:891px}
+
+/* 5 equal width columns */
+.row5 > div {width:184px}
+.row5 .push1 {left:194px}	.row5 .push2 {left:378px}	.row5 .push3 {left:562px}	.row5 .push4 {left:746px}
+.row5 .pull1 {right:194px}	.row5 .pull2 {right:378px}	.row5 .pull3 {right:562px}	.row5 .pull4 {right:746px}
+
+
+/********************************
+ 720 pixels 
+ *******************************/
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+/* row width */
+.row, .row5, .lw {width:720px;}
+
+/* column widths */
+.col1 {width:49px}		.col2 {width:110px}		.col3 {width:171px}		.col4 {width:232px}
+.col5 {width:293px}		.col6 {width:354px}		.col7 {width:415px}		.col8 {width:476px}
+.col9 {width:537px}		.col10 {width:598px}		.col11 {width:659px}		.col12 {width:720px}
+
+/* Source order */
+.push1 {left:61px}		.push2 {left:122px}		.push3 {left:183px}		.push4 {left:244px}
+.push5 {left:305px}		.push6 {left:366px}		.push7 {left:427px}		.push8 {left:488px}
+.push9 {left:549px}		.push10 {left:610px}		.push11 {left:671px}
+.pull1 {right:61px}		.pull2 {right:122px}		.pull3 {right:183px}		.pull4 {right:244px}
+.pull5 {right:305px}		.pull6 {right:366px}		.pull7 {right:427px}		.pull8 {right:488px}
+.pull9 {right:549px}		.pull10 {right:610px}	.pull11 {right:671px}
+
+/* 5 equal width columns */
+.row5 > div {width:136px}
+.row5 .push1 {left:146px}	.row5 .push2 {left:282px}	.row5 .push3 {left:418px}	.row5 .push4 {left:554px}
+.row5 .pull1 {right:146px}	.row5 .pull2 {right:282px}	.row5 .pull3 {right:418px}	.row5 .pull4 {right:554px}
+}
+
+
+/********************************
+ Mobile 
+ *******************************/
+@media only screen and (max-width: 767px) {		
+body { width: 100%; min-width: 0; margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; }
+
+.row, .row5, .lw { width: 100%; min-width: 0; margin-left: 0; margin-right: 0; }
+.row > div, .row5 > div { margin: 0 !important; float: none !important }
+
+/* All columns full width */
+.col1, .col2, .col3, .col4, .col5, .col6, 
+.col7, .col8, .col9, .col10, .col11, .col12,
+.row5 > div	{ width:100% !important; }
+	
+/* No source ordering on mobile */
+.push1, .push2, .push3, .push4, .push5, .push6, 
+.push7, .push8, .push9, .push10, .push11, .push12 { left:auto !important; } 
+.pull1, .pull2, .pull3, .pull4, .pull5, .pull6, 
+.pull7, .pull8, .pull9, .pull10, .pull11, .pull12 { right:auto !important; } 
+}

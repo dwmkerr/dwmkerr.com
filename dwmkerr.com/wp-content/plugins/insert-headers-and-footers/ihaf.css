@@ -1,0 +1,40 @@
+@charset "utf-8";
+/* CSS Document */
+
+#ihaf-wrap .wrap {float: left; width: 100%;}
+
+.ihaf-labels {display: block; margin: 0 0 10px 0;}
+
+.footerlabel {margin-top: 25px;}
+
+.ihaf-wrap {  margin: 40px 0 0 40px; float: left; width: 70%;}
+
+/* Sidebar */
+ 
+.ihaf-sidebar {float: left; width: 20%; min-width: 200px;} 
+
+.ihaf-sidebar h2 { color: #00000; font-size: 16px;}
+
+.ihaf-improve-site {background: #CFC; padding: 10px 15px; border: 1px solid green; }
+
+.ihaf-improve-site a {text-decoration: none; background: #21759B; color: #EAF2FA; padding: 4px 10px; line-height: 15px; border-radius: 10px; font-weight: bold;}
+
+.ihaf-improve-site a:hover {color: #EAF2FA;}
+
+.ihaf-support {margin: 15px 0 0 0; border: 1px solid #CCC; padding: 10px 15px;}
+
+.ihaf-donate {background: #CFC; padding: 10px 15px; border: 1px solid green; margin: 15px 0 0 0;}
+
+.ihaf-donate a {display: block; text-indent: -9999px; background: url(images/donate.png) no-repeat; width: 150px; height: 50px;}
+
+.ihaf-wpb-recent {margin: 15px 0 0 0; border: 1px solid #CCC; padding: 10px 15px;}
+
+.ihaf-list {list-style-image: url(images/favicon.png); margin: 0 0 5px 20px;}
+
+.ihaf-wpb-recent .facebook {list-style-image: url(images/facebook.png); margin: 0 0 5px 20px;}
+
+.ihaf-wpb-recent .twitter {list-style-image: url(images/twitter.png); margin: 0 0 5px 20px;}
+
+.ihaf-wpb-recent .googleplus {list-style-image: url(images/googleplus.png); margin: 0 0 5px 20px;}
+
+.ihaf-wpb-recent .email {list-style-image: url(images/email.png); margin: 0 0 5px 20px;}
