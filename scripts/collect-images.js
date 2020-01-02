@@ -10,7 +10,7 @@ const rexImgTag = new RegExp(/<img\s+([^>]*)[/]?>/);
 const regImgSrcAttribute = new RegExp(/src=\"([^"]+)"/);
 const regImgAltAttribute = new RegExp(/alt=\"([^"]+)"/);
 const regImgWidthAttribute = new RegExp(/width=\"([^"]+)"/);
-const rexMarkdownImage = new RegExp(/<\!\[([^\]]*)\]\(([^\)]+)\)/);
+const rexMarkdownImage = new RegExp(/\!\[([^\]]*)\]\(([^\)]+)\)/);
 
 /**
  * moveFileSafeSync - move src to dest, ensuring all required folders in the
@@ -89,6 +89,7 @@ function processPost(rootPath, postPath) {
 
     //  Process each line, looking for image info.
     rl.on('line', (line) => {
+
       //  Check for html image tags.
       if (rexImgTag.test(line)) {
         const imageTagResults = rexImgTag.exec(line);
@@ -103,7 +104,7 @@ function processPost(rootPath, postPath) {
         console.log(`    src: ${src}, alt: ${alt}, width: ${width}`);
 
         //  If the source is already in the appropriate location, don't process it.
-        if (/images\//.test(src)) {
+        if (/$images\//.test(src)) {
           console.log(`    skipping, already processed`);
           outputStream.write(line + os.EOL);
           return;
@@ -139,12 +140,12 @@ function processPost(rootPath, postPath) {
       if (rexMarkdownImage.test(line)) {
         const markdownImageCaptures = rexMarkdownImage.exec(line);
         const markdownImage = markdownImageCaptures[0];
-        const markdownImageDescription = markdownImageCaptures[0];
-        const markdownImagePath = markdownImageCaptures[1];
+        const markdownImageDescription = markdownImageCaptures[1];
+        const markdownImagePath = markdownImageCaptures[2];
         console.log(`    Found markdown image: ${markdownImagePath}`);
 
         //  If the source is already in the appropriate location, don't process it.
-        if (/images\//.test(markdownImagePath)) {
+        if (/$images\//.test(markdownImagePath)) {
           console.log(`    skipping, already processed`);
           outputStream.write(line + os.EOL);
           return;
