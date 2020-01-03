@@ -87,15 +87,10 @@ https://dwmkerr.github.io/dwmkerr.com/
 
 ## Tests
 
-- [ ] Make sure `www` redirects to apex
 - [ ] Make sure featured image is still shown for social media sharing
-- [ ] GA
-- [ ] Disqus
 
 ## Theming Tasks
 
 - [ ] Update the links to be blue, and a bit more visible.
 - [ ] Move the menu to the top of the page.
 - [ ] Add social media share buttons.
-
-
