@@ -17,17 +17,17 @@ theme = "hugo_theme_pickles"
   # Disqus shortname
   disqus = "dwmkerr"
   # Google Analytics API key.
-  ga_api_key = "Your Google Analytics tracking id"
+  ga_api_key = "UA-41728580-1"
   author = "Dave Kerr"
   authorwebsite = "dwmkerr.com"
-  avatar = "/path/to/avatar"
+  avatar = "/images/avatar.jpeg"
   # contact = "mailto:dwmkerr@gmail.com"
-  bio = "Climber, Coder"
+  bio = "Climber, Coder, Techology Consultant. Views expressed are my own."
   # Short subtitle/tagline. This is displayed in the header.
-  subtitle = "Short subtitle"
+  subtitle = "Articles on the craft of software development. No ads, no sponsored content."
   # Logo image. This is displayed ogp image.
   logo = "/path/to/logo"
-  favicon = "/path/to/favicon"
+  favicon = "/images/favicon.ico"
 
 [[menu.main]]
     name = "Blog"

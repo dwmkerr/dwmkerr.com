@@ -12,6 +12,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 * [Hugo](#hugo)
 * [CI/CD](#cicd)
 * [Tasks](#tasks)
+* [Theming Tasks](#theming-tasks)
 
 <!-- vim-markdown-toc -->
 
@@ -101,3 +102,9 @@ https://dwmkerr.github.io/dwmkerr.com/
 - [ ] Find better theme!
 - [ ] Move old site to a backup folder
 - [ ] Backup old content to S3, then blat
+
+## Theming Tasks
+
+- [ ] Update the links to be blue, and a bit more visible.
+- [ ] Move the menu to the top of the page.
+- [ ] Add social media share buttons.
