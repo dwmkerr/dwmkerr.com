@@ -72,6 +72,9 @@ The site can be built with:
 
 ```sh
 make build
+
+# The built site is in the public folder below.
+# dwmkerr.com/public
 ```
 
 ## CI/CD
