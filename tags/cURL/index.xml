@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cURL on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/tags/cURL/</link><description>Recent content in cURL on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Dave Kerr</copyright><lastBuildDate>Tue, 03 May 2016 22:12:28 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/tags/cURL/index.xml" rel="self" type="application/rss+xml"/><item><title>Quick Tip: Sending Newlines with cURL</title><link>https://dwmkerr.github.io/dwmkerr.com/quick-tip-sending-newlines-with-curl/</link><pubDate>Tue, 03 May 2016 22:12:28 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/quick-tip-sending-newlines-with-curl/</guid><description>Yikes, this took far too long to figure out!
-I have a service which takes plain text multi-line input and outputs an object for each line, something like this:
-Input
-Line 1 Line 2 Line 3 Output
-[ {line: &amp;quot;Line 1&amp;quot;}, {line: &amp;quot;Line 2&amp;quot;}, {line: &amp;quot;Line 3&amp;quot;} ] There's a bit more to it than that, but that's the gist.
-I want to test my service with cURL, trying:
-curl --data &amp;quot;Line 1\nLine 2\nLine 3&amp;quot; \ -H &amp;quot;Content-Type: text/plain&amp;quot; localhost:3000/parse This did not work.</description></item></channel></rss>
