@@ -58,7 +58,7 @@ myproject
 
 Your `app.js` file should define your main Angular module:
 
-```language-javascript
+```js
 angular.module('app', []);
 ```
 
@@ -78,7 +78,7 @@ myproject
 
 Concat will put everything in the top level folder (i.e. `app.js`) first. As long as you don't put anything else in your top level folder (that comes before 'a' alphabetically) then it doesn't matter where you put your other files, as long as you define them without referencing any globals. So define your components like this:
 
-```language-javascript
+```js
 angular.module('app').controller('SomeController', function() {
   // something
 });
@@ -94,7 +94,7 @@ Keep it simple, don't force another module system on top of angular's, you don't
 
 If you are a gulp user, here's how a pipeline might look to concat your JavaScript:
 
-```language-javascript
+```js
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');

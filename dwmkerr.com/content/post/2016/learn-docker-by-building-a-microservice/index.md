@@ -192,7 +192,7 @@ test-database\stop.sh
 
 Start is simple:
 
-```language-bash
+```sh
 #!/bin/sh
 
 # Run the MySQL container, with a database named 'users' and credentials
@@ -217,7 +217,7 @@ This script runs the database image in a detached container (i.e. in the backgro
 
 `setup.sql` is:
 
-```language-sql
+```sql
 
 create table directory (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, email TEXT, phone_number TEXT);
 insert into directory (email, phone_number) values ('homer@thesimpsons.com', '+1 888 123 1111');
@@ -229,7 +229,7 @@ insert into directory (email, phone_number) values ('bart@thesimpsons.com', '+1 
 
 The `stop.sh` script will stop the container and remove it (containers are left around by docker by default so that they can be restared quickly, we don't really need that feature for this example):
 
-```language-bash
+```sh
 #!/bin/sh
 
 # Stop the db and remove the container.
@@ -255,7 +255,7 @@ users-service/          # root of our node.js microservice
 
 Let's take this apart bit by bit. The first section to look at is `repository`. It can be useful to wrap your database access in some kind of class or abstraction, to allow to mock it for testing purposes:
 
-```language-javascript
+```js
 //  repository.js
 //
 //  Exposes a single function - 'connect', which returns
@@ -336,7 +336,7 @@ module.exports.connect = (connectionSettings) => {
 
 There's probably a lot of better ways to do this! But basically we can create a `Repository` object like this:
 
-```language-javascript
+```js
 repository.connect({
   host: "127.0.0.1",
   database: "users",
@@ -357,7 +357,7 @@ repository.connect({
 
 There's also a set of unit tests in the `repository/repository.spec.js` file. Now that we've got a repo, we can create a server. This is `server/server.js`:
 
-```language-javascript
+```js
 //  server.js
 
 var express = require('express');
@@ -389,7 +389,7 @@ module.exports.start = (options) => {
 
 This module exposes a `start` function, which we can use like this:
 
-```language-javascript
+```js
 var server = require('./server/server);
 server.start({port: 8080, repo: repository}).then((svr) => {
   // we've got a running http server :)
@@ -398,7 +398,7 @@ server.start({port: 8080, repo: repository}).then((svr) => {
 
 Notice that `server.js` uses `api/users/js`? Here it is:
 
-```language-javascript
+```js
 //  users.js
 //
 //  Defines the users api. Add to a server by calling:
@@ -449,7 +449,7 @@ Both of these files have unit tests adjacent to the source.
 
 We'll need config. Rather than using a specialised library, a simple file will do the trick - `config/config.js`:
 
-```language-javascript
+```js
 //  config.js
 //
 //  Simple application configuration. Extend as needed.
@@ -469,7 +469,7 @@ We can `require` config as needed. Currently, most config is hard coded, but as 
 
 Final step - stringing it together with an `index.js` file which composes everything:
 
-```language-javascript
+```js
 //	index.js
 //
 //  Entrypoint to the application. Opens a repository to the MySQL
@@ -601,7 +601,7 @@ After some console output you'll see we have a new image created. You can see al
 
 When we run this image, we get a node repl, check the current version like so:
 
-```language-javascript
+```js
 > process.version
 'v4.4.0'
 > process.exit(0)
@@ -702,7 +702,7 @@ Now when we go to `localhost:8123/users` everything works.
 
 Remember our config file for the service? It allowed us to specify a database host with an environment variable:
 
-```language-javascript
+```js
 //  config.js
 //
 //  Simple application configuration. Extend as needed.
@@ -771,7 +771,7 @@ Writing the integration test can be done in whatever language or on whatever pla
 
 In a new folder, called `integration-tests` we've got a single `index.js`:
 
-```language-javascript
+```js
 var supertest = require('supertest');
 var should = require('should');
 

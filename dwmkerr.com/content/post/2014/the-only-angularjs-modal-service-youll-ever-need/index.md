@@ -49,7 +49,7 @@ If you don't use bower, just get the source directly from the [`dst`](https://gi
 
 Include the JavaScript from the `dst` folder or require it with require.js:
 
-```language-html
+```html
 <script src="bower_components\angular-modal-service\dst\angular-modal-service.min.js"></script>
 ```
 
@@ -57,7 +57,7 @@ Include the JavaScript from the `dst` folder or require it with require.js:
 
 Make sure the `angularModalService` module is listed as a required module for your application:
 
-```language-javascript
+```js
 var app = angular.module('myApp', ['angularModalService']);
 ```
 
@@ -130,20 +130,20 @@ One of the things that's useful to know is that this service creates a DOM eleme
 
 So let's dive in. We're going to define a service, so we need a module.
 
-```language-javascript
+```js
 var module = angular.module('angularModalService', []);
 ```
 
 Now we have our module, we can define our service. I tend to write services in the form of classes, but this is a personal choice - it's just as valid to return a javascript object that contains functions and data.
 
-```language-javascript
+```js
 module.factory('ModalService', ['$document', '$compile', '$controller', '$http', '$rootScope', '$q', '$timeout',
     function($document, $compile, $controller, $http, $rootScope, $q, $timeout) {
 ```
 
 I need a lot of injected components, we'll see why as we continue. I also use the explicit form of the function which takes the parameters as strings - this is the only safe way to write an injected function if you are minifying code.
 
-```language-javascript
+```js
     var body = $document.find('body');    
     function ModalService() {
       var self = this;
@@ -153,7 +153,7 @@ I use the `$document` object to get the body element, which the modal will be ap
 
 The next part of the code creates a function that will return the template, given either a raw template string or a template url. The reason we wrap this function like this is that the operation will either be synchronous or asynchronous, and I don't want the caller to care. So we use promises to wrap the logic.
 
-```language-javascript
+```js
 var getTemplate = function(template, templateUrl) {
   var deferred = $q.defer();
   if(template) {
@@ -177,14 +177,14 @@ If any of this seems confusing, check out my article [AngularJS Promises - The D
 
 Now to the main function.
 
-```language-javascript
+```js
 self.showModal = function(options) {        
   var deferred = $q.defer();
 ```
 
 The `showModal` function is going to have to do all sorts of async work - loading the template from the server and so on. So we are going to create a `deferred` object and build a promise to return to the caller.
 
-```language-javascript
+```js
 var controller = options.controller;
 if(!controller) {
   deferred.reject("No controller has been specified.");
@@ -196,7 +196,7 @@ Now we validate that a controller has been passed in as part of the options. Not
 
 Next we deal with the template.
 
-```language-javascript
+```js
 getTemplate(options.template, options.templateUrl)
   .then(function(template) {
 ```
@@ -205,13 +205,13 @@ We've used the `getTemplate` function to get the template, sync or async it does
 
 Now we can build a new scope for our modal.
 
-```language-javascript
+```js
 var modalScope = $rootScope.$new();
 ```
 
 We'll refer to this a lot later on. Now for some cleverness.
 
-```language-javascript
+```js
 var closeDeferred = $q.defer();
 var inputs = {
   $scope: modalScope,
@@ -230,7 +230,7 @@ Now we build an `input` object. This contains parameters we want to inject to th
 
 This means that any controller for a modal can take `close` as a parameter, and we'll inject the function that resolves the promise. This promise is returned to the consumer so that they can take action when the modal closes. We also allow the controller to pass a variable to `close` which is passed to the `resolve` function as well.
 
-```language-javascript
+```js
 if(options.inputs) {
   for(var inputName in options.inputs) {
     inputs[inputName] = options.inputs[inputName];
@@ -242,7 +242,7 @@ Without the this code, the service is close to useless. What we do here is allow
 
 Ready for some lower level Angular?
 
-```language-javascript
+```js
 var modalController = $controller(controller, inputs);
 var modalElementTemplate = angular.element(template);
 var linkFn = $compile(modalElementTemplate);
@@ -266,7 +266,7 @@ Based on this, we could in fact cache the results of the compile function on a p
 
 Now we can add the fully built element to the DOM and build our return object.
 
-```language-javascript
+```js
 body.append(modalElement);
 
 var modal = {
@@ -279,7 +279,7 @@ var modal = {
 
 We return the four things the caller might need - the controller, scope, element and close promise. When the close promise is resolved, we also want to clean up:
 
-```language-javascript
+```js
 modal.close.then(function(result) {
   modalScope.$destroy();
   modalElement.remove();
@@ -290,7 +290,7 @@ deferred.resolve(modal);
 
 So when `close` is resolved, whatever happens we'll destroy the scope and clean up the DOM. Now we can resolve our promise with the `modal` object we've built...
 
-```language-javascript
+```js
   .catch(function(error) {
   deferred.reject(error);
 });

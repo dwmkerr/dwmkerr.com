@@ -44,7 +44,7 @@ I'm going to try and be as succinct as possible - if anyone has a shorter, clear
 
 So let's see this in action. Look at the code below:
 
-```language-javascript
+```js
 $http.get("/api/my/name");
 ```
 
@@ -52,7 +52,7 @@ This code uses the `$http` service to perform an HTTP GET on the url '/api/my/na
 
 Now a common mistake for JavaScript newcomers might be to assume that the function returns the name:
 
-```language-javascript
+```js
 // The WRONG way!
 var name = $http.get("/api/my/name");
 ```
@@ -61,7 +61,7 @@ It doesn't - and in fact it can't. An HTTP request has to be executed, it'll tak
 
 So let's see how you actually make the request.
 
-```language-javascript
+```js
 var promise = $http.get("/api/my/name");
 promise.success(function(name) {
    console.log("Your name is: " + name);
@@ -75,7 +75,7 @@ Now we use the promise object to specify what to do when the request succeeds, o
 
 As a convenience, the `success` and `error` functions actually just return the promise, so we can simplify the code:
 
-```language-javascript
+```js
 $http.get("/api/my/name")
   .success(function(name) {
     console.log("Your name is: " + name);
@@ -87,7 +87,7 @@ $http.get("/api/my/name")
 
 In fact, `success` and `error` are special functions added to a promise by `$http` - normally with promises we just use `then`, which takes the success function as the first parameter and the error function as the second:
 
-```language-javascript
+```js
 $http.get("/api/my/name")
   .then(
     /* success */
@@ -110,7 +110,7 @@ Promises are not actually complicated, they're objects that contain a reference 
 
 Under the hood, AngularJS actually wires up a promise for an HTTP request in a way a bit like this:
 
-```language-javascript
+```js
 var request = new XMLHttpRequest();
 request.addEventListener("load", function() {
   // complete the promise
@@ -138,7 +138,7 @@ This means we'll have to build our code to deal with the asynchronous case (the 
 
 Let's look at a pure asynchronous implementation.
 
-```language-javascript
+```js
 app.factory('NameService', function($http, $q) {
   
   //  Create a class that represents our name service.
@@ -163,7 +163,7 @@ Here's how it looks in a fiddle - just click 'Result' to see it working. You can
 
 Now let's update our service so that we hit the server only if we haven't already cached the name. I'll build the service blow by blow, then we can see a fiddle of it working.
 
-```language-javascript
+```js
 app.factory('NameService', function($http, $q) {
 
   //  Create a class that represents our name service.
@@ -177,7 +177,7 @@ app.factory('NameService', function($http, $q) {
 
 so first we create a service which is in the form of a class. It has a name field which is initially null.
 
-```language-javascript
+```js
    self.getName = function() {
      //  Create a deferred operation.
      var deferred = $q.defer();
@@ -187,7 +187,7 @@ Now in the `getName` function we start by creating a `deferred` object, using th
 
 We create a deferred object because whether we use ajax or not, we want the consumer to use the promise - even if we *can* return straightaway in some circumstances (when we have the name) we can't in all - so the caller must always expect a promise.
 
-```language-javascript
+```js
     if(self.name !== null) {
       deferred.resolve(self.name + " (from Cache!)");
     }
@@ -199,7 +199,7 @@ If we already have the name, we can just `resolve` the deferred object immediate
 
 Finally, we can handle the case if we don't already have the name:
 
-```language-javascript
+```js
     else {
       //  Get the name from the server.
       $http.get('/api/my/name/')
@@ -219,7 +219,7 @@ So if we get success from the server, we can `resolve` the promise. Otherwise, w
 
 Finally, we just return the promise we've built with `deferred`:
 
-```language-javascript
+```js
    return deferred.promise;
 }
 ```
@@ -230,7 +230,7 @@ And that's it! You can see it in action below, press 'Update Name' a few times a
 
 How do we use this? We'll it's simple, here's a controller that uses the service we've built:
 
-```language-javascript 
+```js 
 app.controller('MainController', function ($scope, NameService) {
 
   //  We have a name on the code, but it's initially empty...
@@ -265,7 +265,7 @@ Now we know that `$http` returns a promise, and we know that we can call `succes
 When you are using a promise, the function you should call is `then`. `then` takes two parameters - a callback function for success and a callback function for failure. Taking a look at our original `$http` example, we can rewrite it to use this function. 
 So this code:
 
-```language-javascript
+```js
 $http.get("/api/my/name")
   .success(function(name) {
     console.log("Your name is: " + name);
@@ -277,7 +277,7 @@ $http.get("/api/my/name")
 
 becomes:
 
-```language-javascript 
+```js 
 $http.get("/api/my/name")
   .then(function(response) {
     console.log("Your name is: " + response.data);
@@ -290,7 +290,7 @@ We **can** use `success` or `error` when using `$http` - it's convenient. For on
 
 But remember that it's not a standard part of a promise. You can can add your own versions of these functions to promises you build yourself if you want:
 
-```language-javascript
+```js
 promise.success = function(fn) {
     promise.then(function(response) {
       fn(response.data, response.status, response.headers, config);
@@ -326,7 +326,7 @@ Let's consider an example where we need to fetch the user's name from the backen
 
 Here's an example:
 
-```language-javascript
+```js
 var details {
    username: null,
    profile: null,
@@ -355,7 +355,7 @@ Now we have a series of asynchronous calls that we can coordinate without having
 
 We can also greatly simplify error handling - let's see the example again, with an exception thrown in:
 
-```language-javascript
+```js
 $http.get('/api/user/name')
   .then(function(response) {
      // Store the username, get the profile.
@@ -393,7 +393,7 @@ There's a particular area of AngularJS that uses promises to great effect, and t
 
 Let's imagine we have a router like the following:
 
-```language-javascript
+```js
 $routeProvider
    .when('/home', {
        templateUrl: 'home.html',
@@ -408,7 +408,7 @@ Here we have two routes. The home route takes us to the home page, with the `Mai
 
 Our ProfileController uses our funky name service:
 
-```language-javascript
+```js
 app.controller('ProfileController', function($scope, NameService) {
 	$scope.name = null;
     
@@ -424,7 +424,7 @@ What we'd like to do is actully say to the router - "I'm going to go to this vie
 
 We can do this with the *resolves* in the router, here's how it works:
 
-```language-javascript
+```js
 // Create a function that uses the NameService 
 // to return the getName promise.
 var getName = function(NameService) {
@@ -448,7 +448,7 @@ $routeProvider
 
 so now we have a *resolve* on the route - when we go to the profile page the router will wait until the promise returned by `getName` resolves, then it will pass the result into the controller, as the parameter called `name`. Now our controller looks like this:
 
-```language-javascript
+```js
 app.controller('ProfileController', function($scope, name) {
 
 	$scope.name = name;
@@ -478,7 +478,7 @@ What's cool is we can also see our caching logic by going to and from the Home a
 
 As a final note on promises when routing, you can specify multiple resolves if you need to:
 
-```language-javascript
+```js
 $routeProvider
    .when('/profile', {
        templateUrl: '/profile.html',

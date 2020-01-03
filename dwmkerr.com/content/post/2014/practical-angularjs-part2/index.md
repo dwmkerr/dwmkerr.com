@@ -39,7 +39,7 @@ Here's the points that you should take from the refresher:
 
 As of Angular 1.2 it is possible to use a controller with the 'as' syntax, such as:
 
-```language-markup
+```html
 <div ng-controller="CharacterController as controller">
   <p ng-text="controller.something"></p>
 </div>
@@ -84,32 +84,32 @@ Let's take a look at our earlier example, we have a number which represents a st
 
 Let's break down what we've got here.
 
-```language-markup
+```html
 <app-status status-value="0"></app-status>
 ```
 
 First we have the directive in HTML - Angular knows that it can map hyphens to camel-case, so we can use 'appStatus' as the directive name.
 
-```language-javascript
+```js
 .directive('appStatus', function() {
  return {
 ```
 
 Now we actually create the directive. A directive is normally just a function that returns an object with a specific format.
 
-```language-javascript
+```js
 restrict: 'E',
 ```
 
 'Restrict' allows us to state that the directive can only be used in certain ways. E is for element, A for attribute and C for class.
 
-```language-javascript
+```js
 template: '<div ng-class="statusClass">{{statusValue | status}}</div>',
 ```
 
 The template just contains that HTML to use for the directive. It can contain filters. You can also use 'templateHtml' and specify a path to an HTML file if that's more convenient.
 
-```language-javascript
+```js
 scope: {
  statusValue: '='
  },
@@ -119,7 +119,7 @@ Slightly more complex - 'scope' lets us determine what values we want on the sco
 
 In this directive we're using the scope to allow us to pass the status as an attribute. We'll see a lot more of this in later tutorials, so don't worry if it seems a bit cryptic at the moment.
 
-```language-javascript
+```js
 link: function($scope) {
  switch($scope.statusValue) {
  case 0: $scope.statusClass = "red"; break;
@@ -168,7 +168,7 @@ Typically the views are not defined as script elements in the main page, I'm jus
 
 Let's take a look at the route provider in a bit more detail:
 
-```language-javascript
+```js
 // Configure the route provider.
 app.config(function($routeProvider) {
  $routeProvider.

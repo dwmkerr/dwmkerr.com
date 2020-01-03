@@ -107,7 +107,7 @@ If we are using Auth0, then we almost certainly have our token generated for us.
 
 It turns out it's really pretty easy, as we would expect as we are using open standards. Here's the code:
 
-```language-javascript
+```js
 var jwt = require('jsonwebtoken');
 
 function extendToken(secret, payload, extend) {
@@ -128,7 +128,7 @@ function extendToken(secret, payload, extend) {
 
 We have a function which takes a secret, the payload of an existing token, an object containing data to extend and that's it. Here's how you could use it:
 
-```language-javascript
+```js
 var expressJwt = require('express-jwt');
 var mySecret = new Buffer('walkinonsunshine', 'base64');
 

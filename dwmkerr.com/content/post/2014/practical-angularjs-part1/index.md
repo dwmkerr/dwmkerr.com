@@ -148,7 +148,7 @@ We've seen the controller in detail, let's look at the view.
 
 The first thing we have a link to the angular library. This should always go at the top of the page, normally in the head (above we have a jsfiddle which makes the head for us so it's right at the top of the body).
 
-```language-markup
+```html
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
 ```
 
@@ -160,7 +160,7 @@ What's a directive? A directive is a marker in the HTML that tells Angular it ne
 
 The most common place to put an ng-app directive for an application is often directly in the html element - telling angular our whole page is controlled by angular. Like this:
 
-```language-markup
+```html
 <html ng-app>
 ```
 
@@ -168,7 +168,7 @@ The most common place to put an ng-app directive for an application is often dir
 
 Following this we have an ng-controller directive. This tells angular that it needs to create an instance of the controller specified (which is our main controller we've already defined) use the controller to control the scope of all child elements.
 
-```language-markup
+```html
 <div ng-controller="SpeedmonitorController">
 ````
 
@@ -176,7 +176,7 @@ Following this we have an ng-controller directive. This tells angular that it ne
 
 The first thing we do is bind the submit event of the form to the `addUrl()` function. Then we bind the input to the `currentUrl` field. This has shown us two new directives:
 
-```language-markup
+```html
 <form ng-submit="addUrl()">
   <label for="url">Url</label>
   <input id="url" type="text" ng-model="currentUrl" />
@@ -190,13 +190,13 @@ The first thing we do is bind the submit event of the form to the `addUrl()` fun
 
 The final part of the html is perhaps the most interesting and where we're really starting to see the power of AngularJS.
 
-```language-markup
+```html
 <tr ng-repeat="url in urls">
 ```
 
 Here we use an ng-repeat directive to iterate through a collection. Angular will loop through every item in the urls array and create whatever is contained in the element with the ng-repeat tag for each item. Now we can reference the properties of the item using the name we gave it ('url' in our case). We can also see that the handlebars syntax {{something.else}} can be used to simply write out a value into the html.
 
-```language-markup
+```html
 <td>{{url.loadSpeed}} ms</td>
 ```
 
@@ -206,7 +206,7 @@ Here we use an ng-repeat directive to iterate through a collection. Angular will
 
 The final part of the html is where we have the ng-click directive. When the element is clicked on, angular evaluates the expression - and the expression is the removeUrl function called with the $index special property. $index is provided by angular inside the ng-repeat template and evaluates to the index in the array.
 
-```language-markup
+```html
 <td><a ng-click="removeUrl($index)" href="javascript:void(0)">Delete</a></td>
 ```
 
@@ -228,7 +228,7 @@ With the arrangement we've got now, the changes become trivial. Let's do them on
 
 We can make the following change in the controller, highlighted in bold.
 
-```language-js
+```js
 $scope.addUrl = function() {
   $scope.urls.push({url: $scope.currentUrl, loadSpeed: Math.random() * 75 + 50});
   $scope.currentUrl = ""; // Now clear the current URL.
@@ -241,7 +241,7 @@ Notice that we didn't have to get the input element in the JavaScript? We update
 
 Again, a trivial change. It's a change in the view, so we do it in the view. The updated code is in bold below:
 
-```language-markupo
+```htmlo
 <td><a href="{{url.url}}">{{url.url}}</a></td>
 ```
 
@@ -251,7 +251,7 @@ Easy - we write the url value in the href of an 'a' tag. And we do it in the vie
 
 We need to apply the 'red' css class if the round trip time is greater than 100ms - where do we do this? In the view!
 
-```language-markup
+```html
 <td><span ng-class="{red: url.loadSpeed > 100}">{{url.loadSpeed}}</span> ms</td>
 ```
 
@@ -263,7 +263,7 @@ We use the ng-class directive here. It allows us to set CSS classes on an elemen
 
 Oh so easy with Angular. Again - it's presentation logic, so it stays in the view.
 
-```language-markup
+```html
 {{url.loadSpeed | number:0}} ms
 ```
 
@@ -275,7 +275,7 @@ The vertical pipe character shows we're using a filter - this is something that 
 
 By now we're starting to see that this logic is very easy to apply in the view.
 
-```language-markup
+```html
 <input id="submit" type="submit" ng-disabled="currentUrl.length == 0" />
 ```
 

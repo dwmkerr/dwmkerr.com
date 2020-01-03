@@ -21,7 +21,7 @@ Here's the link to the interface on MSDN: [ISupportInitialize](http://msdn.micro
 
 <p>I have a fairly complicated WinForms usercontrol called 'OpenGLControl', which allows OpenGL commands to be used to render 3D scenes in a C# WinForms application. The control has properties which are interdependent to each other. If these properties are set in the designer, code like this is generated:
 
-```language-csharp
+```cs
 // openGLControl1
 // 
 this.openGLControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -41,7 +41,7 @@ Now this leads to a problem - BitDepth, OpenGLDraw, FrameRate etc must all be de
 
 This is where the ISupportInitialize interface comes in. If a control is added to the design surface with this interface, we'll get the following code wrapped around the designer code:
 
-```language-csharp
+```cs
 private void InitializeComponent()
 {
     System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormExample1));

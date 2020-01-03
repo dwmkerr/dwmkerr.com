@@ -173,7 +173,7 @@ This means that the surface area of a component (i.e. the part you touch if you 
 
 However, this is all handled with some pretty framework-specific stuff[^n]:
 
-```language-javascript
+```js
 // e.g.
 export class GoalsBoxComponent {
    //  Event we fire when the goals change.
@@ -201,7 +201,7 @@ There's no standardised, documented way to test a component - nuff said. But thi
 
 Comparing React to Angular is unfair, one is a view library, one is a framework. But it's worth pointing out this is a pretty complex framework. There's a **lot** of very domain specific stuff. See this documentation for an example:
 
-```language-javascript
+```js
 <li *ngFor="#hero of heroes">
 ```
 
@@ -215,7 +215,7 @@ From [the documentation](https://angular.io/docs/ts/latest/tutorial/toh-pt2.html
 
 You'll get used to it (if you have to), but I think it's harder to *reason* about than:
 
-```language-javascript
+```js
 render () {
   return (
     <div>
