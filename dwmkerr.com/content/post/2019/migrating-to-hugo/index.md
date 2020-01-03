@@ -22,6 +22,7 @@ With a little bit of free time for a change, I decided to finally migrate my blo
     * [Reason 5 - I want to allow people to contribute](#reason-5---i-want-to-allow-people-to-contribute)
     * [Reason 6 - I don't want to manage a server](#reason-6---i-dont-want-to-manage-a-server)
     * [Reason 7 - I need to learn how do this](#reason-7---i-need-to-learn-how-do-this)
+    * [Reason 8 - Static Sites are Fast and Simple](#reason-8---static-sites-are-fast-and-simple)
 * [Picking a Generator](#picking-a-generator)
     * [Jekyll](#jekyll)
     * [Gatsby](#gatsby)
@@ -87,6 +88,10 @@ I've been putting this off for a while. But it will be _really_ useful to know h
 - [learn-a-language](https://github.com/dwmkerr/learn-a-language)
 
 Being able to quickly whip up a static site from markdown in GitHub seems like it could be really useful.
+
+### Reason 8 - Static Sites are Fast and Simple
+
+Without an application server doing any work, static sites are generally fast. They can be cached, pushed to CDNs and will index well with search engines. In theory, the overall browsing experience should be faster. But I will show performance benchmarks from before and after,
 
 So next - how do pick a static site generator?
 
@@ -324,3 +329,16 @@ blogengine.net
 wordpress
 ghost
 hugo
+
+Dead links were checked with:
+
+https://www.brokenlinkcheck.com/broken-links.php
+
+- Check site speed score before and after
+- check broken links before and after
+- check site compliance score before and after
+- use GA to show improved speed?
+- check codeproject rss
+- check experiments folder
+- decommission server
+
