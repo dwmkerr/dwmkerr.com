@@ -1,4 +1,0 @@
----
-# file: site.yml
-- import_playbook: webserver.yml
-

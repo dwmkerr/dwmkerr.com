@@ -1,6 +1,0 @@
----
-# file: webserver.yml
-- hosts: webserver
-  become: true # needed as the ubuntu user needs to sudo
-  roles:
-    - ghost

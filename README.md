@@ -87,8 +87,8 @@ https://dwmkerr.github.io/dwmkerr.com/
 - [ ] The preview image should not be shown on each page.
 - [ ] Google Analytics needs to be enabled
 - [ ] Enable Disqus
-- [ ] Improve theming of code snippets
-- [ ] There are various different `language` specifications used in fenced code blocks, needs fixing
+- [X] Improve theming of code snippets
+- [X] There are various different `language` specifications used in fenced code blocks, needs fixing
 - [X] Setup build pipeline
 - [X] re-arrange posts into folders (by year?)
 - [X] Keep images with the posts themselves.
@@ -98,7 +98,6 @@ https://dwmkerr.github.io/dwmkerr.com/
 - [ ] Create social preview for entire site - maybe markdown and hugo shown as some kind of diagram, such as a CI diagram?
 - [ ] Fix TODOs sitewide
 - [ ] Check for anything needed in `wp-content`
-- [ ] Use `pandoc` to convert old html content to GFM (`pandoc --from html --to gfm --standalone`), see https://stackoverflow.com/questions/7694887/is-there-a-command-line-utility-for-rendering-github-flavored-markdown
 - [ ] Find better theme!
 - [ ] Move old site to a backup folder
 - [ ] Backup old content to S3, then blat
