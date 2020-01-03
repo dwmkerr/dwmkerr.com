@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - Node.js
 date: "2014-05-05T04:35:09Z"

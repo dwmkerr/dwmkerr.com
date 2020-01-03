@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 date: "2014-05-07T14:48:54Z"
 description: ""
 draft: false

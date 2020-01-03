@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - Javascript
 date: "2013-11-28T06:10:16Z"

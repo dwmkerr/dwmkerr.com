@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - C#
 - Visual Studio

@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - vim
 date: "2016-06-01T08:58:16Z"

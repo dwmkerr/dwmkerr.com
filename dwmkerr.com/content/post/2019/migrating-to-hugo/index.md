@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 date: "2019-12-24"
 draft: true
 slug: migrating-from-ghost-to-hugo

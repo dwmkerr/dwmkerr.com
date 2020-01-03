@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - Namaste Children's Homes Nepal
 date: "2012-01-31T14:18:00Z"

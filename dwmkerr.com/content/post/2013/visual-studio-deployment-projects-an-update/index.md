@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - Visual Studio
 date: "2013-06-24T12:18:18Z"

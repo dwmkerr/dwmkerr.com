@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - C#
 date: "2011-09-12T13:09:00Z"

@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - SVN
 date: "2011-11-14T07:55:00Z"

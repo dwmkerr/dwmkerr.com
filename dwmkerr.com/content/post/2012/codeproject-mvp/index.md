@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - CodeProject
 date: "2012-01-17T07:25:00Z"

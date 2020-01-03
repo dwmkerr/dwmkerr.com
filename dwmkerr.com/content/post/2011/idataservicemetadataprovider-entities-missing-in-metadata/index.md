@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - WCF Data Services
 date: "2011-11-09T15:49:00Z"

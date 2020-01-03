@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - C# SharpShell
 date: "2013-09-15T06:31:34Z"

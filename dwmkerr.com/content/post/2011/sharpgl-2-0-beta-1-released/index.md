@@ -1,5 +1,6 @@
 ---
 author: Dave Kerr
+type: posts
 categories:
 - SharpGL
 date: "2011-10-10T04:38:00Z"
