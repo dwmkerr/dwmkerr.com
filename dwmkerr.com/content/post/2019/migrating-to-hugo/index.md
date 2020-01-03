@@ -31,6 +31,7 @@ With a little bit of free time for a change, I decided to finally migrate my blo
     * [Normalising Newlines](#normalising-newlines)
     * [Restructuring the Content](#restructuring-the-content)
     * [Bringing the images to the posts](#bringing-the-images-to-the-posts)
+* [history](#history)
 
 <!-- vim-markdown-toc -->
 ## So, Why Bother?
@@ -284,7 +285,7 @@ for post_path in dwmkerr.com/content/post/*.md; do
 
     # We know how to get the year as the date line is consistent in all posts:
     # date: "2012-12-09T16:11:27Z"
-    year=${dateline:7:4} # i:perldo.e. the four characters from index 7
+    year=${dateline:7:4} # i.e. the four characters from index 7
 
     # Create the folder for the post.
     new_folder="dwmkerr.com/content/post/$year/$filename"
@@ -310,8 +311,15 @@ There are two image formats to deal with - the standard markdown image format, a
 <img width="600px" alt="Image: The Evolution of Windows" src="/images/2019/05/screenshot-windows-evolution.png" />
 ```
 
-The `img` tags don't work at all. So the first step is to turn them into markdown
+Initially I started converting these tags using a `bash` script, but this rapidly became too complex. In the end I wrote a quick-and-dirty Node.js script to handle the images. You can find it at:
 
-vimgrep '\<img' dwmkerr.com/content/post/**/*.md
-:cfdo %s/\/content\/images\//\/images\//gc
+https://github.com/dwmkerr/dwmkerr.com/blob/master/scripts/collect-images.js
 
+This script downloads the images if they are online, or moves them from a given source folder, collecting them all in an `images` folder for the post.
+
+## history
+
+blogengine.net
+wordpress
+ghost
+hugo

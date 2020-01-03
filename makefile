@@ -9,7 +9,7 @@ newpost:
 
 # Serve the site locally for testing.
 serve:
-	cd dwmkerr.com; hugo server --buildDrafts
+	cd dwmkerr.com; hugo server --baseURL "http://localhost/" --buildDrafts -v --debug
 
 # Build the site.
 build:

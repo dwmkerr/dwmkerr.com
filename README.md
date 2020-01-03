@@ -85,14 +85,12 @@ https://dwmkerr.github.io/dwmkerr.com/
 
 - [ ] The preview image should not be shown on each page.
 - [ ] Google Analytics needs to be enabled
-- [ ] Move old site to a backup folder
 - [ ] Enable Disqus
 - [ ] Improve theming of code snippets
-- [ ] Setup build pipeline
-- [ ] Quick blog entry
-- [ ] re-arrange posts into folders (by year?)
-- [ ] Keep images with the posts themselves.
 - [ ] There are various different `language` specifications used in fenced code blocks, needs fixing
+- [X] Setup build pipeline
+- [X] re-arrange posts into folders (by year?)
+- [X] Keep images with the posts themselves.
 - [ ] Review all drafts, kill or fix
 - [ ] Check remaining content in `static` folder
 - [ ] Featured images are still in the `static` folder
@@ -100,3 +98,6 @@ https://dwmkerr.github.io/dwmkerr.com/
 - [ ] Fix TODOs sitewide
 - [ ] Check for anything needed in `wp-content`
 - [ ] Use `pandoc` to convert old html content to GFM (`pandoc --from html --to gfm --standalone`), see https://stackoverflow.com/questions/7694887/is-there-a-command-line-utility-for-rendering-github-flavored-markdown
+- [ ] Find better theme!
+- [ ] Move old site to a backup folder
+- [ ] Backup old content to S3, then blat

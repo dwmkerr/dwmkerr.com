@@ -1,0 +1,76 @@
+baseURL = "https://dwmkerr.github.io/dwmkerr.com/"
+disablePathToLower = true
+languageCode = "en-uk"
+title = "dwmkerr.com"
+theme = "ghostwriter"
+
+copyright = "Dave Kerr"
+googleAnalytics = "UA-41728580-1"
+disqusShortname = "dmwkerr"
+
+# Allow Markdown to contain HTML (this is used for tables, some URLs etc.
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[Privacy]
+
+[Privacy.disqus]
+    disable = false
+
+[Privacy.googleAnalytics]
+    anonymizeIP = true
+    respectDoNotTrack = true
+    useSessionStorage = false
+
+[Author]
+    name = "Dave Kerr"
+    profile = "https://github.com/dwmkerr"
+
+[Taxonomies]
+    tag = "tags"
+
+[Params]
+    mainSections = ["post"]
+    intro = true
+    headline = "dwmkerr.com"
+    description = "Writing about the craft of software development. No ads, sponsored content, just love of the geekery."
+    github = "https://github.com/dwmkerr"
+    linkedin = "https://www.linkedin.com/in/dwmkerr/"
+    twitter = "https://twitter.com/dwmkerr"
+    stackoverflow = "https://stackoverflow.com/users/1189164/dave-kerr"
+    # facebook = "https://www.facebook.com/username"
+    # email = "XXX@example.com"
+    opengraph = true
+    shareTwitter = true
+    shareFacebook = true
+    shareGooglePlus = false
+    hareLinkedIn = false
+    dateFormat = "Mon, Jan 2, 2006"
+    highlightJsUrl = ""
+    highlightJsLocalUrl = ""
+    exponeaJsUrl = ""
+    exponeaTarget = ""
+    exponeaToken = ""
+    exponeaTrackVisits = false
+    # readingTime = true
+    # readingTimeText = "Estimated reading time:"
+
+[Permalinks]
+    post = "/:slug"
+
+[[menu.main]]
+    name = "Blog"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "Speaking"
+    url = "/page/speaking/"
+    weight = 2
+
+[[menu.main]]
+    name = "About"
+    url = "/page/about/"
+    weight = 3

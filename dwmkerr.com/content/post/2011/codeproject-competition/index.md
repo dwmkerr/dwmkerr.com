@@ -14,9 +14,13 @@ title: CodeProject Competition
 ---
 
 
-<p class="MsoNormal">My Solitaire and Spider Solitaire in WPF article is in two CodeProject competitions this month. The article is at:</p>
-<p class="MsoNormal"><a href="http://www.codeproject.com/KB/WPF/solitaire.aspx">http://www.codeproject.com/KB/WPF/solitaire.aspx</a></p>
-<p class="MsoNormal">If you think the article is worthy of a vote, then please go to the voting page for either of the two competitions!</p>
-<p class="MsoNormal">Best C# Article: <a href="http://www.codeproject.com/script/Surveys/VoteForm.aspx?srvid=1209">http://www.codeproject.com/script/Surveys/VoteForm.aspx?srvid=1209</a></p>
-<p class="MsoNormal">Best Overall Article: <a href="http://www.codeproject.com/script/Surveys/VoteForm.aspx?srvid=1212">http://www.codeproject.com/script/Surveys/VoteForm.aspx?srvid=1212</a></p>
+My Solitaire and Spider Solitaire in WPF article is in two CodeProject competitions this month. The article is at:
+
+https://www.codeproject.com/Articles/252152/Solitaire-and-Spider-Solitaire-for-WPF
+
+If you think the article is worthy of a vote, then please go to the voting page for either of the two competitions!
+
+Best C# Article: <a href="http://www.codeproject.com/script/Surveys/VoteForm.aspx?srvid=1209">http://www.codeproject.com/script/Surveys/VoteForm.aspx?srvid=1209</a>
+
+Best Overall Article: <a href="http://www.codeproject.com/script/Surveys/VoteForm.aspx?srvid=1212">http://www.codeproject.com/script/Surveys/VoteForm.aspx?srvid=1212</a>
 
