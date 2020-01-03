@@ -11,7 +11,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
     * [Backup](#backup)
 * [Hugo](#hugo)
 * [CI/CD](#cicd)
-* [Tasks](#tasks)
+* [Tests](#tests)
 * [Theming Tasks](#theming-tasks)
 
 <!-- vim-markdown-toc -->
@@ -82,25 +82,11 @@ The address of the deployed site is:
 
 https://dwmkerr.github.io/dwmkerr.com/
 
-## Tasks
+## Tests
 
-- [ ] The preview image should not be shown on each page.
-- [ ] Google Analytics needs to be enabled
-- [ ] Enable Disqus
-- [X] Improve theming of code snippets
-- [X] There are various different `language` specifications used in fenced code blocks, needs fixing
-- [X] Setup build pipeline
-- [X] re-arrange posts into folders (by year?)
-- [X] Keep images with the posts themselves.
-- [ ] Review all drafts, kill or fix
-- [ ] Check remaining content in `static` folder
-- [ ] Featured images are still in the `static` folder
-- [ ] Create social preview for entire site - maybe markdown and hugo shown as some kind of diagram, such as a CI diagram?
-- [ ] Fix TODOs sitewide
-- [ ] Check for anything needed in `wp-content`
-- [ ] Find better theme!
-- [ ] Move old site to a backup folder
-- [ ] Backup old content to S3, then blat
+- [ ] Make sure featured image is still shown for social media sharing
+- [ ] GA
+- [ ] Disqus
 
 ## Theming Tasks
 
