@@ -11,7 +11,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
     * [Backup](#backup)
 * [Hugo](#hugo)
 * [CI/CD](#cicd)
-* [Tests](#tests)
+* [Todo](#todo)
 * [Theming Tasks](#theming-tasks)
 
 <!-- vim-markdown-toc -->
@@ -85,9 +85,10 @@ The address of the deployed site is:
 
 https://dwmkerr.github.io/dwmkerr.com/
 
-## Tests
+## Todo
 
 - [ ] Make sure featured image is still shown for social media sharing
+- [ ] Interlude for shell (part five) has broken pics
 
 ## Theming Tasks
 
