@@ -6,51 +6,25 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 
 * [Introduction](#introduction)
 * [Structure](#structure)
-* [Ghost Guide](#ghost-guide)
-    * [Setting up the Ghost server](#setting-up-the-ghost-server)
-    * [Backup](#backup)
 * [Hugo](#hugo)
 * [CI/CD](#cicd)
-* [Todo](#todo)
-* [Theming Tasks](#theming-tasks)
 
 <!-- vim-markdown-toc -->
 
 ## Introduction
 
-Note that the site is currently hosted using a self-managed version of Ghost. I am planning to migrate the whole setup to a static site generated.
+This is the code for the [dwmkerr.com](https://dwmkerr.com) website. It is a static site generated with [Hugo](https://gohugo.io/)
 
 ## Structure
 
 The structure of this project is:
 
-| Folder     | Usage                                      |
-|------------|--------------------------------------------|
-| `_wip`     | Work in progress articles and ideas.       |
-| `articles` | Published blog articles.                   |
-| `backups`  | Backups of the site data.                  |
-| `ghost`    | Everything related to Ghost setup.         |
-| `scripts`  | Helper scripts for operations like backup. |
-
-## Ghost Guide
-
-The following guides are used for the Ghost server.
-
-### Setting up the Ghost server
-
-Run the ansible playbook to setup Ghost:
-
-```
-cd ghost/ansible
-absible-galaxy install -i requirements.yml
-ansible-playbook -i inventory.cfg site.yml
-```
-
-### Backup
-
-- Use the admin backup facility.
-- Then copy the `content/images` and `content/themes` folder.
--rvm use --create --rvmrc 2.6@dwmkerr.com Faster than the above, run the `./scripts/backup.sh` script.
+| Folder        | Usage                                           |
+|---------------|-------------------------------------------------|
+| `_wip`        | Work in progress articles and ideas.            |
+| `dmwkerr.com` | The actual Hugo website                         |
+| `scripts`     | Helper scripts.                                 |
+| `makefile`    | A makefile to build the site, run locally, etc. |
 
 ## Hugo
 
@@ -84,13 +58,3 @@ Any changes to the `master` branch, or a branch which matches the `build/*` patt
 The address of the deployed site is:
 
 https://dwmkerr.github.io/dwmkerr.com/
-
-## Todo
-
-- [ ] Make sure featured image is still shown for social media sharing
-
-## Theming Tasks
-
-- [ ] Update the links to be blue, and a bit more visible.
-- [ ] Move the menu to the top of the page.
-- [ ] Add social media share buttons.

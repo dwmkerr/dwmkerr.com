@@ -6,6 +6,12 @@ copyright = "Copright &copy; Dave Kerr"
 custom_css = "/static/css/custom.css"
 theme = "hugo_theme_pickles"
 
+# Allow Markdown to contain HTML (this is used for tables, some URLs etc.
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [params]
   paginate = 10
   # Social accounts. Link to these accounts are displayed in the header and

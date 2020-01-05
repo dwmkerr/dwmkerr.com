@@ -4,7 +4,7 @@ Title = "dwmkerr.com"
 # Copyright notice. This is displayer in the footer.
 copyright = "Copright &copy; Dave Kerr"
 custom_css = "/static/css/custom.css"
-theme = "dwmkerr_hugo_theme_pickles"
+theme = "hugo_theme_pickles"
 
 # Allow Markdown to contain HTML (this is used for tables, some URLs etc.
 [markup]
