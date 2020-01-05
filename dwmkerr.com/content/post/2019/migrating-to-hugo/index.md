@@ -2,8 +2,8 @@
 author: Dave Kerr
 type: posts
 date: "2019-12-24"
-draft: true
 slug: migrating-from-ghost-to-hugo
+draft: false
 tags:
 - writing
 title: Migrating from Ghost to Hugo - Why Bother?
@@ -33,7 +33,7 @@ With a little bit of free time for a change, I decided to finally migrate my blo
     * [Normalising Newlines](#normalising-newlines)
     * [Restructuring the Content](#restructuring-the-content)
     * [Bringing the images to the posts](#bringing-the-images-to-the-posts)
-* [history](#history)
+* [Was It Worth It?](#was-it-worth-it)
 
 <!-- vim-markdown-toc -->
 ## So, Why Bother?
@@ -323,38 +323,20 @@ https://github.com/dwmkerr/dwmkerr.com/blob/master/scripts/collect-images.js
 
 This script downloads the images if they are online, or moves them from a given source folder, collecting them all in an `images` folder for the post.
 
-## history
+## Was It Worth It?
 
-blogengine.net
-wordpress
-ghost
-hugo
+It took a _lot_ longer than I expected to migrate. [Hofstadter's Law](https://github.com/dwmkerr/hacker-laws#hofstadters-law) in action. Fixing Disqus pages, trying to clean up old content from 2011, all of this took time.
 
-Dead links were checked with:
+The site is definitely faster. Below are the PageSpeed results from before:
 
-https://www.brokenlinkcheck.com/broken-links.php
+![Before: PageSpeed Results](images/pagespeed-insights-home-before.png)
 
-- Check site speed score before and after
-- check broken links before and after
-- check site compliance score before and after
-- use GA to show improved speed?
-- check codeproject rss
-- check experiments folder
-- decommission server
-- codeproject feed
+The results now are faster:
 
----
+![After: PageSpeed Results](images/pagespeed-insights-home-after.png)
 
-Cutover:
+And finally I can simple manage my blog using GitHub, Markdown and my preferred flow for writing. Learning about Hugo was very useful, I expect to apply it to my [Effective Shell](https://github.com/dwmkerr/effective-shell) series soon.
 
-Change apex dwmkerr.com to:
+One final comment - the [Pickle's Theme](https://github.com/mismith0227/hugo_theme_pickles) by [`msmith0227`](https://github.com/mismith0227) is what I am using. It was very straightforward to get working, and the code is really well documented, so I could quickly change it as needed.
 
-```
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
-```
-
-
-Notes on Hugo Pickles theme.
+There are still some `TODO`s - getting RSS working, trying to improve the PageSpeed of posts, cleaning up old content, but all in all it was a fun and worthwhile effort as an end of year programming project.

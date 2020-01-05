@@ -88,7 +88,6 @@ https://dwmkerr.github.io/dwmkerr.com/
 ## Todo
 
 - [ ] Make sure featured image is still shown for social media sharing
-- [ ] Interlude for shell (part five) has broken pics
 
 ## Theming Tasks
 
