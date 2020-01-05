@@ -8,3 +8,7 @@
 	path = dwmkerr.com/themes/hugo_theme_pickles
 	url = https://github.com/mismith0227/hugo_theme_pickles.git
 	branch = release
+[submodule "dwmkerr.com/themes/dwmkerr_hugo_theme_pickles"]
+	path = dwmkerr.com/themes/dwmkerr_hugo_theme_pickles
+	url = https://github.com/dwmkerr/hugo_theme_pickles.git
+	branch = release

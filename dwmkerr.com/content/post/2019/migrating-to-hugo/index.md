@@ -341,4 +341,20 @@ https://www.brokenlinkcheck.com/broken-links.php
 - check codeproject rss
 - check experiments folder
 - decommission server
+- codeproject feed
 
+---
+
+Cutover:
+
+Change apex dwmkerr.com to:
+
+```
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+
+Notes on Hugo Pickles theme.
