@@ -8,6 +8,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 * [Structure](#structure)
 * [Hugo](#hugo)
 * [CI/CD](#cicd)
+* [Theming](#theming)
 
 <!-- vim-markdown-toc -->
 
@@ -58,3 +59,21 @@ Any changes to the `master` branch, or a branch which matches the `build/*` patt
 The address of the deployed site is:
 
 https://dwmkerr.github.io/dwmkerr.com/
+
+## Theming
+
+The site uses the [hugo_theme_pickles]() theme.
+
+To use my own fork which I use for fixing bugs/testing etc, run:
+
+```
+git submodule add -b release git@github.com:dwmkerr/hugo_theme_pickles.git dwmkerr.com/themes/dwmkerr_hugo_theme_pickles
+```
+
+And update the `config.toml` to use this theme.
+
+When a new release of the theme needs to be used, update the submodules with:
+
+```sh
+git submodule update --init --recursive --remote
+```
