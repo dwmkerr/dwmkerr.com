@@ -15,9 +15,9 @@ With a little bit of free time for a change, I decided to finally migrate my blo
 <!-- vim-markdown-toc GFM -->
 
 * [So, Why Bother?](#so-why-bother)
-    * [Reason #1 - I write in vim](#reason-1---i-write-in-vim)
-    * [Reason #2 - I backup on GitHub](#reason-2---i-backup-on-github)
-    * [Reason #3 - My workflow sucks for images](#reason-3---my-workflow-sucks-for-images)
+    * [Reason 1 - I write in vim](#reason-1---i-write-in-vim)
+    * [Reason 2 - I backup on GitHub](#reason-2---i-backup-on-github)
+    * [Reason 3 - My workflow sucks for images](#reason-3---my-workflow-sucks-for-images)
     * [Reason 4 - I have two sources of truth](#reason-4---i-have-two-sources-of-truth)
     * [Reason 5 - I want to allow people to contribute](#reason-5---i-want-to-allow-people-to-contribute)
     * [Reason 6 - I don't want to manage a server](#reason-6---i-dont-want-to-manage-a-server)
@@ -46,7 +46,7 @@ When I first tried Ghost, I loved it. A super clean and minimal interface, with 
 
 Ghost is great, and I've been a happy user for years. I'd highly recommend it to _anyone_ who wants a lean and clean content management system. However, there were a few key reasons I decided to change. This article is not be advocating for my new setup, or a criticism of Ghost, but might be useful for people who are considering similar changes.
 
-### Reason #1 - I write in vim
+### Reason 1 - I write in vim
 
 The Ghost UI is lovely, but I do all of my writing in vim. Writing in the Ghost UI could sometimes be a little slow, and obviously doesn't work offline. I'm very comfortable writing in vim. So I would end up writing the post in vim, then copying and pasting into Ghost.
 
@@ -56,11 +56,11 @@ Right now, this is what my screen looks like:
 
 Again, I'm not advocating for vim, it's just what works for me. The screenshot is with my 'focus' mode setup, which removes all unnecessary clutter (all of my configuration is available on my [dotfiles repo](https://github.com/dotfiles).
 
-### Reason #2 - I backup on GitHub
+### Reason 2 - I backup on GitHub
 
 I'm writing all of my content in vim, and storing it in a folder. Some posts take days to write. So it makes sense to keep all of these files in a git repository. This means that I essentially have a robust backup solution, I don't need to use Ghosts's backup. Ghost's backup (for self hosted) also doesn't handle images.
 
-### Reason #3 - My workflow sucks for images
+### Reason 3 - My workflow sucks for images
 
 Because I am writing in vim, and creating screenshots and images, I need to link to them. This means that what I have in my local markdown file won't work for Ghost. With Ghost I need to upload the image, and it will put it in a content folder. But I want to be able to keep my images close to the text, and have consistent addresses for local writing, like so:
 
