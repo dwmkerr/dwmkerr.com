@@ -62,7 +62,7 @@ https://dwmkerr.github.io/dwmkerr.com/
 
 ## Theming
 
-The site uses the [hugo_theme_pickles]() theme.
+The site uses the [hugo_theme_pickles](https://github.com/mismith0227/hugo_theme_pickles.git) theme.
 
 To use my own fork which I use for fixing bugs/testing etc, run:
 
