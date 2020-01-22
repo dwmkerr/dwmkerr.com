@@ -18,5 +18,3 @@ serve:
 .PHONY: build
 build:
 	cd dwmkerr.com; hugo --minify
-
-.PHONY: setup serve
