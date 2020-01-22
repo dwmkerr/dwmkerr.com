@@ -1,7 +1,7 @@
 # Setup tools required for local development.
 setup:
 	brew install hugo
-	hugo vesion
+	hugo version
 
 # Createe a new post.
 newpost:
