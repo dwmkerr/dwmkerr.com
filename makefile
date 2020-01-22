@@ -3,6 +3,7 @@
 setup:
 	brew install hugo
 	hugo version
+	git submodule update --init --recursive --remote
 
 # Create a new post.
 .PHONY: newpost
