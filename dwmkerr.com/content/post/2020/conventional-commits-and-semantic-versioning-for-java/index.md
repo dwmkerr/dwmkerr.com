@@ -31,6 +31,7 @@ In this article we'll look at a few simple techniques which can really superchar
     * [How the Hook Works](#how-the-hook-works)
 * [Creating the Initial Release](#creating-the-initial-release)
 * [Go Forth And DevOps](#go-forth-and-devops)
+* [The Gradle Version](#the-gradle-version)
 * [That's It](#thats-it)
 
 <!-- vim-markdown-toc -->
@@ -138,7 +139,7 @@ https://github.com/conventional-changelog/standard-version
 
 It's maintained by the same group behind conventional commits. The only problem? It only works for JavaScript projects (unless you are willing to write custom code which can be complex).
 
-But I've updated the library to support Maven projects, and also have it working for Gradle (I'm in the process of trying to merge these changes back into the mainline). So now we can use it!
+But I've updated the library to support Maven projects and Gradle projects, so you can use it for Java now as well!
 
 Let's see it in action. Here's a very simple Java library built with Maven:
 
@@ -291,6 +292,22 @@ With these basic building blocks:
 - Usage of the `standard-release` tool
 
 We have created a very powerful way to manage what is actually a highly complex process. We've introduced almost no additional complexity, just a few guidelines for developers.
+
+## The Gradle Version
+
+It's basically the same technique for Gradle, you just tell `standard-version` to hit your `build.gradle` file;
+
+```sh
+npx @dwmkerr/standard-version --packageFiles build.gradle --bumpFiles build.gradle
+```
+
+There's an accompanying sample project at:
+
+[github.com/dwmkerr/java-gradle-standard-version-sample](https://github.com/dwmkerr/java-gradle-standard-version-sample)
+
+This is the same as the Maven version in that the `master` branch has no `standard-version` code or changelogs, just open the [`release`](https://github.com/dwmkerr/java-gradle-standard-version-sample/tree/release) branch to see what it looks like after we've applied the same techniques as we did to the Maven version.
+
+
 
 ## That's It
 
