@@ -7,14 +7,15 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 * [Introduction](#introduction)
 * [Structure](#structure)
 * [Hugo](#hugo)
-* [CI/CD](#cicd)
 * [Theming](#theming)
+* [Developer Guide](#developer-guide)
+* [CI/CD](#cicd)
 
 <!-- vim-markdown-toc -->
 
 ## Introduction
 
-This is the code for the [dwmkerr.com](https://dwmkerr.com) website. It is a static site generated with [Hugo](https://gohugo.io/)
+This is the code for the [dwmkerr.com](https://dwmkerr.com) website. It is a static site generated with [Hugo](https://gohugo.io/).
 
 ## Structure
 
@@ -29,7 +30,27 @@ The structure of this project is:
 
 ## Hugo
 
-This website uses the [Hugo](https://gohugo.io/) static site generator. For the details of why Hugo was chosen, see [TODO](TODO).
+This website uses the [Hugo](https://gohugo.io/) static site generator. For the details of why Hugo was chosen, see my article [Migrating from Ghost to Hugo - Why Bother?](https://dwmkerr.com/migrating-from-ghost-to-hugo/).
+
+## Theming
+
+The site uses the [hugo_theme_pickles](https://github.com/mismith0227/hugo_theme_pickles.git) theme.
+
+To use my own fork which I use for fixing bugs/testing etc, run:
+
+```
+git submodule add -b release git@github.com:dwmkerr/hugo_theme_pickles.git dwmkerr.com/themes/dwmkerr_hugo_theme_pickles
+```
+
+And update the `config.toml` to use this theme.
+
+When a new release of the theme needs to be used, update the submodules with:
+
+```sh
+git submodule update --init --recursive --remote
+```
+
+## Developer Guide
 
 To setup your local environment work on the site, run:
 
@@ -60,20 +81,3 @@ The address of the deployed site is:
 
 https://dwmkerr.github.io/dwmkerr.com/
 
-## Theming
-
-The site uses the [hugo_theme_pickles](https://github.com/mismith0227/hugo_theme_pickles.git) theme.
-
-To use my own fork which I use for fixing bugs/testing etc, run:
-
-```
-git submodule add -b release git@github.com:dwmkerr/hugo_theme_pickles.git dwmkerr.com/themes/dwmkerr_hugo_theme_pickles
-```
-
-And update the `config.toml` to use this theme.
-
-When a new release of the theme needs to be used, update the submodules with:
-
-```sh
-git submodule update --init --recursive --remote
-```
