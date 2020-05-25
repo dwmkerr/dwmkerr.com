@@ -36,7 +36,7 @@ In this article we'll look at a few simple techniques which can really superchar
 
 <!-- vim-markdown-toc -->
 
-**tl;dr** If you know the concepts, then just jump straight to my fork of `semantic-release` at [`github.com/dwmkerr/semantic-release`](https://github.com/dwmkerr/semantic-release). It adds support for Java projects. I am currently trying to get it into the mainline, so if you like this, please comment on the [Pull Request](https://github.com/conventional-changelog/standard-version/pull/591) here. **tl;dr end!**
+**tl;dr** If you know the concepts, then just jump straight to my fork of `standard-version` at [`github.com/dwmkerr/standard-veresion`](https://github.com/dwmkerr/standard-version). It adds support for Java projects. I am currently trying to get it into the mainline, so if you like this, please comment on the [Pull Request](https://github.com/conventional-changelog/standard-version/pull/591) here. **tl;dr end!**
 
 ## Semantic Versioning
 
