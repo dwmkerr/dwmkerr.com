@@ -17,6 +17,8 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 
 This is the code for the [dwmkerr.com](https://dwmkerr.com) website. It is a static site generated with [Hugo](https://gohugo.io/).
 
+The RSS feed is published to [dwmkerr.com/index.xml](https://dwmkerr.com/index.xml).
+
 ## Structure
 
 The structure of this project is:
