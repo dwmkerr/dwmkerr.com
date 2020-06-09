@@ -1,5 +1,55 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Slack on dwmkerr.com</title><link>https://dwmkerr.com/tags/slack/</link><description>Recent content in Slack on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 18 Nov 2016 01:25:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/slack/index.xml" rel="self" type="application/rss+xml"/><item><title>Using Slack for Server Development</title><link>https://dwmkerr.com/using-slack-for-server-development/</link><pubDate>Fri, 18 Nov 2016 01:25:00 +0000</pubDate><guid>https://dwmkerr.com/using-slack-for-server-development/</guid><description>I recently found a surprisingly helpful approach for server-side development which uses Slack in a creative way.
-The Problem The scenario can be roughly simplified to this:
-We are building a mobile app and application server. This will take data from a user, transform it and then pass it to the enterprise system processing.
-The problem is that the enterprise system doesn't exist yet!
-Now this is not too much of a challenge, the first thing we did was build a simple mock of the enterprise system in Node.</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Slack on dwmkerr.com</title><link>https://dwmkerr.com/tags/slack/</link><description>Recent content in Slack on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 18 Nov 2016 01:25:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/slack/index.xml" rel="self" type="application/rss+xml"/><item><title>Using Slack for Server Development</title><link>https://dwmkerr.com/using-slack-for-server-development/</link><pubDate>Fri, 18 Nov 2016 01:25:00 +0000</pubDate><guid>https://dwmkerr.com/using-slack-for-server-development/</guid><description>&lt;p>I recently found a surprisingly helpful approach for server-side development which uses Slack in a creative way.&lt;/p>
+&lt;h2 id="the-problem">The Problem&lt;/h2>
+&lt;p>The scenario can be roughly simplified to this:&lt;/p>
+&lt;p>&lt;img src="images/0-problem.png" alt="Planned Architecture">&lt;/p>
+&lt;p>We are building a mobile app and application server. This will take data from a user, transform it and then pass it to the enterprise system processing.&lt;/p>
+&lt;p>The problem is that the enterprise system doesn't exist yet!&lt;/p>
+&lt;p>Now this is not too much of a challenge, the first thing we did was build a simple mock of the enterprise system in Node.js, so that we can at least talk to &lt;em>something&lt;/em>:&lt;/p>
+&lt;p>&lt;img src="images/0-problem-2.png" alt="The Mock System">&lt;/p>
+&lt;p>So now we have the question - is our application server transforming the data correctly?&lt;/p>
+&lt;p>Let's say that in our example we bring in three pieces of data from the UI - a first name, middle name and last name.&lt;/p>
+&lt;p>Our enterprise system, in this case we'll say it is a CRM system, only accepts a first name and last name. So in our app server, we are going to concatenate the middle name and last name.&lt;/p>
+&lt;p>Our testers want to make sure that the enterprise system will receive the right data - but at the moment it is only a mock, we cannot log in a check the middle and last names have been combined properly. What to do?&lt;/p>
+&lt;h2 id="slack-to-the-rescue">Slack to the Rescue!&lt;/h2>
+&lt;p>It's a trivial change to our mock server to send the received messages to Slack:&lt;/p>
+&lt;p>&lt;img src="images/1-slack.png" alt="Slack Diagram">&lt;/p>
+&lt;p>Now our testers can input data in the mobile app and then watch a slack channel to see the data our application server will actually send to the enterprise system. They can verify the logic has been implemented correctly.&lt;/p>
+&lt;p>Here's how it might look - in the image below I am running my mock enterprise server, which has Swagger UI to show the mocked APIs and allow me to call them:&lt;/p>
+&lt;p>&lt;img src="images/4-swagger.png" alt="Swagger UI">&lt;/p>
+&lt;p>The message is received on the server, sent to slack and we can check the result:&lt;/p>
+&lt;p>&lt;img src="images/5-slack.png" alt="Slack">&lt;/p>
+&lt;p>Now this is obviously a trivial and contrived example, but Slack offers a lot of capabilities. Imagine you have a server which watermarks images, you could send an image file to render to the screen. There are a whole bunch of ways you can extend this use case.&lt;/p>
+&lt;p>In the early stages of a project, where they may be many mocked systems, being able to see what they are doing can be really useful.&lt;/p>
+&lt;h2 id="setting-it-up">Setting it up&lt;/h2>
+&lt;p>I've created a super-simple demo setup here:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/slack-backend">github.com/dwmkerr/slack-backend&lt;/a>&lt;/p>
+&lt;p>Here's how you go about it.&lt;/p>
+&lt;p>Step 1: Set up a webhook on slack&lt;/p>
+&lt;p>&lt;img src="images/1-menu.png" alt="Menu">&lt;/p>
+&lt;p>&lt;img src="images/1-incoming-webhook.png" alt="Webhook">&lt;/p>
+&lt;p>&lt;img src="images/3-hook.png" alt="">&lt;/p>
+&lt;p>Step 2: Use the HTTP APIs from Slack, or a client from your platform of choice to send the message:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">
+&lt;span style="color:#75715e">// Create the Slack webhook based on our config.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">slack&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Slack&lt;/span>();
+&lt;span style="color:#a6e22e">slack&lt;/span>.&lt;span style="color:#a6e22e">setWebhook&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;https://hooks.slack.com/services/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&amp;#34;&lt;/span>);
+&lt;span style="color:#75715e">// Every time we&amp;#39;re about to handle a request, tell our friend Slack.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#a6e22e">server&lt;/span>.&lt;span style="color:#a6e22e">ext&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;onPreHandler&amp;#39;&lt;/span>, (&lt;span style="color:#a6e22e">request&lt;/span>, &lt;span style="color:#a6e22e">reply&lt;/span>) =&amp;gt; {
+&lt;span style="color:#75715e">// Never bother logging any requests to swagger UI.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">match&lt;/span>(&lt;span style="color:#e6db74">/\/swaggerui\//&lt;/span>) &lt;span style="color:#f92672">||&lt;/span>
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">match&lt;/span>(&lt;span style="color:#e6db74">/\/swagger.json/&lt;/span>) &lt;span style="color:#f92672">||&lt;/span>
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">match&lt;/span>(&lt;span style="color:#e6db74">/\/$/&lt;/span>)) {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">reply&lt;/span>.&lt;span style="color:#66d9ef">continue&lt;/span>();
+}
+&lt;span style="color:#75715e">// Send the Slack message.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">slack&lt;/span>.&lt;span style="color:#a6e22e">webhook&lt;/span>({
+&lt;span style="color:#a6e22e">text&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;span style="color:#e6db74">`&lt;/span>&lt;span style="color:#e6db74">Request *&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">id&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">*
+&lt;/span>&lt;span style="color:#e6db74">&lt;/span>&lt;span style="color:#e6db74">\`&lt;/span>&lt;span style="color:#e6db74">\`&lt;/span>&lt;span style="color:#e6db74">\`&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">method&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">path&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">JSON&lt;/span>.&lt;span style="color:#a6e22e">stringify&lt;/span>(&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">payload&lt;/span>, &lt;span style="color:#66d9ef">null&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>)&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">&lt;/span>&lt;span style="color:#e6db74">\`&lt;/span>&lt;span style="color:#e6db74">\`&lt;/span>&lt;span style="color:#e6db74">\`&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>
+});
+&lt;span style="color:#a6e22e">reply&lt;/span>.&lt;span style="color:#66d9ef">continue&lt;/span>();
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This approach was quick and easy to implement, hopefully others will find it useful!&lt;/p></description><category>CodeProject</category></item></channel></rss>

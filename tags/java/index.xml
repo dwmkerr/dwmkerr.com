@@ -1,2 +1,184 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Java on dwmkerr.com</title><link>https://dwmkerr.com/tags/java/</link><description>Recent content in Java on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sun, 17 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/java/index.xml" rel="self" type="application/rss+xml"/><item><title>Supercharge your Java Projects with Conventional Commits, Semantic Versioning and Semantic Releases</title><link>https://dwmkerr.com/conventional-commits-and-semantic-versioning-for-java/</link><pubDate>Sun, 17 May 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/conventional-commits-and-semantic-versioning-for-java/</guid><description>In this article we'll look at a few simple techniques which can really supercharge your Java project and make them much easier to work with!
-Semantic Versioning Why Does This Matter? The Semantic Versioning Specification Using Semantic Versions The Challenge of Semantic Versions Conventional Commits Time for Magic Enforcing Conventional Commits with Git Hooks How the Hook Works Creating the Initial Release Go Forth And DevOps The Gradle Version That's It tl;dr If you know the concepts, then just jump straight to my fork of standard-version at github.</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Java on dwmkerr.com</title><link>https://dwmkerr.com/tags/java/</link><description>Recent content in Java on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sun, 17 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/java/index.xml" rel="self" type="application/rss+xml"/><item><title>Supercharge your Java Projects with Conventional Commits, Semantic Versioning and Semantic Releases</title><link>https://dwmkerr.com/conventional-commits-and-semantic-versioning-for-java/</link><pubDate>Sun, 17 May 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/conventional-commits-and-semantic-versioning-for-java/</guid><description>&lt;p>In this article we'll look at a few simple techniques which can really supercharge your Java project and make them much easier to work with!&lt;/p>
+&lt;!-- vim-markdown-toc GFM -->
+&lt;ul>
+&lt;li>&lt;a href="#semantic-versioning">Semantic Versioning&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#why-does-this-matter">Why Does This Matter?&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#the-semantic-versioning-specification">The Semantic Versioning Specification&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#using-semantic-versions">Using Semantic Versions&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#the-challenge-of-semantic-versions">The Challenge of Semantic Versions&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#conventional-commits">Conventional Commits&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#time-for-magic">Time for Magic&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#enforcing-conventional-commits-with-git-hooks">Enforcing Conventional Commits with Git Hooks&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#how-the-hook-works">How the Hook Works&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#creating-the-initial-release">Creating the Initial Release&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#go-forth-and-devops">Go Forth And DevOps&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#the-gradle-version">The Gradle Version&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#thats-it">That's It&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- vim-markdown-toc -->
+&lt;p>&lt;strong>tl;dr&lt;/strong> If you know the concepts, then just jump straight to my fork of &lt;code>standard-version&lt;/code> at &lt;a href="https://github.com/dwmkerr/standard-version">&lt;code>github.com/dwmkerr/standard-veresion&lt;/code>&lt;/a>. It adds support for Java projects. I am currently trying to get it into the mainline, so if you like this, please comment on the &lt;a href="https://github.com/conventional-changelog/standard-version/pull/591">Pull Request&lt;/a> here. &lt;strong>tl;dr end!&lt;/strong>&lt;/p>
+&lt;h2 id="semantic-versioning">Semantic Versioning&lt;/h2>
+&lt;p>First, let's talk about the idea of a &lt;em>Semantic Version&lt;/em>. A semantic version is nothing more than a versioning scheme you will probably be familiar with, where versions look like this:&lt;/p>
+&lt;pre>&lt;code>1.2.3
+&lt;/code>&lt;/pre>&lt;p>The only thing special about a &lt;em>Semantic Version&lt;/em> is that we give a very specific meaning to each part of the version. In short:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>1&lt;/code> is the &lt;em>major&lt;/em> part of the version&lt;/li>
+&lt;li>&lt;code>2&lt;/code> is the &lt;em>minor&lt;/em> part of the version&lt;/li>
+&lt;li>&lt;code>3&lt;/code> is the &lt;em>patch&lt;/em> part of the version&lt;/li>
+&lt;/ul>
+&lt;p>Now we give &lt;em>semantics&lt;/em> (meaning and context) to these parts:&lt;/p>
+&lt;p>&lt;strong>Major&lt;/strong>&lt;/p>
+&lt;p>A &lt;em>major&lt;/em> version number change means something big has changed, and the API of the software is different to the earlier version. Essentially, this is a potentially &lt;em>breaking&lt;/em> change, so you should only use this new version after carefully reading about the changes.&lt;/p>
+&lt;p>&lt;strong>Minor&lt;/strong>&lt;/p>
+&lt;p>A &lt;em>minor&lt;/em> version number change means that something has been added or changed, which affects the functionality of the code, but in a &lt;em>non breaking&lt;/em> way. An example would be the addition of a new API. That won't affect existing users, so they can generally safely upgrade minor versions without too much risk.&lt;/p>
+&lt;p>&lt;strong>Patch&lt;/strong>&lt;/p>
+&lt;p>A &lt;em>patch&lt;/em> version number change means something really inconsequential to the user of the code has changed. It might be new documentation, better logging, but it is generally not a &lt;em>functional&lt;/em> change.&lt;/p>
+&lt;h3 id="why-does-this-matter">Why Does This Matter?&lt;/h3>
+&lt;p>If we have Semantic Versions, we can be a lot more sure about &lt;em>when it is safe to upgrade&lt;/em>. If we see a &lt;em>major&lt;/em> version change, we know we need to be careful. &lt;em>Minor&lt;/em> changes might need attention, and &lt;em>patches&lt;/em> are almost always going to be safe.&lt;/p>
+&lt;p>Managing dependencies and keeping them up to date is hard in software development, and one of the reasons people are wary of updating dependencies is that &lt;em>they don't know if they upgrade will break their code&lt;/em>.&lt;/p>
+&lt;p>Semantic Versioning tries to bring a little order to this chaotic world.&lt;/p>
+&lt;h3 id="the-semantic-versioning-specification">The Semantic Versioning Specification&lt;/h3>
+&lt;p>There is a detailed specification for semantic versioning, which also covers more sophisticated cases, you can find it here:&lt;/p>
+&lt;p>&lt;a href="https://semver.org/">https://semver.org/&lt;/a>&lt;/p>
+&lt;p>I'd suggest this is recommend reading for &lt;em>any&lt;/em> software engineer!&lt;/p>
+&lt;h3 id="using-semantic-versions">Using Semantic Versions&lt;/h3>
+&lt;p>Now the easiest way to start with semantic versioning is to simply adhere to the spec! For example, if you make a change which could break something for users, bump the &lt;em>major&lt;/em> part of the version.&lt;/p>
+&lt;p>But, things aren't all that easy&amp;hellip;&lt;/p>
+&lt;h3 id="the-challenge-of-semantic-versions">The Challenge of Semantic Versions&lt;/h3>
+&lt;p>The challenge is this. Imagine you are cutting a new release of your code and many people have contributed. Some bug fixes, some patches, some documentation. How do you look through all of those changes and decide how to appropriately change the version number?&lt;/p>
+&lt;p>To solve this problem, say hello to &lt;em>Conventional Commits&lt;/em>.&lt;/p>
+&lt;h2 id="conventional-commits">Conventional Commits&lt;/h2>
+&lt;p>If you have a commit history like this:&lt;/p>
+&lt;pre>&lt;code>Updated the users API
+Bugfix
+trying the build again, got it working
+Bugfix: [JIRA-21] fixed that issue
+you can now get user's friends with this change
+&lt;/code>&lt;/pre>&lt;p>Then it is &lt;em>very&lt;/em> hard to reason about what is going on. What about if the commit history looked like this?&lt;/p>
+&lt;pre>&lt;code>feat(users): [#12] fetching users returns their avatar url
+fix(users): [#45] display names with emojis return correctly
+build(cicd): update the expired deploy key
+fix(docs): [#22] fix broken links to the javadocs
+feat(users): [#49] users api optionally returns friends, non-breaking
+&lt;/code>&lt;/pre>&lt;p>It's much easier to see what each change means, at least at a high level.&lt;/p>
+&lt;p>By having some kind of standard for commit messages, we can do a lot. We can:&lt;/p>
+&lt;ul>
+&lt;li>Classify changes by type (such as a feature or fix)&lt;/li>
+&lt;li>Include a clear description of the change&lt;/li>
+&lt;li>Use a convention to indicate a breaking change&lt;/li>
+&lt;li>Link to a ticketing system&lt;/li>
+&lt;/ul>
+&lt;p>Just like semantic versioning, conventional commits have a specification too:&lt;/p>
+&lt;p>&lt;a href="https://www.conventionalcommits.org/en/v1.0.0/">https://www.conventionalcommits.org/en/v1.0.0/&lt;/a>&lt;/p>
+&lt;h2 id="time-for-magic">Time for Magic&lt;/h2>
+&lt;p>Now if we have conventional commits, and want to use semantic versions, we can actually skip the whole process of looking over a commit history to create a new semantic version - we can automate it.&lt;/p>
+&lt;p>We can even automate the process of creating a &amp;lsquo;changelog&amp;rsquo;, a list of each change which comes in each version. There's an &lt;em>excellent&lt;/em> library which does this, called &lt;code>standard-version&lt;/code>:&lt;/p>
+&lt;p>&lt;a href="https://github.com/conventional-changelog/standard-version">https://github.com/conventional-changelog/standard-version&lt;/a>&lt;/p>
+&lt;p>It's maintained by the same group behind conventional commits. The only problem? It only works for JavaScript projects (unless you are willing to write custom code which can be complex).&lt;/p>
+&lt;p>But I've updated the library to support Maven projects and Gradle projects, so you can use it for Java now as well!&lt;/p>
+&lt;p>Let's see it in action. Here's a very simple Java library built with Maven:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/java-maven-standard-version-sample">https://github.com/dwmkerr/java-maven-standard-version-sample&lt;/a>&lt;/p>
+&lt;p>This library has no changelog, no tags, no version data at all except for &lt;code>0.1.0&lt;/code> in the &lt;code>pom.xml&lt;/code> file.&lt;/p>
+&lt;p>Now if I was to clone the library, make a change and make a commit, which &lt;em>didn't&lt;/em> follow the conventional commit spec, we'll just see the usual success message:&lt;/p>
+&lt;p>&lt;img src="./images/bad-commit-message.png" alt="Bad commit message" width="800px" />&lt;/p>
+&lt;p>This is a problem; we want to &lt;em>enforce&lt;/em> conventional commits.&lt;/p>
+&lt;h3 id="enforcing-conventional-commits-with-git-hooks">Enforcing Conventional Commits with Git Hooks&lt;/h3>
+&lt;p>Git has a powerful &amp;lsquo;hooks&amp;rsquo; facility, which let you run logic at key points in operations. This is a &lt;em>massive&lt;/em> topic on its own, so we're not going to go into lots of details, but if you are interested you can read about them here:&lt;/p>
+&lt;p>&lt;a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks&lt;/a>&lt;/p>
+&lt;p>Now the issue with Git Hooks is that they are &lt;em>per user&lt;/em> - if I add a hook to my &lt;code>.git&lt;/code> folder, no one else will get it. We want the same hooks for &lt;em>all&lt;/em> users.&lt;/p>
+&lt;p>There are a few ways to get around this. You can set up server side hooks (which could reject a push if it has an invalid commit message), but this isn't easy to do (and with some providers, like GitHub for public projects, not even available as an option). Also, we want fast feedback, so if I make a bad commit message, it fails straight away and I can fix it.&lt;/p>
+&lt;p>The way I suggest getting around this is this:&lt;/p>
+&lt;ol>
+&lt;li>Create a &lt;code>.githooks&lt;/code> folder in your repo&lt;/li>
+&lt;li>Instruct people to configure the git repo to look for hooks there&lt;/li>
+&lt;/ol>
+&lt;p>That way there are no global changes, only project specific ones. We still need to make sure the developer sets up the hooks though! You'll notice in my sample project's &lt;a href="https://github.com/dwmkerr/java-maven-standard-version-sample#developer-guide">&lt;code>README.md&lt;/code>&lt;/a> file the first thing I do is instruct people to setup the hooks:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">git config core.hooksPath .githooks
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Let's see how the same operation would look if we'd setup the hook first:&lt;/p>
+&lt;p>&lt;img src="./images/git-hook-bad-message.png" alt="Bad commit message with hook" width="800px" />&lt;/p>
+&lt;p>Our hook has fired off and told us we've not used a conventional commit message - it even let's us know where to go to find out more.&lt;/p>
+&lt;p>Let's try a message which should work, as it meets the standard:&lt;/p>
+&lt;p>&lt;img src="./images/git-hook-good-message.png" alt="Good commit message with hook" width="800px" />&lt;/p>
+&lt;p>Awesome! We've been informed that our message meets the standard (useful to actually remind us that this is being checked!) and the commit has succeeded!&lt;/p>
+&lt;p>Remember; we only need to setup the hooks once - it's a one time activity.&lt;/p>
+&lt;h3 id="how-the-hook-works">How the Hook Works&lt;/h3>
+&lt;p>Hooks are just shell scripts. You can write them in Ruby, Python, whatever. I have written this one in pure Bash because it's really just checking a regex, which Bash is more than capable of. Also, I can't be sure the developer will have Ruby or another tool on their machine.&lt;/p>
+&lt;p>The hook is as simple as this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">&lt;span style="color:#75715e">#!/usr/bin/env bash
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>
+&lt;span style="color:#75715e"># Create a regex for a conventional commit.&lt;/span>
+convetional_commit_regex&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z \-]+\))?!?: .+&lt;/span>$&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># Get the commit message (the parameter we&amp;#39;re given is just the path to the&lt;/span>
+&lt;span style="color:#75715e"># temporary file which holds the message).&lt;/span>
+commit_message&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>cat &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$1&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;span style="color:#75715e"># Check the message, if we match, all good baby.&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$commit_message&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span>~ $convetional_commit_regex &lt;span style="color:#f92672">]&lt;/span>&lt;span style="color:#f92672">]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
+echo -e &lt;span style="color:#e6db74">&amp;#34;\e[32mCommit message meets Conventional Commit standards...\e[0m&amp;#34;&lt;/span>
+exit &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;span style="color:#75715e"># Uh-oh, this is not a conventional commit, show an example and link to the spec.&lt;/span>
+echo -e &lt;span style="color:#e6db74">&amp;#34;\e[31mThe commit message does not meet the Conventional Commit standard\e[0m&amp;#34;&lt;/span>
+echo &lt;span style="color:#e6db74">&amp;#34;An example of a valid message is: &amp;#34;&lt;/span>
+echo &lt;span style="color:#e6db74">&amp;#34; feat(login): add the &amp;#39;remember me&amp;#39; button&amp;#34;&lt;/span>
+echo &lt;span style="color:#e6db74">&amp;#34;More details at: https://www.conventionalcommits.org/en/v1.0.0/#summary&amp;#34;&lt;/span>
+exit &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The only really tricky bit is the regex, and the weird &lt;code>\e[32&lt;/code> type characters which are used to set the colours. You might find it easier to write your hooks in a proper programming language - and for anything more complex I'd suggest that makes far more sense! But if a bit of Bash will do the trick, there's nothing wrong with that.&lt;/p>
+&lt;p>As a side-note, if you are into Bash and the shell, check out my online &lt;a href="https://effective-shell.com">Effective Shell&lt;/a> book.
+git config core.hooksPath .githooks&lt;/p>
+&lt;h2 id="creating-the-initial-release">Creating the Initial Release&lt;/h2>
+&lt;p>Now the chances are, if you are interested in this technique, you've probably got an existing project you want to use it on. It probably doesn't have a changelog or conventional commits. That's OK, just start from now.&lt;/p>
+&lt;p>Here's how we'd start using the &lt;code>standard-version&lt;/code> library to manage our versions. I've added a new API to the &lt;a href="https://github.com/dwmkerr/java-maven-standard-version-sample/tree/release">&lt;code>release&lt;/code>&lt;/a> branch (to keep &lt;code>master&lt;/code> clean for people reading the sample) and committed it.&lt;/p>
+&lt;p>Now lets actually create our changelog:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">npx @dwmkerr/standard-version --first-release --packageFiles pom.xml --bumpFiles pom.xml
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="./images/first-release.png" alt="First release" width="800px" />&lt;/p>
+&lt;p>Now it's a pain I know, but you need &lt;a href="https://nodejs.org/en/download/">Node.js&lt;/a> installed for this to work. The &lt;code>standard-version&lt;/code> library is built on node, that's what is used to do all of the logic around writing a changelog and working out what the version bump should be. You also have to use my fork &lt;code>@dwmkerr/standard-version&lt;/code> rather than the main version, because at the time of writing my pull request which adds support for &lt;code>pom.xml&lt;/code> files is not yet merged.&lt;/p>
+&lt;p>What has happened here is that the &lt;code>standard-version&lt;/code> tool has &lt;em>not&lt;/em> changed the version number. We told it this is the &lt;code>first-release&lt;/code>, meaning we haven't published yet, so there's no need to create a new number. What is &lt;em>has&lt;/em> done is given us a changelog and told use how to push the tags and code. If we push, we can now see the changelog:&lt;/p>
+&lt;p>&lt;img src="./images/changelog-v1.png" alt="Changelog v1" width="800px" />&lt;/p>
+&lt;p>See how we get a changelog showing the changes, the version and the date? We even have links to the commits for each key change!&lt;/p>
+&lt;p>If we'd linked the message to GitHub Issue numbers it'd automatically have links to the issues too!&lt;/p>
+&lt;p>Now in this code I deliberately made a mistake - the test for the &lt;code>Goodbye&lt;/code> api is a copy and paste of the &lt;code>Hello&lt;/code> test! And the &lt;code>Goodbye&lt;/code> api has a spelling mistake. Let's fix this and cut a new release.&lt;/p>
+&lt;p>I've made the change on the &lt;code>release&lt;/code> branch, now I'll run &lt;code>standard-version&lt;/code> again:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">npx @dwmkerr/standard-version --packageFiles pom.xml --bumpFiles pom.xml
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="./images/second-release.png" alt="Second release" width="800px" />&lt;/p>
+&lt;p>Note that there was no need for the &lt;code>--first-release&lt;/code> flag.&lt;/p>
+&lt;p>Now this time, a new version has been generated. This was a &lt;code>fix&lt;/code> commit, so it has made it a &lt;em>minor&lt;/em> version bump. If we needed to make it a breaking change, we can use a message with an exclamation after the type, such as &lt;code>fix(goodbye)!: fix the typo&lt;/code>. Check the &lt;code>standard-version&lt;/code> docs for more about this.&lt;/p>
+&lt;p>Finally, let's look at our new changelog:&lt;/p>
+&lt;p>&lt;img src="./images/second-changelog.png" alt="Second changelog" width="800px" />&lt;/p>
+&lt;p>We have even more info now - we have a link to the tag. This is &lt;em>incredibly&lt;/em> useful for managing releases.&lt;/p>
+&lt;p>The icing on the cake? Let's look at the &lt;code>pom.xml&lt;/code>:&lt;/p>
+&lt;p>&lt;img src="./images/updated-pom.png" alt="Updated pom.xml" width="800px" />&lt;/p>
+&lt;p>Note that &lt;em>the version has been updated&lt;/em>. &lt;code>standard-release&lt;/code> is keeping our Git Tags and our Java Library Version numbers &lt;em>automatically in sync&lt;/em>.&lt;/p>
+&lt;p>Once you've started doing this and seen it in action for a while, you'll wonder how you lived without it!&lt;/p>
+&lt;h2 id="go-forth-and-devops">Go Forth And DevOps&lt;/h2>
+&lt;p>This is just the beginning! Think of all the cool things we can do with this in place, here's just a few:&lt;/p>
+&lt;ul>
+&lt;li>Update our build pipeline so that when we merge into &lt;code>master&lt;/code> we automatically run &lt;code>standard-version&lt;/code>&lt;/li>
+&lt;li>Update our build pipeline so that when a new version tag is added, we automatically publish the library&lt;/li>
+&lt;li>Send out a slack notification with the changelog when a new version is committed&lt;/li>
+&lt;li>Share the changelog with our consumers as our libraries are updated&lt;/li>
+&lt;/ul>
+&lt;p>With these basic building blocks:&lt;/p>
+&lt;ul>
+&lt;li>Conventional Commits&lt;/li>
+&lt;li>Semantic Versioning&lt;/li>
+&lt;li>Enforcing of Commit Standards&lt;/li>
+&lt;li>Usage of the &lt;code>standard-release&lt;/code> tool&lt;/li>
+&lt;/ul>
+&lt;p>We have created a very powerful way to manage what is actually a highly complex process. We've introduced almost no additional complexity, just a few guidelines for developers.&lt;/p>
+&lt;h2 id="the-gradle-version">The Gradle Version&lt;/h2>
+&lt;p>It's basically the same technique for Gradle, you just tell &lt;code>standard-version&lt;/code> to hit your &lt;code>build.gradle&lt;/code> file;&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">npx @dwmkerr/standard-version --packageFiles build.gradle --bumpFiles build.gradle
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>There's an accompanying sample project at:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/java-gradle-standard-version-sample">github.com/dwmkerr/java-gradle-standard-version-sample&lt;/a>&lt;/p>
+&lt;p>This is the same as the Maven version in that the &lt;code>master&lt;/code> branch has no &lt;code>standard-version&lt;/code> code or changelogs, just open the &lt;a href="https://github.com/dwmkerr/java-gradle-standard-version-sample/tree/release">&lt;code>release&lt;/code>&lt;/a> branch to see what it looks like after we've applied the same techniques as we did to the Maven version.&lt;/p>
+&lt;h2 id="thats-it">That's It&lt;/h2>
+&lt;p>There's a whole world of libraries for this. &lt;a href="https://github.com/commitizen/cz-cli">&lt;code>commitizen&lt;/code>&lt;/a> which helps you write conventional commit messages for example. But I found very little for Java. If you find this useful, please do chip in on the pull request here:&lt;/p>
+&lt;p>&lt;a href="https://github.com/conventional-changelog/standard-version/pull/591">https://github.com/conventional-changelog/standard-version/pull/591&lt;/a>&lt;/p>
+&lt;p>As it would be great to add it to the mainline. I'm also just finishing off the update which adds support for Gradle.&lt;/p>
+&lt;p>As always, questions, comments, suggestions, rants, anything are welcome!&lt;/p></description><category>CodeProject</category></item></channel></rss>

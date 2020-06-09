@@ -1,2 +1,205 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>writing on dwmkerr.com</title><link>https://dwmkerr.com/tags/writing/</link><description>Recent content in writing on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 24 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/writing/index.xml" rel="self" type="application/rss+xml"/><item><title>Migrating from Ghost to Hugo - Why Bother?</title><link>https://dwmkerr.com/migrating-from-ghost-to-hugo/</link><pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/migrating-from-ghost-to-hugo/</guid><description>With a little bit of free time for a change, I decided to finally migrate my blog from Ghost to a static site generator. I've been putting this off because it's one of those things that I knew would take longer than I'd expect, and to be honest, it it ain't broke, then don't fix it.
-So, Why Bother? Reason 1 - I write in vim Reason 2 - I backup on GitHub Reason 3 - My workflow sucks for images Reason 4 - I have two sources of truth Reason 5 - I want to allow people to contribute Reason 6 - I don't want to manage a server Reason 7 - I need to learn how do this Reason 8 - Static Sites are Fast and Simple Picking a Generator Jekyll Gatsby Hugo The Migration Process Automating Build and Deploy Changing Front Matter to YAML Normalising Newlines Restructuring the Content Bringing the images to the posts Was It Worth It?</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>writing on dwmkerr.com</title><link>https://dwmkerr.com/tags/writing/</link><description>Recent content in writing on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 24 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/writing/index.xml" rel="self" type="application/rss+xml"/><item><title>Migrating from Ghost to Hugo - Why Bother?</title><link>https://dwmkerr.com/migrating-from-ghost-to-hugo/</link><pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/migrating-from-ghost-to-hugo/</guid><description>&lt;p>With a little bit of free time for a change, I decided to finally migrate my blog from &lt;a href="https://ghost.org/">Ghost&lt;/a> to a static site generator. I've been putting this off because it's one of those things that I knew would take longer than I'd expect, and to be honest, it it ain't broke, then don't fix it.&lt;/p>
+&lt;!-- vim-markdown-toc GFM -->
+&lt;ul>
+&lt;li>&lt;a href="#so-why-bother">So, Why Bother?&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#reason-1---i-write-in-vim">Reason 1 - I write in vim&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#reason-2---i-backup-on-github">Reason 2 - I backup on GitHub&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#reason-3---my-workflow-sucks-for-images">Reason 3 - My workflow sucks for images&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#reason-4---i-have-two-sources-of-truth">Reason 4 - I have two sources of truth&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#reason-5---i-want-to-allow-people-to-contribute">Reason 5 - I want to allow people to contribute&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#reason-6---i-dont-want-to-manage-a-server">Reason 6 - I don't want to manage a server&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#reason-7---i-need-to-learn-how-do-this">Reason 7 - I need to learn how do this&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#reason-8---static-sites-are-fast-and-simple">Reason 8 - Static Sites are Fast and Simple&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#picking-a-generator">Picking a Generator&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#jekyll">Jekyll&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#gatsby">Gatsby&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#hugo">Hugo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#the-migration-process">The Migration Process&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#automating-build-and-deploy">Automating Build and Deploy&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#changing-front-matter-to-yaml">Changing Front Matter to YAML&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#normalising-newlines">Normalising Newlines&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#restructuring-the-content">Restructuring the Content&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#bringing-the-images-to-the-posts">Bringing the images to the posts&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#was-it-worth-it">Was It Worth It?&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- vim-markdown-toc -->
+&lt;h2 id="so-why-bother">So, Why Bother?&lt;/h2>
+&lt;p>My first website was built on BlogEngine.net, then WordPress, which has grown into a very powerful platform over the years, but was overly complex for my needs.&lt;/p>
+&lt;p>When I first tried Ghost, I loved it. A super clean and minimal interface, with all of the content in Markdown. The editing experience was lovely:&lt;/p>
+&lt;p>&lt;img src="images/ghost-ui.png" alt="Screenshot: Thee Ghost UI">&lt;/p>
+&lt;p>Ghost is great, and I've been a happy user for years. I'd highly recommend it to &lt;em>anyone&lt;/em> who wants a lean and clean content management system. However, there were a few key reasons I decided to change. This article is not be advocating for my new setup, or a criticism of Ghost, but might be useful for people who are considering similar changes.&lt;/p>
+&lt;h3 id="reason-1---i-write-in-vim">Reason 1 - I write in vim&lt;/h3>
+&lt;p>The Ghost UI is lovely, but I do all of my writing in vim. Writing in the Ghost UI could sometimes be a little slow, and obviously doesn't work offline. I'm very comfortable writing in vim. So I would end up writing the post in vim, then copying and pasting into Ghost.&lt;/p>
+&lt;p>Right now, this is what my screen looks like:&lt;/p>
+&lt;p>&lt;img src="images/vim-screenshot.png" alt="Screenshot: vim editing">&lt;/p>
+&lt;p>Again, I'm not advocating for vim, it's just what works for me. The screenshot is with my &amp;lsquo;focus&amp;rsquo; mode setup, which removes all unnecessary clutter (all of my configuration is available on my &lt;a href="https://github.com/dotfiles">dotfiles repo&lt;/a>.&lt;/p>
+&lt;h3 id="reason-2---i-backup-on-github">Reason 2 - I backup on GitHub&lt;/h3>
+&lt;p>I'm writing all of my content in vim, and storing it in a folder. Some posts take days to write. So it makes sense to keep all of these files in a git repository. This means that I essentially have a robust backup solution, I don't need to use Ghosts's backup. Ghost's backup (for self hosted) also doesn't handle images.&lt;/p>
+&lt;h3 id="reason-3---my-workflow-sucks-for-images">Reason 3 - My workflow sucks for images&lt;/h3>
+&lt;p>Because I am writing in vim, and creating screenshots and images, I need to link to them. This means that what I have in my local markdown file won't work for Ghost. With Ghost I need to upload the image, and it will put it in a content folder. But I want to be able to keep my images close to the text, and have consistent addresses for local writing, like so:&lt;/p>
+&lt;p>&lt;img src="images/folder-structure-screenshot.png" alt="Screenshot: Folder structure for a post">&lt;/p>
+&lt;h3 id="reason-4---i-have-two-sources-of-truth">Reason 4 - I have two sources of truth&lt;/h3>
+&lt;p>If I need to make a change, do I update my markdown file in my GitHub repo? Or in Ghost? Or both? If I have to change a few things, then I can't just paste in the whole markdown file without breaking the image links. So I basically have two sources of truth, which can easily diverge.&lt;/p>
+&lt;h3 id="reason-5---i-want-to-allow-people-to-contribute">Reason 5 - I want to allow people to contribute&lt;/h3>
+&lt;p>I'm already using GitHub and Markdown. In theory this means that it should be very straightforward for people to propose edits or contributions; they can just create pull requests. I don't expect many people would do this, but it appeals to me that people could make corrections or suggest improvements, particularly for technical content.&lt;/p>
+&lt;h3 id="reason-6---i-dont-want-to-manage-a-server">Reason 6 - I don't want to manage a server&lt;/h3>
+&lt;p>My website is static content. It's blog posts and that's about it. There's really no need for any kind of application server or database. Disqus handles comments, Google Analytics for traffic data. So I can save myself a few dollars a month by just generating a static site and hosting it on &lt;a href="https://pages.github.com/">GitHub Pages&lt;/a> or &lt;a href="https://www.netlify.com/">Netlify&lt;/a>.&lt;/p>
+&lt;p>Static sites can be cached by CDNs so can be very fast for readers. And given the vast majority of my content is already just text and images in a GitHub repo, it doesn't make sense to pay for and manage server when there are a number of static site generators.&lt;/p>
+&lt;h3 id="reason-7---i-need-to-learn-how-do-this">Reason 7 - I need to learn how do this&lt;/h3>
+&lt;p>I've been putting this off for a while. But it will be &lt;em>really&lt;/em> useful to know how to quickly get up and running with a static site generator. There are other projects that I'd love to run as sites, such as:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/dwmkerr/hacker-laws">hacker-laws&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/dwmkerr/learn-a-language">learn-a-language&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Being able to quickly whip up a static site from markdown in GitHub seems like it could be really useful.&lt;/p>
+&lt;h3 id="reason-8---static-sites-are-fast-and-simple">Reason 8 - Static Sites are Fast and Simple&lt;/h3>
+&lt;p>Without an application server doing any work, static sites are generally fast. They can be cached, pushed to CDNs and will index well with search engines. In theory, the overall browsing experience should be faster. But I will show performance benchmarks from before and after,&lt;/p>
+&lt;p>So next - how do pick a static site generator?&lt;/p>
+&lt;h2 id="picking-a-generator">Picking a Generator&lt;/h2>
+&lt;p>I had a few requirements for the generator:&lt;/p>
+&lt;ul>
+&lt;li>I can easily host on GitHub pages&lt;/li>
+&lt;li>I can integrate Disqus and Google Analytic&lt;/li>
+&lt;li>I have as little complexity as possible, KISS&lt;/li>
+&lt;li>I can maintain all of the existing URLs of my posts, so that links from external sites will not break&lt;/li>
+&lt;li>I can have a theme which is roughly similar to the original Ghost theme, something minimal and text focused&lt;/li>
+&lt;/ul>
+&lt;p>A little bit of research suggested that there were three main contenders:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://jekyllrb.com/">Jekyll&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.gatsbyjs.org">Gatsby&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://gohugo.io/">Hugo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>I actually tried all three. Each engine is popular on GitHub:&lt;/p>
+&lt;p>&lt;img src="images/blogging-platforms.png" alt="Comparison of Blogging Platforms">&lt;/p>
+&lt;p>The number of stars a project has is of course not a genuine indicator of quality, but it is interesting to see how quickly Gatsby and Hugo have caught up to Jekyll.&lt;/p>
+&lt;h3 id="jekyll">Jekyll&lt;/h3>
+&lt;p>Jekyll makes a tonne of sense. It is very easy to setup for GitHub pages (in fact, GitHub pages assumes you are using Jekyll unless you explicitly tell it you are not).&lt;/p>
+&lt;p>Setting up Jekyll was easy - but I couldn't properly import my blog. I used the &lt;a href="https://github.com/eloyesp/jekyll_ghost_importer">jekyll_ghost_importer&lt;/a> tool, but the generated files seemed to be missing the slug. I wasted some time trying to see if I could resolve this issue, and then decided it was worth moving to the next platform and checking back in on Jekyll another time.&lt;/p>
+&lt;h3 id="gatsby">Gatsby&lt;/h3>
+&lt;p>Gatsby is written in Node.js, which had some appeal, as I am far more familiar with Node than Ruby (which Jekyll uses) or Golang (which Hugo uses, and I don't get on with).&lt;/p>
+&lt;p>I quickly paused on Gatsby. I had some trouble finding a tool to import data from Ghost, but during my research I realised just how powerful Gatsby is. It can be the front-end for Ghost, with Ghost working as a headless CMS, it can serve GraphQL, runs a React front end and more. These are all technologies I use regularly, but I was concerned that the tool seemed perhaps more complicated than I needed.&lt;/p>
+&lt;p>So I paused on Gatsby, but will definitely look into it in the future if I am building a more complex site from scratch.&lt;/p>
+&lt;h3 id="hugo">Hugo&lt;/h3>
+&lt;p>Hugo I was the least excited about. A lot of the hype seemed to be around the speed of the tool, and the fact it is written in Golang. Speed is not really an issue for me in this case and would not be a big factor in my decision. And I've spent enough time coding with the Kubernetes codebase that I have developed a deep dislike of Golang.&lt;/p>
+&lt;p>I was quickly sold on Hugo. Setup was very easy, importing was seamless with &lt;a href="https://github.com/jbarone/ghostToHugo/">ghostToHugo&lt;/a>, URLs were preserved as needed. I found a nice theme called &lt;a href="https://github.com/jbub/ghostwriter">ghostwriter&lt;/a> which quickly gave me a locally running site which looked not too bad.&lt;/p>
+&lt;p>The generated folder structure was trivial enough for me to quickly work out how to create the few static pages I have (public speaking, about etc).&lt;/p>
+&lt;p>Again; no advocating. All three engines seem to be great at what they do. Hugo was the easiest for me to get started on. Once I'd picked Hugo, it was time to get started migrating in earnest.&lt;/p>
+&lt;h2 id="the-migration-process">The Migration Process&lt;/h2>
+&lt;p>I've kept some notes on how I did this in case it is useful for others. The post &lt;a href="https://rmoff.net/2018/12/17/moving-from-ghost-to-hugo/">Moving from Ghost to Hugo by Robin Moffat&lt;/a> was super useful.&lt;/p>
+&lt;p>First, I downloaded &lt;a href="https://github.com/jbarone/ghostToHugo/">&lt;code>ghostToHugo&lt;/code>&lt;/a>. Then I ran the import command:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">&lt;span style="color:#75715e"># Note: my ghost db backup is a file locally called &amp;#39;db.json&amp;#39;&lt;/span>
+./ghostToHugo --dateformat &lt;span style="color:#e6db74">&amp;#34;2006-01-02T15:04:05.000Z&amp;#34;&lt;/span> -f -p dwmkerr.com db.json
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Next I needed to copy over my images. My &lt;code>~/.ssh/config&lt;/code> is setup with my ghost server, so I could just use &lt;code>scp&lt;/code> to copy the files.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">scp -r dwmkerr.com:/var/www/ghost/content/images ./dwmkerr.com/static
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The whole site I put in it's own folder, &lt;code>dwmkerr.com&lt;/code>, so that I could use other folders for backups, guides, whatever else I might want, and not pollute the generated site structure.&lt;/p>
+&lt;p>Next I downloaded a couple of themes:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">git submodule add git@github.com:jbub/ghostwriter.git dwmkerr.com/themes/ghostwriter
+git submodule add git@github.com:spf13/herring-cove.git dwmkerr.com/themes/herring-cove
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And I created a &lt;code>makefile&lt;/code> for common commands:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">make setup &lt;span style="color:#75715e"># install everything I need&lt;/span>
+make serve &lt;span style="color:#75715e"># serve the site locally for testing&lt;/span>
+make build &lt;span style="color:#75715e"># build the site for production&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>I'm a big fan of &lt;code>makefiles&lt;/code> as a way to provide an index of key operations for any project (even if all does is call another script or program).&lt;/p>
+&lt;p>At this stage I had a working site running locally. However, I noticed some images weren't rendering. It seems that some of my images had paths like &lt;code>/content/images/whatever.png&lt;/code> and some were just &lt;code>/images/whatever.png&lt;/code>.&lt;/p>
+&lt;p>This was quick to fix in vim. First I used &lt;code>vimgrep&lt;/code> to populate the quickfix list with any markdown file with a &lt;code>/content/images&lt;/code> in the text, then used &lt;code>cfdo&lt;/code> to just replace the string with &lt;code>/images&lt;/code> (asking for confirmation each time to check I wasn't changing something I shouldn't.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-vim" data-lang="vim">:&lt;span style="color:#a6e22e">vimgrep&lt;/span> \&lt;span style="color:#e6db74">/content\/images **/&lt;/span>*.&lt;span style="color:#a6e22e">md&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>:&lt;span style="color:#a6e22e">cfdo&lt;/span> %&lt;span style="color:#a6e22e">s&lt;/span>&lt;span style="color:#e6db74">/\/content\/images\//&lt;/span>\&lt;span style="color:#e6db74">/images\//&lt;/span>&lt;span style="color:#a6e22e">gc&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="automating-build-and-deploy">Automating Build and Deploy&lt;/h3>
+&lt;p>At this stage I had a working site. Setting up a workflow to publish to GitHub pages with GitHub Actions was straightforward, as I've already updated some projects (such as &lt;a href="https://github.com/dwmkerr/spaceinvaders">&lt;code>spaceinvaders&lt;/code>&lt;/a>) to publish static sites. The workflow is relatively simple:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">name: Build &amp;amp; Deploy
+on:
+push:
+branches:
+- &lt;span style="color:#e6db74">&amp;#39;master&amp;#39;&lt;/span>
+- &lt;span style="color:#e6db74">&amp;#39;build/**&amp;#39;&lt;/span>
+jobs:
+build-deploy:
+runs-on: ubuntu&lt;span style="color:#ae81ff">-18.04&lt;/span>
+steps:
+- name: Checkout
+uses: actions/checkout@v1
+with:
+submodules: &lt;span style="color:#66d9ef">true&lt;/span>
+- name: Setup Hugo
+uses: peaceiris/actions-hugo@v2
+with:
+hugo-version: &lt;span style="color:#e6db74">&amp;#39;0.61.0&amp;#39;&lt;/span>
+- name: Build
+working-directory: ./dwmkerr.com
+run: hugo --minify
+- name: Deploy
+uses: JamesIves/github-pages-deploy-action@releases/v3
+with:
+GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+BRANCH: gh-pages
+FOLDER: dwmkerr.com/public
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Any time a change is made to &lt;code>master&lt;/code> or &lt;code>feat/static-site&lt;/code> gets built and published.&lt;/p>
+&lt;h3 id="changing-front-matter-to-yaml">Changing Front Matter to YAML&lt;/h3>
+&lt;p>By default the front matter for the blog is written in TOML. This is not rendered well on GitHub:&lt;/p>
+&lt;p>&lt;img src="images/toml-frontmatter.png" alt="Screenshot: TOML front matter">&lt;/p>
+&lt;p>It also looks less than ideal in &lt;code>vim&lt;/code>. After running:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">hugo convert toYAML
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Things look a lot nicer:&lt;/p>
+&lt;p>&lt;img src="images/yaml-frontmatter.png" alt="Screenshot: YAML front matter">&lt;/p>
+&lt;p>YAML front matter is also rendered properly in &lt;code>vim&lt;/code> for me,&lt;/p>
+&lt;h3 id="normalising-newlines">Normalising Newlines&lt;/h3>
+&lt;p>A lot of the content from 2013 and earlier was either written in WordPress or BlogEngine.net.&lt;/p>
+&lt;p>Ghost had no problems rendering with Windows Style line endings but I wanted to clean this up a bit.&lt;/p>
+&lt;p>To convert everything to Unix style file endings, I ran:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">&lt;span style="color:#66d9ef">for&lt;/span> $file in ./content/**/*.md; &lt;span style="color:#66d9ef">do&lt;/span>
+dos2unix $file
+&lt;span style="color:#66d9ef">done&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="restructuring-the-content">Restructuring the Content&lt;/h3>
+&lt;p>After import, my site structure looked like this:&lt;/p>
+&lt;p>&lt;img src="images/posts-and-images-screenshot.png" alt="Screenshot: Site structure">&lt;/p>
+&lt;p>Now this is manageable, but feels awkward. I'd rather keep images next to the blog posts themselves. I want to group posts into years so that there are not too many shown in the file tree at any one time (and adding months/weeks/days makes things too fine grained). It also means that the page doesn't render images on GitHub:&lt;/p>
+&lt;p>&lt;img src="images/broken-links.png" alt="Screenshot: Broken Links">&lt;/p>
+&lt;p>The ideal structure would be just like this post:&lt;/p>
+&lt;p>&lt;img src="images/ideal-structure.png" alt="Screenshot: Ideal Structure">&lt;/p>
+&lt;p>It turns out that this is absolutely fine to do - as long as you name the post markdown &lt;code>index.md&lt;/code>. This took an hour to work out! The feature is known as &lt;a href="https://gohugo.io/content-management/page-bundles/">Page Bundles&lt;/a>. This is a delight - the content renders on GitHub just as well as it does on the site!&lt;/p>
+&lt;p>Migrating everything by hand would be something of a nightmare. Writing a program to do this is probably overkill, so here's how I did it in &lt;code>bash&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">&lt;span style="color:#75715e"># Go through each post.&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> post_path in dwmkerr.com/content/post/*.md; &lt;span style="color:#66d9ef">do&lt;/span>
+echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">Found &lt;/span>$post_path&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+filename&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>basename -- &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$post_path&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
+filename&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>filename%.*&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># Grep out the date line.&lt;/span>
+dateline&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>grep -E &lt;span style="color:#e6db74">&amp;#34;^date: &amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$post_path&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;span style="color:#75715e"># We know how to get the year as the date line is consistent in all posts:&lt;/span>
+&lt;span style="color:#75715e"># date: &amp;#34;2012-12-09T16:11:27Z&amp;#34;&lt;/span>
+year&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>dateline:7:4&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#75715e"># i.e. the four characters from index 7&lt;/span>
+&lt;span style="color:#75715e"># Create the folder for the post.&lt;/span>
+new_folder&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">dwmkerr.com/content/post/&lt;/span>$year&lt;span style="color:#e6db74">/&lt;/span>$filename&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+mkdir -p &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$new_folder&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># Move the post.&lt;/span>
+mv &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$post_path&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$new_folder&lt;span style="color:#e6db74">/index.md&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74"> -&amp;gt; &lt;/span>$new_folder&lt;span style="color:#e6db74">/index.md&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">done&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This gives a &lt;em>much&lt;/em> more manageable folder structure:&lt;/p>
+&lt;p>&lt;img src="images/folder-structure-screenshot.png" alt="Screenshot: Better Folder Structure">&lt;/p>
+&lt;p>However, we still have the images sitting in the &lt;code>static&lt;/code> folder.&lt;/p>
+&lt;h3 id="bringing-the-images-to-the-posts">Bringing the images to the posts&lt;/h3>
+&lt;p>There are two image formats to deal with - the standard markdown image format, and &lt;code>img&lt;/code> tags, which have been used to customise the size of the image:&lt;/p>
+&lt;pre>&lt;code>&amp;lt;img width=&amp;quot;600px&amp;quot; alt=&amp;quot;Image: The Evolution of Windows&amp;quot; src=&amp;quot;/images/2019/05/screenshot-windows-evolution.png&amp;quot; /&amp;gt;
+&lt;/code>&lt;/pre>&lt;p>Initially I started converting these tags using a &lt;code>bash&lt;/code> script, but this rapidly became too complex. In the end I wrote a quick-and-dirty Node.js script to handle the images. You can find it at:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/dwmkerr.com/blob/master/scripts/collect-images.js">https://github.com/dwmkerr/dwmkerr.com/blob/master/scripts/collect-images.js&lt;/a>&lt;/p>
+&lt;p>This script downloads the images if they are online, or moves them from a given source folder, collecting them all in an &lt;code>images&lt;/code> folder for the post.&lt;/p>
+&lt;h2 id="was-it-worth-it">Was It Worth It?&lt;/h2>
+&lt;p>It took a &lt;em>lot&lt;/em> longer than I expected to migrate. &lt;a href="https://github.com/dwmkerr/hacker-laws#hofstadters-law">Hofstadter's Law&lt;/a> in action. Fixing Disqus pages, trying to clean up old content from 2011, all of this took time.&lt;/p>
+&lt;p>The site is definitely faster. Below are the PageSpeed results from before:&lt;/p>
+&lt;p>&lt;img src="images/pagespeed-insights-home-before.png" alt="Before: PageSpeed Results">&lt;/p>
+&lt;p>The results now are faster:&lt;/p>
+&lt;p>&lt;img src="images/pagespeed-insights-home-after.png" alt="After: PageSpeed Results">&lt;/p>
+&lt;p>And finally I can simple manage my blog using GitHub, Markdown and my preferred flow for writing. Learning about Hugo was very useful, I expect to apply it to my &lt;a href="https://github.com/dwmkerr/effective-shell">Effective Shell&lt;/a> series soon.&lt;/p>
+&lt;p>One final comment - the &lt;a href="https://github.com/mismith0227/hugo_theme_pickles">Pickle's Theme&lt;/a> by &lt;a href="https://github.com/mismith0227">&lt;code>msmith0227&lt;/code>&lt;/a> is what I am using. It was very straightforward to get working, and the code is really well documented, so I could quickly change it as needed.&lt;/p>
+&lt;p>There are still some &lt;code>TODO&lt;/code>s - getting RSS working, trying to improve the PageSpeed of posts, cleaning up old content, but all in all it was a fun and worthwhile effort as an end of year programming project.&lt;/p></description><category>CodeProject</category></item></channel></rss>

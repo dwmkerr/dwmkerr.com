@@ -1,14 +1,1191 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AngularJS on dwmkerr.com</title><link>https://dwmkerr.com/tags/angularjs/</link><description>Recent content in AngularJS on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 25 Apr 2016 09:45:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/angularjs/index.xml" rel="self" type="application/rss+xml"/><item><title>Moving from React + Redux to Angular 2</title><link>https://dwmkerr.com/moving-from-react-redux-to-angular-2/</link><pubDate>Mon, 25 Apr 2016 09:45:00 +0000</pubDate><guid>https://dwmkerr.com/moving-from-react-redux-to-angular-2/</guid><description>I've just finished working on a very large project written in React and Redux. The whole team were new to both and we loved them.
-I'm going to share my experiences of experimenting in Angular 2 with you, from the point of view of someone who needs a pretty compelling reason to move away from my JSX and reducers.
-The Journey So Far Let me highlight a few key moments in my UI development experiences, to give a bit of context to my ramblings.</description></item><item><title>The Best Module System for AngularJS Applications</title><link>https://dwmkerr.com/the-best-module-system-for-angularjs-applications/</link><pubDate>Wed, 18 Mar 2015 14:47:10 +0000</pubDate><guid>https://dwmkerr.com/the-best-module-system-for-angularjs-applications/</guid><description>I was working on a small and simple application built with AngularJS the other day. As with most applications like this, I start with a single JavaScript file caled app.js and no module system.
-In the past I've used RequireJS with AngularJS. It's an awful mistake. It leads to a big jump in complexity with no benefts. Angular apps don't work well with AMDs, so really your are using RequireJS to combine files into one big file.</description></item><item><title>Fixing Memory Leaks in AngularJS and other JavaScript Applications</title><link>https://dwmkerr.com/fixing-memory-leaks-in-angularjs-applications/</link><pubDate>Tue, 03 Mar 2015 14:35:36 +0000</pubDate><guid>https://dwmkerr.com/fixing-memory-leaks-in-angularjs-applications/</guid><description>Dealing with memory leaks in JavaScript applications can be a complex process. In this article I'm going to show you how to identify whether you have memory leaks, analyse them and ultimately resolve them.
-I'm using an AngularJS application to demonstrate the concepts and approaches, but much of this material applies to any JavaScript application.
-Understanding Memory Leaks What is a Memory Leak? Why is a Memory Leak Bad?</description></item><item><title>The Only AngularJS Modal Service You'll Ever Need</title><link>https://dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/</link><pubDate>Mon, 16 Jun 2014 00:48:12 +0000</pubDate><guid>https://dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/</guid><description>If you need modals in an AngularJS application, look no further. I'll show you how to use the Angular Modal Service to add Bootstrap Modals or your own custom modals to your application.
-See it in a fiddle or check out a full set of samples online.
-Contents [Using the Angular Modal Service](#UsingTheAngular ModalService) A Quick Example Design Goals How It Works Wrapping Up Using the Angular Modal Service Here's how you can use the Angular Modal Service to add a bootstrap modal to your application.</description></item><item><title>AngularJS Promises - The Definitive Guide</title><link>https://dwmkerr.com/promises-in-angularjs-the-definitive-guide/</link><pubDate>Wed, 07 May 2014 12:06:55 +0000</pubDate><guid>https://dwmkerr.com/promises-in-angularjs-the-definitive-guide/</guid><description>Promises are a core feature of AngularJS - whether you understand them or not, if you use AngularJS you've almost certainly been using them for a while.
-In this post I'm going to explain what promises are, how they work, where they're used and finally how to use them effectively.
-Once we've got the core understanding of promises, we'll look at some more advanced functionality - chaining and resolving promises when routing.</description></item><item><title>Practical AngularJS Part 2</title><link>https://dwmkerr.com/practical-angularjs-part-2/</link><pubDate>Wed, 19 Feb 2014 15:29:29 +0000</pubDate><guid>https://dwmkerr.com/practical-angularjs-part-2/</guid><description>I'm going to be working in F# almost exclusively for a short while, so before I throw myself into that I wanted to wind up my Practical AngularJS Part 2 article. It's ready to rock here:
-Practical AngularJS Part 2 - Components of an AngularJS Application
-In this article we get a brief introduction to what's in the toolkit for an angular developers - filters, controllers, services, directives, views and routes.</description></item><item><title>Langton's Ant in Javascript</title><link>https://dwmkerr.com/langtons-ant-in-javascript/</link><pubDate>Sun, 15 Dec 2013 10:47:18 +0000</pubDate><guid>https://dwmkerr.com/langtons-ant-in-javascript/</guid><description>Langton's Ant is a great simulation to write to play with a language. Just today I've completed my Langton's Ant write up and published it on the CodeProject, you can see the article at Learn JavaScript Part 3 - Angularjs and Langton's Ant.
-There are some interesting things in the article for angular too - a look at using directives for custom elements, how to handle both the DOM and Angular loading correctly, and timers and intervals.</description></item><item><title>Introducing Practical AngularJS</title><link>https://dwmkerr.com/introducing-practical-angularjs/</link><pubDate>Mon, 25 Nov 2013 16:16:09 +0000</pubDate><guid>https://dwmkerr.com/introducing-practical-angularjs/</guid><description>I was recently at Devoxx in Antwerp, primarily because I wanted to get involved in some of the sessions that were being hosted by guys from the AngularJS team at Google. I've had a chance to work a little with Backbone and KnockoutJS and had been recently deliberately holding off looking at AngularJS so I could hit the conference and workshops fresh and unencumbered with any preconceptions.
-The sessions were great, and since then I've been working on a couple of projects that use Angular.</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AngularJS on dwmkerr.com</title><link>https://dwmkerr.com/tags/angularjs/</link><description>Recent content in AngularJS on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 25 Apr 2016 09:45:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/angularjs/index.xml" rel="self" type="application/rss+xml"/><item><title>Moving from React + Redux to Angular 2</title><link>https://dwmkerr.com/moving-from-react-redux-to-angular-2/</link><pubDate>Mon, 25 Apr 2016 09:45:00 +0000</pubDate><guid>https://dwmkerr.com/moving-from-react-redux-to-angular-2/</guid><description>&lt;p>I've just finished working on a very large project written in React and Redux. The whole team were new to both and we loved them.&lt;/p>
+&lt;p>I'm going to share my experiences of experimenting in Angular 2 with you, from the point of view of someone who needs a pretty compelling reason to move away from my JSX and reducers.&lt;/p>
+&lt;h1 id="the-journey-so-far">The Journey So Far&lt;/h1>
+&lt;p>Let me highlight a few key moments in my UI development experiences, to give a bit of context to my ramblings.&lt;/p>
+&lt;p>&lt;img src="images/Journey.jpg" alt="The Journey So Far">&lt;/p>
+&lt;p>Reading about redux was a lightbulb moment for me - rather than a complex framework it's a simply library to help apply a few common sense functional programming principles - state is immutable, functions apply predictable transformations to data to produce new data.&lt;/p>
+&lt;p>Learning React took a little bit of getting used to, but not too much, it was quite a bit more simple than Angular anyway.&lt;/p>
+&lt;p>Long story short, simple React components and rigorous state management has so far resulted in the most manageable and well written very large scale UIs I've worked on so far - can Angular 2 compete with this?&lt;/p>
+&lt;h1 id="first-step-with-angular-2---folder-structure-typescript-sublime-text">First Step with Angular 2 - Folder Structure, Typescript, Sublime Text&lt;/h1>
+&lt;p>I checked out &lt;a href="https://angular.io/docs/ts/latest/quickstart.html">the pretty neat &amp;lsquo;Getting Started&amp;rsquo; guide from Angular&lt;/a> which promised to get me started in five minutes.&lt;/p>
+&lt;p>It didn't take five minutes, there's a few gotchas, so I'm going to give a condensed guide here.&lt;/p>
+&lt;h2 id="step-1-the-folder-structure">Step 1: The Folder Structure&lt;/h2>
+&lt;p>The first few steps of the angular guide creates the following folder structure:&lt;/p>
+&lt;pre>&lt;code>|-- angular2-starter
+|-- tsconfig.json
+|-- typings.json
+|-- package.json
+&lt;/code>&lt;/pre>&lt;p>This is the standard &lt;code>package.json&lt;/code> with some scripts ready to go. We also have &lt;code>tsconfig.json&lt;/code> to configure the typescript compiler and &lt;code>typings.json&lt;/code> to provide info to the compiler on where to get type information.&lt;/p>
+&lt;p>You can check the code at this stage here:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/angular2-starter/tree/step1">https://github.com/dwmkerr/angular2-starter/tree/step1&lt;/a>&lt;/p>
+&lt;p>&lt;img src="images/Step1.png" alt="Step 1 GitHub Screenshot">&lt;/p>
+&lt;h2 id="node--npm-issues">Node &amp;amp; NPM Issues&lt;/h2>
+&lt;p>At this stage the quickstart says you can run &lt;code>npm install&lt;/code> and all will be well:&lt;/p>
+&lt;p>&lt;img src="images/npm-install.png" alt="npm install screenshot">&lt;/p>
+&lt;pre>&lt;code>npm ERR! cb() never called!
+&lt;/code>&lt;/pre>&lt;p>Not so good! For the record I'm using NPM 3.7.3 installed via homebrew. This looks like a bug in Beta 15 (see &lt;a href="https://github.com/angular/angular/issues/8053">Issue #8053&lt;/a>).&lt;/p>
+&lt;p>I fixed this by using &lt;em>n&lt;/em> to upgrade my node version:&lt;/p>
+&lt;pre>&lt;code>$ node -v
+v5.9.0
+$ npm install -g n # install 'n' node version manager
+$ sudo n latest
+installed : v5.11.0
+$ node -v
+v5.11.0
+&lt;/code>&lt;/pre>&lt;p>Now it &lt;code>npm install&lt;/code> runs OK.&lt;/p>
+&lt;h2 id="step-2-adding-components-and-configuring-sublime">Step 2: Adding Components and Configuring Sublime&lt;/h2>
+&lt;p>The next steps of the walkthrough take us through adding an app component, a &lt;code>main.ts&lt;/code> file to bootstrap the application and an index file. You can check the updates here:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/angular2-starter/tree/step2">https://github.com/dwmkerr/angular2-starter/tree/step2&lt;/a>&lt;/p>
+&lt;p>Essentially we now have:&lt;/p>
+&lt;pre>&lt;code>|-- angular2-starter
+|-- tsconfig.json
+|-- typings.json
+|-- package.json
+|-- index.html
+|-- styles.css
+|-- app
+|-- main.ts
+|-- app.component.ts
+&lt;/code>&lt;/pre>&lt;p>At this stage, running &lt;code>npm start&lt;/code> gives us a browerserified app to play with:&lt;/p>
+&lt;p>&lt;img src="images/Step2.png" alt="Step 2 Screenshot">&lt;/p>
+&lt;p>Clear enough so far, although the code in Sublime is not looking so pretty:&lt;/p>
+&lt;p>&lt;img src="images/Step2Sublime.png" alt="Step 2 Sublime Text Screenshot">&lt;/p>
+&lt;p>Quickly installing the &lt;a href="https://github.com/Microsoft/TypeScript-Sublime-Plugin">TypeScript plugin&lt;/a> from Microsoft[^n] seems to do the trick:&lt;/p>
+&lt;p>&lt;img src="images/Step2SublimeFormatted.png" alt="Step 2 Sublime Text with TypeScript plugin">&lt;/p>
+&lt;p>If you need more details, here's a gist with the full setup for Sublime 3, assuming you've got nothing installed.&lt;/p>
+&lt;p>&lt;a href="https://gist.github.com/dwmkerr/04fa8b8c15d049d0381e7798a79bcc45">https://gist.github.com/dwmkerr/04fa8b8c15d049d0381e7798a79bcc45&lt;/a>&lt;/p>
+&lt;p>At this stage the app will run, we can see the basics of the Angular 2 syntax and start experimenting.&lt;/p>
+&lt;h2 id="step-3-adding-some-components">Step 3: Adding some components&lt;/h2>
+&lt;p>At this stage the quick started guide starts going into more detail, guiding you through the process of creating multiple components. I decided to go off on my own here, with the rough plan of being able to write a set of goals for the day and turn it into a check-list[^n].&lt;/p>
+&lt;p>Within not much time I had the some basic components, input and output, bindings and so on. Some screenshots:&lt;/p>
+&lt;p>&lt;img src="images/Goals-Screenshot-1.png" alt="Goals Screenshot 1">&lt;/p>
+&lt;p>&lt;img src="images/Goals-Screenshot-2-1.png" alt="Goals Screenshot 2">&lt;/p>
+&lt;p>You can take a look at the code at this stage by checking out the &amp;lsquo;step3&amp;rsquo; branch:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/angular2-starter/tree/step3">github.com/dwmkerr/angular2-starter/tree/step3&lt;/a>&lt;/p>
+&lt;h1 id="thoughts-so-far">Thoughts so far&lt;/h1>
+&lt;p>For now, that's all I've got time for. I've had a chance to get a feel for Angular 2, I'm going to come back to this in a few weeks and integrate Redux, maybe swap out System.JS for Webpack and do some experimenting.&lt;/p>
+&lt;p>Opinions[^n] so far?&lt;/p>
+&lt;h3 id="not-sold-on-typescript">Not Sold on TypeScript&lt;/h3>
+&lt;p>I've used TypeScript in my mess around, rather than plain &amp;lsquo;ol JavaScript, to keep the experience authentic to the angular team's goals of using TypeScript to help.&lt;/p>
+&lt;p>So far, I'm not seeing an enormous benefit. Some of the extra information available to auto-completion in nice, but this is a tooling thing.&lt;/p>
+&lt;p>JavaScript is not a static language, the TypeScript annotations I find slowing me down a little.&lt;/p>
+&lt;blockquote>
+&lt;p>There's so much extra domain specific &lt;em>stuff&lt;/em> in Angular 2 that people might be lost without it. But if your stuff is so complex you need to adapt the base language, is it &lt;strong>too&lt;/strong> complex?&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="explicit-component-surface-areas-are-a-nice-idea">Explicit Component Surface Areas are a Nice Idea&lt;/h3>
+&lt;p>When defining a component, you specify explicitly what comes &lt;em>in&lt;/em> (data) and what goes &lt;em>out&lt;/em> (events).&lt;/p>
+&lt;p>This means that the surface area of a component (i.e. the part you touch if you interact with it programmatically) is well defined. This is a good thing.&lt;/p>
+&lt;p>However, this is all handled with some pretty framework-specific stuff[^n]:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#75715e">// e.g.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">GoalsBoxComponent&lt;/span> {
+&lt;span style="color:#75715e">// Event we fire when the goals change.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">@&lt;/span>&lt;span style="color:#a6e22e">Output&lt;/span>() &lt;span style="color:#a6e22e">goalsChanged&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">EventEmitter&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">Goal&lt;/span>[]&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">EventEmitter&lt;/span>();
+}
+&lt;span style="color:#75715e">// e.g.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">GoalListComponent&lt;/span> {
+&lt;span style="color:#75715e">// Input is a set of goals to render.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">@&lt;/span>&lt;span style="color:#a6e22e">Input&lt;/span>() &lt;span style="color:#a6e22e">goals&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">Goal&lt;/span>[] &lt;span style="color:#f92672">=&lt;/span> [];
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>In a nutshell&amp;hellip;&lt;/p>
+&lt;blockquote>
+&lt;p>Explicit component surface area is a cool idea.&lt;/p>
+&lt;/blockquote>
+&lt;p>React does this too with the optional &lt;code>propTypes&lt;/code>, but it is not enforced. &lt;em>However&lt;/em>, how this is done in Angular has already gone through a few radical changes with some &lt;a href="https://github.com/angular/angular/pull/4435#issuecomment-144789359">lively debate&lt;/a>.&lt;/p>
+&lt;h3 id="not-ready-for-production-yet">Not ready for production&amp;hellip; yet&lt;/h3>
+&lt;p>There's no standardised, documented way to test a component - nuff said. But things are evolving quickly.&lt;/p>
+&lt;h3 id="framework-fatigue">Framework Fatigue&lt;/h3>
+&lt;p>Comparing React to Angular is unfair, one is a view library, one is a framework. But it's worth pointing out this is a pretty complex framework. There's a &lt;strong>lot&lt;/strong> of very domain specific stuff. See this documentation for an example:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">li&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">ngFor&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;#hero of heroes&amp;#34;&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>From &lt;a href="https://angular.io/docs/ts/latest/tutorial/toh-pt2.html">the documentation&lt;/a>:&lt;/p>
+&lt;blockquote>
+&lt;p>The (*) prefix to ngFor indicates that the &lt;code>&amp;lt;li&amp;gt;&lt;/code> element and its children constitute a master template.&lt;/p>
+&lt;p>&amp;hellip;&lt;/p>
+&lt;p>The # prefix before &amp;ldquo;hero&amp;rdquo; identifies the hero as a local template variable. We can reference this variable within the template to access a hero’s properties.&lt;/p>
+&lt;/blockquote>
+&lt;p>You'll get used to it (if you have to), but I think it's harder to &lt;em>reason&lt;/em> about than:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">render&lt;/span> () {
+&lt;span style="color:#66d9ef">return&lt;/span> (
+&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">div&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+{&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">props&lt;/span>.&lt;span style="color:#a6e22e">goals&lt;/span>.&lt;span style="color:#a6e22e">map&lt;/span>((&lt;span style="color:#a6e22e">goal&lt;/span>) =&amp;gt; {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">li&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>{&lt;span style="color:#a6e22e">goal&lt;/span>.&lt;span style="color:#a6e22e">title&lt;/span>}&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">/&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">l&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">i&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;gt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">;&lt;/span>
+}&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">/&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">d&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">i&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">v&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;gt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">)&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">;&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>OK fair enough, JSX is very specific, but the &lt;strong>logic&lt;/strong> (mapping an iterable) is JavaScript.&lt;/p>
+&lt;h1 id="wrapping-up">Wrapping Up&lt;/h1>
+&lt;p>That's it, for now. Next steps are to experiment more, see if it will play nice with Redux and share the next set of opinions.&lt;/p>
+&lt;p>I'd love to hear what you think, so drop your comments below!&lt;/p>
+&lt;p>&lt;strong>Footnotes&lt;/strong>&lt;/p></description><category>CodeProject</category></item><item><title>The Best Module System for AngularJS Applications</title><link>https://dwmkerr.com/the-best-module-system-for-angularjs-applications/</link><pubDate>Wed, 18 Mar 2015 14:47:10 +0000</pubDate><guid>https://dwmkerr.com/the-best-module-system-for-angularjs-applications/</guid><description>&lt;p>I was working on a small and simple application built with AngularJS the other day. As with most applications like this, I start with a single JavaScript file caled &lt;code>app.js&lt;/code> and no module system.&lt;/p>
+&lt;p>In the past I've used RequireJS with AngularJS. It's an awful mistake. It leads to a big jump in complexity with no benefts. Angular apps don't work well with AMDs, so really your are using RequireJS to combine files into one big file.&lt;/p>
+&lt;p>I'm sure there's a good analogy with hammers and nails. Something like:&lt;/p>
+&lt;blockquote>
+&lt;p>It's like banging nails into your face with a hammer.&lt;/p>
+&lt;/blockquote>
+&lt;p>Maybe a bit extreme. But those who've used the two together may well be nodding sagely.&lt;/p>
+&lt;p>I've also used Browserify. I prefer this approach, the syntax is cleaner. But it's still a pain.&lt;/p>
+&lt;p>Ideally, I'd like to use ECMA6 modules. So another approach is to just use ECMA6 module syntax and then compile your code with something like Traceur. But that requires quite a bit of tooling, slows down your pipeline and you're still not &lt;em>really&lt;/em> using modules.&lt;/p>
+&lt;p>I think the best approach is this one from &lt;a href="https://medium.com/@dickeyxxx">Jeff Dicky&lt;/a> on his post &lt;a href="https://medium.com/@dickeyxxx/best-practices-for-building-angular-js-apps-266c1a4a6917">Best Practices for Building Angular.js Apps&lt;/a>. Just forget all of the module stuff and concatenate only.&lt;/p>
+&lt;p>Start with this:&lt;/p>
+&lt;pre>&lt;code>myproject
+- app/
+- css/
+- vendor/
+- index.html
+&lt;/code>&lt;/pre>&lt;p>Or whatever your preferred structure is. Then stick your main file in &lt;code>app/&lt;/code>:&lt;/p>
+&lt;pre>&lt;code>myproject
+- app/
+- app.js
+- css/
+- vendor/
+- index.html
+&lt;/code>&lt;/pre>&lt;p>Your &lt;code>app.js&lt;/code> file should define your main Angular module:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">angular&lt;/span>.&lt;span style="color:#a6e22e">module&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;app&amp;#39;&lt;/span>, []);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now just go ahead and concatenate everything in your &lt;code>app/&lt;/code> folder. Structure it however you want:&lt;/p>
+&lt;pre>&lt;code>myproject
+- app/
+- components/
+- home/
+- profile/
+- app.js
+- css/
+- vendor/
+- index.html
+&lt;/code>&lt;/pre>&lt;p>Concat will put everything in the top level folder (i.e. &lt;code>app.js&lt;/code>) first. As long as you don't put anything else in your top level folder (that comes before &amp;lsquo;a&amp;rsquo; alphabetically) then it doesn't matter where you put your other files, as long as you define them without referencing any globals. So define your components like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">angular&lt;/span>.&lt;span style="color:#a6e22e">module&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;app&amp;#39;&lt;/span>).&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;SomeController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// something
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>No fuss no muss. No requires, no exports.&lt;/p>
+&lt;p>If you need a new service, write it and save it. Same for directives or controllers or filters. Add the source file and it's included, no messing around.&lt;/p>
+&lt;p>Keep it simple, don't force another module system on top of angular's, you don't get much benenfit. And wait patiently until ECMA6 moves more into the mainstream and we can start using native modules. There's less and less point in investing in some super-sophisticated complex fancy module system for a framework which in vNext will throw it all away and for a language which will finally get native modules.&lt;/p>
+&lt;h3 id="words-for-gulpers">Words for Gulpers&lt;/h3>
+&lt;p>If you are a gulp user, here's how a pipeline might look to concat your JavaScript:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">gulp&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">jshint&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-jshint&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">stylish&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;jshint-stylish&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">uglify&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-uglify&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">rename&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-rename&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">sourcemaps&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-sourcemaps&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">concat&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-concat&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">ngAnnotate&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-ng-annotate&amp;#39;&lt;/span>);
+&lt;span style="color:#75715e">// Hints and builds all JavaScript.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#a6e22e">gulp&lt;/span>.&lt;span style="color:#a6e22e">task&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;js&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">gulp&lt;/span>.&lt;span style="color:#a6e22e">src&lt;/span>([&lt;span style="color:#e6db74">&amp;#39;./client/app/**/*.js&amp;#39;&lt;/span>])
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">jshint&lt;/span>())
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">jshint&lt;/span>.&lt;span style="color:#a6e22e">reporter&lt;/span>(&lt;span style="color:#a6e22e">stylish&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">jshint&lt;/span>.&lt;span style="color:#a6e22e">reporter&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;fail&amp;#39;&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">sourcemaps&lt;/span>.&lt;span style="color:#a6e22e">init&lt;/span>({&lt;span style="color:#a6e22e">loadMaps&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>}))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">concat&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;app.js&amp;#39;&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">gulp&lt;/span>.&lt;span style="color:#a6e22e">dest&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;./client/dist&amp;#39;&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">ngAnnotate&lt;/span>())
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">uglify&lt;/span>())
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">rename&lt;/span>({&lt;span style="color:#a6e22e">suffix&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;.min&amp;#39;&lt;/span>}))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">sourcemaps&lt;/span>.&lt;span style="color:#a6e22e">write&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;./&amp;#39;&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">gulp&lt;/span>.&lt;span style="color:#a6e22e">dest&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;./client/dist/&amp;#39;&lt;/span>));
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Watch your app javascript folder and when it changes, you'll hint everything, concat into a single distribution folder, annotate and uglify, as well as building full sourcemaps.&lt;/p>
+&lt;h3 id="what-about-other-stuff">What about other stuff?&lt;/h3>
+&lt;p>For vendor code (jQuery, Bootstrap, whatever), don't bother trying to be smart and require or import it. Just include it in your app with script tags. I wouldn't go to the effort at trying to force some kind of smart module system on a language that doesn't really support it - uf you can get away with avoiding it, do so.&lt;/p>
+&lt;p>This is not an encouragement to be sloppy, this is just the easiest way to deal with the issue. The number of hours I've wasted tracking down &amp;lsquo;bugs&amp;rsquo; which were subtle issues to do with require.js or type-os has definitely made the approach above my preferred approach.&lt;/p></description><category>CodeProject</category></item><item><title>Fixing Memory Leaks in AngularJS and other JavaScript Applications</title><link>https://dwmkerr.com/fixing-memory-leaks-in-angularjs-applications/</link><pubDate>Tue, 03 Mar 2015 14:35:36 +0000</pubDate><guid>https://dwmkerr.com/fixing-memory-leaks-in-angularjs-applications/</guid><description>&lt;p>Dealing with memory leaks in JavaScript applications can be a complex process. In this article I'm going to show you how to identify whether you have memory leaks, analyse them and ultimately resolve them.&lt;/p>
+&lt;p>I'm using an AngularJS application to demonstrate the concepts and approaches, but much of this material applies to any JavaScript application.&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="#understandingmemoryleaks">Understanding Memory Leaks&lt;/a>
+&lt;ul>
+&lt;li>What is a Memory Leak?&lt;/li>
+&lt;li>Why is a Memory Leak Bad?&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#identifyingmemoryleaks">Identifying Memory Leaks&lt;/a>
+&lt;ul>
+&lt;li>Method 1: The Wrong Way&lt;/li>
+&lt;li>Method 2: The Timeline&lt;/li>
+&lt;li>Method 3: Recording Heap Allocations&lt;/li>
+&lt;li>Method 4: Heap Snapshots&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#analysingmemoryleaks">Analysing Memory Leaks&lt;/a>
+&lt;ul>
+&lt;li>Analysing the leak in Scenario 2&lt;/li>
+&lt;li>More on Graphs&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#fixingmemoryleaks">Fixing Memory Leaks&lt;/a>
+&lt;ul>
+&lt;li>Three golden rules&lt;/li>
+&lt;li>Anti-patterns to avoid&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#thefuture">The Future&lt;/a>
+&lt;ul>
+&lt;li>Weak Maps&lt;/li>
+&lt;li>AngularJS 2&lt;/li>
+&lt;li>Even Better Browsers&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#appendices">Appendices&lt;/a>
+&lt;ul>
+&lt;li>Thanks&lt;/li>
+&lt;li>Mysteries&lt;/li>
+&lt;li>Futher Reading&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="understanding-memory-leaks">Understanding Memory Leaks&lt;/h2>
+&lt;p>If you've dealt with memory leaks before, or the patterns of memory usage we sometimes call memory leaks in memory managed applications, then you can probably skip to &lt;a href="#identifyingmemoryleaks">Identifying Memory Leaks&lt;/a>.&lt;/p>
+&lt;p>If not let's start with some theory.&lt;/p>
+&lt;h3 id="what-is-a-memory-leak">What is a Memory Leak?&lt;/h3>
+&lt;p>A memory leak, at least in the world of unmanaged applications, is what occurs when you allocate memory and forget to free it. In pseudo-code&lt;sup>&lt;a href="#fn1" id="ref1">1&lt;/a>&lt;/sup>:&lt;/p>
+&lt;pre>&lt;code>void leaky()
+{
+void* memory;
+memory = malloc(1000);
+/* malloc just gave us some memory, use it! */
+}
+&lt;/code>&lt;/pre>&lt;p>&lt;code>memory&lt;/code> will hold the address of the memory we've allocate. We use the memory, then the function ends. &lt;code>memory&lt;/code> goes out of scope and whatever address it held is lost - but we didn't free the memory! Not only that, we've lost the address of it so can't ever free it in the future - it's &lt;em>leaked&lt;/em>.&lt;/p>
+&lt;p>This memory is lost to the application - we can't release it. Only terminating the process will release it back to the operating system.&lt;/p>
+&lt;blockquote>
+&lt;p>When we allocate memory and don't release it when we are done, we have &amp;lsquo;leaked&amp;rsquo; that memory.&lt;/p>
+&lt;/blockquote>
+&lt;p>So how do we get memory leaks in JavaScript applications? We don't allocate memory directly, the engine does it for us, and it cleans it up afterwards as well&lt;sup>&lt;a href="#fn2" id="ref2">2&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>If we hold on to objects longer than we need to, that will give us similar results. Let's look at some code:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">ChessManager&lt;/span>() {
+&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">moves&lt;/span> &lt;span style="color:#f92672">=&lt;/span> [];
+&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">makeMove&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">move&lt;/span>) {
+&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">moves&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">move&lt;/span>);
+};
+&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">newGame&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">moves&lt;/span>.&lt;span style="color:#a6e22e">clear&lt;/span>();
+};
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here we've got a bug - the &lt;code>newGame&lt;/code> function doesn't clear the &lt;code>ChessManager&lt;/code>'s moves, it just throws a null reference exception. But we could use this class in our code. In theory if we keep on calling &lt;code>makeMove&lt;/code> we'll just grow and grow the &lt;code>moves&lt;/code> array. This is a bug leading to memory that can't be freed, even though we don't need it.&lt;/p>
+&lt;p>That's a contrived example of a JavaScript memory leak.&lt;/p>
+&lt;blockquote>
+&lt;p>When we are finished with memory but don't allow the garbage collector to clean it up, that's a memory leak.&lt;/p>
+&lt;/blockquote>
+&lt;p>At least for the purposes of this discussion. We'll see it's a very easy thing to do.&lt;/p>
+&lt;h3 id="why-is-a-memory-leak-bad">Why is a Memory Leak bad?&lt;/h3>
+&lt;p>It might seem obvious but let's just make sure we're explicit with everything. As we said in the initial definition, we allocate memory but don't deallocate it.&lt;/p>
+&lt;p>In &lt;em>some&lt;/em> circumstances, this is not necessarily a disaster, if we don't leak too much too often, but there are circumstances where this is very serious.&lt;/p>
+&lt;p>Memory leaks cause performance problems, slow down applications and can lead to a process terminating. There are some times when that's really not good.&lt;/p>
+&lt;p>Servers and high performance applications shouldn't leak, especially as many should be expected to run for long periods of time. Mobile apps or apps for embedded systems will need to deal with fewer resources and will suffer if they leak. Any application an end user is expecting to use for a long time will cause a lot of frustration if it leaks.&lt;/p>
+&lt;p>That's enough theory, let's actually start looking at identifying memory leaks in the context of an AngularJS application.&lt;/p>
+&lt;h2 id="identifying-memory-leaks">Identifying Memory Leaks&lt;/h2>
+&lt;p>I've created a sample app for showing photo albums which is leaky in parts. The app is at:&lt;/p>
+&lt;p>&lt;a href="http://dwmkerr.github.io/angular-memory-leaks/">dwmkerr.github.io/angular-memory-leaks&lt;/a>&lt;/p>
+&lt;p>It's a very basic app with a fairly common set of components; Bootstrap, jQuery and AngularJS. We're going to take a look at how we can identify whether this app suffers from memory leaks.&lt;/p>
+&lt;p>You can run the app in your browser, or run it locally with the commands:&lt;/p>
+&lt;pre>&lt;code>git clone https://github.com/dwmkerr/angular-memory-leaks.git
+cd angular-memory-leaks
+npm install &amp;amp;&amp;amp; bower install
+gulp
+&lt;/code>&lt;/pre>&lt;p>Running gulp will serve the app, lint, and reload the browser when you change the code. The project page is at &lt;a href="https://github.com/dwmkerr/angular-memory-leaks">github.com/dwmkerr/angular-memory-leaks&lt;/a>.&lt;/p>
+&lt;h3 id="method-1-the-wrong-way">Method 1: The Wrong Way&lt;/h3>
+&lt;p>First, just be aware that the wrong way to look for leaks is by examing the memory usage of the Chrome process. While an increasing amount of memory usage &lt;em>can&lt;/em> indicate a leak, it is not reliable. Why?&lt;/p>
+&lt;p>Well browsers can allocate memory and use it how they want to. A page it is rendering may no longer need as much memory as it needed before, but that doesn't mean the browser needs to release it to the OS. It may just keep it to avoid having to re-allocate it later on.&lt;/p>
+&lt;h3 id="method-2-the-timeline">Method 2: The Timeline&lt;/h3>
+&lt;p>Open the Chrome developer tools. Go to &amp;lsquo;Timeline&amp;rsquo; select &amp;lsquo;Memory&amp;rsquo; and hit &amp;lsquo;Record&amp;rsquo;.&lt;/p>
+&lt;p>&lt;img src="images/StartRecording.png" alt="Start Recording">&lt;/p>
+&lt;p>Now start using your application. After you are done, stop recording. You'll see a graph of memory usage.&lt;/p>
+&lt;p>&lt;img src="images/MemoryUsage.png" alt="Memory Usage">&lt;/p>
+&lt;p>This is &lt;strong>almost&lt;/strong> exactly what we need. I'll explain the almost shortly, but lets take a look at this graph.&lt;/p>
+&lt;ol>
+&lt;li>We see a &lt;em>Used JS Heap&lt;/em> in blue. &lt;em>Used&lt;/em> is important here - Chrome is telling us that there may be more heap usage than shown in its actual process, but what we are seeing here is what is actually used by the page.&lt;/li>
+&lt;li>We see documents (in this case a steady value of one document).&lt;/li>
+&lt;li>We see DOM nodes. As I use the app the nodes increase, up until a certain point and then they drop.&lt;/li>
+&lt;li>We see Listeners (i.e. even handlers). Again, these increase as I use the app and then drop.&lt;/li>
+&lt;/ol>
+&lt;p>So what should we be looking for in this graph? That depends on what our app is doing. But let's imagine the we are navigating through different photo albums in the albums app. We'll need more memory to see each album, but once we leave an album we don't need that memory any more. So we should get a healthy saw-tooth pattern&lt;sup>&lt;a href="#fn3" id="ref3">3&lt;/a>&lt;/sup>:&lt;/p>
+&lt;p>&lt;img src="images/TimelineSawtooth.png" alt="Timeline Sawtooth">&lt;/p>
+&lt;p>Here we see that we use more and more memory, up until the point that Chrome garbage collects, then goes back to where we started. This is repeated again and again. This is a good sign - when Chrome garbage collects we go back to the same place we started, a strong indication we are not leaking much memory.&lt;/p>
+&lt;p>If we are doing some work which simply needs more and more memory, and we don't release it, we would expect to see steps instead&lt;sup>&lt;a href="#fn4" id="ref4">4&lt;/a>&lt;/sup>:&lt;/p>
+&lt;p>&lt;img src="images/TimelineSteps-1.png" alt="Timeline Steps">&lt;/p>
+&lt;p>An example of this might be an infinite scroll situation. I'm looking through a vast photo album, and when I get to the bottom of the screen I load more images automatically. The ones I've loaded are still in the DOM so cannot be released. We see no saw-tooth because there's no release of memory. However, this is not a memory leak - it's just increasing memory usage. It does mean that if we allow the user to scroll too much we may run out of resources though.&lt;/p>
+&lt;p>The &lt;strong>dangerous&lt;/strong> case is the one below:&lt;/p>
+&lt;p>&lt;img src="images/TimelineLeakySawtooth.png" alt="Leaky Sawtooth">&lt;/p>
+&lt;p>Let's imaging we're using the application, navigating through albums, returning the the home page, looking through some more albums and so on. We keep using memory, and Chrome keeps on garbage collecting, but we never quite get back to where we started. We are trending towards increasing memory usage. This indicates we &lt;em>might&lt;/em> be leaking memory.&lt;/p>
+&lt;p>&lt;em>Might&lt;/em> is not going to cut the mustard, we need to know categorically what is going on and whether we have a leak.&lt;/p>
+&lt;blockquote>
+&lt;p>You said this is &amp;lsquo;almost&amp;rsquo; exactly what we need?&lt;/p>
+&lt;/blockquote>
+&lt;p>Unfortunately, you cannot always trust this graph. See Mystery 1 for the ugly details. Suffice to say that what we're seeing here is an indicator only, but for more detail we need to look at Method 3.&lt;/p>
+&lt;h3 id="method-3-recording-heap-allocations">Method 3: Recording Heap Allocations&lt;/h3>
+&lt;p>Let's look at a different way of seeing if we've got a leak, the &amp;lsquo;Heap Allocations&amp;rsquo; view. In the developer tools, go to &amp;lsquo;Profiles&amp;rsquo; and &amp;lsquo;Record Heap Allocations&amp;rsquo;:&lt;/p>
+&lt;p>&lt;img src="images/HeapAllocations.png" alt="Record Heap Allocations">&lt;/p>
+&lt;p>When we record heap allocations we get a chart showing us spikes as we allocate memory. These spikes are initially blue (meaning Chrome is using the memory), then change to grey once the memory is freed. If we see spikes or sections of spikes that remain blue, we may have a problem.&lt;/p>
+&lt;p>Try this, go to the Ablums app and start recording. Click on the &amp;lsquo;India&amp;rsquo; album, then go back to the home page. You should see a chart like this:&lt;/p>
+&lt;p>&lt;img src="images/HeapAllocationsEx1.png" alt="Heap Allocations Example 1">&lt;/p>
+&lt;p>So we start recording and nothing is being allocated. Then we click on the &amp;lsquo;India&amp;rsquo; album (point 1) and we get a few spikes, as chrome allocates memory needed for the content in the new page. Then we click back on the home page (point 2). Some of the memory used in the India album is released (it looks like about half). One spike of memory used for the home page is still in use (what we'd expect) and another spike or two seem to be freed. These other spikes might be memory used for the actual transition, for example in logic in the router.&lt;/p>
+&lt;p>So this looks like we may have a problem in the album page. In fact, we can drag a selection box around those first three spikes and see what is &lt;em>still&lt;/em> in memory (i.e. what might be a potential leak) in the view below:&lt;/p>
+&lt;p>&lt;img src="images/HeapAllocationsEx2.png" alt="Heap Allocations Example 2">&lt;/p>
+&lt;p>Dissecting this view we have:&lt;/p>
+&lt;ol>
+&lt;li>A subset of the data, the blue spike from the album page which is still in use.&lt;/li>
+&lt;li>The &amp;lsquo;Heap View&amp;rsquo;, which shows us different &lt;em>types&lt;/em> of data in memory. Don't worry, we'll see a lot more on this later.&lt;/li>
+&lt;li>An instance of a specific type of data, in this case an instance of a JavaScript object.&lt;/li>
+&lt;li>The retainers graph for the specific object.&lt;/li>
+&lt;/ol>
+&lt;p>We're going to look into what all of this means in a lot of detail as we go through the article. For now, I'll simply state what we're seeing, by the end of the article you'll be able to analyse this (and much more) yourself.&lt;/p>
+&lt;p>In this snapshot we see a small amount of data still in use. A quick look through the data reveils we have data still in use which relats to the AngularJS template cache.&lt;/p>
+&lt;p>This is good! It means this is probably not a leak. When I first visit the album page AngularJS is caching the template used to render it, so of course it stays in memory.&lt;/p>
+&lt;blockquote>
+&lt;p>When analysing memory usage remember that caching, preloading and other optimisation techniques may cause some noise.&lt;/p>
+&lt;/blockquote>
+&lt;p>So if we have the albums page in a cache, in theory the next time we visit the page and then return to the home page, we should free a lot more of the memory (because the &lt;em>new&lt;/em> memory we allocate will be just for the page itself, not the cache which is already set up). Let's try it. We'll record going to the album page, back to the homepage, then the album page and back again:&lt;/p>
+&lt;p>&lt;img src="images/HeapAllocationsEx3.png" alt="Heap Allocations Example 3">&lt;/p>
+&lt;p>This is looking good.&lt;/p>
+&lt;ol>
+&lt;li>We go to the &amp;lsquo;India&amp;rsquo; album. Some memory used is now freed, but much is still in use. As we saw, at least some of that is the template cache.&lt;/li>
+&lt;li>We go back to the home page, lots of memory is used but by the time we're done recording it's almost entirely freed.&lt;/li>
+&lt;li>We visit the India album a second time, requiring some memory almost all of which is freed.&lt;/li>
+&lt;li>We go back to the home page. Some memory is used during the transition and to render the page, some of that is still in use (which is expected as the page is still open).&lt;/li>
+&lt;/ol>
+&lt;p>The heap allocations chart is exceptionally useful in identifying memory leaks, it has already led to some insights:&lt;/p>
+&lt;ol>
+&lt;li>Initial loading of pages increases our &amp;lsquo;baseline&amp;rsquo; memory footprint due to data being added to caches (such as the AngularJS template cache).&lt;/li>
+&lt;li>Subsequent loading of pages requires memory, but the vast majority of it is freed.&lt;/li>
+&lt;/ol>
+&lt;p>One thing we noticed from this brief analysis was that the initial result was slightly misleading. With the heap allocations view repeated operations can help you identify trends. In the Albums application I've actually set up part of the app to run repeated operations, so we can try to consistently test scenarions. The &amp;lsquo;scenarios&amp;rsquo; menu lets us run them. Let's try running scenario 1.&lt;/p>
+&lt;p>&lt;img src="images/Scenario1.png" alt="Scenario 1">&lt;/p>
+&lt;p>This scenario will navigate from &lt;code>/&lt;/code> (the home page) to &lt;code>/nowhere&lt;/code> ten times. &lt;code>/nowhere&lt;/code> isn't matched by the router so takes us back to the home page. This has the effect of reloading the home page 20 times (just reloading doesn't work, the router is smart enough to realise we're staying on the same page).&lt;/p>
+&lt;p>&lt;img src="images/Scneario1HeapAllocations.png" alt="Scenario 1 Heap Allocations">&lt;/p>
+&lt;p>While you are recording the chart you can see peaks go from blue to grey as memory is freed. Let's see what we've got.&lt;/p>
+&lt;ol>
+&lt;li>Shows our first navigation, some memory is not freed. Everything before this is setup code.&lt;/li>
+&lt;li>Our last navigation. Some memory still in use (as expected).&lt;/li>
+&lt;li>A glance at memory in use shows some compiled code and system data (more on this later). At this stage we don't need to worry, Chrome will allocate data like this when it needs to.&lt;/li>
+&lt;li>It looks like the 11th page load didn't free all of it's memory. This is potential cause for worry.&lt;/li>
+&lt;/ol>
+&lt;p>Altogether this a very healthy looking scenario. The huge majority of what we allocate is freed, as we would hope. Small amounts of memory stay in use (mostly used under the hood by Chrome) and a small amount of memory after the 11th reload is not freed (a quick look suggests a timing issue, definitely something we'd want to investigate further in a real-world app). Our allocations are in the 50 KB to 100 KB range and we're looking good.&lt;/p>
+&lt;p>Before we say goodbye to the Heap Allocations view (for now) let's do the same for Scenario 2 (moving from the home page to the top rated page 10 times).&lt;/p>
+&lt;p>&lt;img src="images/Scenario2HeapAllocations.png" alt="Scenario 2 Heap Allocations">&lt;/p>
+&lt;p>We are not going to analyse this issue (yet!) but this is an example of a much less healthy chart. In this chart we seem to be allocating memory for each page view and not releasing it. This kind of chart definitely indicates that there could be problems.&lt;/p>
+&lt;p>So we've seen the Heap Allocations view, which is a bit more sophisticated than the memory usage graph. Let's look at the last way to analyse memory leaks - snapshots.&lt;/p>
+&lt;h3 id="method-4-heap-snapshots">Method 4: Heap Snapshots&lt;/h3>
+&lt;p>The final method of identifying memory leaks is the most sophisticated and finely controlled. We will take snapshots at specific points in time and analyse the differences between them. To take a snapshot, we go to the Profiles view and choose &amp;lsquo;Take Heap Snapshot&amp;rsquo;:&lt;/p>
+&lt;p>&lt;img src="images/TakeHeapSnapshot.png" alt="Take Heap Snapshot">&lt;/p>
+&lt;p>When we take a heap snapshot Chrome simply records the details of all memory allocated.&lt;/p>
+&lt;blockquote>
+&lt;p>Remember: Taking a Snapshot &lt;strong>always&lt;/strong> runs garbage collection first.&lt;/p>
+&lt;/blockquote>
+&lt;p>A heap snapshot shows you exactly the same kind of data you get in the Heap Allocations view, except that you are seeing ALL memory in use, not just objects which were allocated and are still alive:&lt;/p>
+&lt;p>&lt;img src="images/HeapSnapshot1.png" alt="A Heap Snapshot">&lt;/p>
+&lt;p>This view is very complete but not necessarily very useful. There's some extra ways to see the data (if you change from &amp;lsquo;Summary&amp;rsquo; to another view or change &amp;lsquo;All Objects&amp;rsquo; but we'll see that later).&lt;/p>
+&lt;p>Staying on topic, we'll not yet look in detail at what the data is that we are seeing, we'll first look into identifying whether there are memory leaks - then we'll look into tracking them down.&lt;/p>
+&lt;p>Indivdiual snapshots are not so helpful for checking for leaks, but what is very helpful is the ability to compare memory used between snapshots.&lt;/p>
+&lt;p>Let's take some snapshots, try this:&lt;/p>
+&lt;ol>
+&lt;li>Open the app.&lt;/li>
+&lt;li>Navigate to the top rated page (caches should now be set up).&lt;/li>
+&lt;li>Navigate to the home page. Take a snapshot.&lt;/li>
+&lt;li>Navigate to the top rated page. Take a snapshot.&lt;/li>
+&lt;li>Navigate to the home page. Take a snapshot.&lt;/li>
+&lt;/ol>
+&lt;p>Now we can do something really cool. Select snapshot 3, and choose to view data allocated between snapshot 1 and 2. This means we're seeing data allocated for the top rated page, which is &lt;em>still&lt;/em> in use when we go back to the home page, i.e. probably leaked.&lt;/p>
+&lt;p>&lt;img src="images/SnapshotComparison.png" alt="Snapshot Comparison">&lt;/p>
+&lt;p>So what are we seeing now?&lt;/p>
+&lt;ol>
+&lt;li>We have three snapshots. The size of each one is shown. &lt;em>Sometimes&lt;/em> the very first one seems overly high. See Mystery 2. We have selected the 3rd snapshot and are therefore only able to see data still present in this snapshot.&lt;/li>
+&lt;li>We are chosing to show only objects allocated between Snapshot 1 and 2, i.e. objects allocated to present the page. But we're &lt;strong>in&lt;/strong> snapshot 3, so we're seeing those objects which were allocated and are still present.&lt;/li>
+&lt;li>Objects allocated are looking suspicious - we've got DOM elements. This doesn't look good!&lt;/li>
+&lt;/ol>
+&lt;p>This is the best way to identify memory leaks. So now that we've seen how to identify whether we have memory leaks, or at least that we have a potential problem to analyse we can move onto step 2 - Analysing Memory Leaks.&lt;/p>
+&lt;h2 id="analysing-memory-leaks">Analysing Memory Leaks&lt;/h2>
+&lt;p>If we think we have a memory leak, we need to be able to look at the heap data and see what's going on. Whether we are seeing heap data from a selection of allocations from the Heap Allocations view or from the Heap Snapshots, we see the same kind of information:&lt;/p>
+&lt;p>&lt;img src="images/HeapData.png" alt="Heap Data">&lt;/p>
+&lt;p>Starting from the left we have the &amp;lsquo;Constructor&amp;rsquo; column. This is the type of object we have. Some of these objects we can see are JavaScript classes (constructed with a &lt;code>new&lt;/code> call to a function), such as &lt;code>Scope&lt;/code>. As well as our own classes, we have some special classes of data:&lt;/p>
+&lt;ul>
+&lt;li>(compiled code): Represents JavaScript code compiled by Chrome. Consider this internal - we have no control over it.&lt;/li>
+&lt;li>(array): Internally used array object. Again, internal.&lt;/li>
+&lt;li>Array: A JavaScript array. Often we have a &lt;em>lot&lt;/em> of data in arrays.&lt;/li>
+&lt;li>Object: A plain old JavaScript object.&lt;/li>
+&lt;li>(closure): A closure.&lt;/li>
+&lt;li>system / Context: The underlying data require to call a function, for example the actual data used by a closure.&lt;/li>
+&lt;li>system: Internally used data.&lt;/li>
+&lt;/ul>
+&lt;p>There are also plenty of objects that are created by Chrome, such as &lt;code>HTMLDivElement&lt;/code>, which is a wrapper around the internally used (native) DOM object.&lt;/p>
+&lt;p>Let's dissect some of these objects in detail. Running &lt;strong>Scenario 3&lt;/strong> allocates some data and puts it on the &lt;code>window&lt;/code> object. This is really trivial data but shows a lot. You can use the Heap Allocations View or Heap Snapshots to see the data. I've taken three snapshots (once before pressing OK, once after the data is allocated, and the final one when the last modal is closed):&lt;/p>
+&lt;p>&lt;img src="images/HeapDataAnalysis2.png" alt="Heap Data Analysis Part 1">&lt;/p>
+&lt;p>This data has come from the code below:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#75715e">// Create a class which will hold heap data. Makes it easier
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">// to find the data in Chrome.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">HeapData&lt;/span>() {}
+&lt;span style="color:#75715e">// Create a heap data object.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">heapData&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">HeapData&lt;/span>();
+&lt;span style="color:#75715e">// Create a function that multiplies two numbers.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">multiply&lt;/span>(&lt;span style="color:#a6e22e">a&lt;/span>, &lt;span style="color:#a6e22e">b&lt;/span>) {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">a&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">b&lt;/span>;
+}
+&lt;span style="color:#75715e">// Create a &amp;#39;multiply by&amp;#39; function, which curries the above
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">// to generate a function which multiplies by a constant. This
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">// will involve closures.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">multiplyBy&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">a&lt;/span>) {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">b&lt;/span>) {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">multiply&lt;/span>(&lt;span style="color:#a6e22e">a&lt;/span>, &lt;span style="color:#a6e22e">b&lt;/span>);
+}
+};
+&lt;span style="color:#75715e">// Add some data to our heap data object.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#a6e22e">fry&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Philip J. Fry&amp;#34;&lt;/span>;
+&lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#a6e22e">zoidberb&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;John &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Zoidberg&amp;#34;&lt;/span>;
+&lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#a6e22e">character&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;span style="color:#a6e22e">firstName&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Amy&amp;#34;&lt;/span>,
+&lt;span style="color:#a6e22e">secondName&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Wong&amp;#34;&lt;/span>
+};
+&lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#66d9ef">double&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">multiplyBy&lt;/span>(&lt;span style="color:#ae81ff">2&lt;/span>);
+&lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#a6e22e">multiplyBy100&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">multiplyBy&lt;/span>(&lt;span style="color:#ae81ff">100&lt;/span>);
+&lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#a6e22e">doubledNumber&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#66d9ef">double&lt;/span>(&lt;span style="color:#ae81ff">18&lt;/span>);
+&lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#a6e22e">multipliedNumber&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#a6e22e">multiplyBy100&lt;/span>(&lt;span style="color:#ae81ff">15&lt;/span>);
+&lt;span style="color:#a6e22e">heapData&lt;/span>.&lt;span style="color:#a6e22e">div&lt;/span> &lt;span style="color:#f92672">=&lt;/span> document.&lt;span style="color:#a6e22e">createElement&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;div&amp;#34;&lt;/span>);
+&lt;span style="color:#75715e">// Put the heap data on the window, it is now pinned to a GC root.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>window.&lt;span style="color:#a6e22e">heapData&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">heapData&lt;/span>;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We've got a little bit of everything here, some code, some closures, some objects and a DOM element.&lt;/p>
+&lt;p>As we've put most of this data on the &lt;code>heapData&lt;/code> object, which is an instance of &lt;code>HeapData&lt;/code> we can easily find the object:&lt;/p>
+&lt;p>&lt;img src="images/HeapDataAnalysis3.png" alt="Heap Data Analysis 3">&lt;/p>
+&lt;p>So we can see the &lt;code>HeapData&lt;/code> constructor, expanding it we see an &lt;em>instance&lt;/em> of &lt;code>HeapData&lt;/code>. The &lt;code>@420269&lt;/code> is a unique ID assigned by Chrome. If we have lots of heap data objects, we can use this to distinguish between them when we're looking at other parts of the snapshot. What else do we see?&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>Distance&lt;/strong>. How far the instance is from a GC Root. A GC root is anything that can &amp;lsquo;pin&amp;rsquo; objects, for example the &lt;code>window&lt;/code> object which holds globals. If put something on &lt;code>window&lt;/code> it will never be freed, this is what makes it a GC root. Our distance is 2 as we have &lt;code>HeapData&lt;/code> (constructor) to &lt;code>heapData&lt;/code> (instance) to &lt;code>window&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Objects count&lt;/strong>. Only valid for the top level nodes, this shows us how many objects of the specified type we have. We have 1 &lt;code>HeapData&lt;/code> object.&lt;/li>
+&lt;li>&lt;strong>Shallow Size&lt;/strong>. The size of the data that is directly allocated for the object. Compare this to &lt;em>Retained Size&lt;/em>.&lt;/li>
+&lt;li>&lt;strong>Retained Size&lt;/strong>. The size of data this object is retaining. For example, out &lt;code>heapData&lt;/code> instance holds a reference to an object which contains two fields &lt;code>firstName&lt;/code> and &lt;code>secondName&lt;/code>. Our shallow size includes enough data for the reference, the retained size includes the full retained size of the retained object.&lt;/li>
+&lt;/ol>
+&lt;p>Notice that our instance of &lt;code>HeapData&lt;/code> is highlighted in yellow? That's a convenience from Chrome, it's showing us objects which are &lt;strong>directly accessible&lt;/strong> from JavaScript. Our object can be accessed via &lt;code>window.heapData&lt;/code>, therefore it's directly accessible. Other objects we've created might not be (for example, a variable used in a closure exists and is on the heap, but not directly accessible).&lt;/p>
+&lt;p>Let's see some other data we allocated:&lt;/p>
+&lt;p>&lt;img src="images/HeapDataAnalysis4-1.png" alt="Heap Data Analysis 4">&lt;/p>
+&lt;p>Now we're looking at closures. We have two closures in yellow next to each other, clicking on one shows the retainer graph. What is going on here?&lt;/p>
+&lt;ol>
+&lt;li>Our closure is not a simple thing. It has code (of course), which takes up memory. We won't look into this in detail. It has shared function data (again, internally used and not worth looking into). We also have a reference to a &lt;code>__proto__&lt;/code> (a function object has a prototype!). Finally, we have the context, which contains enough data to call the function. If we look in to the context we will not see much, as our function contains numbers which Chrome can simply store in the code. However, if we use references in closures we'll actually see them in the context.&lt;/li>
+&lt;li>We also have the retainers. Our closure is referenced via a variable called &lt;code>multiplyBy100&lt;/code>, which itself is referenced by &lt;code>heapData&lt;/code>, which if referenced by the &lt;code>window&lt;/code> GC root.&lt;/li>
+&lt;li>The &lt;code>multiplyBy100&lt;/code> variable is &lt;em>also&lt;/em> dominated by the second element of an array with id &lt;code>@227339&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>The last thing we'll look at in this snapshot is the div element.&lt;/p>
+&lt;p>&lt;img src="images/HeapDataAnalysis5.png" alt="Heap Data Analyis 5">&lt;/p>
+&lt;p>We can see the div element is retained by the &lt;code>div&lt;/code> variable in the &lt;code>heapData&lt;/code> object. We can also see it is made up of a prototype and some native object. The native object shows no size - don't be fooled. That just means its taking up no JavaScript heap memory. It is still using memory (just in V8 engine not the JavaScript code).&lt;/p>
+&lt;p>What's important to note here is that the element is shown in red. This means it's &lt;strong>detached&lt;/strong>. So it exists, is referenced (and therefore cannot be garbage collected) but is not in the DOM. This is not necessarily a problem, but lots of detached DOM elements is often a bad sign, especially if the number is increasing.&lt;/p>
+&lt;p>The rest of the data you can look through yourself. You'll notice some interesting things, such as how concatenated strings work, but the important stuff we've now seen.&lt;/p>
+&lt;p>Let's move on to analyising the first potential memory leak we discovered - the transition to the Top Rated page of the albums app.&lt;/p>
+&lt;h3 id="analysing-the-leak-in-scenario-2">Analysing the leak in Scenario 2&lt;/h3>
+&lt;p>We saw that &lt;strong>Scenario 2&lt;/strong> (switching to and from the &amp;lsquo;top rated&amp;rsquo; view) seemed to leak memory. Let's use the heap snapshot comparison view to analyse this further. The steps are:&lt;/p>
+&lt;ol>
+&lt;li>Navigate to the home page.&lt;/li>
+&lt;li>Navigate to the top rated page (setting up the cache).&lt;/li>
+&lt;li>Navigate to the home page, take a snapshot.&lt;/li>
+&lt;li>Navigate to the top rated page, take a snapshot.&lt;/li>
+&lt;li>Navigate to the home page, take a snapshot.&lt;/li>
+&lt;/ol>
+&lt;p>We can now look at the memory allocated between 1 and 2 which is present in 3 (i.e. what we allocated for the top rated view and potentially leaked):&lt;/p>
+&lt;p>&lt;img src="images/Scenario2Snapshot1.png" alt="Scenario 2 Snapshot 1">&lt;/p>
+&lt;p>Some things jump out immediately:&lt;/p>
+&lt;ol>
+&lt;li>We have gone from 7.5 to 8.4 to 8.5 MB. We are changing from one view to another - and ending in the same place that we started. We &lt;strong>should&lt;/strong> be going back to 7.5 MB.&lt;/li>
+&lt;li>We've got a lot of objects still hanging around, not just system data like compiled code, but HTML elements, detached DOM elements, &lt;code>Promise&lt;/code> objects, &lt;code>n.fn.init&lt;/code> objects and so on.&lt;/li>
+&lt;/ol>
+&lt;p>This looks like a classic leak situation. Let's start by looking at some objects we recognise. There are some &lt;code>Scope&lt;/code> objects near the top of the chart, let's look at those.&lt;/p>
+&lt;p>&lt;img src="images/Scenario1Part2.png" alt="Scenario 2 Part 2">&lt;/p>
+&lt;p>We've got some &lt;code>Scope&lt;/code> objects, three in fact. These objects contain the usual AngularJS fields such as &lt;code>$parent&lt;/code>, the only field which distinguishes this scope is the &lt;code>album&lt;/code> field. If we look at out &lt;code>aml-rated-album&lt;/code> directive it looks like it could be the isolated scope for this directive:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">.&lt;span style="color:#a6e22e">directive&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;amlRatedAlbum&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#66d9ef">return&lt;/span> {
+&lt;span style="color:#a6e22e">restrict&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;E&amp;#34;&lt;/span>,
+&lt;span style="color:#a6e22e">scope&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">album&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;=&amp;#34;&lt;/span>
+} &lt;span style="color:#75715e">// etc
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This scope has an &lt;code>album&lt;/code> field. There are three albums so it looks likely these are the three albums in the top rated page, the scopes stil in memory. What retains them?&lt;/p>
+&lt;p>Looking at the retainers (at &lt;strong>2&lt;/strong>) we don't see much. We're retained by a &lt;code>$$ChildScope&lt;/code>, which also retained by a &lt;code>$$ChildScope&lt;/code> object. In fact we have quite a complex graph of objects.&lt;/p>
+&lt;blockquote>
+&lt;p>When we leak a scope in AngularJS, we leak a huge graph of objects.&lt;/p>
+&lt;/blockquote>
+&lt;p>Scopes know about their parents. They also know about their children, and siblings. If we inadvertantly pin a scope to a GC root, we &lt;strong>will probably leak almost all of the scopes in the page&lt;/strong>.&lt;/p>
+&lt;p>Why? The graph below should show why. I &amp;lsquo;leak&amp;rsquo; a scope, and by doing so I retain all of the other scopes, because they are connected. Having a connected graph of scopes is required for angular to work, but it means that we we are extremely susceptible to leaking a &lt;strong>lot&lt;/strong> of data.&lt;/p>
+&lt;p>&lt;img src="images/ScopeLeakGraph1.png" alt="Scope leak graph">&lt;/p>
+&lt;p>This graph shows &lt;code>$parent&lt;/code> retained relationships, but don't forget scopes also know about their children and their siblings, so real graph is even more highly connected.&lt;/p>
+&lt;p>So just grabbing a specific scope is not good enough. We need to try and be a little bit more specific. Let's try starting from an element instead. Here we take a look at a div element and its retainers:&lt;/p>
+&lt;p>&lt;img src="images/Scenario2Part3.png" alt="Scenario 2 Part 3">&lt;/p>
+&lt;p>Resting the mouse over the instance of a leaked &lt;code>HTMLElement&lt;/code> shows a bit of data about it, it's a &lt;code>aml-rated-album&lt;/code> and it is detached. Definitely a symptom of our leak. Let's see the retainers:&lt;/p>
+&lt;p>&lt;img src="images/Scenario2Part4-1.png" alt="Scenario 2 Part 4">&lt;/p>
+&lt;p>Ouch. This is nasty. Again, we are not seeing much that is particularly useful. We have a long graph of retainers starting with the &lt;code>compileNode&lt;/code> function, we also have an array in a &lt;code>n.fn.init&lt;/code> function. To cut a long story short, we're are not going to easily find the root cause here. But I will share some hints.&lt;/p>
+&lt;blockquote>
+&lt;p>jQuery isn't leaking.&lt;/p>
+&lt;/blockquote>
+&lt;p>We will end up seeing so much jQuery stuff it is natural to wonder whether jQuery is leaking. Almost certainly not. In the graph about &lt;code>n.fn.init&lt;/code> is just a jQuery selector, held onto by &lt;code>$$element&lt;/code>. No surprise - all angular elements are jQuery or jQuery light objects. We've leaked an element, it just happens to be wrapped in a jQuery selector. (You might see a different type of graph, probably due to the jQuery 1 + AngularJS 1.2 combination, we'll see it later).&lt;/p>
+&lt;p>You may see low level arrays containing data associated with a scope in jQuery, again, don't worry. It's the jQuery data cache (which we'll also see later), which is associating elements to scopes.&lt;/p>
+&lt;p>We can try and work through this graph, but let's try another tack.&lt;/p>
+&lt;p>It looks like we're probably leaking the whole of the top rated view. We're probably leaking the main scope for the view, created by the &lt;code>TopRatedController&lt;/code>. Let's see if we can find it.&lt;/p>
+&lt;blockquote>
+&lt;p>You can find objects you think are leaking by tagging them with classes!&lt;/p>
+&lt;/blockquote>
+&lt;p>This is a neat trick. Let's add a couple of lines to our top rated controller:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#a6e22e">angular&lt;/span>.&lt;span style="color:#a6e22e">module&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;app&amp;#39;&lt;/span>)
+.&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;TopRatedController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$scope&lt;/span>, &lt;span style="color:#a6e22e">$http&lt;/span>, &lt;span style="color:#a6e22e">$interval&lt;/span>) {
+&lt;span style="color:#75715e">// Create a class, assign it to the scope. This&amp;#39;ll help us
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// see if $scope is leaked.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">TopRatedControllerTag&lt;/span>() {}
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">__tag&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">TopRatedControllerTag&lt;/span>();
+&lt;span style="color:#75715e">// etc...
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now when we run the analysis again, we can search in the snapshot for &lt;code>TopRatedControllerTag&lt;/code>:&lt;/p>
+&lt;p>&lt;img src="images/Scenario2Part5.png" alt="Scenario 2 Part 5">&lt;/p>
+&lt;ol>
+&lt;li>We search for &amp;lsquo;Tag&amp;rsquo;, finding one instance of the &lt;code>TopRatedControllerTag&lt;/code>.&lt;/li>
+&lt;li>Bingo - it is retained by a Scope, with id &lt;code>@534851&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;p>Let's look at this scope in more detail. Right click on it and choose &amp;lsquo;Review in Summary View&amp;rsquo;, so we can see what is retaining it:&lt;/p>
+&lt;p>&lt;img src="images/Scenario2Part6.png" alt="Scenario 2 Part 6">&lt;/p>
+&lt;ol>
+&lt;li>We can now see the root scope for the actual view.&lt;/li>
+&lt;li>We can see the usual pattern of &lt;code>$$ChildScope&lt;/code> and &lt;code>$parent&lt;/code> properties, but what else have we got?&lt;/li>
+&lt;/ol>
+&lt;p>Intestingly we can see that our scope is also retained by a &lt;strong>context variable called $scope&lt;/strong>. How do I know it is a context variable? It's in blue, part of the colour coding (see Mystery 3).&lt;/p>
+&lt;p>What is a context variable?&lt;/p>
+&lt;blockquote>
+&lt;p>A &lt;strong>closure&lt;/strong> is a function which refers to a variable outside of its definition. A &lt;strong>context variable&lt;/strong> is the variable stored in a function context. A &lt;strong>function context&lt;/strong> contains the environment for a closure, which is the data required to execute it.&lt;/p>
+&lt;/blockquote>
+&lt;p>So basically we have a closure which refers to a variable called &lt;code>$scope&lt;/code>, which is the root scope of our view. We can see in detail the closure:&lt;/p>
+&lt;p>&lt;img src="images/Scenario2Part7.png" alt="Scenario 2 Part 7">&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>$scope&lt;/code> is retained by a &lt;code>context&lt;/code> for a closure.&lt;/li>
+&lt;li>The closure is in the &lt;code>refresh&lt;/code> function (this is why the &lt;code>context&lt;/code> is retained by &lt;code>refresh&lt;/code>).&lt;/li>
+&lt;/ol>
+&lt;p>We can open the function and examine it for issues. There's an &lt;code>$http.get&lt;/code> which has as closure which uses &lt;code>$scope&lt;/code>, but alarmingly there is an &lt;code>$interval&lt;/code> registered to run every 10 seconds, which is never deregistered. The interval callback uses another &lt;code>$http.get&lt;/code>, with a closure that uses &lt;code>$scope&lt;/code>. This is the problem.&lt;/p>
+&lt;p>A simple timeout we forgot to deregister has a closure on &lt;code>$scope&lt;/code>. &lt;code>$scope&lt;/code> can therefore never be cleaned up, because it is retained by a context.&lt;/p>
+&lt;p>Some important takeaways:&lt;/p>
+&lt;ol>
+&lt;li>The framework hides implementation details. Often useful, but in this case it made finding the leak a problem.&lt;/li>
+&lt;li>This example seems contrived, but how how often do you have a closure using &lt;code>$scope&lt;/code> in a controller? In real world apps all of the time time, callbacks to ajax requests, event handlers, promise functions etc.&lt;/li>
+&lt;li>A leak of a small object that contains the &lt;strong>data&lt;/strong> for three albums has leaked a &lt;strong>large graph&lt;/strong> of other objects, and even &lt;strong>DOM elements&lt;/strong>.&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>Leaks are not incremental. You don't get an accumulation of small leaks, one small leak can retain a huge graph.&lt;/p>
+&lt;/blockquote>
+&lt;p>Let's talk about this a bit more.&lt;/p>
+&lt;h3 id="dealing-with-object-graphs">Dealing with Object Graphs&lt;/h3>
+&lt;p>We saw before that a chain of retainers can pin an object, such as a scope, to a GC root. We also saw that AngularJS scopes are part of a highly connected graph, meaning that if we leak part of it, we probably leak it all:&lt;/p>
+&lt;p>&lt;img src="images/ScopeLeakGraph1-1.png" alt="Scope Leak Graph 1">&lt;/p>
+&lt;p>However, things can get worse. Remember how in an angular app you can get the scope for an element with &lt;code>$(selector).scope()&lt;/code>? This connection between a scope an an element is maintained in the jQuery data cache. This lets us associate arbitrary data with an element. This introduces another layer of connectivity:&lt;/p>
+&lt;p>&lt;img src="images/ScopeLeakGraph2.png" alt="Scope Leak Graph 2">&lt;/p>
+&lt;p>In this graph, we see the jQuery data cache entries (in grey) associating DOM elements to scopes, introducing more connectivity.&lt;/p>
+&lt;p>We can see here an alarming increase in the size and potential complexity of the graph. We've got DOM elements in play now. The chances are that if you are reading this you are dealing with a memory leak in your app, if it's noticable enough for you to deal with it, you probably have a non-trivial graph.&lt;/p>
+&lt;p>So how do we fix memory leaks? I'll show three general approaches and how to use each one.&lt;/p>
+&lt;h2 id="fixing-memory-leaks">Fixing Memory Leaks&lt;/h2>
+&lt;p>Fixing memory leaks is hard. As we have seen our problem is highly connected graphs. If we have a part of the graph we want to free for garbage collection (such as a scope and all of it's children, such as a view or directive) then we must not retain that graph of objects. This means if you have (for example) three problems that lead to retaining a graph, you have to fix &lt;strong>all of the problems&lt;/strong> before the leak goes away.&lt;/p>
+&lt;p>Let's generalise the best practices first into three rules, see patterns we should follow for each of them and then look at anti-patterns to avoid.&lt;/p>
+&lt;h3 id="three-golden-rules">Three Golden Rules&lt;/h3>
+&lt;blockquote>
+&lt;p>Rule 1: Understand the framework and lifecycle.&lt;/p>
+&lt;/blockquote>
+&lt;p>If you are using a framework like AngularJS, you &lt;strong>must&lt;/strong> understand the lifecycle of the objects you are dealing with. Unless you understand how the framework tries to clean up, you may make mistakes that stop it from working.&lt;/p>
+&lt;blockquote>
+&lt;p>Rule 2: Be careful at the interface between short and long lived objects.&lt;/p>
+&lt;/blockquote>
+&lt;p>Whenever you see an interface between a short and long lived object, be extra careful. For example, if you have a directive talking to a service, make sure the service cannot retain the directive through closures, callbacks or any references. Services will last for the lifetime of the application, so they are the sort of object which can inadvertantly retain short lived objects.&lt;/p>
+&lt;p>Other long lived objects exist but may be more subtle, the interface between AngularJS and other libraries can be a risky area, if other libraries maintain long lived state.&lt;/p>
+&lt;p>Finally, consider this. The isolated scope for a directive (for example) may inadvertantly be long lived - if it is leaked. That leads us to Rule 3.&lt;/p>
+&lt;blockquote>
+&lt;p>Rule 3: Disconnect the graph.&lt;/p>
+&lt;/blockquote>
+&lt;p>You can be defensive by manually disconnecting graphs of objects. This can aid if you have a memory leak you cannot resolve. By disconnecting the graph, the garbage collector will at least be able to attempt to clean up parts of it.&lt;/p>
+&lt;p>AngularJS should attempt to do this for you, for example when scopes are destroyed the links to other scopes are severed. But you can also do this yourself. Disconnecting the graph is not always as simple as emptying arrays or nulling objects, it can mean nulling closures and context variables too&lt;sup>&lt;a href="#fn5" id="ref5">5&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>The anti-patterns which follow are all violations of these rules.&lt;/p>
+&lt;h3 id="anti-patterns-to-avoid">Anti-Patterns to Avoid&lt;/h3>
+&lt;p>Whether or not your app is suffering from memory leaks, avoid these patterns.&lt;/p>
+&lt;h4 id="poorly-managed-event-handlers">Poorly Managed Event Handlers&lt;/h4>
+&lt;p>Consider a trivial example in a directive link:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">scope&lt;/span>, &lt;span style="color:#a6e22e">element&lt;/span>, &lt;span style="color:#a6e22e">attrs&lt;/span>) {
+&lt;span style="color:#a6e22e">element&lt;/span>.&lt;span style="color:#a6e22e">on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;click&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">scope&lt;/span>.&lt;span style="color:#a6e22e">selected&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>;
+});
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We register an event handler. We've now built a closure which will have a context, which retains the &lt;code>scope&lt;/code>. If we don't deregister this event handler, we retain the closure, the context, the scope, and then basically everything in the universe.&lt;/p>
+&lt;p>&lt;strong>The Fix&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">scope&lt;/span>, &lt;span style="color:#a6e22e">element&lt;/span>, &lt;span style="color:#a6e22e">attrs&lt;/span>) {
+&lt;span style="color:#a6e22e">element&lt;/span>.&lt;span style="color:#a6e22e">on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;click&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">scope&lt;/span>.&lt;span style="color:#a6e22e">selected&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>;
+});
+&lt;span style="color:#a6e22e">scope&lt;/span>.&lt;span style="color:#a6e22e">$on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;$destroy&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">element&lt;/span>.&lt;span style="color:#a6e22e">off&lt;/span>(); &lt;span style="color:#75715e">// deregister all event handlers
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> })&lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>Note:&lt;/em> Angular &lt;em>should&lt;/em> handle this. It is supposed to deregister event handlers on elements it manages. In my experience this isn't always the case, although it seems cases when this doesn't happen are fewer and fewer as bugs get fixed in the framework. Anyway, Rule 3 - disconnect.&lt;/p>
+&lt;h4 id="poorly-managed-watchers">Poorly Managed Watchers&lt;/h4>
+&lt;p>Watchers or angular event handlers, basically the same as above.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">$on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;someEvent&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">refresh&lt;/span>();
+})
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Again, Angular should clean this up if you forget to, but the advice is always do it yourself. Angular watchers return a deregister function.&lt;/p>
+&lt;p>&lt;strong>The Fix&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">cleanup&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">$on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;someEvent&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">refresh&lt;/span>();
+});
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">$on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;$destroy&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">cleanup&lt;/span>();
+})
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Rule 1 - know the framework and how lifecycle is handled. &lt;code>$destroy&lt;/code> is sent to a scope specifically to allow it to be cleaned up.&lt;/p>
+&lt;h4 id="callback-functions-on-services">Callback Functions on Services&lt;/h4>
+&lt;p>Services (or other long lived objects) should typically not take callback functions. Imagine a &amp;lsquo;user service&amp;rsquo;, allowing a scope to discover if the user has changed their name:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#a6e22e">UserService&lt;/span>.&lt;span style="color:#a6e22e">onNameChange&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">newName&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">userName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">newName&lt;/span>;
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now the service (a long lived object) takes a closure with a context to a short lived object, the scope. Unless the service is written absolutely correctly, we run the risk of the service retaining the scope. Remember, services are singletons and as such the interface between services and scopes is one that requires careful management.&lt;/p>
+&lt;p>There are two fixes I would suggest.&lt;/p>
+&lt;p>&lt;strong>Fix 1: For a one-off operation, use a promise&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#75715e">// change and name and wait for the result
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#a6e22e">UserService&lt;/span>.&lt;span style="color:#a6e22e">changeName&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Fry&amp;#34;&lt;/span>).&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">newName&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">newName&lt;/span>;
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The notification service returns a promise (a short lived object) which holds the closure. If we get things wrong, we are less likely to leak the scope. Plus, promises are typically easy to work with once you've got the hang of them&lt;sup>&lt;a href="#fn6" id="ref6">6&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>&lt;strong>Fix 2: For notifications, use broadcasts&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#75715e">// more like our original example
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">$on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;NotificationService:ChangeName&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">data&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">data&lt;/span>;
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Some will say to not overuse broadcasts as they can be expensive. They can, so use them judiciously. But remember, they're provided by the framework, typically lead to fairly loose coupling and are probably managing clean up as well or better than a hand-rolled mechanism in a service. Rule 2 - don't tie short lived objects to long lived objects.&lt;/p>
+&lt;h2 id="the-future">The Future&lt;/h2>
+&lt;p>That's a wrap. Hopefully this article will grow and improve with feedback from the community. To wind up, lets look at a few things that are on their way which will touch on these issues.&lt;/p>
+&lt;h3 id="weak-maps">Weak Maps&lt;/h3>
+&lt;p>Finally, in ECMAScript 6 we will get a WeakMap&lt;sup>&lt;a href="#fn7" id="ref7">7&lt;/a>&lt;/sup> object. This is &lt;em>ideal&lt;/em> for something like the jQuery data cache. A weak map uses weak references (not natively supported in JavaScript). This means that we can map a DOM element to a scope in a weak map, but the map entry doesn't retain the element or scope. If the element or scope is cleaned up, the map entry is removed. This means internal structures to aid with frameworks don't need to necessarily retain object graphs.&lt;/p>
+&lt;h3 id="angularjs-2">AngularJS 2&lt;/h3>
+&lt;p>Simplifications to the framework in 2.0 and usage of native features like web components mean less complex framework code and less scope for issues. Consider even the usage of classes in Angular 2.0. We don't decorate a scope object (of type &lt;code>Object&lt;/code>) we create an instance of a class. Easier to see in the heap view.&lt;/p>
+&lt;h3 id="even-better-browsers">Even Better Browsers&lt;/h3>
+&lt;p>SPA frameworks are driving improvements to browsers. Frameworks like Angular lead to more SPAs. More SPAs mean we find more bugs and edge cases in browsers. Many memory leak issues in AngularJS have led to fixes in V8.&lt;/p>
+&lt;h2 id="appendices">Appendices&lt;/h2>
+&lt;p>Beware any write up long enough to need appendices.&lt;/p>
+&lt;h3 id="thanks">Thanks&lt;/h3>
+&lt;p>Much of my understanding here came from working with others on real-world issues. I would like to thank the following people for their advice and insights:&lt;/p>
+&lt;p>James Denning, Shaun Bohannon, Arnaud Rebts, Colin Montgomery, Jon Hamshaw, Christian Lilley, Maarten De Wilde&lt;/p>
+&lt;p>There are others I have worked on with in this area, if I have forgotten to mention you please let me know.&lt;/p>
+&lt;h3 id="mysteries">Mysteries&lt;/h3>
+&lt;p>After a large amount of time spent investigating memory leaks, there are still some things which to me are a mystery. If anyone can shed some light, I'd be interested to know.&lt;/p>
+&lt;p>&lt;strong>Mystery 1: False Charts&lt;/strong>&lt;/p>
+&lt;p>As mentioned earlier we cannot always trust the timeline, it is not uncommon to see the memory usage in the timeline increase, even though the size of snapshots seems to be staying constant. This may be related to AngularJS Issue &lt;a href="https://github.com/angular/angular.js/issues/4864">DOM Nodes Leaking&lt;/a>.&lt;/p>
+&lt;p>&lt;strong>Mystery 2: Odd Snapshot Sizes&lt;/strong>&lt;/p>
+&lt;p>It is not uncommon for the first snapshot to be large, and then subsequent snapshots to all be a bit smaller (even without any state changes). Why this is the case I do not know. To test, run an angular app and take some snapshots without doing anything in between. You'll normally see (for example) 9 MB, 9MB, 9MB. However, it is not uncommon to see 15 MB, 9MB, 9MB.&lt;/p>
+&lt;p>&lt;strong>Mystery 3: Where's the colour coding documentation?&lt;/strong>&lt;/p>
+&lt;p>The Chrome documentation states that the colour coding key for elements in the heap snapshot is available in the tool. I can't find it anywhere, so had to research to find the details.&lt;/p>
+&lt;h3 id="further-reading">Further Reading&lt;/h3>
+&lt;p>Still not had enough? Try these.&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="https://developer.chrome.com/devtools/docs/heap-profiling#basics">Profiling Memory Performance&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://developer.chrome.com/devtools/docs/memory-analysis-101">Memory Analysis 101&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://developer.chrome.com/devtools/docs/heap-profiling-containment">Heap profile containment&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://developer.chrome.com/devtools/docs/tips-and-tricks">Dev tools tips &amp;amp; tricks&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://developer.chrome.com/devtools/docs/javascript-memory-profiling">JavaScript Memory Profiling&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management">Memory Management&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://addyosmani.com/blog/taming-the-unicorn-easing-javascript-memory-profiling-in-devtools/">Taming the Unicorn&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>&lt;sup id="fn1">1. This is C actually, but the syntax isn't important, just the logic of what we're doing.&lt;a href="#ref1">↩&lt;/a>&lt;/sup>
+&lt;sup id="fn2">2. In JavaScript as in most managed languages, the mechanism by which this happens is reference counting and garbage collection. There's a superb description at &lt;a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management">JavaScript Memory Management&lt;/a>.&lt;a href="#ref2">↩&lt;/a>&lt;/sup>
+&lt;sup id="fn3">3. Try it yourself with this &lt;a href="http://jsfiddle.net/dwmkerr/2LzxgLb4/">fiddle for a sawtooth pattern&lt;/a>.&lt;a href="#ref3">↩&lt;/a>&lt;/sup>
+&lt;sup id="fn4">4. Try it yourself with this &lt;a href="http://jsfiddle.net/dwmkerr/9dmpp5te/">fiddle for a &amp;lsquo;steps&amp;rsquo; pattern&lt;/a>.&lt;a href="#ref4">↩&lt;/a>&lt;/sup>
+&lt;sup id="fn5">5. See &lt;a href="https://github.com/dwmkerr/angular-modal-service/commit/79998ca98101798608bdb914aecbd44f3ccbaa7a">this commit&lt;/a> in my Angular Modal Service for an example of how nulling context variables (i.e. disconnecting the graph) solved a memory leak. This is a good example of how are it can be, after large amounts of analysis I still haven't discovered &lt;strong>why&lt;/strong> this was needed, but it solved the problem. It may relate to Mystery 4.&lt;a href="#ref5">↩&lt;/a>&lt;/sup>
+&lt;sup id="fn6">6. See my article &lt;a href="http://www.dwmkerr.com/promises-in-angularjs-the-definitive-guide/">Promises in AngularJS - The Definitive Guide&lt;/a> if you are not sure how to use them.&lt;a href="#ref6">↩&lt;/a>&lt;/sup>
+&lt;sup id="fn7">7. More details at &lt;a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/WeakMap">https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/WeakMap&lt;/a>&lt;a href="#ref7">↩&lt;/a>&lt;/sup>&lt;/p></description><category>CodeProject</category></item><item><title>The Only AngularJS Modal Service You'll Ever Need</title><link>https://dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/</link><pubDate>Mon, 16 Jun 2014 00:48:12 +0000</pubDate><guid>https://dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/</guid><description>&lt;p>If you need modals in an AngularJS application, look no further. I'll show you how to use the &lt;a href="https://github.com/dwmkerr/angular-modal-service">Angular Modal Service&lt;/a> to add Bootstrap Modals or your own custom modals to your application.&lt;/p>
+&lt;p>&lt;a href="http://jsfiddle.net/dwmkerr/8MVLJ/">See it in a fiddle&lt;/a> or check out &lt;a href="http://dwmkerr.github.io/angular-modal-service">a full set of samples online&lt;/a>.&lt;/p>
+&lt;h4 id="contents">Contents&lt;/h4>
+&lt;ol>
+&lt;li>[Using the Angular Modal Service](#UsingTheAngular ModalService)&lt;/li>
+&lt;li>&lt;a href="#AQuickExample">A Quick Example&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#DesignGoals">Design Goals&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#HowItWorks">How It Works&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#WrappingUp">Wrapping Up&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;h2 id="using-the-angular-modal-service">Using the Angular Modal Service&lt;/h2>
+&lt;p>Here's how you can use the Angular Modal Service to add a bootstrap modal to your application.&lt;/p>
+&lt;h4 id="step-1-install-with-bower">Step 1: Install with Bower&lt;/h4>
+&lt;p>Install the service with bower:&lt;/p>
+&lt;pre>&lt;code>bower install angular-modal-service --save
+&lt;/code>&lt;/pre>&lt;p>If you don't use bower, just get the source directly from the &lt;a href="https://github.com/dwmkerr/angular-modal-service/tree/master/dst">&lt;code>dst&lt;/code>&lt;/a> folder of the repo.&lt;/p>
+&lt;h4 id="step-2-include-the-javascript">Step 2: Include the JavaScript&lt;/h4>
+&lt;p>Include the JavaScript from the &lt;code>dst&lt;/code> folder or require it with require.js:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-html" data-lang="html">&amp;lt;&lt;span style="color:#f92672">script&lt;/span> &lt;span style="color:#a6e22e">src&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;bower_components\angular-modal-service\dst\angular-modal-service.min.js&amp;#34;&lt;/span>&amp;gt;&amp;lt;/&lt;span style="color:#f92672">script&lt;/span>&amp;gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="step-3-add-it-as-a-dependency">Step 3: Add it as a dependency&lt;/h4>
+&lt;p>Make sure the &lt;code>angularModalService&lt;/code> module is listed as a required module for your application:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">app&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">angular&lt;/span>.&lt;span style="color:#a6e22e">module&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;myApp&amp;#39;&lt;/span>, [&lt;span style="color:#e6db74">&amp;#39;angularModalService&amp;#39;&lt;/span>]);
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="step-4-show-the-modal">Step 4: Show the Modal&lt;/h4>
+&lt;p>Inject &lt;code>ModalService&lt;/code> into any controller, directive or service and call the &lt;code>showModal&lt;/code> function to show a modal:&lt;/p>
+&lt;pre>&lt;code class="language-language" data-lang="language">app.controller('SampleController', function($scope, ModalService) {
+ModalService.showModal({
+templateUrl: &amp;quot;template.html&amp;quot;,
+controller: &amp;quot;ModalController&amp;quot;
+}).then(function(modal) {
+//it's a bootstrap element, use 'modal' to show it
+modal.element.modal();
+modal.close.then(function(result) {
+console.log(result);
+});
+});
+);
+&lt;/code>&lt;/pre>&lt;p>This code loads the HTML from &lt;code>template.html&lt;/code>, adds it to the DOM, creates a scope for it and creates an instance of a &lt;code>ModalController&lt;/code>.&lt;/p>
+&lt;p>When this is done, the promise returned by the &lt;code>showModal&lt;/code> function resolves and you get a &lt;code>modal&lt;/code> object. This object contains the element created. If it's a Bootstrap modal just call &lt;code>modal&lt;/code> to show it, if it's a custom one you can show it by changing its CSS styles or using whatever APIs are provided. There's an example ofa custom modal in &lt;a href="http://dwmkerr.github.io/angular-modal-service/">the samples&lt;/a>.&lt;/p>
+&lt;h4 id="step-5-close-the-modal">Step 5: Close the Modal&lt;/h4>
+&lt;p>The controller that is created always has one extra parameter injected into it - a function called &lt;code>close&lt;/code>. Call this function to close the modal, anything you pass to it is passed to the caller as the &lt;code>result&lt;/code> object.&lt;/p>
+&lt;pre>&lt;code class="language-language" data-lang="language">app.controller('ModalController', function($scope, close) {
+// when you need to close the modal, call close
+close(&amp;quot;Success!&amp;quot;);
+});
+&lt;/code>&lt;/pre>&lt;p>You can pass a number of milliseconds to wait before destroying the DOM element as an optional second parameter to &lt;code>close&lt;/code> - this is useful if the closing of the modal is animated and you don't want it to disappear before the animation completes.&lt;/p>
+&lt;h2 id="a-quick-example">A Quick Example&lt;/h2>
+&lt;p>Here's a fiddle of the modal service in action:&lt;/p>
+&lt;iframe width="100%" height="300" src="http://jsfiddle.net/dwmkerr/8MVLJ/embedded/result,js,html" allowfullscreen="allowfullscreen" frameborder="0">&lt;/iframe>
+&lt;p>One thing to note in this examples is that the template is just declared in the DOM - this works fine because the service always checks the template cache before attempting to load it from the server.&lt;/p>
+&lt;p>There are more examples at &lt;a href="http://dwmkerr.github.io/angular-modal-service/">dwmkerr.github.io/angular-modal-service&lt;/a>.&lt;/p>
+&lt;h2 id="design-goals">Design Goals&lt;/h2>
+&lt;p>There are some other services for handling modals out there, notably &lt;a href="https://github.com/Fundoo-Solutions/angularjs-modal-service">Fundoo's Modal Service&lt;/a> and a few others. However, the design goals for my service were slightly different:&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>No link to bootstrap&lt;/strong>. Bootstrap modals are complex with lots of options - if you want to use them then that's great, the service should work with them, but the complexity of the options for Bootstrap Modals should not increase the complexity of the service.&lt;/li>
+&lt;li>&lt;strong>Extremely simple code&lt;/strong>. It's rare you'll write something that it will suit everyone's need. Rather than trying to please everyone, I want a service that is simple enough to understand so that it can be easily adapted by others.&lt;/li>
+&lt;/ol>
+&lt;p>So the core goal here is simplicity - if others can understand the code, then they can more effectively decide whether it's what they need, or build upon it.&lt;/p>
+&lt;p>With these design goals in mind I built the angular modal service.&lt;/p>
+&lt;h2 id="how-it-works">How It Works&lt;/h2>
+&lt;p>I'm going to walk through a slightly simplified version of the code because it actually illustrates quite a few important concepts when working with AngularJS.&lt;/p>
+&lt;p>One of the things that's useful to know is that this service creates a DOM element, builds a scope for it and instantiates a controller for it - what we're doing is &lt;em>very&lt;/em> similar to what AngularJS does behind the scenes when a directive is created.&lt;/p>
+&lt;p>So let's dive in. We're going to define a service, so we need a module.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">module&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">angular&lt;/span>.&lt;span style="color:#a6e22e">module&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;angularModalService&amp;#39;&lt;/span>, []);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we have our module, we can define our service. I tend to write services in the form of classes, but this is a personal choice - it's just as valid to return a javascript object that contains functions and data.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">factory&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;ModalService&amp;#39;&lt;/span>, [&lt;span style="color:#e6db74">&amp;#39;$document&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;$compile&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;$controller&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;$http&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;$rootScope&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;$q&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;$timeout&amp;#39;&lt;/span>,
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$document&lt;/span>, &lt;span style="color:#a6e22e">$compile&lt;/span>, &lt;span style="color:#a6e22e">$controller&lt;/span>, &lt;span style="color:#a6e22e">$http&lt;/span>, &lt;span style="color:#a6e22e">$rootScope&lt;/span>, &lt;span style="color:#a6e22e">$q&lt;/span>, &lt;span style="color:#a6e22e">$timeout&lt;/span>) {
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>I need a lot of injected components, we'll see why as we continue. I also use the explicit form of the function which takes the parameters as strings - this is the only safe way to write an injected function if you are minifying code.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">body&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$document&lt;/span>.&lt;span style="color:#a6e22e">find&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;body&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">ModalService&lt;/span>() {
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>I use the &lt;code>$document&lt;/code> object to get the body element, which the modal will be appended to. I then create a class function and record &lt;code>this&lt;/code> as self, so that I can refer to the class instance in callbacks and so on.&lt;/p>
+&lt;p>The next part of the code creates a function that will return the template, given either a raw template string or a template url. The reason we wrap this function like this is that the operation will either be synchronous or asynchronous, and I don't want the caller to care. So we use promises to wrap the logic.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">getTemplate&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">template&lt;/span>, &lt;span style="color:#a6e22e">templateUrl&lt;/span>) {
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$q&lt;/span>.&lt;span style="color:#a6e22e">defer&lt;/span>();
+&lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">template&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">template&lt;/span>);
+} &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">templateUrl&lt;/span>) {
+&lt;span style="color:#a6e22e">$http&lt;/span>({&lt;span style="color:#a6e22e">method&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;GET&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">url&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">templateUrl&lt;/span>, &lt;span style="color:#a6e22e">cache&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>);
+})
+.&lt;span style="color:#66d9ef">catch&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">error&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">reject&lt;/span>(&lt;span style="color:#a6e22e">error&lt;/span>);
+});
+} &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">reject&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;No template or templateUrl has been specified.&amp;#34;&lt;/span>);
+}
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">promise&lt;/span>;
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If any of this seems confusing, check out my article &lt;a href="http://www.dwmkerr.com/promises-in-angularjs-the-definitive-guide/">AngularJS Promises - The Definitive Guide&lt;/a>.&lt;/p>
+&lt;p>Now to the main function.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">showModal&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">options&lt;/span>) {
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$q&lt;/span>.&lt;span style="color:#a6e22e">defer&lt;/span>();
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>showModal&lt;/code> function is going to have to do all sorts of async work - loading the template from the server and so on. So we are going to create a &lt;code>deferred&lt;/code> object and build a promise to return to the caller.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">controller&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">options&lt;/span>.&lt;span style="color:#a6e22e">controller&lt;/span>;
+&lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#f92672">!&lt;/span>&lt;span style="color:#a6e22e">controller&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">reject&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;No controller has been specified.&amp;#34;&lt;/span>);
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">promise&lt;/span>;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we validate that a controller has been passed in as part of the options. Notice how just like in &lt;code>getTemplate&lt;/code> we use the &lt;code>reject&lt;/code> function to deal with error cases. Again, if error handling with promises seems unfamiliar, check out &lt;a href="http://www.dwmkerr.com/promises-in-angularjs-the-definitive-guide/">AngularJS Promises - The Definitive Guide&lt;/a>.&lt;/p>
+&lt;p>Next we deal with the template.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">getTemplate&lt;/span>(&lt;span style="color:#a6e22e">options&lt;/span>.&lt;span style="color:#a6e22e">template&lt;/span>, &lt;span style="color:#a6e22e">options&lt;/span>.&lt;span style="color:#a6e22e">templateUrl&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">template&lt;/span>) {
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We've used the &lt;code>getTemplate&lt;/code> function to get the template, sync or async it doesn't matter, our logic is the same.&lt;/p>
+&lt;p>Now we can build a new scope for our modal.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">modalScope&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$rootScope&lt;/span>.&lt;span style="color:#a6e22e">$new&lt;/span>();
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We'll refer to this a lot later on. Now for some cleverness.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">closeDeferred&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$q&lt;/span>.&lt;span style="color:#a6e22e">defer&lt;/span>();
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">inputs&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;span style="color:#a6e22e">$scope&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">modalScope&lt;/span>,
+&lt;span style="color:#a6e22e">close&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>, &lt;span style="color:#a6e22e">delay&lt;/span>) {
+&lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">delay&lt;/span> &lt;span style="color:#f92672">===&lt;/span> &lt;span style="color:#66d9ef">undefined&lt;/span> &lt;span style="color:#f92672">||&lt;/span> &lt;span style="color:#a6e22e">delay&lt;/span> &lt;span style="color:#f92672">===&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>) &lt;span style="color:#a6e22e">delay&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;span style="color:#a6e22e">$timeout&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span> () {
+&lt;span style="color:#a6e22e">closeDeferred&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>);
+}, &lt;span style="color:#a6e22e">delay&lt;/span>);
+}
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This requires some explanation. First, we create a new &lt;code>deferred&lt;/code> object. This is going to be used to build a promise that is resolved when the modal closes.&lt;/p>
+&lt;p>Now we build an &lt;code>input&lt;/code> object. This contains parameters we want to inject to the controller we're going to create. Any parameters the controller needs, such as &lt;code>$element&lt;/code>, &lt;code>$timeout&lt;/code> or whatever will be injected by angular. We're just going to make sure that the &lt;code>$scope&lt;/code> that is injected is the one we've just created, and that we also inject a function called &amp;lsquo;close&amp;rsquo;. This function simply resolves the promise we've created after a specified timeout.&lt;/p>
+&lt;p>This means that any controller for a modal can take &lt;code>close&lt;/code> as a parameter, and we'll inject the function that resolves the promise. This promise is returned to the consumer so that they can take action when the modal closes. We also allow the controller to pass a variable to &lt;code>close&lt;/code> which is passed to the &lt;code>resolve&lt;/code> function as well.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">options&lt;/span>.&lt;span style="color:#a6e22e">inputs&lt;/span>) {
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">inputName&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#a6e22e">options&lt;/span>.&lt;span style="color:#a6e22e">inputs&lt;/span>) {
+&lt;span style="color:#a6e22e">inputs&lt;/span>[&lt;span style="color:#a6e22e">inputName&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">options&lt;/span>.&lt;span style="color:#a6e22e">inputs&lt;/span>[&lt;span style="color:#a6e22e">inputName&lt;/span>];
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Without the this code, the service is close to useless. What we do here is allow the caller to provide extra inputs to the controller. Imagine we have a list of items, maybe books for a library program, and when the use clicks on one we want to show a modal. The code that shows the modal needs to pass the selected book to the modal controller - by adding it to the &lt;code>inputs&lt;/code> object, the book can be injected into the controller. This allows to client to pass data &lt;strong>to&lt;/strong> the controller, with the parameter of the &lt;code>close&lt;/code> function used to return data &lt;strong>from&lt;/strong> the controller.&lt;/p>
+&lt;p>Ready for some lower level Angular?&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">modalController&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$controller&lt;/span>(&lt;span style="color:#a6e22e">controller&lt;/span>, &lt;span style="color:#a6e22e">inputs&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">modalElementTemplate&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">angular&lt;/span>.&lt;span style="color:#a6e22e">element&lt;/span>(&lt;span style="color:#a6e22e">template&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">linkFn&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$compile&lt;/span>(&lt;span style="color:#a6e22e">modalElementTemplate&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">modalElement&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">linkFn&lt;/span>(&lt;span style="color:#a6e22e">modalScope&lt;/span>);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Four innocuous lines that are actually quite complex.&lt;/p>
+&lt;ol>
+&lt;li>First, we create an instance of the controller with name &lt;code>controller&lt;/code>. Regardless of what AngularJS injects, we provide &lt;code>inputs&lt;/code> to be injected as well.&lt;/li>
+&lt;li>Now we turn our raw template html into an AngularJS DOM element. AngularJS always works with jQuery or jQuery Lite elements, the &lt;code>angular.element&lt;/code> function takes raw HTML and turns it into a DOM element we can work with.&lt;/li>
+&lt;li>Now we &lt;code>$compile&lt;/code> the element. This step goes over the DOM and expands all directives. We're turning raw DOM elements into elements that are expanded into directives, but we haven't yet linked this set of elements into a scope. This is the first step of the compile/link process.&lt;/li>
+&lt;li>Finally, we can link the element. The &lt;code>$compile&lt;/code> function returns a link function which we call with a scope to link the DOM elements (fully expanded) to the specified scope.&lt;/li>
+&lt;/ol>
+&lt;p>This is very similar to AngularJS actually handles directives itself - creating a scope, loading a template, turning it into an element, compiling it and linking it.&lt;/p>
+&lt;p>Why are compile and link separate steps? Think of it like this, the work that is done in compile is actually identical for each instance of a directive (or modal in our case). It's not related to an &lt;em>instance&lt;/em> of a directive or modal, it's just expanding the elements and directives. So this work can be done once only, saving a lot of time - then we just call link to create an &lt;em>instance&lt;/em> of our element, bound to a specific scope. So link logic is always per instance (you have a scope, you can &lt;code>$watch&lt;/code> and so on) whereas compile logic is per &lt;em>type&lt;/em> of directive.&lt;/p>
+&lt;p>Based on this, we could in fact cache the results of the compile function on a per-template basis, as they can be reused and linked to a scope as necessary. However this is an optimisation that is currently left out.&lt;/p>
+&lt;p>Now we can add the fully built element to the DOM and build our return object.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">body&lt;/span>.&lt;span style="color:#a6e22e">append&lt;/span>(&lt;span style="color:#a6e22e">modalElement&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">modal&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">modalController&lt;/span>,
+&lt;span style="color:#a6e22e">scope&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">modalScope&lt;/span>,
+&lt;span style="color:#a6e22e">element&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">modalElement&lt;/span>,
+&lt;span style="color:#a6e22e">close&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">closeDeferred&lt;/span>.&lt;span style="color:#a6e22e">promise&lt;/span>
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We return the four things the caller might need - the controller, scope, element and close promise. When the close promise is resolved, we also want to clean up:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">modal&lt;/span>.&lt;span style="color:#a6e22e">close&lt;/span>.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>) {
+&lt;span style="color:#a6e22e">modalScope&lt;/span>.&lt;span style="color:#a6e22e">$destroy&lt;/span>();
+&lt;span style="color:#a6e22e">modalElement&lt;/span>.&lt;span style="color:#a6e22e">remove&lt;/span>();
+});
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">modal&lt;/span>);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>So when &lt;code>close&lt;/code> is resolved, whatever happens we'll destroy the scope and clean up the DOM. Now we can resolve our promise with the &lt;code>modal&lt;/code> object we've built&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> .&lt;span style="color:#66d9ef">catch&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">error&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">reject&lt;/span>(&lt;span style="color:#a6e22e">error&lt;/span>);
+});
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">promise&lt;/span>;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&amp;hellip;and we can pass errors that occured during &lt;code>getTemplate&lt;/code> to the caller and finally return the promise we've built.&lt;/p>
+&lt;p>That's it! With this design we handle errors correctly, can pass data to and from the modal, clean up after ourselves and make sure that units of asynchronous work are handled with the standard pattern of promises.&lt;/p>
+&lt;h2 id="wrapping-up">Wrapping Up&lt;/h2>
+&lt;p>I hope you've found the service and some of the details of the code useful, as always comments are welcome, fork the code and have a play - let me know if you think of improvements or have questions,&lt;/p></description><category>CodeProject</category></item><item><title>AngularJS Promises - The Definitive Guide</title><link>https://dwmkerr.com/promises-in-angularjs-the-definitive-guide/</link><pubDate>Wed, 07 May 2014 12:06:55 +0000</pubDate><guid>https://dwmkerr.com/promises-in-angularjs-the-definitive-guide/</guid><description>&lt;p>Promises are a core feature of AngularJS - whether you understand them or not, if you use AngularJS you've almost certainly been using them for a while.&lt;/p>
+&lt;p>In this post I'm going to explain what promises are, how they work, where they're used and finally how to use them effectively.&lt;/p>
+&lt;p>Once we've got the core understanding of promises, we'll look at some more advanced functionality - chaining and resolving promises when routing.&lt;/p>
+&lt;h4 id="contents">Contents&lt;/h4>
+&lt;ol>
+&lt;li>&lt;a href="#whatarepromises">What are Promises?&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#howdopromiseswork">How do Promises Work?&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#arealworldexample">A Real World Example&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#promisessuccesserrorthen">Promises - Success, Error, Then&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#advancedpromiseschaining">Advanced Promises - Chaining&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#advancedpromisesrouting">Advanced Promises - Routing&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#advancedpromisestipstricks">Advanced Promises - Tips &amp;amp; Tricks&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#thefutureofpromises">The Future of Promises&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#wrappingup">Wrapping Up&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;h2 id="what-are-promises">What are Promises?&lt;/h2>
+&lt;p>I'm going to try and be as succinct as possible - if anyone has a shorter, clearer description, let me know!&lt;/p>
+&lt;blockquote>
+&lt;p>A promise represents the eventual result of an operation. You can use a promise to specify what to do when an operation eventually succeeds or fails.&lt;/p>
+&lt;/blockquote>
+&lt;p>So let's see this in action. Look at the code below:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This code uses the &lt;code>$http&lt;/code> service to perform an HTTP GET on the url &amp;lsquo;/api/my/name&amp;rsquo;. Let's say that this is an api we've implemented on our server that returns the name of the logged in user.&lt;/p>
+&lt;p>Now a common mistake for JavaScript newcomers might be to assume that the function returns the name:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#75715e">// The WRONG way!
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>It doesn't - and in fact it can't. An HTTP request has to be executed, it'll take a while before it returns - it might not return at all if there are errors. Remember, when we make requests in JavaScript we're using &lt;strong>ajax&lt;/strong> which is &lt;em>&lt;strong>asynchronous&lt;/strong> javascript and xml&lt;/em>. The key word here is asynchronous - we return control to the browser, let it make a request and give it a function to call when the request completes.&lt;/p>
+&lt;p>So let's see how you actually make the request.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>);
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">success&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>);
+});
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>, &lt;span style="color:#a6e22e">status&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed with response &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; and status code &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">status&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we use the promise object to specify what to do when the request succeeds, or when it fails. Remember, the functions we pass to &lt;code>success&lt;/code> or &lt;code>error&lt;/code> will be called later - when this block is finished executing we don't have the name, we've just specified what to do when we &lt;em>do&lt;/em> eventually get it - or what to do if we fail to get it.&lt;/p>
+&lt;p>As a convenience, the &lt;code>success&lt;/code> and &lt;code>error&lt;/code> functions actually just return the promise, so we can simplify the code:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>)
+.&lt;span style="color:#a6e22e">success&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>, &lt;span style="color:#a6e22e">status&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed with response &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; and status code &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">status&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>In fact, &lt;code>success&lt;/code> and &lt;code>error&lt;/code> are special functions added to a promise by &lt;code>$http&lt;/code> - normally with promises we just use &lt;code>then&lt;/code>, which takes the success function as the first parameter and the error function as the second:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(
+&lt;span style="color:#75715e">/* success */&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>);
+},
+&lt;span style="color:#75715e">/* failure */&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">error&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">error&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We'll see more about the difference between &lt;code>success&lt;/code>, &lt;code>error&lt;/code> and &lt;code>then&lt;/code> later.&lt;/p>
+&lt;p>That's all there is to it - a promise lets us specify what to do as the result of an operation.&lt;/p>
+&lt;h2 id="how-do-promises-work">How do Promises Work?&lt;/h2>
+&lt;p>Promises are not actually complicated, they're objects that contain a reference to functions to call when something fails or succeeds.&lt;/p>
+&lt;p>Under the hood, AngularJS actually wires up a promise for an HTTP request in a way a bit like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">request&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">XMLHttpRequest&lt;/span>();
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">addEventListener&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;load&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// complete the promise
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}, &lt;span style="color:#66d9ef">false&lt;/span>);
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">addEventListener&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;error&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// fail the promise
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}, &lt;span style="color:#66d9ef">false&lt;/span>);
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">open&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;GET&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">true&lt;/span>);
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">send&lt;/span>();
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>this is pseudo-code, but the idea is that its the browser that calls us back, via the event listeners, then AngularJS can just call the appropriate method on the promise.&lt;/p>
+&lt;p>Now in AngularJS, the promises are created with the &lt;code>$q&lt;/code> service (we'll see exactly how to do this shortly), but why &lt;code>$q&lt;/code>?&lt;/p>
+&lt;p>The reason the service is named &lt;code>$q&lt;/code> is that AngularJS&amp;rsquo; promise implementation is based on Kris Kowal's promise mechanism, which is called &amp;lsquo;Q&amp;rsquo;. You can see the library at &lt;a href="https://github.com/kriskowal/q">github.com/kristkowal/q&lt;/a>.&lt;/p>
+&lt;p>This was a deliberate decision, as the Q library is widely used and well understood by the community. We're going to see a little bit later what the future of promises is in AngularJS and actually in ECMAScript 6.&lt;/p>
+&lt;h3 id="a-real-world-example">A Real World Example&lt;/h3>
+&lt;p>In this example we'll create a service that gets the user's name, just like in our examples. However, to make it interesting, we'll set our service up so that the first time we get the name from the server, and then afterwards we'll return a cached copy.&lt;/p>
+&lt;p>This means we'll have to build our code to deal with the asynchronous case (the first one) and the more trivial synchronous case (getting the name from the cache).&lt;/p>
+&lt;p>Let's look at a pure asynchronous implementation.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">factory&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;NameService&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$http&lt;/span>, &lt;span style="color:#a6e22e">$q&lt;/span>) {
+&lt;span style="color:#75715e">// Create a class that represents our name service.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">NameService&lt;/span>() {
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>;
+&lt;span style="color:#75715e">// getName returns a promise which when
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// fulfilled returns the name.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/my/name&amp;#39;&lt;/span>);
+};
+}
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">NameService&lt;/span>();
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here's how it looks in a fiddle - just click &amp;lsquo;Result&amp;rsquo; to see it working. You can click on &amp;lsquo;Update&amp;rsquo; name to get the name, but each time it sends a request. This is what we'll change next.&lt;/p>
+&lt;iframe width="100%" height="300" src="http://jsfiddle.net/dwmkerr/4GjtR/embedded/js,html,result" allowfullscreen="allowfullscreen" frameborder="0">&lt;/iframe>
+&lt;p>Now let's update our service so that we hit the server only if we haven't already cached the name. I'll build the service blow by blow, then we can see a fiddle of it working.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">factory&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;NameService&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$http&lt;/span>, &lt;span style="color:#a6e22e">$q&lt;/span>) {
+&lt;span style="color:#75715e">// Create a class that represents our name service.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">NameService&lt;/span>() {
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>;
+&lt;span style="color:#75715e">// Initially the name is unknown....
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>so first we create a service which is in the form of a class. It has a name field which is initially null.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// Create a deferred operation.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$q&lt;/span>.&lt;span style="color:#a6e22e">defer&lt;/span>();
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now in the &lt;code>getName&lt;/code> function we start by creating a &lt;code>deferred&lt;/code> object, using the &lt;code>$q&lt;/code> service. This object contains the promise we'll return, and has some helper functions to let us build the promise.&lt;/p>
+&lt;p>We create a deferred object because whether we use ajax or not, we want the consumer to use the promise - even if we &lt;em>can&lt;/em> return straightaway in some circumstances (when we have the name) we can't in all - so the caller must always expect a promise.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">!==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; (from Cache!)&amp;#34;&lt;/span>);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we already have the name, we can just &lt;code>resolve&lt;/code> the deferred object immediately - this is the easy case. I've added &amp;lsquo;from cache&amp;rsquo; to the name so we can see when it comes from the cache compared to the server.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Tip:&lt;/strong> You can resolve a promise even before you return it. It still works fine for the consumer.&lt;/p>
+&lt;/blockquote>
+&lt;p>Finally, we can handle the case if we don't already have the name:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;span style="color:#75715e">// Get the name from the server.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/my/name/&amp;#39;&lt;/span>)
+.&lt;span style="color:#a6e22e">success&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>;
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; (from Server!)&amp;#34;&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">reject&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>);
+});
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>So if we get success from the server, we can &lt;code>resolve&lt;/code> the promise. Otherwise, we &lt;code>reject&lt;/code> it, which means failure.&lt;/p>
+&lt;blockquote>
+&lt;p>Call &lt;code>resolve&lt;/code> on a deferred object to complete it successfully, call &lt;code>reject&lt;/code> to fail it with an error.&lt;/p>
+&lt;/blockquote>
+&lt;p>Finally, we just return the promise we've built with &lt;code>deferred&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">promise&lt;/span>;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And that's it! You can see it in action below, press &amp;lsquo;Update Name&amp;rsquo; a few times and you'll see it uses the cache.&lt;/p>
+&lt;iframe width="100%" height="300" src="http://jsfiddle.net/dwmkerr/LeZU4/embedded/result,html,js" allowfullscreen="allowfullscreen" frameborder="0">&lt;/iframe>
+&lt;p>How do we use this? We'll it's simple, here's a controller that uses the service we've built:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;MainController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span> (&lt;span style="color:#a6e22e">$scope&lt;/span>, &lt;span style="color:#a6e22e">NameService&lt;/span>) {
+&lt;span style="color:#75715e">// We have a name on the code, but it&amp;#39;s initially empty...
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>;
+&lt;span style="color:#75715e">// We have a function on the scope that can update the name.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">updateName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">NameService&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span>()
+.&lt;span style="color:#a6e22e">then&lt;/span>(
+&lt;span style="color:#75715e">/* success function */&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>;
+},
+&lt;span style="color:#75715e">/* error function */&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Failed to get the name, result is &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">result&lt;/span>);
+});
+};
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now there's something different here. Before, we might have used the &lt;code>error&lt;/code> or &lt;code>success&lt;/code> function of the promise. But here we use &lt;code>then&lt;/code>. Why is that?&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;code>success&lt;/code> and &lt;code>error&lt;/code> are functions on a promise that AngularJS adds for us when using &lt;code>$http&lt;/code> or &lt;code>$resource&lt;/code>. They're not standard, you won't find them on other promises.&lt;/p>
+&lt;/blockquote>
+&lt;p>So we've seen how promises work, what they are and so on, now we'll look into this success/error/then stuff.&lt;/p>
+&lt;h2 id="promises---success-error-then">Promises - Success, Error, Then&lt;/h2>
+&lt;p>Now we know that &lt;code>$http&lt;/code> returns a promise, and we know that we can call &lt;code>success&lt;/code> or &lt;code>error&lt;/code> on that promise. It would be sensible to think that these functions are a standard part of promise - but they're not!&lt;/p>
+&lt;p>When you are using a promise, the function you should call is &lt;code>then&lt;/code>. &lt;code>then&lt;/code> takes two parameters - a callback function for success and a callback function for failure. Taking a look at our original &lt;code>$http&lt;/code> example, we can rewrite it to use this function.
+So this code:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>)
+.&lt;span style="color:#a6e22e">success&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>, &lt;span style="color:#a6e22e">status&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed with response &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; and status code &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">status&lt;/span>);
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>becomes:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>);
+}, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">result&lt;/span>);
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We &lt;strong>can&lt;/strong> use &lt;code>success&lt;/code> or &lt;code>error&lt;/code> when using &lt;code>$http&lt;/code> - it's convenient. For one thing, the &lt;code>error&lt;/code> function gives us a response and status (and more) and the &lt;code>success&lt;/code> function gives us the response data (rather than the full response object).&lt;/p>
+&lt;p>But remember that it's not a standard part of a promise. You can can add your own versions of these functions to promises you build yourself if you want:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">success&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">fn&lt;/span>) {
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">fn&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>, &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">status&lt;/span>, &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">headers&lt;/span>, &lt;span style="color:#a6e22e">config&lt;/span>);
+});
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>;
+};
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">error&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">fn&lt;/span>) {
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">null&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">fn&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>, &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">status&lt;/span>, &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">headers&lt;/span>, &lt;span style="color:#a6e22e">config&lt;/span>);
+});
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>;
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>this is exactly how angular does it.&lt;/p>
+&lt;p>So what's the advice?&lt;/p>
+&lt;blockquote>
+&lt;p>Use &lt;code>success&lt;/code> or &lt;code>error&lt;/code> with &lt;code>$http&lt;/code> promises if you want to - just remember they're not standard, and the parameters are different to those for &lt;code>that&lt;/code> callbacks.&lt;/p>
+&lt;/blockquote>
+&lt;p>So if you change your code so that your promise is not returned from &lt;code>$http&lt;/code>, as we did in the earlier example when we load data from a cache, your code will break if you expect &lt;code>success&lt;/code> or &lt;code>error&lt;/code> to be there.&lt;/p>
+&lt;p>A safe approach is to use &lt;code>then&lt;/code> wherever possible.&lt;/p>
+&lt;h2 id="advanced-promises---chaining">Advanced Promises - Chaining&lt;/h2>
+&lt;p>If you've had your fill of promises for now, you can skip to &lt;a href="#thefutureofpromises">The Future of Promises&lt;/a> or &lt;a href="#wrappingup">Wrapping Up&lt;/a>.&lt;/p>
+&lt;p>One useful aspect of promises is that the &lt;code>then&lt;/code> function returns the promise itself. This means that you can actually &lt;em>chain&lt;/em> promises, to create conscise blocks of logic that are executed at the appropriate times, without lots of nesting.&lt;/p>
+&lt;p>Let's consider an example where we need to fetch the user's name from the backend, but we have to use separate requests to get their profile information and then their application permissions.&lt;/p>
+&lt;p>Here's an example:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span> {
+&lt;span style="color:#a6e22e">username&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>,
+&lt;span style="color:#a6e22e">profile&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>,
+&lt;span style="color:#a6e22e">permissions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>
+};
+&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/user/name&amp;#39;&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the username, get the profile.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/profile/&amp;#39;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the profile, now get the permissions.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">profile&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/security/&amp;#39;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the permissions
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">permissions&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The full user details are: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">JSON&lt;/span>.&lt;span style="color:#a6e22e">stringify&lt;/span>(&lt;span style="color:#a6e22e">details&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we have a series of asynchronous calls that we can coordinate without having lots of nested callbacks.&lt;/p>
+&lt;p>We can also greatly simplify error handling - let's see the example again, with an exception thrown in:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/user/name&amp;#39;&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the username, get the profile.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/profile/&amp;#39;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the profile, now get the permissions.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">profile&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#66d9ef">throw&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Oh no! Something failed!&amp;#34;&lt;/span>;
+})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the permissions
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">permissions&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The full user details are: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">JSON&lt;/span>.&lt;span style="color:#a6e22e">stringify&lt;/span>(&lt;span style="color:#a6e22e">details&lt;/span>);
+})
+.&lt;span style="color:#66d9ef">catch&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">error&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;An error occured: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">error&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can use &lt;code>catch(callback)&lt;/code> - which is actually just shorthand for &lt;code>then(null, callback)&lt;/code>. There's even a &lt;code>finally&lt;/code> - which is executed whether or not the operations fail or succeed.&lt;/p>
+&lt;blockquote>
+&lt;p>Use &lt;code>catch&lt;/code> and for error handling with promises - and use &lt;code>finally&lt;/code> for logic that's executed after success OR failure.&lt;/p>
+&lt;/blockquote>
+&lt;p>The composition of promises can simplify complicated code - particularly when you add in error handling!&lt;/p>
+&lt;p>One final point to make which is not quite related to chaining but does relate to multiple promises is &lt;code>$q.all&lt;/code>. &lt;code>all&lt;/code> can be used to build a single promise from a set of promises.&lt;/p>
+&lt;p>You can pass an array of promises to &lt;code>all&lt;/code> and you get back a single promise - which is resolved when all of the promises it contains resolve. This can be useful if you are building complex methods that may have to perform multiple asynchronous tasks - such as multiple ajax calls.&lt;/p>
+&lt;h2 id="advanced-promises---routing">Advanced Promises - Routing&lt;/h2>
+&lt;p>There's a particular area of AngularJS that uses promises to great effect, and that's the router.&lt;/p>
+&lt;p>Let's imagine we have a router like the following:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$routeProvider&lt;/span>
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/home&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;home.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;MainController&amp;#39;&lt;/span>
+})
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/profile&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;profile.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>
+})
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here we have two routes. The home route takes us to the home page, with the &lt;code>MainController&lt;/code>, and the profile route takes us to the user's profile page.&lt;/p>
+&lt;p>Our ProfileController uses our funky name service:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$scope&lt;/span>, &lt;span style="color:#a6e22e">NameService&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
+&lt;span style="color:#a6e22e">NameService&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span>().&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>;
+});
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The problem is, &lt;strong>until the name service gets the name from the backend, the name is null&lt;/strong>. This means if our view binds to the name, it'll flicker - first it's empty then its set.&lt;/p>
+&lt;p>What we'd like to do is actully say to the router - &amp;ldquo;I'm going to go to this view, but only when you can tell me my name&amp;rdquo;.&lt;/p>
+&lt;p>We can do this with the &lt;em>resolves&lt;/em> in the router, here's how it works:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#75715e">// Create a function that uses the NameService
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">// to return the getName promise.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">getName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">NameService&lt;/span>) {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">NameService&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span>();
+};
+&lt;span style="color:#a6e22e">$routeProvider&lt;/span>
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/home&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;/home.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;MainController&amp;#39;&lt;/span>
+})
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/profile&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;/profile.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>,
+&lt;span style="color:#75715e">/* only navigate when we&amp;#39;ve resolved these promises */&lt;/span>
+&lt;span style="color:#a6e22e">resolve&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">name&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">getName&lt;/span>
+}
+})
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>so now we have a &lt;em>resolve&lt;/em> on the route - when we go to the profile page the router will wait until the promise returned by &lt;code>getName&lt;/code> resolves, then it will pass the result into the controller, as the parameter called &lt;code>name&lt;/code>. Now our controller looks like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$scope&lt;/span>, &lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>;
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Much better! And also &lt;strong>much&lt;/strong> more testable.&lt;/p>
+&lt;p>One thing you may wonder - why do I use &lt;code>getName&lt;/code> as the resolve function instead of just using &lt;code>NameService.getName&lt;/code> directly?&lt;/p>
+&lt;p>That's because the route is set up in a &lt;code>config&lt;/code> function - and that function cannot have services injected. However, a resolve function &lt;strong>can&lt;/strong>, so we just use a function and let AngularJS inject the &lt;code>NameService&lt;/code> for us.&lt;/p>
+&lt;p>Now for an important statement:&lt;/p>
+&lt;blockquote>
+&lt;p>If the first thing your controller does is fetch data from the server, it's probably wrong.&lt;/p>
+&lt;/blockquote>
+&lt;p>Why? Because if your controller needs data, inject it - let the router ensure the data is ready. Then you don't have controllers in an invalid state as they're loading - and your controllers become easier to test.&lt;/p>
+&lt;p>Be aware of &lt;code>resolve&lt;/code> for routes - it's a great way to handle loading of required data, authentication and other things that you might be putting into the wrong place.&lt;/p>
+&lt;p>You can see the example above in action here:&lt;/p>
+&lt;iframe width="100%" height="300" src="http://jsfiddle.net/dwmkerr/m29pe/embedded/result,js,html" allowfullscreen="allowfullscreen" frameborder="0">&lt;/iframe>
+&lt;p>What's cool is we can also see our caching logic by going to and from the Home and Profile pages. The promises are keeping our code clean and testable.&lt;/p>
+&lt;p>As a final note on promises when routing, you can specify multiple resolves if you need to:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$routeProvider&lt;/span>
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/profile&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;/profile.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>,
+&lt;span style="color:#75715e">/* only navigate when we&amp;#39;ve resolved these promises */&lt;/span>
+&lt;span style="color:#a6e22e">resolve&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">name&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">getName&lt;/span>,
+&lt;span style="color:#a6e22e">profile&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">getProfile&lt;/span>,
+&lt;span style="color:#a6e22e">anythingElse&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">getAnythingElse&lt;/span>
+}
+})
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>in this case each resolve is injected into the controller.&lt;/p>
+&lt;h2 id="advanced-promises---tips--tricks">Advanced Promises - Tips &amp;amp; Tricks&lt;/h2>
+&lt;p>This section just contains some tips and tricks you might find useful when working with promises.&lt;/p>
+&lt;ol>
+&lt;li>Promises in directives are not resolved automatically since AngularJS 1.2. Previously, if you passed a promise to a directive with an &amp;lsquo;=&amp;rsquo; binding, AngularJS would resolve the promise for you, this is no longer the case.&lt;/li>
+&lt;/ol>
+&lt;h2 id="the-future-of-promises">The Future of Promises&lt;/h2>
+&lt;p>So promises are a core part of AngularJS and to use the framework effectively, you must understand how to use them and how they work. But what is the future of promises?&lt;/p>
+&lt;p>It's almost certain that promises are going to become a &lt;strong>native&lt;/strong> feature of JavaScript, they are part of the proposed ECMAScript 6 specification.&lt;/p>
+&lt;p>The functionality of the &lt;code>q&lt;/code> library and AngularJS&amp;rsquo; implementation of promises are very similar indeed to the proposed specification, but be aware that when promises become standard, AngularJS is most likely to adapt their own promises to work like native promises.&lt;/p>
+&lt;p>You can read more at &lt;a href="http://www.html5rocks.com/en/tutorials/es6/promises/">html5rocks.com/en/tutorials/es6/promises/&lt;/a>.&lt;/p>
+&lt;p>Just be aware that you'll see promises more and more, in other frameworks and in vanilla JavaScript.&lt;/p>
+&lt;h2 id="wrapping-up">Wrapping Up&lt;/h2>
+&lt;p>I hope this post has been useful to understanding promises. Any feedback is always good, so let me know if anything is unclear or could be improved. To finish this article, here are some useful links:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>The Q library&lt;/strong> &lt;a href="https://github.com/kriskowal/q">github.com/kriskowal/q&lt;/a>&lt;/li>
+&lt;li>&lt;strong>The AngularJS &lt;code>$q&lt;/code> Service&lt;/strong> &lt;a href="https://docs.angularjs.org/api/ng/service/$q">docs.angularjs.org/api/ng/service/$q&lt;/a>&lt;/li>
+&lt;li>&lt;strong>Promises in ECMAScript 6&lt;/strong> &lt;a href="http://www.html5rocks.com/en/tutorials/es6/promises/">html5rocks.com/en/tutorials/es6/promises/&lt;/a>&lt;/li>
+&lt;li>&lt;strong>XmlHttpRequest, which we used in an example&lt;/strong> &lt;a href="https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest">developer.mozilla.org/en/docs/Web/API/XMLHttpRequest&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>And also some interesting discussions:&lt;/p>
+&lt;p>&lt;a href="http://spion.github.io/posts/why-i-am-switching-to-promises.html">Why I am switching to promises&lt;/a> - Written by Gorgi Kosev, great article describing why a switch from callbacks to promises can be a very good thing in NodeJS applications.&lt;/p>
+&lt;p>&lt;a href="http://blog.ometer.com/2011/07/24/callbacks-synchronous-and-asynchronous/">Callbacks, sychronous and asynchronous&lt;/a> - From Havoc, this post contains many useful points for API writers who are using callbacks or promises. One key takeaway is to &lt;strong>never&lt;/strong> do what a sample in this article does which is resolve a promise either synchronously or asynchronously, as it leads to code which can be difficult to reason about. I'll be mentioning this more in a later update which will explain the problem and solution.&lt;/p>
+&lt;p>&lt;a href="http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony">Designing for Asynchrony&lt;/a> - Written by Isaac Z. Schlueter, this post is another great one for API designers that takes a look into asynchrony.&lt;/p></description><category>CodeProject</category></item><item><title>Practical AngularJS Part 2</title><link>https://dwmkerr.com/practical-angularjs-part-2/</link><pubDate>Wed, 19 Feb 2014 15:29:29 +0000</pubDate><guid>https://dwmkerr.com/practical-angularjs-part-2/</guid><description>&lt;p>I'm going to be working in F# almost exclusively for a short while, so before I throw myself into that I wanted to wind up my Practical AngularJS Part 2 article. It's ready to rock here:&lt;/p>
+&lt;p>&lt;a title="Practical AngularJS Part 2 – Components of an AngularJS Application" href="http://www.dwmkerr.com/practical-angularjs-part2/">Practical AngularJS Part 2 - Components of an AngularJS Application&lt;/a>&lt;/p>
+&lt;p>In this article we get a brief introduction to what's in the toolkit for an angular developers - filters, controllers, services, directives, views and routes. I don't go into too much detail, we're just seeing what the different components are. Spread the word, share the article and as always, comments are welcome.&lt;/p></description><category>CodeProject</category></item><item><title>Langton's Ant in Javascript</title><link>https://dwmkerr.com/langtons-ant-in-javascript/</link><pubDate>Sun, 15 Dec 2013 10:47:18 +0000</pubDate><guid>https://dwmkerr.com/langtons-ant-in-javascript/</guid><description>&lt;p>Langton's Ant is a great simulation to write to play with a language. Just today I've completed my Langton's Ant write up and published it on the CodeProject, you can see the article at &lt;a title="Learn Javascript Part 3 - AngularJS and Langton's Ant" href="http://www.codeproject.com/Articles/696943/Learn-JavaScript-Part-3-AngularJS-and-Langtons-Ant" target="_blank">Learn JavaScript Part 3 - Angularjs and Langton's Ant&lt;/a>.&lt;/p>
+&lt;p>&lt;a title="Langton's Ant" href="http://www.dwmkerr.com/experiments/langtonsant/" target="_blank">&lt;img src="images/langtonsant.jpg" alt="Langton's Ant" width="640" />&lt;/a>&lt;/p>
+&lt;p>There are some interesting things in the article for angular too - a look at using directives for custom elements, how to handle both the DOM and Angular loading correctly, and timers and intervals. This is the third part on my series on Learn Javascript, the next will focus on NodeJS. Enjoy, share, fork and comments are always welcome.&lt;/p>
+&lt;p>The default configuration of the simulation is interesting - try a simulation of the form &amp;lsquo;left, left, right, right&amp;rsquo; for another type of behaviour.&lt;/p></description><category>CodeProject</category></item><item><title>Introducing Practical AngularJS</title><link>https://dwmkerr.com/introducing-practical-angularjs/</link><pubDate>Mon, 25 Nov 2013 16:16:09 +0000</pubDate><guid>https://dwmkerr.com/introducing-practical-angularjs/</guid><description>&lt;p>I was recently at Devoxx in Antwerp, primarily because I wanted to get involved in some of the sessions that were being hosted by guys from the AngularJS team at Google. I've had a chance to work a little with Backbone and KnockoutJS and had been recently deliberately holding off looking at AngularJS so I could hit the conference and workshops fresh and unencumbered with any preconceptions.&lt;/p>
+&lt;p>The sessions were great, and since then I've been working on a couple of projects that use Angular. As I've always found writing about a topic a great way to really cement what you know about it, and to understand where the holes in your knowledge are, I've started a new series of articles called &amp;lsquo;&lt;a title="Practical AngularJS" href="http://www.dwmkerr.com/practical-angularjs/">Practical AngularJS&lt;/a>&amp;rsquo;.&lt;/p>
+&lt;p>This series is a little different to others I'm working on at the moment (such as the seemingly &lt;a title=".NET Shell Extensions - Shell Context Menus" href="http://www.codeproject.com/Articles/512956/NET-Shell-Extensions-Shell-Context-Menus" target="_blank">endless SharpShell articles&lt;/a> and &lt;a title="Space Invaders" href="http://www.codeproject.com/Articles/681130/Learn-JavaScript-Part-2-Space-Invaders" target="_blank">Learn JavaScript&lt;/a> which is taking some time) as I'm writing it on my own blog rather than on the CodeProject. The reason behind this is purely push me into getting better at handling my blog (particularly the code samples) and because the code I'm writing doesn't need to be associated with download links and so on, it can all be in fiddles.&lt;/p>
+&lt;p>Anyway, enough chatter - part one of Practical AngularJS is now finished. It's a new series, so it's early enough to have a say in where it goes, please comment and share and let me kn0w whether you find it useful, pointless, or anything in-between.&lt;/p>
+&lt;p>As a short teaser, in &lt;a title="Practical AngularJS Part 1 – Introducing AngularJS" href="http://www.dwmkerr.com/practical-angularjs-part1" target="_blank">Practical AngularJS Part 1 - Introducing AngularJS&lt;/a> we take a look at what AngularJS is, why we'd consider using it and when. We start out with a trivial task for a web application, and see how it quickly becomes a bit sluggish and painful to do certain things, then see how using AnguarJS can ease that pain, letting us focus on the important stuff and it help out with the grunt work. We take our initially messy app and make it a lot more manageable, and look into how we can with our new structure start to write unit tests for the logic.&lt;/p>
+&lt;p>So this is the bulk of Part 1. Unless there's a strong push for another topic, Part 2 will focus on testing. Testing is core to the development ideals of the AngularJS project and is something that it was built in mind for. We'll look into how quickly we can write unit tests, and the flexibility that we've got.&lt;/p>
+&lt;p>Rather than advocating patterns such as BDD or TDD, we'll again shy away from theoretical discussions about what is conceptually the best paradigm and just dig in - playing with the code and seeing what works and what doesn't. By the end of it you'll have a good idea of the freedom you've got with testing - leaving it up to you to choose the pattern or process that fits your style, or the style of your team and project the best.&lt;/p></description><category>CodeProject</category></item></channel></rss>

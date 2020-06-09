@@ -1,3 +1,117 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>JSX on dwmkerr.com</title><link>https://dwmkerr.com/tags/jsx/</link><description>Recent content in JSX on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 25 Apr 2016 09:45:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/jsx/index.xml" rel="self" type="application/rss+xml"/><item><title>Moving from React + Redux to Angular 2</title><link>https://dwmkerr.com/moving-from-react-redux-to-angular-2/</link><pubDate>Mon, 25 Apr 2016 09:45:00 +0000</pubDate><guid>https://dwmkerr.com/moving-from-react-redux-to-angular-2/</guid><description>I've just finished working on a very large project written in React and Redux. The whole team were new to both and we loved them.
-I'm going to share my experiences of experimenting in Angular 2 with you, from the point of view of someone who needs a pretty compelling reason to move away from my JSX and reducers.
-The Journey So Far Let me highlight a few key moments in my UI development experiences, to give a bit of context to my ramblings.</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>JSX on dwmkerr.com</title><link>https://dwmkerr.com/tags/jsx/</link><description>Recent content in JSX on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 25 Apr 2016 09:45:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/jsx/index.xml" rel="self" type="application/rss+xml"/><item><title>Moving from React + Redux to Angular 2</title><link>https://dwmkerr.com/moving-from-react-redux-to-angular-2/</link><pubDate>Mon, 25 Apr 2016 09:45:00 +0000</pubDate><guid>https://dwmkerr.com/moving-from-react-redux-to-angular-2/</guid><description>&lt;p>I've just finished working on a very large project written in React and Redux. The whole team were new to both and we loved them.&lt;/p>
+&lt;p>I'm going to share my experiences of experimenting in Angular 2 with you, from the point of view of someone who needs a pretty compelling reason to move away from my JSX and reducers.&lt;/p>
+&lt;h1 id="the-journey-so-far">The Journey So Far&lt;/h1>
+&lt;p>Let me highlight a few key moments in my UI development experiences, to give a bit of context to my ramblings.&lt;/p>
+&lt;p>&lt;img src="images/Journey.jpg" alt="The Journey So Far">&lt;/p>
+&lt;p>Reading about redux was a lightbulb moment for me - rather than a complex framework it's a simply library to help apply a few common sense functional programming principles - state is immutable, functions apply predictable transformations to data to produce new data.&lt;/p>
+&lt;p>Learning React took a little bit of getting used to, but not too much, it was quite a bit more simple than Angular anyway.&lt;/p>
+&lt;p>Long story short, simple React components and rigorous state management has so far resulted in the most manageable and well written very large scale UIs I've worked on so far - can Angular 2 compete with this?&lt;/p>
+&lt;h1 id="first-step-with-angular-2---folder-structure-typescript-sublime-text">First Step with Angular 2 - Folder Structure, Typescript, Sublime Text&lt;/h1>
+&lt;p>I checked out &lt;a href="https://angular.io/docs/ts/latest/quickstart.html">the pretty neat &amp;lsquo;Getting Started&amp;rsquo; guide from Angular&lt;/a> which promised to get me started in five minutes.&lt;/p>
+&lt;p>It didn't take five minutes, there's a few gotchas, so I'm going to give a condensed guide here.&lt;/p>
+&lt;h2 id="step-1-the-folder-structure">Step 1: The Folder Structure&lt;/h2>
+&lt;p>The first few steps of the angular guide creates the following folder structure:&lt;/p>
+&lt;pre>&lt;code>|-- angular2-starter
+|-- tsconfig.json
+|-- typings.json
+|-- package.json
+&lt;/code>&lt;/pre>&lt;p>This is the standard &lt;code>package.json&lt;/code> with some scripts ready to go. We also have &lt;code>tsconfig.json&lt;/code> to configure the typescript compiler and &lt;code>typings.json&lt;/code> to provide info to the compiler on where to get type information.&lt;/p>
+&lt;p>You can check the code at this stage here:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/angular2-starter/tree/step1">https://github.com/dwmkerr/angular2-starter/tree/step1&lt;/a>&lt;/p>
+&lt;p>&lt;img src="images/Step1.png" alt="Step 1 GitHub Screenshot">&lt;/p>
+&lt;h2 id="node--npm-issues">Node &amp;amp; NPM Issues&lt;/h2>
+&lt;p>At this stage the quickstart says you can run &lt;code>npm install&lt;/code> and all will be well:&lt;/p>
+&lt;p>&lt;img src="images/npm-install.png" alt="npm install screenshot">&lt;/p>
+&lt;pre>&lt;code>npm ERR! cb() never called!
+&lt;/code>&lt;/pre>&lt;p>Not so good! For the record I'm using NPM 3.7.3 installed via homebrew. This looks like a bug in Beta 15 (see &lt;a href="https://github.com/angular/angular/issues/8053">Issue #8053&lt;/a>).&lt;/p>
+&lt;p>I fixed this by using &lt;em>n&lt;/em> to upgrade my node version:&lt;/p>
+&lt;pre>&lt;code>$ node -v
+v5.9.0
+$ npm install -g n # install 'n' node version manager
+$ sudo n latest
+installed : v5.11.0
+$ node -v
+v5.11.0
+&lt;/code>&lt;/pre>&lt;p>Now it &lt;code>npm install&lt;/code> runs OK.&lt;/p>
+&lt;h2 id="step-2-adding-components-and-configuring-sublime">Step 2: Adding Components and Configuring Sublime&lt;/h2>
+&lt;p>The next steps of the walkthrough take us through adding an app component, a &lt;code>main.ts&lt;/code> file to bootstrap the application and an index file. You can check the updates here:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/angular2-starter/tree/step2">https://github.com/dwmkerr/angular2-starter/tree/step2&lt;/a>&lt;/p>
+&lt;p>Essentially we now have:&lt;/p>
+&lt;pre>&lt;code>|-- angular2-starter
+|-- tsconfig.json
+|-- typings.json
+|-- package.json
+|-- index.html
+|-- styles.css
+|-- app
+|-- main.ts
+|-- app.component.ts
+&lt;/code>&lt;/pre>&lt;p>At this stage, running &lt;code>npm start&lt;/code> gives us a browerserified app to play with:&lt;/p>
+&lt;p>&lt;img src="images/Step2.png" alt="Step 2 Screenshot">&lt;/p>
+&lt;p>Clear enough so far, although the code in Sublime is not looking so pretty:&lt;/p>
+&lt;p>&lt;img src="images/Step2Sublime.png" alt="Step 2 Sublime Text Screenshot">&lt;/p>
+&lt;p>Quickly installing the &lt;a href="https://github.com/Microsoft/TypeScript-Sublime-Plugin">TypeScript plugin&lt;/a> from Microsoft[^n] seems to do the trick:&lt;/p>
+&lt;p>&lt;img src="images/Step2SublimeFormatted.png" alt="Step 2 Sublime Text with TypeScript plugin">&lt;/p>
+&lt;p>If you need more details, here's a gist with the full setup for Sublime 3, assuming you've got nothing installed.&lt;/p>
+&lt;p>&lt;a href="https://gist.github.com/dwmkerr/04fa8b8c15d049d0381e7798a79bcc45">https://gist.github.com/dwmkerr/04fa8b8c15d049d0381e7798a79bcc45&lt;/a>&lt;/p>
+&lt;p>At this stage the app will run, we can see the basics of the Angular 2 syntax and start experimenting.&lt;/p>
+&lt;h2 id="step-3-adding-some-components">Step 3: Adding some components&lt;/h2>
+&lt;p>At this stage the quick started guide starts going into more detail, guiding you through the process of creating multiple components. I decided to go off on my own here, with the rough plan of being able to write a set of goals for the day and turn it into a check-list[^n].&lt;/p>
+&lt;p>Within not much time I had the some basic components, input and output, bindings and so on. Some screenshots:&lt;/p>
+&lt;p>&lt;img src="images/Goals-Screenshot-1.png" alt="Goals Screenshot 1">&lt;/p>
+&lt;p>&lt;img src="images/Goals-Screenshot-2-1.png" alt="Goals Screenshot 2">&lt;/p>
+&lt;p>You can take a look at the code at this stage by checking out the &amp;lsquo;step3&amp;rsquo; branch:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/angular2-starter/tree/step3">github.com/dwmkerr/angular2-starter/tree/step3&lt;/a>&lt;/p>
+&lt;h1 id="thoughts-so-far">Thoughts so far&lt;/h1>
+&lt;p>For now, that's all I've got time for. I've had a chance to get a feel for Angular 2, I'm going to come back to this in a few weeks and integrate Redux, maybe swap out System.JS for Webpack and do some experimenting.&lt;/p>
+&lt;p>Opinions[^n] so far?&lt;/p>
+&lt;h3 id="not-sold-on-typescript">Not Sold on TypeScript&lt;/h3>
+&lt;p>I've used TypeScript in my mess around, rather than plain &amp;lsquo;ol JavaScript, to keep the experience authentic to the angular team's goals of using TypeScript to help.&lt;/p>
+&lt;p>So far, I'm not seeing an enormous benefit. Some of the extra information available to auto-completion in nice, but this is a tooling thing.&lt;/p>
+&lt;p>JavaScript is not a static language, the TypeScript annotations I find slowing me down a little.&lt;/p>
+&lt;blockquote>
+&lt;p>There's so much extra domain specific &lt;em>stuff&lt;/em> in Angular 2 that people might be lost without it. But if your stuff is so complex you need to adapt the base language, is it &lt;strong>too&lt;/strong> complex?&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="explicit-component-surface-areas-are-a-nice-idea">Explicit Component Surface Areas are a Nice Idea&lt;/h3>
+&lt;p>When defining a component, you specify explicitly what comes &lt;em>in&lt;/em> (data) and what goes &lt;em>out&lt;/em> (events).&lt;/p>
+&lt;p>This means that the surface area of a component (i.e. the part you touch if you interact with it programmatically) is well defined. This is a good thing.&lt;/p>
+&lt;p>However, this is all handled with some pretty framework-specific stuff[^n]:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#75715e">// e.g.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">GoalsBoxComponent&lt;/span> {
+&lt;span style="color:#75715e">// Event we fire when the goals change.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">@&lt;/span>&lt;span style="color:#a6e22e">Output&lt;/span>() &lt;span style="color:#a6e22e">goalsChanged&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">EventEmitter&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">Goal&lt;/span>[]&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">EventEmitter&lt;/span>();
+}
+&lt;span style="color:#75715e">// e.g.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">GoalListComponent&lt;/span> {
+&lt;span style="color:#75715e">// Input is a set of goals to render.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">@&lt;/span>&lt;span style="color:#a6e22e">Input&lt;/span>() &lt;span style="color:#a6e22e">goals&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">Goal&lt;/span>[] &lt;span style="color:#f92672">=&lt;/span> [];
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>In a nutshell&amp;hellip;&lt;/p>
+&lt;blockquote>
+&lt;p>Explicit component surface area is a cool idea.&lt;/p>
+&lt;/blockquote>
+&lt;p>React does this too with the optional &lt;code>propTypes&lt;/code>, but it is not enforced. &lt;em>However&lt;/em>, how this is done in Angular has already gone through a few radical changes with some &lt;a href="https://github.com/angular/angular/pull/4435#issuecomment-144789359">lively debate&lt;/a>.&lt;/p>
+&lt;h3 id="not-ready-for-production-yet">Not ready for production&amp;hellip; yet&lt;/h3>
+&lt;p>There's no standardised, documented way to test a component - nuff said. But things are evolving quickly.&lt;/p>
+&lt;h3 id="framework-fatigue">Framework Fatigue&lt;/h3>
+&lt;p>Comparing React to Angular is unfair, one is a view library, one is a framework. But it's worth pointing out this is a pretty complex framework. There's a &lt;strong>lot&lt;/strong> of very domain specific stuff. See this documentation for an example:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">li&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">ngFor&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;#hero of heroes&amp;#34;&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>From &lt;a href="https://angular.io/docs/ts/latest/tutorial/toh-pt2.html">the documentation&lt;/a>:&lt;/p>
+&lt;blockquote>
+&lt;p>The (*) prefix to ngFor indicates that the &lt;code>&amp;lt;li&amp;gt;&lt;/code> element and its children constitute a master template.&lt;/p>
+&lt;p>&amp;hellip;&lt;/p>
+&lt;p>The # prefix before &amp;ldquo;hero&amp;rdquo; identifies the hero as a local template variable. We can reference this variable within the template to access a hero’s properties.&lt;/p>
+&lt;/blockquote>
+&lt;p>You'll get used to it (if you have to), but I think it's harder to &lt;em>reason&lt;/em> about than:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">render&lt;/span> () {
+&lt;span style="color:#66d9ef">return&lt;/span> (
+&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">div&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+{&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">props&lt;/span>.&lt;span style="color:#a6e22e">goals&lt;/span>.&lt;span style="color:#a6e22e">map&lt;/span>((&lt;span style="color:#a6e22e">goal&lt;/span>) =&amp;gt; {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">li&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>{&lt;span style="color:#a6e22e">goal&lt;/span>.&lt;span style="color:#a6e22e">title&lt;/span>}&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">/&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">l&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">i&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;gt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">;&lt;/span>
+}&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">/&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">d&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">i&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">v&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;gt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">)&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">;&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>OK fair enough, JSX is very specific, but the &lt;strong>logic&lt;/strong> (mapping an iterable) is JavaScript.&lt;/p>
+&lt;h1 id="wrapping-up">Wrapping Up&lt;/h1>
+&lt;p>That's it, for now. Next steps are to experiment more, see if it will play nice with Redux and share the next set of opinions.&lt;/p>
+&lt;p>I'd love to hear what you think, so drop your comments below!&lt;/p>
+&lt;p>&lt;strong>Footnotes&lt;/strong>&lt;/p></description><category>CodeProject</category></item></channel></rss>

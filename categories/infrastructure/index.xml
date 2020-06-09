@@ -1,2 +1,88 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Infrastructure on dwmkerr.com</title><link>https://dwmkerr.com/categories/infrastructure/</link><description>Recent content in Infrastructure on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 11 Dec 2018 21:24:34 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/infrastructure/index.xml" rel="self" type="application/rss+xml"/><item><title>Dynamic and Configurable Availability Zones in Terraform</title><link>https://dwmkerr.com/dynamic-and-configurable-availability-zones-in-terraform/</link><pubDate>Tue, 11 Dec 2018 21:24:34 +0000</pubDate><guid>https://dwmkerr.com/dynamic-and-configurable-availability-zones-in-terraform/</guid><description>When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.
-I've seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I've come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we'll support.</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Infrastructure on dwmkerr.com</title><link>https://dwmkerr.com/categories/infrastructure/</link><description>Recent content in Infrastructure on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 11 Dec 2018 21:24:34 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/infrastructure/index.xml" rel="self" type="application/rss+xml"/><item><title>Dynamic and Configurable Availability Zones in Terraform</title><link>https://dwmkerr.com/dynamic-and-configurable-availability-zones-in-terraform/</link><pubDate>Tue, 11 Dec 2018 21:24:34 +0000</pubDate><guid>https://dwmkerr.com/dynamic-and-configurable-availability-zones-in-terraform/</guid><description>&lt;p>When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.&lt;/p>
+&lt;p>I've seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I've come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we'll support.&lt;/p>
+&lt;p>&lt;img src="images/screenshot-1.jpg" alt="screenshot">&lt;/p>
+&lt;p>To demonstrate, I've set up a module which deploys a cluster of web servers. My goal is to be able to configure the region, VPC CIDR block, subnets and subnet CIDR blocks as below:&lt;/p>
+&lt;pre>&lt;code>module &amp;quot;cluster&amp;quot; {
+source = &amp;quot;github.com/dwmkerr/terraform-aws-vpc&amp;quot;
+# Note how we can specify any number of availability zones here...
+region = &amp;quot;ap-northeast-2&amp;quot;
+vpc_cidr = &amp;quot;10.0.0.0/16&amp;quot;
+subnets = {
+ap-northeast-2a = &amp;quot;10.0.1.0/24&amp;quot;
+ap-northeast-2b = &amp;quot;10.0.2.0/24&amp;quot;
+ap-northeast-2c = &amp;quot;10.0.3.0/24&amp;quot;
+}
+# This just defines the number of web servers to deploy, and uses
+# adds my public key so I can SSH into the servers...
+web_server_count = &amp;quot;3&amp;quot;
+public_key_path = &amp;quot;~/.ssh/id_rsa.pub&amp;quot;
+}
+&lt;/code>&lt;/pre>&lt;p>The example module is at &lt;a href="https://github.com/dwmkerr/terraform-aws-vpc">github.com/dwmkerr/terraform-aws-vpc&lt;/a>. Let's take a look at some of the key elements.&lt;/p>
+&lt;h2 id="the-variables">The Variables&lt;/h2>
+&lt;p>We define the required variables very explicitly, with descriptions and a variable type to avoid confusion:&lt;/p>
+&lt;pre>&lt;code>variable &amp;quot;region&amp;quot; {
+description = &amp;quot;The region to deploy the VPC in, e.g: us-east-1.&amp;quot;
+type = &amp;quot;string&amp;quot;
+}
+variable &amp;quot;vpc_cidr&amp;quot; {
+description = &amp;quot;The CIDR block for the VPC, e.g: 10.0.0.0/16&amp;quot;
+type = &amp;quot;string&amp;quot;
+}
+variable &amp;quot;subnets&amp;quot; {
+description = &amp;quot;A map of availability zones to CIDR blocks, which will be set up as subnets.&amp;quot;
+type = &amp;quot;map&amp;quot;
+}
+&lt;/code>&lt;/pre>&lt;h2 id="the-vpc">The VPC&lt;/h2>
+&lt;p>Now that we have defined the variables, we can set up the VPC:&lt;/p>
+&lt;pre>&lt;code>// Define the VPC.
+resource &amp;quot;aws_vpc&amp;quot; &amp;quot;cluster&amp;quot; {
+cidr_block = &amp;quot;${var.vpc_cidr}&amp;quot;
+enable_dns_hostnames = true
+}
+// An Internet Gateway for the VPC.
+resource &amp;quot;aws_internet_gateway&amp;quot; &amp;quot;cluster_gateway&amp;quot; {
+vpc_id = &amp;quot;${aws_vpc.cluster.id}&amp;quot;
+}
+// Create one public subnet per key in the subnet map.
+resource &amp;quot;aws_subnet&amp;quot; &amp;quot;public-subnet&amp;quot; {
+count = &amp;quot;${length(var.subnets)}&amp;quot;
+vpc_id = &amp;quot;${aws_vpc.cluster.id}&amp;quot;
+cidr_block = &amp;quot;${element(values(var.subnets), count.index)}&amp;quot;
+map_public_ip_on_launch = true
+depends_on = [&amp;quot;aws_internet_gateway.cluster_gateway&amp;quot;]
+availability_zone = &amp;quot;${element(keys(var.subnets), count.index)}&amp;quot;
+}
+// Create a route table allowing all addresses access to the IGW.
+resource &amp;quot;aws_route_table&amp;quot; &amp;quot;public&amp;quot; {
+vpc_id = &amp;quot;${aws_vpc.cluster.id}&amp;quot;
+route {
+cidr_block = &amp;quot;0.0.0.0/0&amp;quot;
+gateway_id = &amp;quot;${aws_internet_gateway.cluster_gateway.id}&amp;quot;
+}
+}
+// Now associate the route table with the public subnet - giving
+// all public subnet instances access to the internet.
+resource &amp;quot;aws_route_table_association&amp;quot; &amp;quot;public-subnet&amp;quot; {
+count = &amp;quot;${length(var.subnets)}&amp;quot;
+subnet_id = &amp;quot;${element(aws_subnet.public-subnet.*.id, count.index)}&amp;quot;
+route_table_id = &amp;quot;${aws_route_table.public.id}&amp;quot;
+}
+&lt;/code>&lt;/pre>&lt;p>There are a few things of interest here. First, we can easily build a variable number of subnets by using the &lt;code>count&lt;/code> field on the &lt;code>aws_subnet&lt;/code> resource:&lt;/p>
+&lt;pre>&lt;code>resource &amp;quot;aws_subnet&amp;quot; &amp;quot;public-subnet&amp;quot; {
+count = &amp;quot;${length(var.subnets)}&amp;quot;
+availability_zone = &amp;quot;${element(keys(var.subnets), count.index)}&amp;quot;
+cidr_block = &amp;quot;${element(values(var.subnets), count.index)}&amp;quot;
+}
+&lt;/code>&lt;/pre>&lt;p>By using the &lt;a href="https://www.terraform.io/docs/configuration/interpolation.html">Terraform Interpolation Syntax&lt;/a>, and in particular the &lt;code>count&lt;/code>, &lt;code>keys&lt;/code>, &lt;code>values&lt;/code> and &lt;code>element&lt;/code> functions, we can grab the subnet name and CIDR block from the variables.&lt;/p>
+&lt;h2 id="the-web-server-cluster">The Web Server Cluster&lt;/h2>
+&lt;p>A cluster of web servers behind a load balancer are created by the module, to demonstrate that it works. There is little of interest in the script except for how the subnets are referenced:&lt;/p>
+&lt;pre>&lt;code>resource &amp;quot;aws_autoscaling_group&amp;quot; &amp;quot;cluster_node&amp;quot; {
+name = &amp;quot;cluster_node&amp;quot;
+vpc_zone_identifier = [&amp;quot;${aws_subnet.public-subnet.*.id}&amp;quot;]
+launch_configuration = &amp;quot;${aws_launch_configuration.cluster_node.name}&amp;quot;
+}
+&lt;/code>&lt;/pre>&lt;p>Note that we can specify the entire list of subnet ids by using the &lt;code>*&lt;/code> symbol in the resource path - &lt;code>[&amp;quot;${aws_subnet.public-subnet.*.id}&amp;quot;]&lt;/code>.&lt;/p>
+&lt;h2 id="thats-it">That's It!&lt;/h2>
+&lt;p>That's really all there is to it. I quite like this approach. I think it makes it very clear what is going on with the infrastructure, and is fairly manageable.&lt;/p>
+&lt;p>One question which may be raised is why I am not using the &lt;a href="https://www.terraform.io/docs/configuration/interpolation.html#cidrsubnet-iprange-newbits-netnum-">&lt;code>cidrsubnet&lt;/code>&lt;/a> function to automatically calculate the CIDR blocks for the subnets. The reason is purely one of preference - I prefer to explicitly specify the CIDR blocks and use various patterns to set conventions. For example, if I see an IP address such as &lt;code>10.0.3.121&lt;/code> then it is in the third AZ of my public subnet, or &lt;code>10.2.2.11&lt;/code> is in the second AZ of my locked down data zone.&lt;/p>
+&lt;p>You can see a sample Terraform module which uses this pattern at: &lt;a href="https://github.com/dwmkerr/terraform-aws-vpc-example">github.com/dwmkerr/terraform-aws-vpc-example&lt;/a>. This module also has a basic build pipeline and is published on the &lt;a href="https://registry.terraform.io/modules/dwmkerr/vpc-example">Terraform Registry&lt;/a>. I'll also be updating my &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift">AWS Openshift&lt;/a> module to use this pattern.&lt;/p></description><category>CodeProject</category></item></channel></rss>

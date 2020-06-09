@@ -1,7 +1,628 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ECMAScript 6 on dwmkerr.com</title><link>https://dwmkerr.com/categories/ecmascript-6/</link><description>Recent content in ECMAScript 6 on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 07 Sep 2015 19:44:54 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/ecmascript-6/index.xml" rel="self" type="application/rss+xml"/><item><title>Getting Started with React &amp; ES6</title><link>https://dwmkerr.com/getting-started-with-react/</link><pubDate>Mon, 07 Sep 2015 19:44:54 +0000</pubDate><guid>https://dwmkerr.com/getting-started-with-react/</guid><description>Feeling like having a go with Facebook's hugely popular React framework but not sure where to start?
-In this post I'm going to build a simple React application from scratch - using ECMAScript 6.
-We'll put together the bare minimum skeleton of a site and keep the folder structure free of noise and clutter so that you can focus on the app code and not the tooling!
-The simple app we'll build is at github.</description></item><item><title>The Best Module System for AngularJS Applications</title><link>https://dwmkerr.com/the-best-module-system-for-angularjs-applications/</link><pubDate>Wed, 18 Mar 2015 14:47:10 +0000</pubDate><guid>https://dwmkerr.com/the-best-module-system-for-angularjs-applications/</guid><description>I was working on a small and simple application built with AngularJS the other day. As with most applications like this, I start with a single JavaScript file caled app.js and no module system.
-In the past I've used RequireJS with AngularJS. It's an awful mistake. It leads to a big jump in complexity with no benefts. Angular apps don't work well with AMDs, so really your are using RequireJS to combine files into one big file.</description></item><item><title>AngularJS Promises - The Definitive Guide</title><link>https://dwmkerr.com/promises-in-angularjs-the-definitive-guide/</link><pubDate>Wed, 07 May 2014 12:06:55 +0000</pubDate><guid>https://dwmkerr.com/promises-in-angularjs-the-definitive-guide/</guid><description>Promises are a core feature of AngularJS - whether you understand them or not, if you use AngularJS you've almost certainly been using them for a while.
-In this post I'm going to explain what promises are, how they work, where they're used and finally how to use them effectively.
-Once we've got the core understanding of promises, we'll look at some more advanced functionality - chaining and resolving promises when routing.</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ECMAScript 6 on dwmkerr.com</title><link>https://dwmkerr.com/categories/ecmascript-6/</link><description>Recent content in ECMAScript 6 on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 07 Sep 2015 19:44:54 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/ecmascript-6/index.xml" rel="self" type="application/rss+xml"/><item><title>Getting Started with React &amp; ES6</title><link>https://dwmkerr.com/getting-started-with-react/</link><pubDate>Mon, 07 Sep 2015 19:44:54 +0000</pubDate><guid>https://dwmkerr.com/getting-started-with-react/</guid><description>&lt;p>Feeling like having a go with Facebook's hugely popular &lt;a href="http://facebook.github.io/react/">React&lt;/a> framework but not sure where to start?&lt;/p>
+&lt;p>In this post I'm going to build a simple React application from scratch - using &lt;a href="http://es6-features.org/">ECMAScript 6&lt;/a>.&lt;/p>
+&lt;p>We'll put together the bare minimum skeleton of a site and keep the folder structure free of noise and clutter so that you can focus on the app code and not the tooling!&lt;/p>
+&lt;p>The simple app we'll build is at &lt;a href="https://github.com/dwmkerr/react-es6-starter">github.com/dwmkerr/react-es6-starter&lt;/a>, or see &lt;a href="https://react-es6-starter.herokuapp.com">it live&lt;/a>.&lt;/p>
+&lt;h2 id="building-the-code">Building the Code&lt;/h2>
+&lt;p>Our goal will be to have a single &lt;code>index.html&lt;/code> file which includes our Javascript files. We're aiming for something like this:&lt;/p>
+&lt;p>&lt;img src="images/Build-Process.png" alt="Build Process 1">&lt;/p>
+&lt;p>But browsers don't handle ES6 yet. So our loose files, which reference each other, are going to have to be transpiled into ES5 and bundled into a single file. We need a build process:&lt;/p>
+&lt;p>&lt;img src="images/Build-Process-2.png" alt="Build Process 2">&lt;/p>
+&lt;p>&lt;a href="webpack.github.io">Webpack&lt;/a> can handle all of this for us. Given an entrypoint file, webpack will traverse all of the &lt;code>require&lt;/code> and &lt;code>import&lt;/code> statements and build a single bundle file. It also allows us to configure &amp;lsquo;loaders&amp;rsquo;, which let us pass these files through other tools:&lt;/p>
+&lt;p>&lt;img src="images/Build-Process-3.png" alt="Build Process 3">&lt;/p>
+&lt;p>We'll need the following libraries:&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="webpack.github.io">Webpack&lt;/a> - the tool that handles the build process.&lt;/li>
+&lt;li>&lt;a href="babeljs.io">Babel&lt;/a> - an excellent ES6/ES7/JSX to ES5 transpiler.&lt;/li>
+&lt;li>&lt;a href="github.com/babel/babel-loader">Babel Loader&lt;/a> - the component which integrates Babel into our Webpack build.&lt;/li>
+&lt;li>&lt;a href="github.com/ampedandwired/html-webpack-plugin">Html Webpack Plugin&lt;/a> - a simple Webpack plugin which will copy our index file to our build folder and add a link to our Webpack bundle.&lt;/li>
+&lt;/ol>
+&lt;p>Let's install these modules:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">npm install --save webpack babel babel-loader html-webpack-plugin
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We'll also need a webpack config file. By default webpack expects a file named &lt;code>webpack.config.js&lt;/code> to be in the root of the project. But every tool under the sun wants to stick its config file in the root of our project, and most of the time they're just in the way.&lt;/p>
+&lt;p>So let's put everything to do with our tooling in a &lt;code>tooling&lt;/code> folder instead. Create the file &lt;code>webpack.config.js&lt;/code> in a &lt;code>tooling&lt;/code> folder in the root of the project:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">path&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;path&amp;#39;&lt;/span>);
+&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;span style="color:#75715e">// Defines the entrypoint of our application.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">entry&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">__dirname&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;../src/app.js&amp;#39;&lt;/span>),
+&lt;span style="color:#75715e">// Bundle to a ./build/public/bundle.js file.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">output&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">path&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">__dirname&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;../build/public&amp;#39;&lt;/span>),
+&lt;span style="color:#a6e22e">filename&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;bundle.js&amp;#39;&lt;/span>
+},
+&lt;span style="color:#75715e">// Use babel for anything that is *.js or *.jsx.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">module&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">loaders&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+{
+&lt;span style="color:#a6e22e">test&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">/\.jsx?$/&lt;/span>,
+&lt;span style="color:#a6e22e">loader&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;babel-loader&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">include&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">__dirname&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;../src&amp;#39;&lt;/span>)
+}
+]
+}
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>First we define our entry point - the first file which will actually be run if we run the final bundled script. This is the &lt;code>app.js&lt;/code> file we'll create shortly. If &lt;code>app.js&lt;/code> includes other modules, Webpack will pick them up, if those modules include other modules, they will be picked up and so on.&lt;/p>
+&lt;p>Next we specify that everything should be bundled into a &lt;code>./build/public/bundle.js&lt;/code> file (we're going to use the convention that everything we can produce with our tools goes into &lt;code>./build&lt;/code>).&lt;/p>
+&lt;p>Finally, we specify that every file in &lt;code>src&lt;/code> which matches the &lt;code>\.jsx?$&lt;/code> regex will go through the babel loader.&lt;/p>
+&lt;h3 id="using-es6">Using ES6!&lt;/h3>
+&lt;p>We've actually got enough now to use ES6. Create a file in &lt;code>src&lt;/code> called &lt;code>index.html&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-html" data-lang="html">&lt;span style="color:#75715e">&amp;lt;!DOCTYPE html&amp;gt;&lt;/span>
+&amp;lt;&lt;span style="color:#f92672">html&lt;/span>&amp;gt;
+&amp;lt;&lt;span style="color:#f92672">body&lt;/span>&amp;gt;
+&amp;lt;/&lt;span style="color:#f92672">body&lt;/span>&amp;gt;
+&amp;lt;/&lt;span style="color:#f92672">html&lt;/span>&amp;gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then create a &lt;code>src/app.js&lt;/code> file:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">PI&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">3.14&lt;/span>;
+&lt;span style="color:#66d9ef">let&lt;/span> &lt;span style="color:#a6e22e">vals&lt;/span> &lt;span style="color:#f92672">=&lt;/span> [&lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>].&lt;span style="color:#a6e22e">map&lt;/span>(&lt;span style="color:#a6e22e">x&lt;/span> =&amp;gt; &lt;span style="color:#a6e22e">x&lt;/span>&lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#ae81ff">2&lt;/span>);
+document.&lt;span style="color:#a6e22e">body&lt;/span>.&lt;span style="color:#a6e22e">innerText&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Pi is &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">3.14&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; and vals is &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">vals&lt;/span>;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Run the command &lt;code>./node_modules/.bin/webpack --config ./tooling/webpack.config.js&lt;/code> and our code is built, transpiled an moved to the build folder.&lt;/p>
+&lt;p>Now we could serve this folder using any basic webserver. We are already using webpack, so the webpack dev server will do the trick. It uses exactly the same config file as the webpack tool:&lt;/p>
+&lt;pre>&lt;code>npm install --save-dev webpack-dev-server
+./node_modules/.bin/webpack-dev-server --config ./tooling/webpack.config --inline
+&lt;/code>&lt;/pre>&lt;p>The inline reloads the page when the source changes. We don't need to tell the server where the files are, it knows that from the webpack config.&lt;/p>
+&lt;p>Let's stick these commands in our &lt;code>package.json&lt;/code> for convenience:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">{
+...
+&lt;span style="color:#e6db74">&amp;#34;scripts&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#e6db74">&amp;#34;start&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;webpack-dev-server --config ./tooling/webpack.config.js --inline --quiet&amp;#34;&lt;/span>,
+&lt;span style="color:#e6db74">&amp;#34;webpack&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;webpack --config tooling/webpack.config.js&amp;#34;&lt;/span>
+...
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we can manually build with &lt;code>npm run webpack&lt;/code> and start our dev server with &lt;code>npm start&lt;/code>.&lt;/p>
+&lt;h3 id="adding-some-react">Adding some React&lt;/h3>
+&lt;p>Let's add a React component. Create a folder under &lt;code>app&lt;/code> called &lt;code>home&lt;/code> and add a &lt;code>home.js&lt;/code> file:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">import&lt;/span> &lt;span style="color:#a6e22e">React&lt;/span> &lt;span style="color:#a6e22e">from&lt;/span> &lt;span style="color:#e6db74">&amp;#39;react&amp;#39;&lt;/span>;
+&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">default&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Home&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> &lt;span style="color:#a6e22e">React&lt;/span>.&lt;span style="color:#a6e22e">Component&lt;/span> {
+&lt;span style="color:#a6e22e">render&lt;/span> () {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">div&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">h1&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>&lt;span style="color:#a6e22e">React&lt;/span> &lt;span style="color:#a6e22e">ES6&lt;/span> &lt;span style="color:#a6e22e">Starter&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">/&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">h&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">1&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">p&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>&lt;span style="color:#a6e22e">Welcome&lt;/span> &lt;span style="color:#a6e22e">to&lt;/span> &lt;span style="color:#a6e22e">the&lt;/span> &lt;span style="color:#a6e22e">React&lt;/span> &lt;span style="color:#a6e22e">ES6&lt;/span> &lt;span style="color:#a6e22e">Starter&lt;/span> &lt;span style="color:#a6e22e">home&lt;/span> &lt;span style="color:#a6e22e">page&lt;/span>&lt;span style="color:#f92672">!&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">/&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">p&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">/&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">d&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">i&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">v&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;gt;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">;&lt;/span>
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This is our first react component, which does nothing more than render some basic markup. We'll use this as the starting point for our application.&lt;/p>
+&lt;p>We can now take our &lt;code>app.js&lt;/code> file and render our Home component into the div. Here's &lt;code>app.js&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">import&lt;/span> &lt;span style="color:#a6e22e">React&lt;/span> &lt;span style="color:#a6e22e">from&lt;/span> &lt;span style="color:#e6db74">&amp;#39;react/addons&amp;#39;&lt;/span>;
+&lt;span style="color:#66d9ef">import&lt;/span> &lt;span style="color:#a6e22e">Home&lt;/span> &lt;span style="color:#a6e22e">from&lt;/span> &lt;span style="color:#e6db74">&amp;#39;./home/home&amp;#39;&lt;/span>;
+&lt;span style="color:#a6e22e">React&lt;/span>.&lt;span style="color:#a6e22e">render&lt;/span>(&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">Home&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>, document.&lt;span style="color:#a6e22e">body&lt;/span>);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>That's all there is to it! We've got a clean and simple starting point to begin playing with React. Before we look into things like state management and routing, let's look into testing what we have so far.&lt;/p>
+&lt;h3 id="testing">Testing&lt;/h3>
+&lt;p>Even the most simple app would be incomplete without looking into how we will deal with the testing.&lt;/p>
+&lt;p>Many will recommend the &lt;a href="https://facebook.github.io/jest/">Jest&lt;/a> framework to test React applications. However, it's a bit more to learn and has some problems with NodeJS v0.12, so until we get Node v4 I'm going to keep things simple.&lt;/p>
+&lt;p>First, we'll install &lt;a href="http://karma-runner.github.io/">Karma&lt;/a> as a test runner. We'll use &lt;a href="http://jasmine.github.io/">Jasmine&lt;/a> as as framework to write test cases and &lt;a href="http://phantomjs.org/">PhantomJS&lt;/a> as a headless browser in which our tests will run. This means we'll need to add some more dev dependencies:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">npm install --save-dev karma jasmine karma-webpack karma-jasmine karma-phantomjs-launcher
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can now create a &lt;code>karma.config.js&lt;/code> file in our &lt;code>tooling&lt;/code> folder:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">path&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;path&amp;#39;&lt;/span>);
+&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">config&lt;/span>) {
+&lt;span style="color:#a6e22e">config&lt;/span>.&lt;span style="color:#a6e22e">set&lt;/span>({
+&lt;span style="color:#a6e22e">browsers&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;PhantomJS&amp;#39;&lt;/span>],
+&lt;span style="color:#a6e22e">files&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;span style="color:#75715e">// We need to polyfill as PhantomJS doesn&amp;#39;t support &amp;#39;bind&amp;#39;.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#e6db74">&amp;#39;../node_modules/babel-core/browser-polyfill.js&amp;#39;&lt;/span>,
+&lt;span style="color:#e6db74">&amp;#39;../**/*.spec.js&amp;#39;&lt;/span>
+],
+&lt;span style="color:#a6e22e">frameworks&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;jasmine&amp;#39;&lt;/span>],
+&lt;span style="color:#a6e22e">preprocessors&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#e6db74">&amp;#39;../**/*.spec.js&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;webpack&amp;#39;&lt;/span>],
+},
+&lt;span style="color:#a6e22e">reporters&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;progress&amp;#39;&lt;/span>],
+&lt;span style="color:#a6e22e">singleRun&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>,
+&lt;span style="color:#a6e22e">webpack&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">module&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">loaders&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+{
+&lt;span style="color:#a6e22e">test&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">/\.jsx?$/&lt;/span>,
+&lt;span style="color:#a6e22e">loader&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;babel-loader&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">include&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">__dirname&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;../src&amp;#39;&lt;/span>)
+}
+],
+}
+},
+&lt;span style="color:#a6e22e">webpackServer&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">noInfo&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+}
+});
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>So here we are:&lt;/p>
+&lt;ol>
+&lt;li>Loading a polyfill from babel core (sorry guys, one more &lt;code>npm install --save-dev babel-core&lt;/code>) which gives PhantomJS the &lt;code>bind&lt;/code> function (along with some others). This is needed as some of the testing code in the browser needs these features.&lt;/li>
+&lt;li>Specifying that anything that ends in &lt;code>.spec.js&lt;/code> should be loaded.&lt;/li>
+&lt;li>Running anything that ends in &lt;code>.spec.js&lt;/code> through webpack.&lt;/li>
+&lt;li>Telling webpack to use babel.&lt;/li>
+&lt;/ol>
+&lt;p>Quite a bit of config, but we're re-using the same webpack tooling as before. We run the code through webpack, which sends it through babel and builds ES5 we can test in the browser.&lt;/p>
+&lt;p>With this in place, we can write a spec. Add &lt;code>home.spec.js&lt;/code> to the &lt;code>home&lt;/code> folder:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#66d9ef">import&lt;/span> &lt;span style="color:#a6e22e">React&lt;/span> &lt;span style="color:#a6e22e">from&lt;/span> &lt;span style="color:#e6db74">&amp;#39;react&amp;#39;&lt;/span>;
+&lt;span style="color:#66d9ef">import&lt;/span> &lt;span style="color:#a6e22e">$&lt;/span> &lt;span style="color:#a6e22e">from&lt;/span> &lt;span style="color:#e6db74">&amp;#39;jquery&amp;#39;&lt;/span>;
+&lt;span style="color:#66d9ef">import&lt;/span> &lt;span style="color:#a6e22e">Home&lt;/span> &lt;span style="color:#a6e22e">from&lt;/span> &lt;span style="color:#e6db74">&amp;#39;./home.js&amp;#39;&lt;/span>;
+&lt;span style="color:#a6e22e">describe&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;Home&amp;#39;&lt;/span>, () =&amp;gt; {
+&lt;span style="color:#a6e22e">it&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;should render to the DOM&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// Create the &amp;lt;Home /&amp;gt; react component.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">component&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">React&lt;/span>.&lt;span style="color:#a6e22e">render&lt;/span>(&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">Home&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>, document.&lt;span style="color:#a6e22e">body&lt;/span>);
+&lt;span style="color:#75715e">// Find the DOM element for the created component.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">node&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">React&lt;/span>.&lt;span style="color:#a6e22e">findDOMNode&lt;/span>(&lt;span style="color:#a6e22e">component&lt;/span>);
+&lt;span style="color:#75715e">// Check the DOM looks how we&amp;#39;d expect it to.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">expect&lt;/span>(&lt;span style="color:#a6e22e">$&lt;/span>(&lt;span style="color:#a6e22e">node&lt;/span>).&lt;span style="color:#a6e22e">children&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;h1&amp;#39;&lt;/span>).&lt;span style="color:#a6e22e">text&lt;/span>()).&lt;span style="color:#a6e22e">toEqual&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;React Redux Starter&amp;#34;&lt;/span>);
+});
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>What's going on here? We just ask React to render our Home component directly into the DOM. We get a component back from this call. We can then ask React to give us the DOM associatefd with the component and use familiar tools (jQuery!) to test the shape of the generated DOM.&lt;/p>
+&lt;p>All that's missing is the last of the dev dependencies we've missed:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">npm install --save-dev jquery phantomjs
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can run tests directly on a Mac or Unix with:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">./node_modules/.bin/karma start ./tooling/karma.config.js
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>For Windows use:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">node_modules&lt;span style="color:#ae81ff">\.&lt;/span>bin&lt;span style="color:#ae81ff">\k&lt;/span>arma start tooling&lt;span style="color:#ae81ff">\k&lt;/span>arma.config.js
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>In fact, we'll update our &lt;code>package.json&lt;/code> scripts so that this is the &lt;code>test&lt;/code> command:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#e6db74">&amp;#34;scripts&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#e6db74">&amp;#34;test&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;./node_modules/.bin/karma start ./tooling/karma.config.js&amp;#34;&lt;/span>,
+...
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Done! This means we can run tests on any platform with NodeJS&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> using the same command - &lt;code>npm test&lt;/code>.&lt;/p>
+&lt;p>We now have a very simple setup which allows us to run tests. You can build on this - perhaps adding Jest later or a more sophisticated or React specific set of tools.&lt;/p>
+&lt;h3 id="adding-code-coverage">Adding Code Coverage&lt;/h3>
+&lt;p>You might want to add some code coverage information to your project. This can be a little tricky when using ES6, as we need to make sure we report coverage of the original ES6 code, rather than the actual transpiled code which is instrumented.&lt;/p>
+&lt;p>Fortunately, with the clean and simple setup we have built, adding code coverage is a snap.&lt;/p>
+&lt;p>Our test runner, Karma, is built to quickly integrate with the code coverage tool &lt;a href="https://github.com/gotwarlost/istanbul">Istanbul&lt;/a>, we just need to use the &lt;a href="https://github.com/karma-runner/karma-coverage">Karma Coverage&lt;/a> plugin. Let's install the two modules:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">npm install --save-dev istanbul karma-coverage
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now with a small addition to our &lt;code>karma.config.js&lt;/code> file we will get a nice HTML coverage report. We need to update our &lt;code>reporters&lt;/code> config to include &lt;code>coverage&lt;/code> and specify coverage options in the &lt;code>coverageReporter&lt;/code> config.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript"> &lt;span style="color:#a6e22e">reporters&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;progress&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;coverage&amp;#39;&lt;/span>],
+&lt;span style="color:#a6e22e">coverageReporter&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">dir&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;../build/coverage/&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">type&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;html&amp;#39;&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If you run &lt;code>npm test&lt;/code> now, you'll get an HTML coverage report generated. The only problem is that it is for the transpiled code, which makes it almost useless. A customer instrumenter called isparta will help us here. We use isparta to get a report of the coverage of the original ES6 code. Two more modules:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">npm install --save-dev isparta isparta-instrumenter-loader
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then in our karma config we pass the orignal code through the insrtrumenter, before babel transpiles it:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#a6e22e">webpack&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">module&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">preLoaders&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+{
+&lt;span style="color:#a6e22e">test&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">/\.jsx?$/&lt;/span>,
+&lt;span style="color:#a6e22e">exclude&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [&lt;span style="color:#e6db74">/node_modules/&lt;/span>, &lt;span style="color:#e6db74">/\.spec\.js/&lt;/span>],
+&lt;span style="color:#a6e22e">loader&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;isparta-instrumenter-loader&amp;#39;&lt;/span>
+},
+],
+&lt;span style="color:#75715e">// everything else stays the same...
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Anything that is not a spec or from &lt;code>node_modules&lt;/code> gets instrumented. Now we have a ES6 code coverage report:&lt;/p>
+&lt;p>&lt;img src="images/CapturFiles_8.png" alt="Code Coverage Report">&lt;/p>
+&lt;p>With this in place, you can go even further and integrate with other CI or publish to code quality systems (for example this repo integrates to &lt;a href="https://coveralls.io">coveralls.io&lt;/a>). This is often used to show badges for repos:&lt;/p>
+&lt;p>&lt;a href="https://coveralls.io/github/dwmkerr/react-es6-starter?branch=master">&lt;img src="images/badge.svg" alt="Coverage Status">&lt;/a>&lt;/p>
+&lt;p>Another use case is to gate checkins unless they maintain a certain code coverage threshhold.&lt;/p>
+&lt;h3 id="wrapping-up">Wrapping Up&lt;/h3>
+&lt;p>This provides a very lean starting point for learning React. There's no moving parts at the moment - no state management. We'll get into that in later articles but right now you have a playground.&lt;/p>
+&lt;p>You can set up CI in a flash, just sign up for a &lt;a href="https://travis-ci.org/">Travis&lt;/a> account and use a &lt;code>travis.yml&lt;/code> like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">language: node_js
+node_js:
+- &lt;span style="color:#e6db74">&amp;#34;0.12&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This repo is all ready to push to &lt;a href="todo">Heroku&lt;/a>, no Procfile is needed. Check out &lt;a href="todo">react-es6-starter.herokuapp.com&lt;/a> to see the code in action.&lt;/p>
+&lt;p>I hope you've found this article useful! Next time we'll be getting into the details of managing state in React.&lt;/p>
+&lt;p>Please fork the repo and have a play, let me know of any suggestions or improvements!&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/react-es6-starter">github.com/dwmkerr/react-es6-starter&lt;/a>&lt;/p>
+&lt;h3 id="glossary-of-conventions">Glossary of Conventions&lt;/h3>
+&lt;p>There are a few conventions that I personally use in most Javascript projects. The conventions used in this article which I think are valuable to consider using in many projects are:&lt;/p>
+&lt;h4 id="always-support-installteststart">Always support install/test/start&lt;/h4>
+&lt;p>Everyone should always be able to checkout, install, test and run the code with the following commands:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">npm install &lt;span style="color:#75715e"># installs everything needed&lt;/span>
+npm test &lt;span style="color:#75715e"># lets the user know the code works right on their system!&lt;/span>
+npm start &lt;span style="color:#75715e"># starts the code, lets the user know what to do next&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Install should setup everything, and if code needs to be built to be testable, this should be a post-install hook.&lt;/p>
+&lt;p>Test should be run next, as a user should be able to verify that the code works as expected on their system.&lt;/p>
+&lt;p>Finally, when the user runs start, a dev server (as convention dictates we are in a dev mode by default (and production mode is set with a flag or environment variable) the server should start and a console message should show the user where to browse to.&lt;/p>
+&lt;hr>
+&lt;h5 id="footnotes">Footnotes&lt;/h5>
+&lt;section class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1" role="doc-endnote">
+&lt;p>&lt;a href="https://www-03.ibm.com/press/us/en/pressrelease/47474.wss">IBM Mainframes&lt;/a> anyone? &lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/section></description><category>CodeProject</category></item><item><title>The Best Module System for AngularJS Applications</title><link>https://dwmkerr.com/the-best-module-system-for-angularjs-applications/</link><pubDate>Wed, 18 Mar 2015 14:47:10 +0000</pubDate><guid>https://dwmkerr.com/the-best-module-system-for-angularjs-applications/</guid><description>&lt;p>I was working on a small and simple application built with AngularJS the other day. As with most applications like this, I start with a single JavaScript file caled &lt;code>app.js&lt;/code> and no module system.&lt;/p>
+&lt;p>In the past I've used RequireJS with AngularJS. It's an awful mistake. It leads to a big jump in complexity with no benefts. Angular apps don't work well with AMDs, so really your are using RequireJS to combine files into one big file.&lt;/p>
+&lt;p>I'm sure there's a good analogy with hammers and nails. Something like:&lt;/p>
+&lt;blockquote>
+&lt;p>It's like banging nails into your face with a hammer.&lt;/p>
+&lt;/blockquote>
+&lt;p>Maybe a bit extreme. But those who've used the two together may well be nodding sagely.&lt;/p>
+&lt;p>I've also used Browserify. I prefer this approach, the syntax is cleaner. But it's still a pain.&lt;/p>
+&lt;p>Ideally, I'd like to use ECMA6 modules. So another approach is to just use ECMA6 module syntax and then compile your code with something like Traceur. But that requires quite a bit of tooling, slows down your pipeline and you're still not &lt;em>really&lt;/em> using modules.&lt;/p>
+&lt;p>I think the best approach is this one from &lt;a href="https://medium.com/@dickeyxxx">Jeff Dicky&lt;/a> on his post &lt;a href="https://medium.com/@dickeyxxx/best-practices-for-building-angular-js-apps-266c1a4a6917">Best Practices for Building Angular.js Apps&lt;/a>. Just forget all of the module stuff and concatenate only.&lt;/p>
+&lt;p>Start with this:&lt;/p>
+&lt;pre>&lt;code>myproject
+- app/
+- css/
+- vendor/
+- index.html
+&lt;/code>&lt;/pre>&lt;p>Or whatever your preferred structure is. Then stick your main file in &lt;code>app/&lt;/code>:&lt;/p>
+&lt;pre>&lt;code>myproject
+- app/
+- app.js
+- css/
+- vendor/
+- index.html
+&lt;/code>&lt;/pre>&lt;p>Your &lt;code>app.js&lt;/code> file should define your main Angular module:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">angular&lt;/span>.&lt;span style="color:#a6e22e">module&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;app&amp;#39;&lt;/span>, []);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now just go ahead and concatenate everything in your &lt;code>app/&lt;/code> folder. Structure it however you want:&lt;/p>
+&lt;pre>&lt;code>myproject
+- app/
+- components/
+- home/
+- profile/
+- app.js
+- css/
+- vendor/
+- index.html
+&lt;/code>&lt;/pre>&lt;p>Concat will put everything in the top level folder (i.e. &lt;code>app.js&lt;/code>) first. As long as you don't put anything else in your top level folder (that comes before &amp;lsquo;a&amp;rsquo; alphabetically) then it doesn't matter where you put your other files, as long as you define them without referencing any globals. So define your components like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">angular&lt;/span>.&lt;span style="color:#a6e22e">module&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;app&amp;#39;&lt;/span>).&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;SomeController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// something
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>No fuss no muss. No requires, no exports.&lt;/p>
+&lt;p>If you need a new service, write it and save it. Same for directives or controllers or filters. Add the source file and it's included, no messing around.&lt;/p>
+&lt;p>Keep it simple, don't force another module system on top of angular's, you don't get much benenfit. And wait patiently until ECMA6 moves more into the mainstream and we can start using native modules. There's less and less point in investing in some super-sophisticated complex fancy module system for a framework which in vNext will throw it all away and for a language which will finally get native modules.&lt;/p>
+&lt;h3 id="words-for-gulpers">Words for Gulpers&lt;/h3>
+&lt;p>If you are a gulp user, here's how a pipeline might look to concat your JavaScript:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">gulp&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">jshint&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-jshint&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">stylish&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;jshint-stylish&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">uglify&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-uglify&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">rename&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-rename&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">sourcemaps&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-sourcemaps&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">concat&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-concat&amp;#39;&lt;/span>);
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">ngAnnotate&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp-ng-annotate&amp;#39;&lt;/span>);
+&lt;span style="color:#75715e">// Hints and builds all JavaScript.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#a6e22e">gulp&lt;/span>.&lt;span style="color:#a6e22e">task&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;js&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">gulp&lt;/span>.&lt;span style="color:#a6e22e">src&lt;/span>([&lt;span style="color:#e6db74">&amp;#39;./client/app/**/*.js&amp;#39;&lt;/span>])
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">jshint&lt;/span>())
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">jshint&lt;/span>.&lt;span style="color:#a6e22e">reporter&lt;/span>(&lt;span style="color:#a6e22e">stylish&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">jshint&lt;/span>.&lt;span style="color:#a6e22e">reporter&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;fail&amp;#39;&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">sourcemaps&lt;/span>.&lt;span style="color:#a6e22e">init&lt;/span>({&lt;span style="color:#a6e22e">loadMaps&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>}))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">concat&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;app.js&amp;#39;&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">gulp&lt;/span>.&lt;span style="color:#a6e22e">dest&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;./client/dist&amp;#39;&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">ngAnnotate&lt;/span>())
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">uglify&lt;/span>())
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">rename&lt;/span>({&lt;span style="color:#a6e22e">suffix&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;.min&amp;#39;&lt;/span>}))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">sourcemaps&lt;/span>.&lt;span style="color:#a6e22e">write&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;./&amp;#39;&lt;/span>))
+.&lt;span style="color:#a6e22e">pipe&lt;/span>(&lt;span style="color:#a6e22e">gulp&lt;/span>.&lt;span style="color:#a6e22e">dest&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;./client/dist/&amp;#39;&lt;/span>));
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Watch your app javascript folder and when it changes, you'll hint everything, concat into a single distribution folder, annotate and uglify, as well as building full sourcemaps.&lt;/p>
+&lt;h3 id="what-about-other-stuff">What about other stuff?&lt;/h3>
+&lt;p>For vendor code (jQuery, Bootstrap, whatever), don't bother trying to be smart and require or import it. Just include it in your app with script tags. I wouldn't go to the effort at trying to force some kind of smart module system on a language that doesn't really support it - uf you can get away with avoiding it, do so.&lt;/p>
+&lt;p>This is not an encouragement to be sloppy, this is just the easiest way to deal with the issue. The number of hours I've wasted tracking down &amp;lsquo;bugs&amp;rsquo; which were subtle issues to do with require.js or type-os has definitely made the approach above my preferred approach.&lt;/p></description><category>CodeProject</category></item><item><title>AngularJS Promises - The Definitive Guide</title><link>https://dwmkerr.com/promises-in-angularjs-the-definitive-guide/</link><pubDate>Wed, 07 May 2014 12:06:55 +0000</pubDate><guid>https://dwmkerr.com/promises-in-angularjs-the-definitive-guide/</guid><description>&lt;p>Promises are a core feature of AngularJS - whether you understand them or not, if you use AngularJS you've almost certainly been using them for a while.&lt;/p>
+&lt;p>In this post I'm going to explain what promises are, how they work, where they're used and finally how to use them effectively.&lt;/p>
+&lt;p>Once we've got the core understanding of promises, we'll look at some more advanced functionality - chaining and resolving promises when routing.&lt;/p>
+&lt;h4 id="contents">Contents&lt;/h4>
+&lt;ol>
+&lt;li>&lt;a href="#whatarepromises">What are Promises?&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#howdopromiseswork">How do Promises Work?&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#arealworldexample">A Real World Example&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#promisessuccesserrorthen">Promises - Success, Error, Then&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#advancedpromiseschaining">Advanced Promises - Chaining&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#advancedpromisesrouting">Advanced Promises - Routing&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#advancedpromisestipstricks">Advanced Promises - Tips &amp;amp; Tricks&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#thefutureofpromises">The Future of Promises&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#wrappingup">Wrapping Up&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;h2 id="what-are-promises">What are Promises?&lt;/h2>
+&lt;p>I'm going to try and be as succinct as possible - if anyone has a shorter, clearer description, let me know!&lt;/p>
+&lt;blockquote>
+&lt;p>A promise represents the eventual result of an operation. You can use a promise to specify what to do when an operation eventually succeeds or fails.&lt;/p>
+&lt;/blockquote>
+&lt;p>So let's see this in action. Look at the code below:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This code uses the &lt;code>$http&lt;/code> service to perform an HTTP GET on the url &amp;lsquo;/api/my/name&amp;rsquo;. Let's say that this is an api we've implemented on our server that returns the name of the logged in user.&lt;/p>
+&lt;p>Now a common mistake for JavaScript newcomers might be to assume that the function returns the name:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#75715e">// The WRONG way!
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>It doesn't - and in fact it can't. An HTTP request has to be executed, it'll take a while before it returns - it might not return at all if there are errors. Remember, when we make requests in JavaScript we're using &lt;strong>ajax&lt;/strong> which is &lt;em>&lt;strong>asynchronous&lt;/strong> javascript and xml&lt;/em>. The key word here is asynchronous - we return control to the browser, let it make a request and give it a function to call when the request completes.&lt;/p>
+&lt;p>So let's see how you actually make the request.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>);
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">success&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>);
+});
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>, &lt;span style="color:#a6e22e">status&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed with response &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; and status code &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">status&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we use the promise object to specify what to do when the request succeeds, or when it fails. Remember, the functions we pass to &lt;code>success&lt;/code> or &lt;code>error&lt;/code> will be called later - when this block is finished executing we don't have the name, we've just specified what to do when we &lt;em>do&lt;/em> eventually get it - or what to do if we fail to get it.&lt;/p>
+&lt;p>As a convenience, the &lt;code>success&lt;/code> and &lt;code>error&lt;/code> functions actually just return the promise, so we can simplify the code:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>)
+.&lt;span style="color:#a6e22e">success&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>, &lt;span style="color:#a6e22e">status&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed with response &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; and status code &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">status&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>In fact, &lt;code>success&lt;/code> and &lt;code>error&lt;/code> are special functions added to a promise by &lt;code>$http&lt;/code> - normally with promises we just use &lt;code>then&lt;/code>, which takes the success function as the first parameter and the error function as the second:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(
+&lt;span style="color:#75715e">/* success */&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>);
+},
+&lt;span style="color:#75715e">/* failure */&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">error&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">error&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We'll see more about the difference between &lt;code>success&lt;/code>, &lt;code>error&lt;/code> and &lt;code>then&lt;/code> later.&lt;/p>
+&lt;p>That's all there is to it - a promise lets us specify what to do as the result of an operation.&lt;/p>
+&lt;h2 id="how-do-promises-work">How do Promises Work?&lt;/h2>
+&lt;p>Promises are not actually complicated, they're objects that contain a reference to functions to call when something fails or succeeds.&lt;/p>
+&lt;p>Under the hood, AngularJS actually wires up a promise for an HTTP request in a way a bit like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">request&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">XMLHttpRequest&lt;/span>();
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">addEventListener&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;load&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// complete the promise
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}, &lt;span style="color:#66d9ef">false&lt;/span>);
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">addEventListener&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;error&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// fail the promise
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}, &lt;span style="color:#66d9ef">false&lt;/span>);
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">open&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;GET&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">true&lt;/span>);
+&lt;span style="color:#a6e22e">request&lt;/span>.&lt;span style="color:#a6e22e">send&lt;/span>();
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>this is pseudo-code, but the idea is that its the browser that calls us back, via the event listeners, then AngularJS can just call the appropriate method on the promise.&lt;/p>
+&lt;p>Now in AngularJS, the promises are created with the &lt;code>$q&lt;/code> service (we'll see exactly how to do this shortly), but why &lt;code>$q&lt;/code>?&lt;/p>
+&lt;p>The reason the service is named &lt;code>$q&lt;/code> is that AngularJS&amp;rsquo; promise implementation is based on Kris Kowal's promise mechanism, which is called &amp;lsquo;Q&amp;rsquo;. You can see the library at &lt;a href="https://github.com/kriskowal/q">github.com/kristkowal/q&lt;/a>.&lt;/p>
+&lt;p>This was a deliberate decision, as the Q library is widely used and well understood by the community. We're going to see a little bit later what the future of promises is in AngularJS and actually in ECMAScript 6.&lt;/p>
+&lt;h3 id="a-real-world-example">A Real World Example&lt;/h3>
+&lt;p>In this example we'll create a service that gets the user's name, just like in our examples. However, to make it interesting, we'll set our service up so that the first time we get the name from the server, and then afterwards we'll return a cached copy.&lt;/p>
+&lt;p>This means we'll have to build our code to deal with the asynchronous case (the first one) and the more trivial synchronous case (getting the name from the cache).&lt;/p>
+&lt;p>Let's look at a pure asynchronous implementation.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">factory&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;NameService&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$http&lt;/span>, &lt;span style="color:#a6e22e">$q&lt;/span>) {
+&lt;span style="color:#75715e">// Create a class that represents our name service.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">NameService&lt;/span>() {
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>;
+&lt;span style="color:#75715e">// getName returns a promise which when
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// fulfilled returns the name.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/my/name&amp;#39;&lt;/span>);
+};
+}
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">NameService&lt;/span>();
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here's how it looks in a fiddle - just click &amp;lsquo;Result&amp;rsquo; to see it working. You can click on &amp;lsquo;Update&amp;rsquo; name to get the name, but each time it sends a request. This is what we'll change next.&lt;/p>
+&lt;iframe width="100%" height="300" src="http://jsfiddle.net/dwmkerr/4GjtR/embedded/js,html,result" allowfullscreen="allowfullscreen" frameborder="0">&lt;/iframe>
+&lt;p>Now let's update our service so that we hit the server only if we haven't already cached the name. I'll build the service blow by blow, then we can see a fiddle of it working.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">factory&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;NameService&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$http&lt;/span>, &lt;span style="color:#a6e22e">$q&lt;/span>) {
+&lt;span style="color:#75715e">// Create a class that represents our name service.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">NameService&lt;/span>() {
+&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>;
+&lt;span style="color:#75715e">// Initially the name is unknown....
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>so first we create a service which is in the form of a class. It has a name field which is initially null.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#75715e">// Create a deferred operation.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">$q&lt;/span>.&lt;span style="color:#a6e22e">defer&lt;/span>();
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now in the &lt;code>getName&lt;/code> function we start by creating a &lt;code>deferred&lt;/code> object, using the &lt;code>$q&lt;/code> service. This object contains the promise we'll return, and has some helper functions to let us build the promise.&lt;/p>
+&lt;p>We create a deferred object because whether we use ajax or not, we want the consumer to use the promise - even if we &lt;em>can&lt;/em> return straightaway in some circumstances (when we have the name) we can't in all - so the caller must always expect a promise.&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">!==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; (from Cache!)&amp;#34;&lt;/span>);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we already have the name, we can just &lt;code>resolve&lt;/code> the deferred object immediately - this is the easy case. I've added &amp;lsquo;from cache&amp;rsquo; to the name so we can see when it comes from the cache compared to the server.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Tip:&lt;/strong> You can resolve a promise even before you return it. It still works fine for the consumer.&lt;/p>
+&lt;/blockquote>
+&lt;p>Finally, we can handle the case if we don't already have the name:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;span style="color:#75715e">// Get the name from the server.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/my/name/&amp;#39;&lt;/span>)
+.&lt;span style="color:#a6e22e">success&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">self&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>;
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; (from Server!)&amp;#34;&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">reject&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>);
+});
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>So if we get success from the server, we can &lt;code>resolve&lt;/code> the promise. Otherwise, we &lt;code>reject&lt;/code> it, which means failure.&lt;/p>
+&lt;blockquote>
+&lt;p>Call &lt;code>resolve&lt;/code> on a deferred object to complete it successfully, call &lt;code>reject&lt;/code> to fail it with an error.&lt;/p>
+&lt;/blockquote>
+&lt;p>Finally, we just return the promise we've built with &lt;code>deferred&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js"> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">deferred&lt;/span>.&lt;span style="color:#a6e22e">promise&lt;/span>;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And that's it! You can see it in action below, press &amp;lsquo;Update Name&amp;rsquo; a few times and you'll see it uses the cache.&lt;/p>
+&lt;iframe width="100%" height="300" src="http://jsfiddle.net/dwmkerr/LeZU4/embedded/result,html,js" allowfullscreen="allowfullscreen" frameborder="0">&lt;/iframe>
+&lt;p>How do we use this? We'll it's simple, here's a controller that uses the service we've built:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;MainController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span> (&lt;span style="color:#a6e22e">$scope&lt;/span>, &lt;span style="color:#a6e22e">NameService&lt;/span>) {
+&lt;span style="color:#75715e">// We have a name on the code, but it&amp;#39;s initially empty...
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>;
+&lt;span style="color:#75715e">// We have a function on the scope that can update the name.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">updateName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;span style="color:#a6e22e">NameService&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span>()
+.&lt;span style="color:#a6e22e">then&lt;/span>(
+&lt;span style="color:#75715e">/* success function */&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>;
+},
+&lt;span style="color:#75715e">/* error function */&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Failed to get the name, result is &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">result&lt;/span>);
+});
+};
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now there's something different here. Before, we might have used the &lt;code>error&lt;/code> or &lt;code>success&lt;/code> function of the promise. But here we use &lt;code>then&lt;/code>. Why is that?&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;code>success&lt;/code> and &lt;code>error&lt;/code> are functions on a promise that AngularJS adds for us when using &lt;code>$http&lt;/code> or &lt;code>$resource&lt;/code>. They're not standard, you won't find them on other promises.&lt;/p>
+&lt;/blockquote>
+&lt;p>So we've seen how promises work, what they are and so on, now we'll look into this success/error/then stuff.&lt;/p>
+&lt;h2 id="promises---success-error-then">Promises - Success, Error, Then&lt;/h2>
+&lt;p>Now we know that &lt;code>$http&lt;/code> returns a promise, and we know that we can call &lt;code>success&lt;/code> or &lt;code>error&lt;/code> on that promise. It would be sensible to think that these functions are a standard part of promise - but they're not!&lt;/p>
+&lt;p>When you are using a promise, the function you should call is &lt;code>then&lt;/code>. &lt;code>then&lt;/code> takes two parameters - a callback function for success and a callback function for failure. Taking a look at our original &lt;code>$http&lt;/code> example, we can rewrite it to use this function.
+So this code:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>)
+.&lt;span style="color:#a6e22e">success&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>, &lt;span style="color:#a6e22e">status&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed with response &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34; and status code &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">status&lt;/span>);
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>becomes:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/api/my/name&amp;#34;&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Your name is: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>);
+}, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The request failed: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">result&lt;/span>);
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We &lt;strong>can&lt;/strong> use &lt;code>success&lt;/code> or &lt;code>error&lt;/code> when using &lt;code>$http&lt;/code> - it's convenient. For one thing, the &lt;code>error&lt;/code> function gives us a response and status (and more) and the &lt;code>success&lt;/code> function gives us the response data (rather than the full response object).&lt;/p>
+&lt;p>But remember that it's not a standard part of a promise. You can can add your own versions of these functions to promises you build yourself if you want:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">success&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">fn&lt;/span>) {
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">fn&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>, &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">status&lt;/span>, &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">headers&lt;/span>, &lt;span style="color:#a6e22e">config&lt;/span>);
+});
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>;
+};
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">error&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">fn&lt;/span>) {
+&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">null&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#a6e22e">fn&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>, &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">status&lt;/span>, &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">headers&lt;/span>, &lt;span style="color:#a6e22e">config&lt;/span>);
+});
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>;
+};
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>this is exactly how angular does it.&lt;/p>
+&lt;p>So what's the advice?&lt;/p>
+&lt;blockquote>
+&lt;p>Use &lt;code>success&lt;/code> or &lt;code>error&lt;/code> with &lt;code>$http&lt;/code> promises if you want to - just remember they're not standard, and the parameters are different to those for &lt;code>that&lt;/code> callbacks.&lt;/p>
+&lt;/blockquote>
+&lt;p>So if you change your code so that your promise is not returned from &lt;code>$http&lt;/code>, as we did in the earlier example when we load data from a cache, your code will break if you expect &lt;code>success&lt;/code> or &lt;code>error&lt;/code> to be there.&lt;/p>
+&lt;p>A safe approach is to use &lt;code>then&lt;/code> wherever possible.&lt;/p>
+&lt;h2 id="advanced-promises---chaining">Advanced Promises - Chaining&lt;/h2>
+&lt;p>If you've had your fill of promises for now, you can skip to &lt;a href="#thefutureofpromises">The Future of Promises&lt;/a> or &lt;a href="#wrappingup">Wrapping Up&lt;/a>.&lt;/p>
+&lt;p>One useful aspect of promises is that the &lt;code>then&lt;/code> function returns the promise itself. This means that you can actually &lt;em>chain&lt;/em> promises, to create conscise blocks of logic that are executed at the appropriate times, without lots of nesting.&lt;/p>
+&lt;p>Let's consider an example where we need to fetch the user's name from the backend, but we have to use separate requests to get their profile information and then their application permissions.&lt;/p>
+&lt;p>Here's an example:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span> {
+&lt;span style="color:#a6e22e">username&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>,
+&lt;span style="color:#a6e22e">profile&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>,
+&lt;span style="color:#a6e22e">permissions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>
+};
+&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/user/name&amp;#39;&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the username, get the profile.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/profile/&amp;#39;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the profile, now get the permissions.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">profile&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/security/&amp;#39;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the permissions
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">permissions&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The full user details are: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">JSON&lt;/span>.&lt;span style="color:#a6e22e">stringify&lt;/span>(&lt;span style="color:#a6e22e">details&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we have a series of asynchronous calls that we can coordinate without having lots of nested callbacks.&lt;/p>
+&lt;p>We can also greatly simplify error handling - let's see the example again, with an exception thrown in:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/user/name&amp;#39;&lt;/span>)
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the username, get the profile.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$http&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/profile/&amp;#39;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">username&lt;/span>);
+})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the profile, now get the permissions.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">profile&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#66d9ef">throw&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Oh no! Something failed!&amp;#34;&lt;/span>;
+})
+.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">response&lt;/span>) {
+&lt;span style="color:#75715e">// Store the permissions
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span>.&lt;span style="color:#a6e22e">permissions&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">response&lt;/span>.&lt;span style="color:#a6e22e">data&lt;/span>;
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;The full user details are: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">JSON&lt;/span>.&lt;span style="color:#a6e22e">stringify&lt;/span>(&lt;span style="color:#a6e22e">details&lt;/span>);
+})
+.&lt;span style="color:#66d9ef">catch&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">error&lt;/span>) {
+&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;An error occured: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">error&lt;/span>);
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can use &lt;code>catch(callback)&lt;/code> - which is actually just shorthand for &lt;code>then(null, callback)&lt;/code>. There's even a &lt;code>finally&lt;/code> - which is executed whether or not the operations fail or succeed.&lt;/p>
+&lt;blockquote>
+&lt;p>Use &lt;code>catch&lt;/code> and for error handling with promises - and use &lt;code>finally&lt;/code> for logic that's executed after success OR failure.&lt;/p>
+&lt;/blockquote>
+&lt;p>The composition of promises can simplify complicated code - particularly when you add in error handling!&lt;/p>
+&lt;p>One final point to make which is not quite related to chaining but does relate to multiple promises is &lt;code>$q.all&lt;/code>. &lt;code>all&lt;/code> can be used to build a single promise from a set of promises.&lt;/p>
+&lt;p>You can pass an array of promises to &lt;code>all&lt;/code> and you get back a single promise - which is resolved when all of the promises it contains resolve. This can be useful if you are building complex methods that may have to perform multiple asynchronous tasks - such as multiple ajax calls.&lt;/p>
+&lt;h2 id="advanced-promises---routing">Advanced Promises - Routing&lt;/h2>
+&lt;p>There's a particular area of AngularJS that uses promises to great effect, and that's the router.&lt;/p>
+&lt;p>Let's imagine we have a router like the following:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$routeProvider&lt;/span>
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/home&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;home.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;MainController&amp;#39;&lt;/span>
+})
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/profile&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;profile.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>
+})
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here we have two routes. The home route takes us to the home page, with the &lt;code>MainController&lt;/code>, and the profile route takes us to the user's profile page.&lt;/p>
+&lt;p>Our ProfileController uses our funky name service:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$scope&lt;/span>, &lt;span style="color:#a6e22e">NameService&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
+&lt;span style="color:#a6e22e">NameService&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span>().&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>;
+});
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The problem is, &lt;strong>until the name service gets the name from the backend, the name is null&lt;/strong>. This means if our view binds to the name, it'll flicker - first it's empty then its set.&lt;/p>
+&lt;p>What we'd like to do is actully say to the router - &amp;ldquo;I'm going to go to this view, but only when you can tell me my name&amp;rdquo;.&lt;/p>
+&lt;p>We can do this with the &lt;em>resolves&lt;/em> in the router, here's how it works:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#75715e">// Create a function that uses the NameService
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">// to return the getName promise.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">getName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">NameService&lt;/span>) {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">NameService&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span>();
+};
+&lt;span style="color:#a6e22e">$routeProvider&lt;/span>
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/home&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;/home.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;MainController&amp;#39;&lt;/span>
+})
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/profile&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;/profile.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>,
+&lt;span style="color:#75715e">/* only navigate when we&amp;#39;ve resolved these promises */&lt;/span>
+&lt;span style="color:#a6e22e">resolve&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">name&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">getName&lt;/span>
+}
+})
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>so now we have a &lt;em>resolve&lt;/em> on the route - when we go to the profile page the router will wait until the promise returned by &lt;code>getName&lt;/code> resolves, then it will pass the result into the controller, as the parameter called &lt;code>name&lt;/code>. Now our controller looks like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">controller&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$scope&lt;/span>, &lt;span style="color:#a6e22e">name&lt;/span>) {
+&lt;span style="color:#a6e22e">$scope&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">name&lt;/span>;
+});
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Much better! And also &lt;strong>much&lt;/strong> more testable.&lt;/p>
+&lt;p>One thing you may wonder - why do I use &lt;code>getName&lt;/code> as the resolve function instead of just using &lt;code>NameService.getName&lt;/code> directly?&lt;/p>
+&lt;p>That's because the route is set up in a &lt;code>config&lt;/code> function - and that function cannot have services injected. However, a resolve function &lt;strong>can&lt;/strong>, so we just use a function and let AngularJS inject the &lt;code>NameService&lt;/code> for us.&lt;/p>
+&lt;p>Now for an important statement:&lt;/p>
+&lt;blockquote>
+&lt;p>If the first thing your controller does is fetch data from the server, it's probably wrong.&lt;/p>
+&lt;/blockquote>
+&lt;p>Why? Because if your controller needs data, inject it - let the router ensure the data is ready. Then you don't have controllers in an invalid state as they're loading - and your controllers become easier to test.&lt;/p>
+&lt;p>Be aware of &lt;code>resolve&lt;/code> for routes - it's a great way to handle loading of required data, authentication and other things that you might be putting into the wrong place.&lt;/p>
+&lt;p>You can see the example above in action here:&lt;/p>
+&lt;iframe width="100%" height="300" src="http://jsfiddle.net/dwmkerr/m29pe/embedded/result,js,html" allowfullscreen="allowfullscreen" frameborder="0">&lt;/iframe>
+&lt;p>What's cool is we can also see our caching logic by going to and from the Home and Profile pages. The promises are keeping our code clean and testable.&lt;/p>
+&lt;p>As a final note on promises when routing, you can specify multiple resolves if you need to:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-js" data-lang="js">&lt;span style="color:#a6e22e">$routeProvider&lt;/span>
+.&lt;span style="color:#a6e22e">when&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/profile&amp;#39;&lt;/span>, {
+&lt;span style="color:#a6e22e">templateUrl&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;/profile.html&amp;#39;&lt;/span>,
+&lt;span style="color:#a6e22e">controller&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ProfileController&amp;#39;&lt;/span>,
+&lt;span style="color:#75715e">/* only navigate when we&amp;#39;ve resolved these promises */&lt;/span>
+&lt;span style="color:#a6e22e">resolve&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;span style="color:#a6e22e">name&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">getName&lt;/span>,
+&lt;span style="color:#a6e22e">profile&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">getProfile&lt;/span>,
+&lt;span style="color:#a6e22e">anythingElse&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">getAnythingElse&lt;/span>
+}
+})
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>in this case each resolve is injected into the controller.&lt;/p>
+&lt;h2 id="advanced-promises---tips--tricks">Advanced Promises - Tips &amp;amp; Tricks&lt;/h2>
+&lt;p>This section just contains some tips and tricks you might find useful when working with promises.&lt;/p>
+&lt;ol>
+&lt;li>Promises in directives are not resolved automatically since AngularJS 1.2. Previously, if you passed a promise to a directive with an &amp;lsquo;=&amp;rsquo; binding, AngularJS would resolve the promise for you, this is no longer the case.&lt;/li>
+&lt;/ol>
+&lt;h2 id="the-future-of-promises">The Future of Promises&lt;/h2>
+&lt;p>So promises are a core part of AngularJS and to use the framework effectively, you must understand how to use them and how they work. But what is the future of promises?&lt;/p>
+&lt;p>It's almost certain that promises are going to become a &lt;strong>native&lt;/strong> feature of JavaScript, they are part of the proposed ECMAScript 6 specification.&lt;/p>
+&lt;p>The functionality of the &lt;code>q&lt;/code> library and AngularJS&amp;rsquo; implementation of promises are very similar indeed to the proposed specification, but be aware that when promises become standard, AngularJS is most likely to adapt their own promises to work like native promises.&lt;/p>
+&lt;p>You can read more at &lt;a href="http://www.html5rocks.com/en/tutorials/es6/promises/">html5rocks.com/en/tutorials/es6/promises/&lt;/a>.&lt;/p>
+&lt;p>Just be aware that you'll see promises more and more, in other frameworks and in vanilla JavaScript.&lt;/p>
+&lt;h2 id="wrapping-up">Wrapping Up&lt;/h2>
+&lt;p>I hope this post has been useful to understanding promises. Any feedback is always good, so let me know if anything is unclear or could be improved. To finish this article, here are some useful links:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>The Q library&lt;/strong> &lt;a href="https://github.com/kriskowal/q">github.com/kriskowal/q&lt;/a>&lt;/li>
+&lt;li>&lt;strong>The AngularJS &lt;code>$q&lt;/code> Service&lt;/strong> &lt;a href="https://docs.angularjs.org/api/ng/service/$q">docs.angularjs.org/api/ng/service/$q&lt;/a>&lt;/li>
+&lt;li>&lt;strong>Promises in ECMAScript 6&lt;/strong> &lt;a href="http://www.html5rocks.com/en/tutorials/es6/promises/">html5rocks.com/en/tutorials/es6/promises/&lt;/a>&lt;/li>
+&lt;li>&lt;strong>XmlHttpRequest, which we used in an example&lt;/strong> &lt;a href="https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest">developer.mozilla.org/en/docs/Web/API/XMLHttpRequest&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>And also some interesting discussions:&lt;/p>
+&lt;p>&lt;a href="http://spion.github.io/posts/why-i-am-switching-to-promises.html">Why I am switching to promises&lt;/a> - Written by Gorgi Kosev, great article describing why a switch from callbacks to promises can be a very good thing in NodeJS applications.&lt;/p>
+&lt;p>&lt;a href="http://blog.ometer.com/2011/07/24/callbacks-synchronous-and-asynchronous/">Callbacks, sychronous and asynchronous&lt;/a> - From Havoc, this post contains many useful points for API writers who are using callbacks or promises. One key takeaway is to &lt;strong>never&lt;/strong> do what a sample in this article does which is resolve a promise either synchronously or asynchronously, as it leads to code which can be difficult to reason about. I'll be mentioning this more in a later update which will explain the problem and solution.&lt;/p>
+&lt;p>&lt;a href="http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony">Designing for Asynchrony&lt;/a> - Written by Isaac Z. Schlueter, this post is another great one for API designers that takes a look into asynchrony.&lt;/p></description><category>CodeProject</category></item></channel></rss>

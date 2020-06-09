@@ -1,12 +1,114 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SharpGL on dwmkerr.com</title><link>https://dwmkerr.com/tags/sharpgl/</link><description>Recent content in SharpGL on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sun, 30 Dec 2012 08:06:32 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/sharpgl/index.xml" rel="self" type="application/rss+xml"/><item><title>SharpGL 2.1</title><link>https://dwmkerr.com/sharpgl-2-1/</link><pubDate>Sun, 30 Dec 2012 08:06:32 +0000</pubDate><guid>https://dwmkerr.com/sharpgl-2-1/</guid><description>For those who are interested, I'm now starting development of SharpGL 2.1. SharpGL 2.1 will primarily be a release to implement features and fix bugs that users have added to the Codeplex site. The actual features and bugs that'll be sorted are on the CodePlex site - just search for release &amp;lsquo;SharpGL 2.1&amp;rsquo;.
-This will also be the first release of SharpGL that will be published on Nuget.</description></item><item><title>SharpGL 2.0</title><link>https://dwmkerr.com/sharpgl-2-0/</link><pubDate>Wed, 22 Feb 2012 03:42:00 +0000</pubDate><guid>https://dwmkerr.com/sharpgl-2-0/</guid><description>SharpGL 2.0 has been released - hit the GitHub site to get it:&amp;nbsp;https://github.com/dwmkerr/sharpgl
-Some new features:
-Full support for all OpenGL functions up to OpenGL 4.2 Full support for all commonly used OpenGL extensions Support for WinForms applications Support for WPF applications (without resorting to WinForms hosts) A powerful scene graph including polygons, shaders, NURBs and more Many sample applications as starting points for your own projects. Visual Studio Extension with SharpGL project templates for WPF and WinForms.</description></item><item><title>SharpGL 2.0 Beta 1 Released</title><link>https://dwmkerr.com/sharpgl-2-0-beta-1-released/</link><pubDate>Mon, 10 Oct 2011 04:38:00 +0000</pubDate><guid>https://dwmkerr.com/sharpgl-2-0-beta-1-released/</guid><description>It's been a long time coming, but the first Beta of SharpGL 2.0 is finally here!
-The Beta is on CodePlex at:&amp;nbsp;http://sharpgl.codeplex.com/releases/view/74704
-This includes the binaries, example applications and full source code.
-Some of the more exciting features are:
-Full hardware acceleration OpenGL Extensions Full core functionality up to OpenGL 4.2 Native WPF Control Below is a screenshot of SharpGL in a WPF application: &amp;nbsp; &amp;nbsp; &amp;nbsp; And here's a link to a new CodeProject article describing how to use SharpGL in a WPF application: &amp;nbsp; http://www.</description></item><item><title>Importing OpenGL Extensions Functions with wglGetProcAddress</title><link>https://dwmkerr.com/importing-opengl-extensions-functions-with-wglgetprocaddress/</link><pubDate>Sat, 24 Sep 2011 06:57:00 +0000</pubDate><guid>https://dwmkerr.com/importing-opengl-extensions-functions-with-wglgetprocaddress/</guid><description>There are only a small set of the core OpenGL functions that can be imported via p/invoke - the majority of OpenGL functions are actually extension functions which are supported only on specific video cards. OpenGL offers a function called&amp;nbsp;wglGetProcAddress which can return the address of a named function - but how do we deal with this in the managed world?
-Here's a brief description of how it's handled in SharpGL.</description></item><item><title>SharpGL 2.0: Hardware Acceleration</title><link>https://dwmkerr.com/sharpgl-2-0-hardware-acceleration/</link><pubDate>Tue, 13 Sep 2011 07:33:00 +0000</pubDate><guid>https://dwmkerr.com/sharpgl-2-0-hardware-acceleration/</guid><description>It took a bit of working out, but finally SharpGL can support hardware acceleration. Previously, all rendering in SharpGL was done to a DIB Section, the result of this would be blitted to the screen. Much playing around has shown that in fact this is problematic - rendering to DIB sections can never be hardware accelerated.
-To hardware accelerate rendering, the rendering must be to a window or a pixel buffer.</description></item><item><title>Trials and Tribulations with SharpGL 2.0</title><link>https://dwmkerr.com/trials-and-tribulations-with-sharpgl-2-0/</link><pubDate>Mon, 12 Sep 2011 06:03:00 +0000</pubDate><guid>https://dwmkerr.com/trials-and-tribulations-with-sharpgl-2-0/</guid><description>SharpGL has not been updated for a while, the original CoreProject article is at: http://www.codeproject.com/KB/openGL/sharpgl.aspx
-Recently I have begun work on SharpGL 2.0, with plans to address some of the issues people have had with SharpGL 1.83. In preparation there is a public accessible repository on CodePlex: http://sharpgl.codeplex.com/&amp;nbsp;check it soon, it will shortly be online.
-Trying to squeeze acceptible performance from SharpGL has so far been an interesting task, I have found out many interesting things on the way, I'll be posting small snippets as I work on SharpGL 2.</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SharpGL on dwmkerr.com</title><link>https://dwmkerr.com/tags/sharpgl/</link><description>Recent content in SharpGL on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sun, 30 Dec 2012 08:06:32 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/sharpgl/index.xml" rel="self" type="application/rss+xml"/><item><title>SharpGL 2.1</title><link>https://dwmkerr.com/sharpgl-2-1/</link><pubDate>Sun, 30 Dec 2012 08:06:32 +0000</pubDate><guid>https://dwmkerr.com/sharpgl-2-1/</guid><description>&lt;p>For those who are interested, I'm now starting development of SharpGL 2.1. SharpGL 2.1 will primarily be a release to implement features and fix bugs that users have added to the Codeplex site. The actual features and bugs that'll be sorted are on the CodePlex site - just search for release &amp;lsquo;SharpGL 2.1&amp;rsquo;.&lt;/p>
+&lt;p>This will also be the first release of SharpGL that will be published on Nuget.&lt;/p></description><category>CodeProject</category></item><item><title>SharpGL 2.0</title><link>https://dwmkerr.com/sharpgl-2-0/</link><pubDate>Wed, 22 Feb 2012 03:42:00 +0000</pubDate><guid>https://dwmkerr.com/sharpgl-2-0/</guid><description>&lt;p>SharpGL 2.0 has been released - hit the GitHub site to get it:&amp;nbsp;&lt;a href="https://github.com/dwmkerr/sharpgl">https://github.com/dwmkerr/sharpgl&lt;/a>&lt;/p>
+&lt;p>Some new features:&lt;/p>
+&lt;ul>
+&lt;li>Full support for all OpenGL functions up to OpenGL 4.2&lt;/li>
+&lt;li>Full support for all commonly used OpenGL extensions&lt;/li>
+&lt;li>Support for WinForms applications&lt;/li>
+&lt;li>Support for WPF applications (without resorting to WinForms hosts)&lt;/li>
+&lt;li>A powerful scene graph including polygons, shaders, NURBs and more&lt;/li>
+&lt;li>Many sample applications as starting points for your own projects.&lt;/li>
+&lt;li>Visual Studio Extension with SharpGL project templates for WPF and WinForms.&lt;/li>
+&lt;/ul>
+&lt;div>And a few screenshots:&lt;/div>
+&lt;div>&amp;nbsp;&lt;/div>
+&lt;div>&amp;nbsp;The Radial Blur Sample&lt;/div>
+&lt;p>&lt;img src="images/RadialBlurSample.png" />&lt;/p>
+&lt;p>The New Project Types&lt;/p>
+&lt;p>&lt;img src="images/NewWpfApplication.png" />&lt;/p>
+&lt;p>WPF Support&lt;/p>
+&lt;p>&lt;img src="images/TeapotSample.png" />&lt;/p>
+&lt;p>Text Rendering&lt;/p>
+&lt;p>&lt;img src="images/TextRenderingSample.png" />&lt;/p></description><category>CodeProject</category></item><item><title>SharpGL 2.0 Beta 1 Released</title><link>https://dwmkerr.com/sharpgl-2-0-beta-1-released/</link><pubDate>Mon, 10 Oct 2011 04:38:00 +0000</pubDate><guid>https://dwmkerr.com/sharpgl-2-0-beta-1-released/</guid><description>&lt;p>It's been a long time coming, but the first Beta of SharpGL 2.0 is finally here!&lt;/p>
+&lt;p>The Beta is on CodePlex at:&amp;nbsp;&lt;a href="http://sharpgl.codeplex.com/releases/view/74704">http://sharpgl.codeplex.com/releases/view/74704&lt;/a>&lt;/p>
+&lt;p>This includes the binaries, example applications and full source code.&lt;/p>
+&lt;p>Some of the more exciting features are:&lt;/p>
+&lt;ul>
+&lt;li>Full hardware acceleration&lt;/li>
+&lt;li>OpenGL Extensions&lt;/li>
+&lt;li>Full core functionality up to OpenGL 4.2&lt;/li>
+&lt;li>Native WPF Control&lt;/li>
+&lt;/ul>
+&lt;div>Below is a screenshot of SharpGL in a WPF application:&lt;/div>
+&lt;div>&amp;nbsp;&lt;/div>
+&lt;div>&amp;nbsp;&lt;img src="images/MainWindow-Final.png" />&lt;/div>
+&lt;div>&amp;nbsp;&lt;/div>
+&lt;div>And here's a link to a new CodeProject article describing how to use SharpGL in a WPF application:&lt;/div>
+&lt;div>&amp;nbsp;&lt;/div>
+&lt;div>&lt;a href="http://www.codeproject.com/KB/WPF/openglinwpf.aspx">http://www.codeproject.com/KB/WPF/openglinwpf.aspx&lt;/a>&lt;/div>
+&lt;div>&amp;nbsp;&lt;/div>
+&lt;div>Please try out SharpGL 2.0 Beta 1 and let me know what you think!&lt;/div></description><category>CodeProject</category></item><item><title>Importing OpenGL Extensions Functions with wglGetProcAddress</title><link>https://dwmkerr.com/importing-opengl-extensions-functions-with-wglgetprocaddress/</link><pubDate>Sat, 24 Sep 2011 06:57:00 +0000</pubDate><guid>https://dwmkerr.com/importing-opengl-extensions-functions-with-wglgetprocaddress/</guid><description>&lt;p>There are only a small set of the core OpenGL functions that can be imported via p/invoke - the majority of OpenGL functions are actually extension functions which are supported only on specific video cards. OpenGL offers a function called&amp;nbsp;wglGetProcAddress which can return the address of a named function - but how do we deal with this in the managed world?&lt;/p>
+&lt;p>Here's a brief description of how it's handled in SharpGL. As of this morning, SharpGL's latest version contains &lt;strong>all &lt;/strong>core functions up to OpenGL 4.2 and &lt;strong>all &lt;/strong>standard extensions up to OpenGL 4.2. This takes the support for OpenGL to the latest version - August 2011.&lt;/p>
+&lt;p>First we must import the wglGetProcAddress function:&lt;/p>
+&lt;pre class="brush: c-sharp;">[DllImport("opengl32.dll")]
+public static extern IntPtr wglGetProcAddress(string name);&lt;/pre>
+&lt;p>This is the correect p/invoke method of importing this function, however it returns an IntPtr, which we cannot call as a function. We could change the return type to a delegate but this function can return essentially any type of delegate - so where do we go from here?&lt;/p>
+&lt;p>Well the next step is to define the delegates we want to use - they must have exactly the same name as the OpenGL functions and use the correct parameters for marshalling. Here are a couple of delegates for OpenGL 1.4:&lt;/p>
+&lt;pre class="brush: c-sharp;">private delegate void glBlendFuncSeparate (uint sfactorRGB, uint dfactorRGB, uint sfactorAlpha, uint dfactorAlpha);
+&lt;p>private delegate void glMultiDrawArrays (uint mode, int[] first, int[] count, int primcount);&lt;/pre>&lt;/p>
+&lt;p>Now we must create a function which will turn an IntPtr into a delegate and invoke it:&lt;/p>
+&lt;pre class="brush: c-sharp;">/// &amp;lt;summary&amp;gt;
+/// The set of extension functions.
+/// &amp;lt;/summary&amp;gt;
+private Dictionary&amp;lt;string, Delegate&amp;gt; extensionFunctions = new Dictionary&amp;lt;string, Delegate&amp;gt;();
+&lt;p>/// &amp;lt;summary&amp;gt;
+/// Invokes an extension function.
+/// &amp;lt;/summary&amp;gt;
+/// &amp;lt;typeparam name=&amp;quot;T&amp;rdquo;&amp;gt;The extension delegate type.&amp;lt;/typeparam&amp;gt;
+/// &amp;lt;param name=&amp;quot;args&amp;rdquo;&amp;gt;The arguments to the pass to the function.&amp;lt;/param&amp;gt;
+/// &amp;lt;returns&amp;gt;The return value of the extension function.&amp;lt;/returns&amp;gt;
+private object InvokeExtensionFunction&amp;lt;T&amp;gt;(params object[] args)
+{
+// Get the type of the extension function.
+Type delegateType = typeof(T);&lt;/p>
+&lt;pre>&lt;code>// Get the name of the extension function.
+string name = delegateType.Name;
+// Does the dictionary contain our extension function?
+Delegate del = null;
+if (extensionFunctions.ContainsKey(name) == false)
+{
+// We haven't loaded it yet. Load it now.
+IntPtr proc = Win32.wglGetProcAddress(name);
+if (proc == IntPtr.Zero)
+throw new Exception(&amp;quot;Extension function &amp;quot; + name + &amp;quot; not supported&amp;quot;);
+// Get the delegate for the function pointer.
+del = Marshal.GetDelegateForFunctionPointer(proc, delegateType);
+if (del == null)
+throw new Exception(&amp;quot;Extension function &amp;quot; + name + &amp;quot; not supported&amp;quot;);
+// Add to the dictionary.
+extensionFunctions.Add(name, del);
+}
+// Get the delegate.
+del = extensionFunctions[name];
+// Try and invoke it.
+object result = null;
+try
+{
+result = del.DynamicInvoke(args);
+}
+catch
+{
+throw new Exception(&amp;quot;Cannot invoke extension function &amp;quot; + name);
+}
+return result;
+&lt;/code>&lt;/pre>
+&lt;p>}&lt;/pre>&lt;/p>
+&lt;p>We now have a generalised way to invoke an extension function. The loaded functions are stored in a dictionary keyed by name so that the heavy lifting is only done the first time we try to invoke the function. &amp;nbsp;We can finally add the functions to the class as below:&lt;/p>
+&lt;pre class="brush: c-sharp;">public void BlendFuncSeparate(uint sfactorRGB, uint dfactorRGB, uint sfactorAlpha, uint dfactorAlpha)
+{
+InvokeExtensionFunction&amp;lt;glBlendFuncSeparate&amp;gt;(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+}
+&lt;p>public void MultiDrawArrays(uint mode, int[] first, int[] count, int primcount)
+{
+InvokeExtensionFunction&amp;lt;glMultiDrawArrays&amp;gt;(mode, first, count, primcount);
+}&lt;/pre>&lt;/p>
+&lt;p>This is pretty cool - we can invoke any extension function as long as we have defined a delegate for it. What's more, by making the InvokeExtensionFunction function public we can allow other developers to provide their own delegates and invoke other extension functions.&lt;/p>
+&lt;p>This is the technique used in SharpGL 2.0 to import extension functions - the Core/OpenGLExtensions.cs file contains thousands of lines of functions defined like this, however knowing how to invoke any kind of delegate is a useful skill in the managed world, so this trick could be used in other places.&lt;/p>
+&lt;p>The version of SharpGL this post relates to is at:&lt;/p>
+&lt;p>&lt;a href="http://sharpgl.codeplex.com/SourceControl/changeset/view/4474">http://sharpgl.codeplex.com/SourceControl/changeset/view/4474&lt;/a>&lt;/p></description><category>CodeProject</category></item><item><title>SharpGL 2.0: Hardware Acceleration</title><link>https://dwmkerr.com/sharpgl-2-0-hardware-acceleration/</link><pubDate>Tue, 13 Sep 2011 07:33:00 +0000</pubDate><guid>https://dwmkerr.com/sharpgl-2-0-hardware-acceleration/</guid><description>&lt;p>It took a bit of working out, but finally SharpGL can support hardware acceleration. Previously, all rendering in SharpGL was done to a DIB Section, the result of this would be blitted to the screen. Much playing around has shown that in fact this is problematic - rendering to DIB sections can &lt;em>never&lt;/em> be hardware accelerated.&lt;/p>
+&lt;p>To hardware accelerate rendering, the rendering must be to a window or a pixel buffer. This has introduced an architectural change to SharpGL - the handling of a render context and any supporting objects (DIB sections, windows etc) is handled by a class that implements the IRenderContextProvider interface. This interface specifies that render context providers must be able to Create, Destroy, Resize and Blit.&lt;/p>
+&lt;p>SharpGL 2.0 now has two render context providers, DIBSectionRenderContext provider which uses a DIB Section as previously and HiddenWindowRenderContextProvider which renders to a hidden window. The hidden window render context provider allows full hardware acceleration.&lt;/p>
+&lt;p>I will be adding a new example application to the solution which shows rendering with the two providers side by side.&lt;/p>
+&lt;p>So don't forget: DIB Sections can't be accelerated.&lt;/p></description><category>CodeProject</category></item><item><title>Trials and Tribulations with SharpGL 2.0</title><link>https://dwmkerr.com/trials-and-tribulations-with-sharpgl-2-0/</link><pubDate>Mon, 12 Sep 2011 06:03:00 +0000</pubDate><guid>https://dwmkerr.com/trials-and-tribulations-with-sharpgl-2-0/</guid><description>&lt;p>SharpGL has not been updated for a while, the original CoreProject article is at: &lt;a href="http://www.codeproject.com/KB/openGL/sharpgl.aspx">http://www.codeproject.com/KB/openGL/sharpgl.aspx&lt;/a>&lt;/p>
+&lt;p>Recently I have begun work on SharpGL 2.0, with plans to address some of the issues people have had with SharpGL 1.83. In preparation there is a public accessible repository on CodePlex: &lt;a href="http://sharpgl.codeplex.com/">http://sharpgl.codeplex.com/&lt;/a>&amp;nbsp;check it soon, it will shortly be online.&lt;/p>
+&lt;p>Trying to squeeze acceptible performance from SharpGL has so far been an interesting task, I have found out many interesting things on the way, I'll be posting small snippets as I work on SharpGL 2.0 describing how I'm improving the performance and structure of the library.&lt;/p></description><category>CodeProject</category></item></channel></rss>
