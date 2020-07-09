@@ -1,4 +1,235 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>CodeProject on dwmkerr.com</title><link>https://dwmkerr.com/tags/codeproject/</link><description>Recent content in CodeProject on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Thu, 04 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/codeproject/index.xml" rel="self" type="application/rss+xml"/><item><title>Observations, tips and tricks for the CKA certification</title><link>https://dwmkerr.com/tips-for-cka/</link><pubDate>Thu, 04 Jun 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/tips-for-cka/</guid><description>&lt;p>In this article I'll share some observations, tips and tricks for the &lt;a href="https://www.linuxfoundation.org/">Linux Foundation's&lt;/a> &amp;ldquo;&lt;a href="https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/">Certified Kubernetes Administrator&lt;/a> certification and exam.&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>CodeProject on dwmkerr.com</title><link>https://dwmkerr.com/tags/codeproject/</link><description>Recent content in CodeProject on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Wed, 01 Jul 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/codeproject/index.xml" rel="self" type="application/rss+xml"/><item><title>Modernising .NET projects for .NET Core and beyond!</title><link>https://dwmkerr.com/modernising-dotnet-projects/</link><pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/modernising-dotnet-projects/</guid><description>&lt;p>The world of .NET is going through a transformation. The .NET Framework is reaching end of life, &lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">.NET Core&lt;/a> is an increasingly feature rich and robust platform to develop solutions which target Linux, MacOS, embedded devices, containers and more. There's also the .NET Standard.&lt;/p>
+&lt;p>But what does this mean for .NET &lt;em>Framework&lt;/em> projects? In this article I'll describe how to modernise your .NET Framework projects for .NET Core, the .NET Standard and .NET 5, which is planned to be released this year. I'll also explain the high level differences between the platforms and what the consequences of upgrading are for consumers, developers and maintainers.&lt;/p>
+&lt;!-- vim-markdown-toc GFM -->
+&lt;ul>
+&lt;li>&lt;a href="#the-net-framework-net-core-and-the-future">The .NET Framework, .NET Core and the Future&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#the-challenge-modernisation-and-compatibility">The Challenge: Modernisation and Compatibility&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#the-modernisation-process---introducing-our-two-villains">The Modernisation Process - Introducing our two Villains&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#step-1---understand-the-domain">Step 1 - Understand the Domain&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-2---understand-the-goal---multi-platform-builds">Step 2 - Understand the Goal - Multi-Platform Builds&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-3---migrate-projects-leaf-wise">Step 3 - Migrate Projects &amp;ldquo;Leaf-wise&amp;rdquo;&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-4---refactor-rinse-repeat">Step 4 - Refactor, Rinse, Repeat&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-5---update-your-builds">Step 5 - Update Your Builds&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-6---test-test-test">Step 6 - Test, Test, Test&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-7---document-compatibility">Step 7 - Document Compatibility&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#the-key-learnings">The Key Learnings&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- vim-markdown-toc -->
+&lt;h1 id="the-net-framework-net-core-and-the-future">The .NET Framework, .NET Core and the Future&lt;/h1>
+&lt;p>There's a lot which has been written on this topic, but it can still be a little overwhelming to understand just how all of these things fit together.&lt;/p>
+&lt;p>Here's a simple visual I've created to try and put things into context:&lt;/p>
+&lt;p>&lt;img src="images/dotnet-timeline.png" alt="Diagram: .NET Timeline">&lt;/p>
+&lt;p>I'm only going to cover the bare essentials - but there are links to further reading on each topic if you want to go deeper. This article is mainly going to be focused on the practicality and consequence of migration and re-targeting.&lt;/p>
+&lt;p>First, the &lt;strong>.NET Framework&lt;/strong>.&lt;/p>
+&lt;ul>
+&lt;li>The .NET Framework was created in 2002 as set of unified tools and standards to allow developers on the Microsoft Platform to more quickly build solutions, provide interoperability between languages and more. &lt;a href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet-framework">Read more about the .NET Framework&lt;/a>.&lt;/li>
+&lt;li>The .NET Framework rapidly gained popularity, partly due to the convenience of developing in C# rather than Basic or C/C++. C# provided a more developer friendly language than C or C++ for many use cases, and was heavily inspired by Java. &lt;a href="https://docs.microsoft.com/en-us/dotnet/csharp/">Read more about C#&lt;/a>.&lt;/li>
+&lt;li>With the increase in popularity, the .NET Framework started to have more frequent releases and became a standard part of the Windows operating system, installed out of the box rather than on-demand if needed.&lt;/li>
+&lt;li>However - the .NET Framework only functioned on Microsoft Windows, which greatly limited its potential uses cases, even as more and more engineers used it for Web, Client Applications and mobile.&lt;/li>
+&lt;/ul>
+&lt;p>Enter &lt;strong>.NET Core&lt;/strong>.&lt;/p>
+&lt;ul>
+&lt;li>Microsoft signaled a &lt;em>radical&lt;/em> switch in their strategy with the appointment of &lt;a href="https://en.wikipedia.org/wiki/Satya_Nadella">Satya Nadella&lt;/a>, becoming increasingly focused on open source, and more importantly, deciding that the Microsoft development toolchain should not &lt;em>force&lt;/em> users to use Windows as their execution environment&lt;/li>
+&lt;li>.NET Core was developed as a lightweight version of the .NET Framework, which could run on multiple platforms - including Linux and MacOS. &lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">Read more about .NET Core&lt;/a>.&lt;/li>
+&lt;li>In a short period of time .NET Core became more and more feature rich, providing a lot of capabilities for web developers and front-end application developers.&lt;/li>
+&lt;/ul>
+&lt;p>The challenges of &lt;strong>divergence&lt;/strong> and the &lt;strong>.NET Standard&lt;/strong>.&lt;/p>
+&lt;ul>
+&lt;li>As .NET Core became more feature rich, the API became closer to the .NET Framework - but they are still fundamentally different runtimes. A binary compiled for the .NET Core does not run on the .NET Framework and vice-versa.&lt;/li>
+&lt;li>To deal with this issue, Microsoft developed the &lt;strong>.NET Standard&lt;/strong> - a specification of a set of APIs. If a runtime offered these APIs, then solutions built on &lt;em>any runtime which meets the standard&lt;/em> could run on any compliant platform.&lt;/li>
+&lt;/ul>
+&lt;p>What does this mean? Basically, the table below shows the consequences of this. If you build on .NET Core 2.0 (for example), you can also run on the .NET Framework 4.6.1. Mono 5.4, Unity 2018.1 and more, because all of these runtimes implement the &lt;em>.NET Standard 2.0&lt;/em>.&lt;/p>
+&lt;p>Of course, some features are always going to be very platform specific, so the standard started out small but has grown over time.&lt;/p>
+&lt;p>Moving to &lt;strong>convergence&lt;/strong> and &lt;strong>.NET&lt;/strong>.&lt;/p>
+&lt;ul>
+&lt;li>Given that the later versions of the .NET Framework and .NET Core actually follow the same standard, the platforms are actually starting to become more and more similar.&lt;/li>
+&lt;li>They are becoming &lt;em>so&lt;/em> similar that it no longer makes sense to maintain them separately. The next major version of &lt;em>both&lt;/em> platforms is &lt;strong>.NET 5&lt;/strong>. This is a new runtime which is the next version of .NET Core &lt;em>and&lt;/em> the .NET Framework.&lt;/li>
+&lt;/ul>
+&lt;p>This means that the .NET Framework and .NET Core are going to converge into a single platform, which will be wonderful for developers and simplify a complex landscape.&lt;/p>
+&lt;p>But what does this mean if you have .NET Framework projects? How do we modernise, and do we have to make trade-offs around compatibility?&lt;/p>
+&lt;h1 id="the-challenge-modernisation-and-compatibility">The Challenge: Modernisation and Compatibility&lt;/h1>
+&lt;p>I have a number of projects which target the .NET Framework. On &lt;em>all&lt;/em> of these projects I have had multiple requests to migrate to the .NET Core, but I have had to hold off on this work until I could really understand in detail a few things:&lt;/p>
+&lt;ol>
+&lt;li>What would this mean for &lt;em>consumers&lt;/em> of the libraries? Would they have to change the platform they use? Could this break things for them?&lt;/li>
+&lt;li>What would this mean for &lt;em>developers&lt;/em> on the platform? Would they need to change their development environment? Would this cause problems?&lt;/li>
+&lt;li>What would this mean for &lt;em>maintainers&lt;/em> of the libraries? Would this greatly increase build and deployment complexity?&lt;/li>
+&lt;/ol>
+&lt;p>Finally I have found the time to be able to start to address these issues in detail - hopefully the learnings will be useful to anyone who is maintaining a .NET codebase and thinking about the future.&lt;/p>
+&lt;h1 id="the-modernisation-process---introducing-our-two-villains">The Modernisation Process - Introducing our two Villains&lt;/h1>
+&lt;p>There are two key projects I wanted to modernise. They are both reasonably well used, complex, and have some potentially serious complexities for multi-platform builds.&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/sharpgl">&lt;strong>SharpGL&lt;/strong>&lt;/a> is a library that allows developers to use &lt;a href="https://www.opengl.org/">OpenGL&lt;/a> in .NET applications. The big challenge? OpenGL is cross platform, but SharpGL &lt;em>specifically&lt;/em> provides an interface to the &lt;em>Windows&lt;/em> version of OpenGL. Can this possibly be made more future-proof? Could it ever target other platforms?&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/sharpshell">&lt;strong>SharpShell&lt;/strong>&lt;/a> is a library that allows developers to build &amp;lsquo;Shell Extensions&amp;rsquo; for Windows. Shell extensions are customisations to the Windows user interface, so would not be portable across platforms, but I still want to ensure that the project is future proof.&lt;/p>
+&lt;p>What would be the experience with these two projects? I have other .NET projects, but they are far less popular and much more simple, my instinct is that if I can work through the process with &lt;em>these&lt;/em> projects, the others should be more straightforward.&lt;/p>
+&lt;p>These are the steps I've followed to modernise. I'll finish the article with a summary of the key learnings.&lt;/p>
+&lt;h2 id="step-1---understand-the-domain">Step 1 - Understand the Domain&lt;/h2>
+&lt;p>I cannot stress this enough. In all meaningful technology work, &lt;em>understand the domain&lt;/em> you are dealing with. A quick Google on how to migrate, or following the formal migration guide was not enough for me. I knew I had to actually understand, at a reasonably detailed level, the differences in the runtime, the trade-offs, the process, the complexity.&lt;/p>
+&lt;p>This article is the result of that work - sometimes writing about a topic is the best way to force yourself to learn it.&lt;/p>
+&lt;p>Making changes rapidly and waiting to see what the consequences are can often work for small projects, internal tools and so on, but for a library which is relied upon by others is not good for the community. The last thing I wanted to do was make changes which had unintended consequences for users. So making sure that I learnt about this space, how things work under the hood, and what the expected changes in the future are was critical.&lt;/p>
+&lt;p>Hopefully for others the process of understanding the domain will be a little easier with this article to cover the high level topics. During my actual process of writing and migrating, I went a lot deeper than this article goes.&lt;/p>
+&lt;p>The key document to follow to actually &lt;em>execute&lt;/em> the migration is the excellent official &lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/porting/">.NET Framework to .NET Core Porting Guide&lt;/a>.&lt;/p>
+&lt;h2 id="step-2---understand-the-goal---multi-platform-builds">Step 2 - Understand the Goal - Multi-Platform Builds&lt;/h2>
+&lt;p>Given the understanding of the domain, it made it much easier to understand what the required steps would be. Essentially, all that would be needed would be to target a version of the .NET Framework which adheres to a recent version of the .NET Standard. Once this was done, in theory the project could be built for the .NET Framework &lt;em>and&lt;/em> for .NET Core, and also be ready for the upcoming .NET 5 release.&lt;/p>
+&lt;p>Multi-platform builds are supported in Visual Studio 2019. These builds allow us to have a single codebase, but build libraries for multiple platforms (i.e. the .NET Framework and .NET Core). The resulting binaries can be packed as a single package, and when consumers install the package, the appropriate library is installed.&lt;/p>
+&lt;p>This introduces the first of the significant consequences - modernising your project means you must migrate it to Visual Studio 2019.&lt;/p>
+&lt;p>In the past, this might have been more of an issue, licenses for Visual Studio were expensive, and many organisations were locked onto specific versions for compatibility issues (or because they were slow to upgrade). This seems to be the case less often nowadays, but is still an important consideration.&lt;/p>
+&lt;p>My projects were using Visual Studio 2017. This is how the project properties looked:&lt;/p>
+&lt;p>&lt;img src="./images/sharpgl-target-framework-2017.png" alt="Screenshot: SharpGL Target Framework Properties for Visual Studio 2017">&lt;/p>
+&lt;p>Unsurprisingly the .NET Standard isn't mentioned. Time to upgrade to 2019. While I installed it I could reminisce about the excitement of buying Visual C++ .NET Learning Edition:&lt;/p>
+&lt;p>&lt;img src="./images/visual-cpp-dotnet-learning-edition.jpg" alt="Photo: Visual C++ .NET 2003 Learning Edition">&lt;/p>
+&lt;p>And try and remember what is was like to be a 15 years old. I wonder if that box set is still kicking around somewhere, I want to see it again. So much has changed. But long install processes for Visual Studio haven't, at least they kept that:&lt;/p>
+&lt;p>&lt;img src="./images/install-visual-studio-2019.png" alt="Screenshot: Visual Studio 2019 Installer">&lt;/p>
+&lt;p>When installing, remember to enable the .NET Core features.&lt;/p>
+&lt;h2 id="step-3---migrate-projects-leaf-wise">Step 3 - Migrate Projects &amp;ldquo;Leaf-wise&amp;rdquo;&lt;/h2>
+&lt;p>As per the &lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/porting/">Porting Guide&lt;/a>, we need to migrate each of the projects which make up the solution, starting with the &amp;lsquo;leaves&amp;rsquo; (projects which don't depend on other projects) and then moving up the tree to the &amp;lsquo;root&amp;rsquo; projects (projects which are depended on by others).&lt;/p>
+&lt;p>Visually, for a solution like SharpGL, that would mean the projects will need to be converted in the following order:&lt;/p>
+&lt;p>&lt;img src="./images/sharpgl-project-structure.png" alt="Diagram: SharpGL Project Dependency Graph">&lt;/p>
+&lt;p>I was expecting each project to have quite different experiences:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>SharpGL.Serialization&lt;/code> is just a set of classes which load data from files. In theory, this library should become completely portable.&lt;/li>
+&lt;li>&lt;code>SharpGL.WPF&lt;/code> and &lt;code>SharpGL.WinForms&lt;/code> are &lt;em>specifically&lt;/em> for Windows front-end technologies. I expected these to be able to be ported, but don't expect them to work on other platforms (in the future there might be &lt;code>SharpGL.OSx&lt;/code>, or &lt;code>SharpGL.Gnome&lt;/code>, who knows)&lt;/li>
+&lt;li>&lt;code>SharpGL.SceneGraph&lt;/code> is a set of classes which represent 3D scenes - things like lights, cameras, materials and so on. I expect &lt;em>some&lt;/em> of this to &amp;lsquo;just work&amp;rsquo;, but things like image loading to perhaps need some tweaking.&lt;/li>
+&lt;li>&lt;code>SharpGL&lt;/code> is just a wrapper around the Windows &lt;code>opengl32.dll&lt;/code> library. I can't imagine this &lt;em>working&lt;/em> anywhere but Windows, but how would the project structure porting go and would it build?&lt;/li>
+&lt;/ul>
+&lt;p>The details on &lt;em>how&lt;/em> to migrate a project are in the &lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/porting/">Porting Guide&lt;/a>, but the general approach will be:&lt;/p>
+&lt;ol>
+&lt;li>Attempt to convert to the latest project format with the &lt;code>try-convert&lt;/code> tool&lt;/li>
+&lt;li>Re-target the project to the .NET Framework 4.7.2 (the first version which supports the .NET standard)&lt;/li>
+&lt;li>Repeat for projects which this project depends on, walking the tree of projects to the root&lt;/li>
+&lt;li>Run the Portability Analysis tool to see if there are APIs which are not available on certain platforms&lt;/li>
+&lt;/ol>
+&lt;p>This is how you project might look after migration, having run the &lt;code>try-convert&lt;/code>:&lt;/p>
+&lt;p>&lt;img src="./images/migrate-project.png" alt="Screenshot: Ported Visual Studio Project">&lt;/p>
+&lt;p>Now we just need to edit the project files and change the line:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;TargetFramework&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>4.7.2&lt;span style="color:#f92672">&amp;lt;/TargetFramework&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>To:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;TargetFrameworks&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>netcoreapp2.0;netcoreapp3.0;netcoreapp3.1;net40;net45;net472&lt;span style="color:#f92672">&amp;lt;/TargetFrameworks&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The targets you will choose will depend on the APIs you want to use. There is an Portability Analysis extension available which can build a portability report, here's what one looks like:&lt;/p>
+&lt;p>&lt;img src="./images/portability-report-summary.png" alt="Screenshot: Portability Report Summary">&lt;/p>
+&lt;p>This will also show the &lt;em>specific&lt;/em> APIs which are not compatible with specific targets:&lt;/p>
+&lt;p>&lt;img src="./images/portability-report.png" alt="Screenshot: Portability Report Details">&lt;/p>
+&lt;p>Now it's time to move to the next step.&lt;/p>
+&lt;h2 id="step-4---refactor-rinse-repeat">Step 4 - Refactor, Rinse, Repeat&lt;/h2>
+&lt;p>This is the tricky part. You'll now need to work out whether you want to &lt;em>remove&lt;/em> API calls which are not portable, try and use alternatives, or conditionally compile the code for different platforms.&lt;/p>
+&lt;p>If you are using non-portable APIs you may need to use conditional blocks to execute different code depending on the framework used. The &lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks">Target frameworks in SDK-style projects&lt;/a> guide shows how to do this.&lt;/p>
+&lt;p>You may also have to manually edit the project file to ensure that certain dependencies are &lt;em>only&lt;/em> used for certain targets. You solution file and dependencies may end up looking something like this:&lt;/p>
+&lt;p>&lt;img src="./images/conditional-dependencies.png" alt="Screenshot: Conditional Dependencies">&lt;/p>
+&lt;p>Once you have reloaded the project you'll see your dependencies can now be specified on a per-framework basis, and a build generates assemblies for each of the targets:&lt;/p>
+&lt;p>&lt;img src="./images/generated-assemblies.png" alt="Screenshot: Generated Assemblies">&lt;/p>
+&lt;p>This process might be simple, or complex, depending on the nuances of your project. For me it was fairly iterative - starting by targeting only &lt;code>net40&lt;/code> (the original target framework which I'd used), then adding more and more targets.&lt;/p>
+&lt;p>Some targets will simply not be possible - for example .NET Core only supports WinForms and WPF from .NET Core 3.0 onwards; you won't be able to build a WinForms or WPF assembly which targets a lower version, the framework doesn't support it.&lt;/p>
+&lt;h2 id="step-5---update-your-builds">Step 5 - Update Your Builds&lt;/h2>
+&lt;p>At this stage, having fixed compatibility issues, you should have code which builds in Visual Studio.&lt;/p>
+&lt;p>Now I would recommend porting all of your build code to use the &lt;code>dotnet&lt;/code> build system. This is going to maximise the portability and future-proof your project, you'll be able to run the builds on multiple platforms and are using the preferred standard tool (&lt;code>msbuild&lt;/code> will essentially become legacy).&lt;/p>
+&lt;p>The way I like to structure things personally is have a set of scripts which you can run to build, test and package the code locally. You can then call these scripts from you CI tool of choice to automate things, but still keep the logic in your own code, rather than hidden away in a build system.&lt;/p>
+&lt;p>For example, in my SharpGL project I have the following scripts:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Script&lt;/th>
+&lt;th>Usage&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;code>config.ps1&lt;/code>&lt;/td>
+&lt;td>Ensure your machine can run builds by installing necessary components such as &lt;code>nunit&lt;/code>. Should only need to be run once.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>build.ps1&lt;/code>&lt;/td>
+&lt;td>Build all solutions.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>test.ps1&lt;/code>&lt;/td>
+&lt;td>Run all tests, including those in samples.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>coverage.ps1&lt;/code>&lt;/td>
+&lt;td>Create a coverage report. Reports are written to &lt;code>./artifacts/coverage&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>pack.ps1&lt;/code>&lt;/td>
+&lt;td>Create all of the SharpGL NuGet packages, which are copied to &lt;code>./artifacts/packages&lt;/code>.&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>I updated my scripts to use the &lt;code>dotnet&lt;/code> tool. For example, the &amp;lsquo;build&amp;rsquo; script looks something like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-ps" data-lang="ps">&lt;span style="color:#a6e22e">#&lt;/span> &lt;span style="color:#a6e22e">Run&lt;/span> &lt;span style="color:#a6e22e">the&lt;/span> &lt;span style="color:#a6e22e">build,&lt;/span> &lt;span style="color:#a6e22e">hiding&lt;/span> &lt;span style="color:#a6e22e">the&lt;/span> &lt;span style="color:#a6e22e">documentation&lt;/span> &lt;span style="color:#a6e22e">warnings&lt;/span> &lt;span style="color:#a6e22e">for&lt;/span> &lt;span style="color:#a6e22e">pinvoke&lt;/span> &lt;span style="color:#a6e22e">code.&lt;/span>
+&lt;span style="color:#a6e22e">$buildCommand&lt;/span> &lt;span style="color:#a6e22e">=&amp;#34;dotnet&lt;/span> &lt;span style="color:#a6e22e">msbuild&lt;/span> &lt;span style="color:#a6e22e">$PSScriptRoot\SharpGL.sln&lt;/span> &lt;span style="color:#a6e22e">-noWarn:CS1591&lt;/span> &lt;span style="color:#a6e22e">-noWarn:CS1573&lt;/span> &lt;span style="color:#a6e22e">-t:Rebuild&lt;/span> &lt;span style="color:#a6e22e">-p:Configuration=Release&amp;#34;&lt;/span>
+&lt;span style="color:#a6e22e">Write-Host&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;Running:&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;&amp;#34;$buildCommand&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;span style="color:#a6e22e">Invoke-Expression&lt;/span> &lt;span style="color:#a6e22e">$buildCommand&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And the &amp;lsquo;pack&amp;rsquo; script looks like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-ps" data-lang="ps">&lt;span style="color:#a6e22e">dotnet&lt;/span> &lt;span style="color:#a6e22e">pack&lt;/span> &lt;span style="color:#a6e22e">--no-restore&lt;/span> &lt;span style="color:#a6e22e">--no-build&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;$PSScriptRoot&lt;/span>/Core/SharpGL/SharpGL.csproj&amp;#34; &lt;span style="color:#a6e22e">-c:Release&lt;/span>
+&lt;span style="color:#a6e22e">dotnet&lt;/span> &lt;span style="color:#a6e22e">pack&lt;/span> &lt;span style="color:#a6e22e">--no-restore&lt;/span> &lt;span style="color:#a6e22e">--no-build&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;$PSScriptRoot&lt;/span>/Core/SharpGL.SceneGraph/SharpGL.SceneGraph.csproj&amp;#34; &lt;span style="color:#a6e22e">-c:Release&lt;/span>
+&lt;span style="color:#a6e22e">dotnet&lt;/span> &lt;span style="color:#a6e22e">pack&lt;/span> &lt;span style="color:#a6e22e">--no-restore&lt;/span> &lt;span style="color:#a6e22e">--no-build&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;$PSScriptRoot&lt;/span>/Core/SharpGL.Serialization/SharpGL.Serialization.csproj&amp;#34; &lt;span style="color:#a6e22e">-c:Release&lt;/span>
+&lt;span style="color:#a6e22e">dotnet&lt;/span> &lt;span style="color:#a6e22e">pack&lt;/span> &lt;span style="color:#a6e22e">--no-restore&lt;/span> &lt;span style="color:#a6e22e">--no-build&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;$PSScriptRoot&lt;/span>/Core/SharpGL.WinForms/SharpGL.WinForms.csproj&amp;#34; &lt;span style="color:#a6e22e">-c:Release&lt;/span>
+&lt;span style="color:#a6e22e">dotnet&lt;/span> &lt;span style="color:#a6e22e">pack&lt;/span> &lt;span style="color:#a6e22e">--no-restore&lt;/span> &lt;span style="color:#a6e22e">--no-build&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;$PSScriptRoot&lt;/span>/Core/SharpGL.WPF/SharpGL.WPF.csproj&amp;#34; &lt;span style="color:#a6e22e">-c:Release&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The actual scripts are a little more complex. But the key thing here is that I can run &lt;em>any&lt;/em> part of the CI/CD process locally (to test, debug and so on) or on a CI/CD platform.&lt;/p>
+&lt;p>One thing which you can do here is update your &lt;em>project files&lt;/em>. There is no need to maintain a separate &lt;code>*.nuspec&lt;/code> file or &lt;code>project.json&lt;/code> file. All project information can be kept in one place - the project file. These files have been improved considerably and should actually end up being &lt;em>smaller&lt;/em> than the originals, as well as consolidating all of the project information and dependency information into one place.&lt;/p>
+&lt;p>You can see the &lt;a href="https://github.com/dwmkerr/sharpgl/pull/177">Pull Request&lt;/a> for SharpGL to see how the project files were updated in this case.&lt;/p>
+&lt;p>You will most likely have to &lt;em>conditionally&lt;/em> reference certain components. The dependency for &lt;code>net40&lt;/code> might be different to that for &lt;code>netcoreapp3.0&lt;/code>. You'll see that in many of my project files there is now code like this:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;ItemGroup&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Reference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Design&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net40&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Reference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Design&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net45&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Reference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Design&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net472&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Reference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Windows.Forms&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net40&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Reference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Windows.Forms&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net45&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Reference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Windows.Forms&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net472&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/ItemGroup&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;ItemGroup&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Microsoft.CSharp&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.7.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;netcoreapp3.0&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Microsoft.CSharp&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.7.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;netcoreapp3.1&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Microsoft.CSharp&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.7.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net45&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Microsoft.CSharp&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.7.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net472&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Data.DataSetExtensions&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.5.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;netcoreapp3.0&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Data.DataSetExtensions&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.5.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;netcoreapp3.1&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Data.DataSetExtensions&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.5.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net45&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Data.DataSetExtensions&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.5.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net472&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/ItemGroup&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>In my case quite a bit of trial and error was needed to find the appropriate references for each platform.&lt;/p>
+&lt;h2 id="step-6---test-test-test">Step 6 - Test, Test, Test&lt;/h2>
+&lt;p>Now for the fun part. You are going to &lt;em>really&lt;/em> have to test the new packages on each platform. Sadly, this kind of migration is not something which will have issues exposed via unit tests, you'll need to create test projects which import your packages, ideally for each platform, and make sure they work. There could be runtime errors, particularly if you have made mistakes with the references.&lt;/p>
+&lt;p>Many issues will be caught at compile time - some will not.&lt;/p>
+&lt;p>Here's a screenshot of me having fun trying out the .NET Framework 4 package for WinForms, and the .NET Core 3.1 package for WPF:&lt;/p>
+&lt;p>&lt;img src="./images/test-packages.png" alt="Screenshot: Testing SharpGL">&lt;/p>
+&lt;p>How you test your packages will be very dependent on what you are building. If it is highly platform specific then you will likely have to do lots of testing. If it is fairly self-contained code then you might be able to get away with some basic smoke testing.&lt;/p>
+&lt;h2 id="step-7---document-compatibility">Step 7 - Document Compatibility&lt;/h2>
+&lt;p>If you are supporting multiple platforms and frameworks, it's going to be a lot of help to consumers of your code if you can be very clear about &lt;em>what is supported&lt;/em>.&lt;/p>
+&lt;p>This may be more complex than you think. Your library may run fine as part of a .NET Core Console Application on Windows - but does it work on MacOS? What about Linux?&lt;/p>
+&lt;p>Here's a screenshot I would never have imagined when I started the SharpGL project - a terminal application running on MacOS which is using the &lt;code>SharpGL.Serialization&lt;/code> library to load geometry from a file:&lt;/p>
+&lt;p>&lt;img src="./images/sharpgl-on-mac.png" alt="Screenshot: Loading Geometry in SharpGL on MacOS">&lt;/p>
+&lt;p>Now of course for something like SharpGL to run on a Mac or Linux, a lot more work would be needed. SharpGL is at its core nothing more than a wrapper around &lt;code>opengl32.dll&lt;/code> on Windows, on other platforms there are no DLLs, but OpenGL &lt;em>is&lt;/em> still available. So support is possible, but not ready yet. So at this stage, docmenting what you know works &lt;em>as well as what doesn't&lt;/em> will be really helpful.&lt;/p>
+&lt;p>You might also want to preserve your &amp;lsquo;pre-migration&amp;rsquo; code in a separate branch, in case you have users who for some reason have issues migrating and need to use an older version. For SharpGL, I updated the project page to indicate compatibility, what has been tested and so on:&lt;/p>
+&lt;p>&lt;img src="./images/readme-compatability.png" alt="Screenshot: SharpGL README showing compatibility information">&lt;/p>
+&lt;h1 id="the-key-learnings">The Key Learnings&lt;/h1>
+&lt;p>Here are the key learnings which stood out for me as I worked on migration of these projects.&lt;/p>
+&lt;p>&lt;strong>Consumer Experience&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>If you are careful, you don't have to break anything for consumers - with multi-targeting you can &lt;em>still&lt;/em> target older frameworks.&lt;/li>
+&lt;li>You can potentially greatly increase the compatability of your projects by offering support for .NET Core.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Developer Experience&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>You need to upgrade to Visual Studio 2019&amp;hellip;&lt;/li>
+&lt;li>&amp;hellip;however, you can use Visual Studio for Mac or even the command-line to build across many platforms.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Maintainer Experience&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>You will have a much larger set of potential consumers, but you will likely find bugs which are framework or platform specific.&lt;/li>
+&lt;li>You will likely need to work on migrating your project files and use the latest &lt;code>dotnet&lt;/code> tooling.&lt;/li>
+&lt;li>You should be careful to document known compatability issues.&lt;/li>
+&lt;/ul>
+&lt;p>All in all, the process was less painful than I expected. Now that this work is done I can focus on more exciting things, such as potentially getting projects like SharpGL working on Linux or MacOS, which is much more exciting.&lt;/p>
+&lt;p>As always, questions, comments, suggestions, rants, anything are welcome!&lt;/p>
+&lt;p>The pull request which migrates the SharpGL project is below:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/sharpgl/pull/177/">github.com/dwmkerr/sharpgl/pull/177/&lt;/a>&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Useful References&lt;/strong>&lt;/p>
+&lt;p>&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">Microsoft Docs: .NET Core Documentation&lt;/a>
+&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/porting/">Microsoft Docs: Overview of porting from .NET Framework to .NET Core&lt;/a>
+&lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks">Microsoft Docs: Target frameworks in SDK-style projects&lt;/a>&lt;/p></description><category>CodeProject</category></item><item><title>Observations, tips and tricks for the CKA certification</title><link>https://dwmkerr.com/tips-for-cka/</link><pubDate>Thu, 04 Jun 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/tips-for-cka/</guid><description>&lt;p>In this article I'll share some observations, tips and tricks for the &lt;a href="https://www.linuxfoundation.org/">Linux Foundation's&lt;/a> &amp;ldquo;&lt;a href="https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/">Certified Kubernetes Administrator&lt;/a> certification and exam.&lt;/p>
 &lt;p>I've been operating Kubernetes in multiple environments for a few years now. I thought this would be an easy certification to get, but I was surprised by how hard it was!&lt;/p>
 &lt;p>I took this exam without doing any formal training, I mostly focused on the areas of the curriculum which I knew I was a little weak at. The task-based structure for the exam I thought was really excellent. It took me two attempts to pass, and I learnt a few things along the way.&lt;/p>
 &lt;p>Here I'll share some thoughts on the certification which hopefully will be useful if you are considering taking it!&lt;/p>
