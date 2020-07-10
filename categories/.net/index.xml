@@ -227,6 +227,8 @@
 &lt;p>&lt;a href="https://github.com/dwmkerr/sharpgl/pull/177/">github.com/dwmkerr/sharpgl/pull/177/&lt;/a>&lt;/p>
 &lt;hr>
 &lt;p>&lt;strong>Useful References&lt;/strong>&lt;/p>
-&lt;p>&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">Microsoft Docs: .NET Core Documentation&lt;/a>
-&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/porting/">Microsoft Docs: Overview of porting from .NET Framework to .NET Core&lt;/a>
-&lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks">Microsoft Docs: Target frameworks in SDK-style projects&lt;/a>&lt;/p></description><category>CodeProject</category></item></channel></rss>
+&lt;ul>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">Microsoft Docs: .NET Core Documentation&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/porting/">Microsoft Docs: Overview of porting from .NET Framework to .NET Core&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks">Microsoft Docs: Target frameworks in SDK-style projects&lt;/a>&lt;/li>
+&lt;/ul></description><category>CodeProject</category></item></channel></rss>

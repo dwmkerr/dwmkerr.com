@@ -227,9 +227,11 @@
 &lt;p>&lt;a href="https://github.com/dwmkerr/sharpgl/pull/177/">github.com/dwmkerr/sharpgl/pull/177/&lt;/a>&lt;/p>
 &lt;hr>
 &lt;p>&lt;strong>Useful References&lt;/strong>&lt;/p>
-&lt;p>&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">Microsoft Docs: .NET Core Documentation&lt;/a>
-&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/porting/">Microsoft Docs: Overview of porting from .NET Framework to .NET Core&lt;/a>
-&lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks">Microsoft Docs: Target frameworks in SDK-style projects&lt;/a>&lt;/p></description><category>CodeProject</category></item><item><title>Observations, tips and tricks for the CKA certification</title><link>https://dwmkerr.com/tips-for-cka/</link><pubDate>Thu, 04 Jun 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/tips-for-cka/</guid><description>&lt;p>In this article I'll share some observations, tips and tricks for the &lt;a href="https://www.linuxfoundation.org/">Linux Foundation's&lt;/a> &amp;ldquo;&lt;a href="https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/">Certified Kubernetes Administrator&lt;/a> certification and exam.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">Microsoft Docs: .NET Core Documentation&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/porting/">Microsoft Docs: Overview of porting from .NET Framework to .NET Core&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks">Microsoft Docs: Target frameworks in SDK-style projects&lt;/a>&lt;/li>
+&lt;/ul></description><category>CodeProject</category></item><item><title>Observations, tips and tricks for the CKA certification</title><link>https://dwmkerr.com/tips-for-cka/</link><pubDate>Thu, 04 Jun 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/tips-for-cka/</guid><description>&lt;p>In this article I'll share some observations, tips and tricks for the &lt;a href="https://www.linuxfoundation.org/">Linux Foundation's&lt;/a> &amp;ldquo;&lt;a href="https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/">Certified Kubernetes Administrator&lt;/a> certification and exam.&lt;/p>
 &lt;p>I've been operating Kubernetes in multiple environments for a few years now. I thought this would be an easy certification to get, but I was surprised by how hard it was!&lt;/p>
 &lt;p>I took this exam without doing any formal training, I mostly focused on the areas of the curriculum which I knew I was a little weak at. The task-based structure for the exam I thought was really excellent. It took me two attempts to pass, and I learnt a few things along the way.&lt;/p>
 &lt;p>Here I'll share some thoughts on the certification which hopefully will be useful if you are considering taking it!&lt;/p>
