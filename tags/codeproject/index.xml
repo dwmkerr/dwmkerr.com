@@ -11,8 +11,9 @@
 &lt;li>&lt;a href="#step-3---migrate-projects-leaf-wise">Step 3 - Migrate Projects &amp;ldquo;Leaf-wise&amp;rdquo;&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#step-4---refactor-rinse-repeat">Step 4 - Refactor, Rinse, Repeat&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#step-5---update-your-builds">Step 5 - Update Your Builds&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#step-6---test-test-test">Step 6 - Test, Test, Test&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#step-7---document-compatibility">Step 7 - Document Compatibility&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-6---simplify">Step 6 - Simplify!&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-7---test-test-test">Step 7 - Test, Test, Test&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#step-8---document-compatibility">Step 8 - Document Compatibility&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;a href="#the-key-learnings">The Key Learnings&lt;/a>&lt;/li>
@@ -167,8 +168,6 @@
 &lt;span style="color:#a6e22e">dotnet&lt;/span> &lt;span style="color:#a6e22e">pack&lt;/span> &lt;span style="color:#a6e22e">--no-restore&lt;/span> &lt;span style="color:#a6e22e">--no-build&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;$PSScriptRoot&lt;/span>/Core/SharpGL.WinForms/SharpGL.WinForms.csproj&amp;#34; &lt;span style="color:#a6e22e">-c:Release&lt;/span>
 &lt;span style="color:#a6e22e">dotnet&lt;/span> &lt;span style="color:#a6e22e">pack&lt;/span> &lt;span style="color:#a6e22e">--no-restore&lt;/span> &lt;span style="color:#a6e22e">--no-build&lt;/span> &lt;span style="color:#a6e22e">&amp;#34;$PSScriptRoot&lt;/span>/Core/SharpGL.WPF/SharpGL.WPF.csproj&amp;#34; &lt;span style="color:#a6e22e">-c:Release&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The actual scripts are a little more complex. But the key thing here is that I can run &lt;em>any&lt;/em> part of the CI/CD process locally (to test, debug and so on) or on a CI/CD platform.&lt;/p>
-&lt;p>One thing which you can do here is update your &lt;em>project files&lt;/em>. There is no need to maintain a separate &lt;code>*.nuspec&lt;/code> file or &lt;code>project.json&lt;/code> file. All project information can be kept in one place - the project file. These files have been improved considerably and should actually end up being &lt;em>smaller&lt;/em> than the originals, as well as consolidating all of the project information and dependency information into one place.&lt;/p>
-&lt;p>You can see the &lt;a href="https://github.com/dwmkerr/sharpgl/pull/177">Pull Request&lt;/a> for SharpGL to see how the project files were updated in this case.&lt;/p>
 &lt;p>You will most likely have to &lt;em>conditionally&lt;/em> reference certain components. The dependency for &lt;code>net40&lt;/code> might be different to that for &lt;code>netcoreapp3.0&lt;/code>. You'll see that in many of my project files there is now code like this:&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;ItemGroup&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
 &lt;span style="color:#f92672">&amp;lt;Reference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Design&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net40&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
@@ -189,13 +188,45 @@
 &lt;span style="color:#f92672">&amp;lt;PackageReference&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;System.Data.DataSetExtensions&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Version=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;4.5.0&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;$(TargetFramework)&amp;#39; == &amp;#39;net472&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
 &lt;span style="color:#f92672">&amp;lt;/ItemGroup&amp;gt;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>In my case quite a bit of trial and error was needed to find the appropriate references for each platform.&lt;/p>
-&lt;h2 id="step-6---test-test-test">Step 6 - Test, Test, Test&lt;/h2>
+&lt;h2 id="step-6---simplify">Step 6 - Simplify!&lt;/h2>
+&lt;p>One benefit I have found during this process is that you can &lt;em>simplify&lt;/em> your projects. You no longer need any kind of &amp;lsquo;automated NuGet restore&amp;rsquo; functionality. This means you can remove code like this from your project files:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;Import&lt;/span> &lt;span style="color:#a6e22e">Project=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;$(SolutionDir)\.nuget\NuGet.targets&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Exists(&amp;#39;$(SolutionDir)\.nuget\NuGet.targets&amp;#39;)&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Target&lt;/span> &lt;span style="color:#a6e22e">Name=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;EnsureNuGetPackageBuildImports&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">BeforeTargets=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;PrepareForBuild&amp;#34;&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PropertyGroup&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;ErrorText&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.&lt;span style="color:#f92672">&amp;lt;/ErrorText&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/PropertyGroup&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Error&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;!Exists(&amp;#39;..\packages\NUnit.3.11.0\build\NUnit.props&amp;#39;)&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Text=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;$([System.String]::Format(&amp;#39;$(ErrorText)&amp;#39;, &amp;#39;..\packages\NUnit.3.11.0\build\NUnit.props&amp;#39;))&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Error&lt;/span> &lt;span style="color:#a6e22e">Condition=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;!Exists(&amp;#39;..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props&amp;#39;)&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Text=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;$([System.String]::Format(&amp;#39;$(ErrorText)&amp;#39;, &amp;#39;..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props&amp;#39;))&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/Target&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>You can also remove your &lt;code>project.json&lt;/code> as all of the data is now in the &lt;code>csproj&lt;/code> file.&lt;/p>
+&lt;p>Another nice update is that you no longer need to maintain an &lt;code>AssemblyInfo.cs&lt;/code> file; you can keep all of your assembly metadata in the &lt;code>csproj&lt;/code> file.&lt;/p>
+&lt;p>Finally, you can almost certainly remove any &lt;code>nuspec&lt;/code> files - all NuGet packaging data can also be embedded in the &lt;code>csproj&lt;/code> file. For example, here's what my SharpShell project metadata looks like:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;Project&lt;/span> &lt;span style="color:#a6e22e">Sdk=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Microsoft.NET.Sdk.WindowsDesktop&amp;#34;&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PropertyGroup&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;TargetFrameworks&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>netcoreapp2.0;netcoreapp3.0;netcoreapp3.1;net40;net45;net472&lt;span style="color:#f92672">&amp;lt;/TargetFrameworks&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;OutputType&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>Library&lt;span style="color:#f92672">&amp;lt;/OutputType&amp;gt;&lt;/span>
+&lt;span style="color:#75715e">&amp;lt;!--&lt;/span>&lt;span style="color:#75715e"> The following properies are used to manage how the project is packaged. &lt;/span>&lt;span style="color:#75715e">--&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageId&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>SharpShell&lt;span style="color:#f92672">&amp;lt;/PackageId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Copyright&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>Copyright (c) Dave Kerr 2020&lt;span style="color:#f92672">&amp;lt;/Copyright&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageProjectUrl&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>https://github.com/dwmkerr/sharpshell&lt;span style="color:#f92672">&amp;lt;/PackageProjectUrl&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;RepositoryUrl&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>https://github.com/dwmkerr/sharpshell&lt;span style="color:#f92672">&amp;lt;/RepositoryUrl&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Version&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>3.1.1.0&lt;span style="color:#f92672">&amp;lt;/Version&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Authors&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>Dave Kerr&lt;span style="color:#f92672">&amp;lt;/Authors&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Company&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>Dave Kerr&lt;span style="color:#f92672">&amp;lt;/Company&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;PackageTags&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>Shell;SharpShell;COM;Context Menu;Icon Handler&lt;span style="color:#f92672">&amp;lt;/PackageTags&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Description&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>SharpShell is a framework that lets you build Windows Shell Extensions using .NET Core or the .NET Framework.&lt;span style="color:#f92672">&amp;lt;/Description&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/PropertyGroup&amp;gt;&lt;/span>
+&lt;span style="color:#75715e">&amp;lt;!--&lt;/span>&lt;span style="color:#75715e"> ...snip... &lt;/span>&lt;span style="color:#75715e">--&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/Project&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This helps to keep a lot of the project dependency and property data in one place and is probably more convenient for many users.&lt;/p>
+&lt;p>You can see the &lt;a href="https://github.com/dwmkerr/sharpgl/pull/177">Pull Request&lt;/a> for SharpGL to see how the project files were updated in this case. You can also see the &lt;a href="https://github.com/dwmkerr/sharpshell/pull/331">SharpShell Pull Request&lt;/a>. The SharpShell version is still work in progress at the time of writing.&lt;/p>
+&lt;h2 id="step-7---test-test-test">Step 7 - Test, Test, Test&lt;/h2>
 &lt;p>Now for the fun part. You are going to &lt;em>really&lt;/em> have to test the new packages on each platform. Sadly, this kind of migration is not something which will have issues exposed via unit tests, you'll need to create test projects which import your packages, ideally for each platform, and make sure they work. There could be runtime errors, particularly if you have made mistakes with the references.&lt;/p>
 &lt;p>Many issues will be caught at compile time - some will not.&lt;/p>
 &lt;p>Here's a screenshot of me having fun trying out the .NET Framework 4 package for WinForms, and the .NET Core 3.1 package for WPF:&lt;/p>
 &lt;p>&lt;img src="./images/test-packages.png" alt="Screenshot: Testing SharpGL">&lt;/p>
 &lt;p>How you test your packages will be very dependent on what you are building. If it is highly platform specific then you will likely have to do lots of testing. If it is fairly self-contained code then you might be able to get away with some basic smoke testing.&lt;/p>
-&lt;h2 id="step-7---document-compatibility">Step 7 - Document Compatibility&lt;/h2>
+&lt;h2 id="step-8---document-compatibility">Step 8 - Document Compatibility&lt;/h2>
 &lt;p>If you are supporting multiple platforms and frameworks, it's going to be a lot of help to consumers of your code if you can be very clear about &lt;em>what is supported&lt;/em>.&lt;/p>
 &lt;p>This may be more complex than you think. Your library may run fine as part of a .NET Core Console Application on Windows - but does it work on MacOS? What about Linux?&lt;/p>
 &lt;p>Here's a screenshot I would never have imagined when I started the SharpGL project - a terminal application running on MacOS which is using the &lt;code>SharpGL.Serialization&lt;/code> library to load geometry from a file:&lt;/p>
@@ -208,7 +239,7 @@
 &lt;p>&lt;strong>Consumer Experience&lt;/strong>&lt;/p>
 &lt;ul>
 &lt;li>If you are careful, you don't have to break anything for consumers - with multi-targeting you can &lt;em>still&lt;/em> target older frameworks.&lt;/li>
-&lt;li>You can potentially greatly increase the compatability of your projects by offering support for .NET Core.&lt;/li>
+&lt;li>You can potentially greatly increase the compatibility of your projects by offering support for .NET Core.&lt;/li>
 &lt;/ul>
 &lt;p>&lt;strong>Developer Experience&lt;/strong>&lt;/p>
 &lt;ul>
@@ -219,12 +250,15 @@
 &lt;ul>
 &lt;li>You will have a much larger set of potential consumers, but you will likely find bugs which are framework or platform specific.&lt;/li>
 &lt;li>You will likely need to work on migrating your project files and use the latest &lt;code>dotnet&lt;/code> tooling.&lt;/li>
-&lt;li>You should be careful to document known compatability issues.&lt;/li>
+&lt;li>You should be careful to document known compatibility issues.&lt;/li>
 &lt;/ul>
 &lt;p>All in all, the process was less painful than I expected. Now that this work is done I can focus on more exciting things, such as potentially getting projects like SharpGL working on Linux or MacOS, which is much more exciting.&lt;/p>
 &lt;p>As always, questions, comments, suggestions, rants, anything are welcome!&lt;/p>
-&lt;p>The pull request which migrates the SharpGL project is below:&lt;/p>
-&lt;p>&lt;a href="https://github.com/dwmkerr/sharpgl/pull/177/">github.com/dwmkerr/sharpgl/pull/177/&lt;/a>&lt;/p>
+&lt;p>The pull request which migrates the SharpGL project and SharpShell projects are below:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/dwmkerr/sharpgl/pull/177/">github.com/dwmkerr/sharpgl/pull/177/&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/dwmkerr/sharpshell/pull/331">github.com/dwmkerr/sharpshell/pull/331&lt;/a>&lt;/li>
+&lt;/ul>
 &lt;hr>
 &lt;p>&lt;strong>Useful References&lt;/strong>&lt;/p>
 &lt;ul>
