@@ -30,8 +30,9 @@ But what does this mean for .NET _Framework_ projects? In this article I'll desc
     * [Step 3 - Migrate Projects "Leaf-wise"](#step-3---migrate-projects-leaf-wise)
     * [Step 4 - Refactor, Rinse, Repeat](#step-4---refactor-rinse-repeat)
     * [Step 5 - Update Your Builds](#step-5---update-your-builds)
-    * [Step 6 - Test, Test, Test](#step-6---test-test-test)
-    * [Step 7 - Document Compatibility](#step-7---document-compatibility)
+    * [Step 6 - Simplify!](#step-6---simplify)
+    * [Step 7 - Test, Test, Test](#step-7---test-test-test)
+    * [Step 8 - Document Compatibility](#step-8---document-compatibility)
 * [The Key Learnings](#the-key-learnings)
 
 <!-- vim-markdown-toc -->
@@ -241,10 +242,6 @@ dotnet pack --no-restore --no-build "$PSScriptRoot/Core/SharpGL.WPF/SharpGL.WPF.
 
 The actual scripts are a little more complex. But the key thing here is that I can run _any_ part of the CI/CD process locally (to test, debug and so on) or on a CI/CD platform.
 
-One thing which you can do here is update your _project files_. There is no need to maintain a separate `*.nuspec` file or `project.json` file. All project information can be kept in one place - the project file. These files have been improved considerably and should actually end up being _smaller_ than the originals, as well as consolidating all of the project information and dependency information into one place.
-
-You can see the [Pull Request](https://github.com/dwmkerr/sharpgl/pull/177) for SharpGL to see how the project files were updated in this case.
-
 You will most likely have to _conditionally_ reference certain components. The dependency for `net40` might be different to that for `netcoreapp3.0`. You'll see that in many of my project files there is now code like this:
 
 ```xml
@@ -270,7 +267,52 @@ You will most likely have to _conditionally_ reference certain components. The d
 
 In my case quite a bit of trial and error was needed to find the appropriate references for each platform.
 
-## Step 6 - Test, Test, Test
+## Step 6 - Simplify!
+
+One benefit I have found during this process is that you can _simplify_ your projects. You no longer need any kind of 'automated NuGet restore' functionality. This means you can remove code like this from your project files:
+
+```xml
+<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+<Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+  <PropertyGroup>
+    <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+  </PropertyGroup>
+  <Error Condition="!Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.11.0\build\NUnit.props'))" />
+  <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props'))" />
+</Target>
+```
+
+You can also remove your `project.json` as all of the data is now in the `csproj` file.
+
+Another nice update is that you no longer need to maintain an `AssemblyInfo.cs` file; you can keep all of your assembly metadata in the `csproj` file.
+
+Finally, you can almost certainly remove any `nuspec` files - all NuGet packaging data can also be embedded in the `csproj` file. For example, here's what my SharpShell project metadata looks like:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;netcoreapp3.1;net40;net45;net472</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <!-- The following properies are used to manage how the project is packaged. -->
+    <PackageId>SharpShell</PackageId>
+    <Copyright>Copyright (c) Dave Kerr 2020</Copyright>
+    <PackageProjectUrl>https://github.com/dwmkerr/sharpshell</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dwmkerr/sharpshell</RepositoryUrl>
+    <Version>3.1.1.0</Version>
+    <Authors>Dave Kerr</Authors>
+    <Company>Dave Kerr</Company>
+    <PackageTags>Shell;SharpShell;COM;Context Menu;Icon Handler</PackageTags>
+    <Description>SharpShell is a framework that lets you build Windows Shell Extensions using .NET Core or the .NET Framework.</Description>
+    </PropertyGroup>
+    <!-- ...snip... -->
+</Project>
+```
+
+This helps to keep a lot of the project dependency and property data in one place and is probably more convenient for many users.
+
+You can see the [Pull Request](https://github.com/dwmkerr/sharpgl/pull/177) for SharpGL to see how the project files were updated in this case. You can also see the [SharpShell Pull Request](https://github.com/dwmkerr/sharpshell/pull/331). The SharpShell version is still work in progress at the time of writing.
+
+## Step 7 - Test, Test, Test
 
 Now for the fun part. You are going to _really_ have to test the new packages on each platform. Sadly, this kind of migration is not something which will have issues exposed via unit tests, you'll need to create test projects which import your packages, ideally for each platform, and make sure they work. There could be runtime errors, particularly if you have made mistakes with the references.
 
@@ -282,7 +324,7 @@ Here's a screenshot of me having fun trying out the .NET Framework 4 package for
 
 How you test your packages will be very dependent on what you are building. If it is highly platform specific then you will likely have to do lots of testing. If it is fairly self-contained code then you might be able to get away with some basic smoke testing.
 
-## Step 7 - Document Compatibility
+## Step 8 - Document Compatibility
 
 If you are supporting multiple platforms and frameworks, it's going to be a lot of help to consumers of your code if you can be very clear about _what is supported_.
 
@@ -305,7 +347,7 @@ Here are the key learnings which stood out for me as I worked on migration of th
 **Consumer Experience**
 
 - If you are careful, you don't have to break anything for consumers - with multi-targeting you can _still_ target older frameworks.
-- You can potentially greatly increase the compatability of your projects by offering support for .NET Core.
+- You can potentially greatly increase the compatibility of your projects by offering support for .NET Core.
 
 **Developer Experience**
 
@@ -316,15 +358,16 @@ Here are the key learnings which stood out for me as I worked on migration of th
 
 - You will have a much larger set of potential consumers, but you will likely find bugs which are framework or platform specific.
 - You will likely need to work on migrating your project files and use the latest `dotnet` tooling.
-- You should be careful to document known compatability issues.
+- You should be careful to document known compatibility issues.
 
 All in all, the process was less painful than I expected. Now that this work is done I can focus on more exciting things, such as potentially getting projects like SharpGL working on Linux or MacOS, which is much more exciting.
 
 As always, questions, comments, suggestions, rants, anything are welcome!
 
-The pull request which migrates the SharpGL project is below:
+The pull request which migrates the SharpGL project and SharpShell projects are below:
 
-[github.com/dwmkerr/sharpgl/pull/177/](https://github.com/dwmkerr/sharpgl/pull/177/)
+- [github.com/dwmkerr/sharpgl/pull/177/](https://github.com/dwmkerr/sharpgl/pull/177/)
+- [github.com/dwmkerr/sharpshell/pull/331](https://github.com/dwmkerr/sharpshell/pull/331)
 
 ---
 
