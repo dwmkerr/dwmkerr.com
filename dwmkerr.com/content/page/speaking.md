@@ -8,6 +8,11 @@ slug: speaking
 title: Speaking
 ---
 
+### [The Changelog - Laws for hackers to live by](https://changelog.com/podcast/403)
+
+<audio data-theme="night" data-src="https://changelog.com/podcast/403/embed" src="https://cdn.changelog.com/uploads/podcast/403/the-changelog-403.mp3" preload="none" class="changelog-episode" controls></audio><p><a href="https://changelog.com/podcast/403">The Changelog 403: Laws for hackers to live by</a> – Listen on <a href="https://changelog.com/">Changelog.com</a></p><script async src="//cdn.changelog.com/embed.js"></script>
+
+Link: https://changelog.com/podcast/403
 
 ### [VoxxedDays Singapore 2018](https://voxxeddays.com/singapore)
 
