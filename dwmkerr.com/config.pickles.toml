@@ -28,7 +28,7 @@ theme = "hugo_theme_pickles"
   authorwebsite = "dwmkerr.com"
   avatar = "/images/avatar.jpeg"
   # contact = "mailto:dwmkerr@gmail.com"
-  bio = "Climber, Coder, Techology Consultant. Views expressed are my own."
+  bio = "Climber, Coder, Technology Consultant. Views expressed are my own."
   # Short subtitle/tagline. This is displayed in the header.
   subtitle = "Articles on the craft of software development. No ads, no sponsored content."
   # Logo image. This is displayed ogp image.
