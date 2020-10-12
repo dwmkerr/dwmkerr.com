@@ -469,7 +469,7 @@ Assert.That(print, Is.EqualTo(&lt;span style="color:#66d9ef">string&lt;/span>.Jo
 &lt;li>&lt;a href="#thats-it">That's It&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;!-- vim-markdown-toc -->
-&lt;p>&lt;strong>tl;dr&lt;/strong> If you know the concepts, then just jump straight to my fork of &lt;code>standard-version&lt;/code> at &lt;a href="https://github.com/dwmkerr/standard-version">&lt;code>github.com/dwmkerr/standard-veresion&lt;/code>&lt;/a>. It adds support for Java projects. I am currently trying to get it into the mainline, so if you like this, please comment on the &lt;a href="https://github.com/conventional-changelog/standard-version/pull/591">Pull Request&lt;/a> here. &lt;strong>tl;dr end!&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>tl;dr&lt;/strong> If you know the concepts, then just jump straight to my fork of &lt;code>standard-version&lt;/code> at &lt;a href="https://github.com/dwmkerr/standard-version">&lt;code>github.com/dwmkerr/standard-version&lt;/code>&lt;/a>. It adds support for Java projects. I am currently trying to get it into the mainline, so if you like this, please comment on the &lt;a href="https://github.com/conventional-changelog/standard-version/pull/591">Pull Request&lt;/a> here. &lt;strong>tl;dr end!&lt;/strong>&lt;/p>
 &lt;h2 id="semantic-versioning">Semantic Versioning&lt;/h2>
 &lt;p>First, let's talk about the idea of a &lt;em>Semantic Version&lt;/em>. A semantic version is nothing more than a versioning scheme you will probably be familiar with, where versions look like this:&lt;/p>
 &lt;pre>&lt;code>1.2.3
