@@ -5,6 +5,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 <!-- vim-markdown-toc GFM -->
 
 * [Introduction](#introduction)
+* [Quickstart](#quickstart)
 * [Structure](#structure)
 * [Hugo](#hugo)
 * [Theming](#theming)
@@ -15,9 +16,19 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 
 ## Introduction
 
-This is the code for the [dwmkerr.com](https://dwmkerr.com) website. It is a static site generated with [Hugo](https://gohugo.io/).
+This is the code for the [dwmkerr.com](https://dwmkerr.com) website. It is a static site build from a repository hosted at [github.com/dwmkerr/dwmkerr.com](https://github.com/dwmkerr/dwmkerr.com) generated with [Hugo](https://gohugo.io/).
 
 The RSS feed is published to [dwmkerr.com/index.xml](https://dwmkerr.com/index.xml).
+
+## Quickstart
+
+To get started, clone the repo, run `make serve` to install dependencies and `make serve` to serve locally:
+
+```sh
+git clone git@github.com:dwmkerr/dwmkerr.com
+make setup
+make serve
+```
 
 ## Structure
 
@@ -77,9 +88,10 @@ make build
 
 ## CI/CD
 
-Any changes to the `master` branch, or a branch which matches the `build/*` pattern will trigger a deployment to GitHub Pages.
+Any changes to the `main` branch, or a branch which matches the `build/*` pattern will trigger a deployment to GitHub Pages.
 
 The address of the deployed site is:
 
 https://dwmkerr.github.io/dwmkerr.com/
 
+A public domain name routes to this address.
