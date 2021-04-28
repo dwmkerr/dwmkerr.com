@@ -69,7 +69,7 @@ Isolation of resources can be handled in a number of ways - my preferred approac
 
 ## Least Privilege in AWS
 
-We don't quite know what the Serverless Framework does when it provisions resources. I don't mean this in a bad way. We _could_ investigate and read in detail exactly what happens, but part of the benefit of the framework is that it takes care of this for you. In the early stages of a project this is probably a great time saver - in the later stages it represents a potential vulnerability.
+We don't quite know what the Serverless Framework does when it provisions resources. I don't mean this in a bad way. We _could_ investigate and read in detail exactly what happens, but part of the benefit of the framework is that it takes care of this for you[^2]. In the early stages of a project this is probably a great time saver - in the later stages it represents a potential vulnerability.
 
 We understand that it creates a CloudFormation stack, but some of the details are not necessarily readily discoverable from the documentation.
 
@@ -271,4 +271,5 @@ There are a lot of exciting features here and it will be interesting to see how 
 As usual, please do share any comments, suggestions or observations!
 
 [^1]: Of course this is only a tiny part of the world of security best practices. To learn more I highly recommend [Veeral Patel's amazing 'How to secure anything' project](https://github.com/veeral-patel/how-to-secure-anything)
+[^2]: The exact permissions required are documented at https://serverless-stack.com/chapters/customize-the-serverless-iam-policy.html
 [^2]: This is a great way to get engineers to think more about security - let them experiment with it and learn about it safely. Sandbox environments _still_ need certain protections. For example, you don't want someone to inadvertently install a component which spins up a bunch of EC2 instances which start bitcoin mining, but AWS has a raft of features to help you build these kinds of guardrails, without limiting the ability of engineers to test and learn.
