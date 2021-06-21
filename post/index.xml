@@ -3047,7 +3047,7 @@ Connected!
 &lt;p>I'd be interested to know of any cases where people find this useful, so please share in the comments and I can add a &amp;lsquo;use cases&amp;rsquo; section to the project showing others how they might be able to save some time and energy with the utility!&lt;/p>
 &lt;h2 id="the-pure-shell-way">The Pure Shell Way&lt;/h2>
 &lt;p>It is actually pretty easy to do this purely in bash. Here's how you can wait for a port to open in a shell script:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#66d9ef">until&lt;/span> nc -w 127.0.0.1 3000; &lt;span style="color:#66d9ef">do&lt;/span> sleep 1; &lt;span style="color:#66d9ef">done&lt;/span>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#66d9ef">until&lt;/span> nc -w &lt;span style="color:#ae81ff">10&lt;/span> 127.0.0.1 3000; &lt;span style="color:#66d9ef">do&lt;/span> sleep 1; &lt;span style="color:#66d9ef">done&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>This will be sufficient in many cases, the reason I created the utility is:&lt;/p>
 &lt;ol>
 &lt;li>I want something which is very readable in scripts (&lt;code>wait-port 3000&lt;/code> to me is more readable).&lt;/li>
