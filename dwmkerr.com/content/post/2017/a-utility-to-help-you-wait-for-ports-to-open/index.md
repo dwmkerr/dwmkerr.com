@@ -52,7 +52,7 @@ I'd be interested to know of any cases where people find this useful, so please 
 It is actually pretty easy to do this purely in bash. Here's how you can wait for a port to open in a shell script:
 
 ```bash
-until nc -w 127.0.0.1 3000; do sleep 1; done
+until nc -w 10 127.0.0.1 3000; do sleep 1; done
 ```
 
 This will be sufficient in many cases, the reason I created the utility is:
