@@ -100,7 +100,7 @@ So next - how do pick a static site generator?
 I had a few requirements for the generator:
 
 - I can easily host on GitHub pages
-- I can integrate Disqus and Google Analytic
+- I can integrate Disqus and Google Analytics
 - I have as little complexity as possible, KISS
 - I can maintain all of the existing URLs of my posts, so that links from external sites will not break
 - I can have a theme which is roughly similar to the original Ghost theme, something minimal and text focused
