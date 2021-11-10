@@ -91,7 +91,7 @@ Being able to quickly whip up a static site from markdown in GitHub seems like i
 
 ### Reason 8 - Static Sites are Fast and Simple
 
-Without an application server doing any work, static sites are generally fast. They can be cached, pushed to CDNs and will index well with search engines. In theory, the overall browsing experience should be faster. But I will show performance benchmarks from before and after,
+Without an application server doing any work, static sites are generally fast. They can be cached, pushed to CDNs and will index well with search engines. In theory, the overall browsing experience should be faster. But I will show performance benchmarks from before and after.
 
 So next - how do pick a static site generator?
 
