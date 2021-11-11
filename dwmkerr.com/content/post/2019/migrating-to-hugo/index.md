@@ -91,7 +91,7 @@ Being able to quickly whip up a static site from markdown in GitHub seems like i
 
 ### Reason 8 - Static Sites are Fast and Simple
 
-Without an application server doing any work, static sites are generally fast. They can be cached, pushed to CDNs and will index well with search engines. In theory, the overall browsing experience should be faster. But I will show performance benchmarks from before and after,
+Without an application server doing any work, static sites are generally fast. They can be cached, pushed to CDNs and will index well with search engines. In theory, the overall browsing experience should be faster. But I will show performance benchmarks from before and after.
 
 So next - how do pick a static site generator?
 
@@ -100,7 +100,7 @@ So next - how do pick a static site generator?
 I had a few requirements for the generator:
 
 - I can easily host on GitHub pages
-- I can integrate Disqus and Google Analytic
+- I can integrate Disqus and Google Analytics
 - I have as little complexity as possible, KISS
 - I can maintain all of the existing URLs of my posts, so that links from external sites will not break
 - I can have a theme which is roughly similar to the original Ghost theme, something minimal and text focused
