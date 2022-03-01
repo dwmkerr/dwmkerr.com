@@ -6,6 +6,10 @@ copyright = "Copright &copy; Dave Kerr"
 custom_css = "/static/css/custom.css"
 theme = "hugo_theme_pickles"
 
+# Use our Google Analytics G4A tag. The 'G-' at the beginning lets Hugo know
+# that this is G4A, rather than 'UA-'.
+googleAnalytics = "G-268095267"
+
 # Allow Markdown to contain HTML (this is used for tables, some URLs etc.
 [markup]
   [markup.goldmark]
@@ -22,8 +26,6 @@ theme = "hugo_theme_pickles"
   linkedin = "dwmkerr"
   # Disqus shortname
   disqus = "dwmkerr"
-  # Google Analytics.
-  googleAnalytics = "G-268095267"
   author = "Dave Kerr"
   authorwebsite = "dwmkerr.com"
   avatar = "/images/avatar.jpeg"
