@@ -22,8 +22,8 @@ theme = "hugo_theme_pickles"
   linkedin = "dwmkerr"
   # Disqus shortname
   disqus = "dwmkerr"
-  # Google Analytics API key.
-  ga_api_key = "UA-41728580-1"
+  # Google Analytics.
+  googleAnalytics = "G-268095267"
   author = "Dave Kerr"
   authorwebsite = "dwmkerr.com"
   avatar = "/images/avatar.jpeg"
