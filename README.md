@@ -9,6 +9,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 * [Structure](#structure)
 * [Hugo](#hugo)
 * [Theming](#theming)
+    * [Using a Forked Theme](#using-a-forked-theme)
 * [Developer Guide](#developer-guide)
 * [CI/CD](#cicd)
 
@@ -47,21 +48,23 @@ This website uses the [Hugo](https://gohugo.io/) static site generator. For the 
 
 ## Theming
 
-The site uses the [hugo_theme_pickles](https://github.com/mismith0227/hugo_theme_pickles.git) theme.
-
-To use my own fork which I use for fixing bugs/testing etc, run:
-
-```
-git submodule add -b release git@github.com:dwmkerr/hugo_theme_pickles.git dwmkerr.com/themes/dwmkerr_hugo_theme_pickles
-```
-
-And update the `config.toml` to use this theme.
-
 When a new release of the theme needs to be used, update the submodules with:
 
 ```sh
 git submodule update --init --recursive --remote
 ```
+
+### Using a Forked Theme
+
+The site uses the [hugo_theme_pickles](https://github.com/mismith0227/hugo_theme_pickles.git) theme. If customisations are needed, it can be forked and then the theme switched:
+
+To update this theme, use the following command.
+
+```
+git submodule add -b release git@github.com:mismith0227/hugo_theme_pickles.git dwmkerr.com/themes/hugo_theme_pickles
+```
+
+And update the `config.toml` to use this theme. Then pull request back into upstream, and when the changes are in the mainline move back to the mainline theme
 
 ## Developer Guide
 
