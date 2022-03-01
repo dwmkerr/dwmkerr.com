@@ -5,8 +5,11 @@ title = "dwmkerr.com"
 theme = "ghostwriter"
 
 copyright = "Dave Kerr"
-googleAnalytics = "UA-41728580-1"
 disqusShortname = "dmwkerr"
+
+# Use our Google Analytics G4A tag. The 'G-' at the beginning lets Hugo know
+# that this is G4A, rather than 'UA-'.
+googleAnalytics = "G-XNRSGLYJRM"
 
 # Allow Markdown to contain HTML (this is used for tables, some URLs etc.
 [markup]
