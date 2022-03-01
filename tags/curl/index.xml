@@ -1,23 +1,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cURL on dwmkerr.com</title><link>https://dwmkerr.com/tags/curl/</link><description>Recent content in cURL on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 03 May 2016 22:12:28 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/curl/index.xml" rel="self" type="application/rss+xml"/><item><title>Quick Tip: Sending Newlines with cURL</title><link>https://dwmkerr.com/quick-tip-sending-newlines-with-curl/</link><pubDate>Tue, 03 May 2016 22:12:28 +0000</pubDate><guid>https://dwmkerr.com/quick-tip-sending-newlines-with-curl/</guid><description>&lt;p>Yikes, this took far too long to figure out!&lt;/p>
 &lt;p>I have a service which takes plain text multi-line input and outputs an object for each line, something like this:&lt;/p>
 &lt;p>&lt;strong>Input&lt;/strong>&lt;/p>
-&lt;pre>&lt;code>Line 1
+&lt;pre tabindex="0">&lt;code>Line 1
 Line 2
 Line 3
 &lt;/code>&lt;/pre>&lt;p>&lt;strong>Output&lt;/strong>&lt;/p>
-&lt;pre>&lt;code>[
-{line: &amp;quot;Line 1&amp;quot;},
-{line: &amp;quot;Line 2&amp;quot;},
-{line: &amp;quot;Line 3&amp;quot;}
+&lt;pre tabindex="0">&lt;code>[
+{line: &amp;#34;Line 1&amp;#34;},
+{line: &amp;#34;Line 2&amp;#34;},
+{line: &amp;#34;Line 3&amp;#34;}
 ]
-&lt;/code>&lt;/pre>&lt;p>There's a bit more to it than that, but that's the gist.&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>There&amp;rsquo;s a bit more to it than that, but that&amp;rsquo;s the gist.&lt;/p>
 &lt;p>I want to test my service with cURL, trying:&lt;/p>
-&lt;pre>&lt;code>curl --data &amp;quot;Line 1\nLine 2\nLine 3&amp;quot; \
--H &amp;quot;Content-Type: text/plain&amp;quot; localhost:3000/parse
-&lt;/code>&lt;/pre>&lt;p>This did not work. Nor did some alternatives. And I really didn't want to have to write the text to a file and load it in.&lt;/p>
-&lt;p>Turns out there's a nice little shell trick to let you use escape characters C style, use &lt;code>$'some\ncontent'&lt;/code> to use ANSI C escaping. Now you can cURL with newlines!&lt;/p>
-&lt;pre>&lt;code>curl --data $'Line 1\nLine 2\nLine 3' \
--H &amp;quot;Content-Type: text/plain&amp;quot; localhost:3000/parse
+&lt;pre tabindex="0">&lt;code>curl --data &amp;#34;Line 1\nLine 2\nLine 3&amp;#34; \
+-H &amp;#34;Content-Type: text/plain&amp;#34; localhost:3000/parse
+&lt;/code>&lt;/pre>&lt;p>This did not work. Nor did some alternatives. And I really didn&amp;rsquo;t want to have to write the text to a file and load it in.&lt;/p>
+&lt;p>Turns out there&amp;rsquo;s a nice little shell trick to let you use escape characters C style, use &lt;code>$'some\ncontent'&lt;/code> to use ANSI C escaping. Now you can cURL with newlines!&lt;/p>
+&lt;pre tabindex="0">&lt;code>curl --data $&amp;#39;Line 1\nLine 2\nLine 3&amp;#39; \
+-H &amp;#34;Content-Type: text/plain&amp;#34; localhost:3000/parse
 &lt;/code>&lt;/pre>&lt;p>Enjoy!&lt;/p>
 &lt;h2 id="references">References&lt;/h2>
 &lt;ol>

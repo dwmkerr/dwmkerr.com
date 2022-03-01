@@ -47,7 +47,7 @@ typedef TCHAR LineTwo[LENGTH2];&lt;/pre>&lt;/p>
 LineOne storageSmall;
 LineTwo storageLarge;
 &lt;p>// Get a pointer to a string literal.
-TCHAR* str = _T(&amp;ldquo;Here is a string that is too long.&amp;quot;);&lt;/p>
+TCHAR* str = _T(&amp;ldquo;Here is a string that is too long.&amp;rdquo;);&lt;/p>
 &lt;p>// Now do something very dangerous.
 ::_tcscpy(storageLarge, str);
 ::_tcscpy(storageSmall, storageLarge);&lt;/pre>&lt;/p>

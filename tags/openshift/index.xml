@@ -1,79 +1,79 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenShift on dwmkerr.com</title><link>https://dwmkerr.com/tags/openshift/</link><description>Recent content in OpenShift on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sun, 29 Oct 2017 07:15:04 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/openshift/index.xml" rel="self" type="application/rss+xml"/><item><title>Integrating OpenShift and Splunk for Docker Container Logging</title><link>https://dwmkerr.com/integrating-openshift-and-splunk-for-logging/</link><pubDate>Sun, 29 Oct 2017 07:15:04 +0000</pubDate><guid>https://dwmkerr.com/integrating-openshift-and-splunk-for-logging/</guid><description>&lt;p>In this article I'm going to show you how to set up OpenShift to integrate with Splunk for logging in a Docker container orchestration environment.&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenShift on dwmkerr.com</title><link>https://dwmkerr.com/tags/openshift/</link><description>Recent content in OpenShift on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sun, 29 Oct 2017 07:15:04 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/openshift/index.xml" rel="self" type="application/rss+xml"/><item><title>Integrating OpenShift and Splunk for Docker Container Logging</title><link>https://dwmkerr.com/integrating-openshift-and-splunk-for-logging/</link><pubDate>Sun, 29 Oct 2017 07:15:04 +0000</pubDate><guid>https://dwmkerr.com/integrating-openshift-and-splunk-for-logging/</guid><description>&lt;p>In this article I&amp;rsquo;m going to show you how to set up OpenShift to integrate with Splunk for logging in a Docker container orchestration environment.&lt;/p>
 &lt;p>These techniques could easily be adapted for a standard Kubernetes installation as well!&lt;/p>
 &lt;p>&lt;img src="images/counter-service-splunk.png" alt="Screenshot: Counter service splunk">&lt;/p>
-&lt;p>The techniques used in this article are based on the &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/logging">Kubernetes Logging Cluster Administration Guide&lt;/a>. I also found Jason Poon's article &lt;a href="http://jasonpoon.ca/2017/04/03/kubernetes-logging-with-splunk/">Kubernetes Logging with Splunk&lt;/a> very helpful.&lt;/p>
+&lt;p>The techniques used in this article are based on the &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/logging">Kubernetes Logging Cluster Administration Guide&lt;/a>. I also found Jason Poon&amp;rsquo;s article &lt;a href="http://jasonpoon.ca/2017/04/03/kubernetes-logging-with-splunk/">Kubernetes Logging with Splunk&lt;/a> very helpful.&lt;/p>
 &lt;p>First, clone the &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift">Terraform AWS OpenShift&lt;/a> repo:&lt;/p>
-&lt;pre>&lt;code>git clone git@github.com:dwmkerr/terraform-aws-openshift
-&lt;/code>&lt;/pre>&lt;p>This repo can be used to create a vanilla OpenShift cluster. I'm adding &amp;lsquo;recipes&amp;rsquo; to the project, which will allow you to mix in more features (but still keep the main codebase clean). For now, let's merge in the &amp;lsquo;splunk&amp;rsquo; recipe:&lt;/p>
-&lt;pre>&lt;code>cd terraform-aws-openshift
+&lt;pre tabindex="0">&lt;code>git clone git@github.com:dwmkerr/terraform-aws-openshift
+&lt;/code>&lt;/pre>&lt;p>This repo can be used to create a vanilla OpenShift cluster. I&amp;rsquo;m adding &amp;lsquo;recipes&amp;rsquo; to the project, which will allow you to mix in more features (but still keep the main codebase clean). For now, let&amp;rsquo;s merge in the &amp;lsquo;splunk&amp;rsquo; recipe:&lt;/p>
+&lt;pre tabindex="0">&lt;code>cd terraform-aws-openshift
 git pull origin recipes/splunk
 &lt;/code>&lt;/pre>&lt;p>Pulling this recipe in adds the extra config and scripts required to set up Splunk&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>.&lt;/p>
-&lt;p>Now we've got the code, we can get started!&lt;/p>
+&lt;p>Now we&amp;rsquo;ve got the code, we can get started!&lt;/p>
 &lt;h2 id="create-the-infrastructure">Create the Infrastructure&lt;/h2>
-&lt;p>To create the cluster, you'll need to install the &lt;a href="https://aws.amazon.com/cli/">AWS CLI&lt;/a> and log in, and install &lt;a href="https://www.terraform.io/downloads.html">Terraform&lt;/a>.&lt;/p>
-&lt;p>Before you continue, &lt;font color="red">&lt;strong>be aware&lt;/strong>&lt;/font>: the machines on AWS we'll create are going to run to about $250 per month:&lt;/p>
+&lt;p>To create the cluster, you&amp;rsquo;ll need to install the &lt;a href="https://aws.amazon.com/cli/">AWS CLI&lt;/a> and log in, and install &lt;a href="https://www.terraform.io/downloads.html">Terraform&lt;/a>.&lt;/p>
+&lt;p>Before you continue, &lt;font color="red">&lt;strong>be aware&lt;/strong>&lt;/font>: the machines on AWS we&amp;rsquo;ll create are going to run to about $250 per month:&lt;/p>
 &lt;p>&lt;img src="images/aws-cost.png" alt="AWS Cost Calculator">&lt;/p>
 &lt;p>Once you are logged in with the AWS CLI just run:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">make infrastructure
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>You'll be asked to specify a region:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>make infrastructure
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You&amp;rsquo;ll be asked to specify a region:&lt;/p>
 &lt;p>&lt;img src="images/region.png" alt="Specify Region">&lt;/p>
 &lt;p>Any &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions">AWS region&lt;/a> will work fine, use &lt;code>us-east-1&lt;/code> if you are not sure.&lt;/p>
-&lt;p>It'll take about 5 minutes for Terraform to build the required infrastructure, which looks like this:&lt;/p>
+&lt;p>It&amp;rsquo;ll take about 5 minutes for Terraform to build the required infrastructure, which looks like this:&lt;/p>
 &lt;p>&lt;img src="images/splunk-architecture.png" alt="AWS Infrastructure">&lt;/p>
-&lt;p>Once it's done you'll see a message like this:&lt;/p>
+&lt;p>Once it&amp;rsquo;s done you&amp;rsquo;ll see a message like this:&lt;/p>
 &lt;p>&lt;img src="images/apply-complete.png" alt="Apply Complete">&lt;/p>
-&lt;p>The infrastructure is ready! A few of the most useful parameters are shown as output variables. If you log into AWS you'll see our new instances, as well as the VPC, network settings etc etc:&lt;/p>
+&lt;p>The infrastructure is ready! A few of the most useful parameters are shown as output variables. If you log into AWS you&amp;rsquo;ll see our new instances, as well as the VPC, network settings etc etc:&lt;/p>
 &lt;p>&lt;img src="images/aws.png" alt="AWS">&lt;/p>
 &lt;h2 id="installing-openshift">Installing OpenShift&lt;/h2>
 &lt;p>Installing OpenShift is easy:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">make openshift
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>This command will take quite some time to run (sometimes up to 30 minutes). Once it is complete you'll see a message like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>make openshift
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This command will take quite some time to run (sometimes up to 30 minutes). Once it is complete you&amp;rsquo;ll see a message like this:&lt;/p>
 &lt;p>&lt;img src="images/openshift-complete.png" alt="OpenShift Installation Complete">&lt;/p>
 &lt;p>You can now open the OpenShift console. Use the public address of the master node (which you can get with &lt;code>$(terraform output master-url)&lt;/code>), or just run:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">make browse-openshift
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>The default username and password is &lt;code>admin&lt;/code> and &lt;code>123&lt;/code>. You'll see we have a clean installation and are ready to create our first project:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>make browse-openshift
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The default username and password is &lt;code>admin&lt;/code> and &lt;code>123&lt;/code>. You&amp;rsquo;ll see we have a clean installation and are ready to create our first project:&lt;/p>
 &lt;p>&lt;img src="images/welcome-to-openshift.png" alt="Welcome to OpenShift">&lt;/p>
 &lt;p>Close the console for now.&lt;/p>
 &lt;h2 id="installing-splunk">Installing Splunk&lt;/h2>
-&lt;p>You've probably figured out the pattern by now&amp;hellip;&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">make splunk
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once this command is complete, you can open the Splunk console with:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">make browse-splunk
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Again the username and password is &lt;code>admin&lt;/code> and &lt;code>123&lt;/code>. You can change the password on login, or leave it:&lt;/p>
+&lt;p>You&amp;rsquo;ve probably figured out the pattern by now&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>make splunk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once this command is complete, you can open the Splunk console with:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>make browse-splunk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Again the username and password is &lt;code>admin&lt;/code> and &lt;code>123&lt;/code>. You can change the password on login, or leave it:&lt;/p>
 &lt;p>&lt;img src="images/splunk-home.png" alt="Splunk Login">&lt;/p>
-&lt;p>You can close the Splunk console now, we'll come back to it shortly.&lt;/p>
+&lt;p>You can close the Splunk console now, we&amp;rsquo;ll come back to it shortly.&lt;/p>
 &lt;h2 id="demoing-splunk-and-openshift">Demoing Splunk and OpenShift&lt;/h2>
 &lt;p>To see Splunk and OpenShift in action, it helps to have some kind of processing going on in the cluster. You can create a very basic sample project which will spin up two nodes which just write a counter every second as a way to get something running:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">make sample
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>This will create a simple &amp;lsquo;counter&amp;rsquo; service:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>make sample
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This will create a simple &amp;lsquo;counter&amp;rsquo; service:&lt;/p>
 &lt;p>&lt;img src="images/counter-service.png" alt="Screenshot: The counter service">&lt;/p>
 &lt;p>We can see the logs in OpenShift:&lt;/p>
 &lt;p>&lt;img src="images/counter-service-logs.png" alt="Screenshot: The counter service logs">&lt;/p>
-&lt;p>Almost immediately you'll be able to see the data in Splunk:&lt;/p>
+&lt;p>Almost immediately you&amp;rsquo;ll be able to see the data in Splunk:&lt;/p>
 &lt;p>&lt;img src="images/counter-service-splunk-data-summary.png" alt="Screenshot: The Splunk data explorer">&lt;/p>
 &lt;p>And because of the way the log files are named, we can even rip out the namespace, pod, container and id:&lt;/p>
 &lt;p>&lt;img src="images/counter-service-splunk.png" alt="Screenshot: Counter service splunk">&lt;/p>
-&lt;p>That's it! You have OpenShift running, Splunk set up and automatically forwarding of all container logs. Enjoy!&lt;/p>
+&lt;p>That&amp;rsquo;s it! You have OpenShift running, Splunk set up and automatically forwarding of all container logs. Enjoy!&lt;/p>
 &lt;h2 id="how-it-works">How It Works&lt;/h2>
-&lt;p>I've tried to keep the setup as simple as possible. Here's how it works.&lt;/p>
+&lt;p>I&amp;rsquo;ve tried to keep the setup as simple as possible. Here&amp;rsquo;s how it works.&lt;/p>
 &lt;h3 id="how-log-files-are-written">How Log Files Are Written&lt;/h3>
 &lt;p>The Docker Engine has a &lt;a href="https://docs.docker.com/engine/admin/logging/overview/">log driver&lt;/a> which determines how container logs are handled&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>. It defaults to the &lt;code>json-file&lt;/code> driver, which means that logs are written as a json file to:&lt;/p>
-&lt;pre>&lt;code>/var/lib/docker/containers/{container-id}/{container-id}-json.log
+&lt;pre tabindex="0">&lt;code>/var/lib/docker/containers/{container-id}/{container-id}-json.log
 &lt;/code>&lt;/pre>&lt;p>Or visually:&lt;/p>
 &lt;p>&lt;img src="images/logging-docker-1.png" alt="Diagram: How Docker writes log files">&lt;/p>
-&lt;p>Normally we wouldn't touch this file, in theory it is supposed to be used internally&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> and we would use &lt;code>docker logs &amp;lt;container-id&amp;gt;&lt;/code>.&lt;/p>
+&lt;p>Normally we wouldn&amp;rsquo;t touch this file, in theory it is supposed to be used internally&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> and we would use &lt;code>docker logs &amp;lt;container-id&amp;gt;&lt;/code>.&lt;/p>
 &lt;p>In theory, all we need to do is use a &lt;a href="http://docs.splunk.com/Documentation/Forwarder/7.0.0/Forwarder/Abouttheuniversalforwarder">Splunk Forwarder&lt;/a> to send this file to our indexer. The only problem is that we only get the container ID from the file name, finding the right container ID for your container can be a pain. However, we are running on Kubernetes, which means the picture is a little different&amp;hellip;&lt;/p>
 &lt;h3 id="how-log-files-are-written---on-kubernetes">How Log Files Are Written - on Kubernetes&lt;/h3>
 &lt;p>When running on Kubernetes, things are little different. On machines with &lt;code>systemd&lt;/code>, the log driver for the docker engine is set to &lt;code>journald&lt;/code> (see &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">Kubernetes - Logging Architecture&lt;/a>.&lt;/p>
 &lt;p>It &lt;em>is&lt;/em> possible to forward &lt;code>journald&lt;/code> to Splunk, but only by streaming it to a file and then forwarding the file. Given that we need to use a file as an intermediate, it seems easier just to change the driver back to &lt;code>json-file&lt;/code> and forward that.&lt;/p>
 &lt;p>So first, we configure the docker engine to use &lt;code>json-file&lt;/code> (see &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/blob/recipes/splunk/scripts/postinstall-master.sh">this file&lt;/a>):&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">sed -i &lt;span style="color:#e6db74">&amp;#39;/OPTIONS=.*/c\OPTIONS=&amp;#34;--selinux-enabled --insecure-registry 172.30.0.0/16 --log-driver=json-file --log-opt max-size=1M --log-opt max-file=3&amp;#34;&amp;#39;&lt;/span> /etc/sysconfig/docker
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here we just change the options to default to the &lt;code>json-file&lt;/code> driver, with a max file size of 1MB (and maximum of three files, so we don't chew all the space on the host).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sed -i &lt;span style="color:#e6db74">&amp;#39;/OPTIONS=.*/c\OPTIONS=&amp;#34;--selinux-enabled --insecure-registry 172.30.0.0/16 --log-driver=json-file --log-opt max-size=1M --log-opt max-file=3&amp;#34;&amp;#39;&lt;/span> /etc/sysconfig/docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here we just change the options to default to the &lt;code>json-file&lt;/code> driver, with a max file size of 1MB (and maximum of three files, so we don&amp;rsquo;t chew all the space on the host).&lt;/p>
 &lt;p>Now the cool thing about Kubernetes is that it creates symlinks to the log files, which have much more descriptive names:&lt;/p>
 &lt;p>&lt;img src="images/logging-k8s.png" alt="Symlink diagram">&lt;/p>
 &lt;p>We still have the original container log, in the same location. But we also have a pod container log (which is a symlink to the container log) and another container log, which is a symlink to the pod container log.&lt;/p>
 &lt;p>This means we can read the container log, and extract some really useful information from the file name. The container log file name has the following format:&lt;/p>
-&lt;pre>&lt;code>/var/log/containers/{container-id}/{container-id}-json.log
+&lt;pre tabindex="0">&lt;code>/var/log/containers/{container-id}/{container-id}-json.log
 &lt;/code>&lt;/pre>&lt;h3 id="how-log-files-are-read">How Log Files Are Read&lt;/h3>
 &lt;p>Now that we are writing the log files to a well defined location, reading them is straightforward. The diagram below shows how we use a splunk-forwarder to complete the picture:&lt;/p>
 &lt;p>&lt;img src="images/how-logs-are-read.png" alt="Diagram: How logs are read">&lt;/p>
@@ -85,19 +85,19 @@ git pull origin recipes/splunk
 &lt;hr>
 &lt;ol>
 &lt;li id="fn:1" role="doc-endnote">
-&lt;p>As a reference, you can also see the recipe pull request to see what changes from a &amp;lsquo;vanilla&amp;rsquo; installation to add Splunk: &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/pull/16">Splunk Recipe Pull Request&lt;/a> &lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>As a reference, you can also see the recipe pull request to see what changes from a &amp;lsquo;vanilla&amp;rsquo; installation to add Splunk: &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/pull/16">Splunk Recipe Pull Request&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:2" role="doc-endnote">
-&lt;p>It is useful to check the documentation on logging drivers for Docker. See &lt;a href="https://docs.docker.com/engine/admin/logging/overview/#supported-logging-drivers">Configure Logging Drivers&lt;/a> and &lt;a href="https://docs.docker.com/engine/extend/plugins_logging/">Docker Log Driver Plugins&lt;/a>. It is possible to create custom log drivers. However, at the time of writing only the journald and json-file log drivers will work with the integrated logging view in OpenShift. &lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>It is useful to check the documentation on logging drivers for Docker. See &lt;a href="https://docs.docker.com/engine/admin/logging/overview/#supported-logging-drivers">Configure Logging Drivers&lt;/a> and &lt;a href="https://docs.docker.com/engine/extend/plugins_logging/">Docker Log Driver Plugins&lt;/a>. It is possible to create custom log drivers. However, at the time of writing only the journald and json-file log drivers will work with the integrated logging view in OpenShift.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/section></description><category>CodeProject</category></item><item><title>Get up and running with OpenShift on AWS</title><link>https://dwmkerr.com/get-up-and-running-with-openshift-on-aws/</link><pubDate>Thu, 02 Feb 2017 07:47:00 +0000</pubDate><guid>https://dwmkerr.com/get-up-and-running-with-openshift-on-aws/</guid><description>&lt;p>&lt;a href="https://www.openshift.com/">OpenShift&lt;/a> is Red Hat's platform-as-a-service offering for hosting and scaling applications. It's built on top of Google's popular &lt;a href="https://kubernetes.io/">Kubernetes&lt;/a> system.&lt;/p>
-&lt;p>Getting up and running with OpenShift Online is straightforward, as it is a cloud hosted solution. Setting up your own cluster is a little more complex, but in this article I'll show you how to make it fairly painless.&lt;/p>
+&lt;/section></description><category>CodeProject</category></item><item><title>Get up and running with OpenShift on AWS</title><link>https://dwmkerr.com/get-up-and-running-with-openshift-on-aws/</link><pubDate>Thu, 02 Feb 2017 07:47:00 +0000</pubDate><guid>https://dwmkerr.com/get-up-and-running-with-openshift-on-aws/</guid><description>&lt;p>&lt;a href="https://www.openshift.com/">OpenShift&lt;/a> is Red Hat&amp;rsquo;s platform-as-a-service offering for hosting and scaling applications. It&amp;rsquo;s built on top of Google&amp;rsquo;s popular &lt;a href="https://kubernetes.io/">Kubernetes&lt;/a> system.&lt;/p>
+&lt;p>Getting up and running with OpenShift Online is straightforward, as it is a cloud hosted solution. Setting up your own cluster is a little more complex, but in this article I&amp;rsquo;ll show you how to make it fairly painless.&lt;/p>
 &lt;p>&lt;img src="images/welcome.png" alt="OpenShift Login">&lt;/p>
 &lt;p>The repo for this project is at: &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift">github.com/dwmkerr/terraform-aws-openshift&lt;/a>.&lt;/p>
 &lt;h2 id="creating-the-infrastructure">Creating the Infrastructure&lt;/h2>
-&lt;p>OpenShift has some fairly specific requirements about what hardware it runs on&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. There's also DNS to set up, as well as internet access and so on.&lt;/p>
-&lt;p>All in all, for a bare-bones setup, you'll need something like this:&lt;/p>
+&lt;p>OpenShift has some fairly specific requirements about what hardware it runs on&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. There&amp;rsquo;s also DNS to set up, as well as internet access and so on.&lt;/p>
+&lt;p>All in all, for a bare-bones setup, you&amp;rsquo;ll need something like this:&lt;/p>
 &lt;p>&lt;img src="images/network-diagram-2.png" alt="Network Diagram">&lt;/p>
 &lt;p>Which is (deep breath):&lt;/p>
 &lt;ol>
@@ -107,50 +107,50 @@ git pull origin recipes/splunk
 &lt;li>A pair of node hosts, which will run additional OpenShift nodes&lt;/li>
 &lt;li>A hosted zone, which allows us to configure DNS&lt;/li>
 &lt;li>A bastion, which allows us to SSH onto hosts, without directly exposing them&lt;/li>
-&lt;li>Some kind of basic log aggregation, which I'm using CloudWatch for&lt;/li>
+&lt;li>Some kind of basic log aggregation, which I&amp;rsquo;m using CloudWatch for&lt;/li>
 &lt;/ol>
 &lt;p>This is not a production grade setup, which requires redundant masters and so on, but it provides the basics.&lt;/p>
 &lt;p>Rather than setting this infrastructure up by hand, this is all scripted with &lt;a href="https://www.terraform.io/">Terraform&lt;/a>. To set up the infrastructure, clone the &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift">github.com/dwmkerr/terraform-aws-openshift&lt;/a> repo:&lt;/p>
-&lt;pre>&lt;code>$ git clone git@github.com:dwmkerr/terraform-aws-openshift
+&lt;pre tabindex="0">&lt;code>$ git clone git@github.com:dwmkerr/terraform-aws-openshift
 ...
 Resolving deltas: 100% (37/37), done.
 &lt;/code>&lt;/pre>&lt;p>Then use the terraform CLI&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> to create the infrastructure:&lt;/p>
-&lt;pre>&lt;code>$ cd terraform-aws-openshift/
+&lt;pre tabindex="0">&lt;code>$ cd terraform-aws-openshift/
 $ terraform get &amp;amp;&amp;amp; terraform apply
-&lt;/code>&lt;/pre>&lt;p>You'll be asked for a region, to deploy the network into, here I'm using &lt;code>us-west-1&lt;/code>:&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>You&amp;rsquo;ll be asked for a region, to deploy the network into, here I&amp;rsquo;m using &lt;code>us-west-1&lt;/code>:&lt;/p>
 &lt;p>&lt;img src="images/Screenshot-at-Feb-02-21-16-44.png" alt="Enter Region">&lt;/p>
 &lt;p>After a few minutes the infrastructure will be set up:&lt;/p>
 &lt;p>&lt;img src="images/output.png" alt="Terraform complete">&lt;/p>
-&lt;p>A quick glance at the AWS console shows the new hosts we've set up:&lt;/p>
+&lt;p>A quick glance at the AWS console shows the new hosts we&amp;rsquo;ve set up:&lt;/p>
 &lt;p>&lt;img src="images/aws.png" alt="AWS Console">&lt;/p>
 &lt;p>The next step is to install OpenShift.&lt;/p>
 &lt;h2 id="installing-openshift">Installing OpenShift&lt;/h2>
-&lt;p>There are a few different ways to install OpenShift, but the one we'll use is called the &amp;lsquo;advanced installation&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>'. This essentially involves:&lt;/p>
+&lt;p>There are a few different ways to install OpenShift, but the one we&amp;rsquo;ll use is called the &amp;lsquo;advanced installation&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&amp;rsquo;. This essentially involves:&lt;/p>
 &lt;ol>
 &lt;li>Creating an &amp;lsquo;inventory&amp;rsquo;, which specifies the hosts OpenShift will be installed on and the installation options&lt;/li>
 &lt;li>Downloading the advanced installation code&lt;/li>
 &lt;li>Running the advanced installation Ansible Playbook&lt;/li>
 &lt;/ol>
 &lt;p>To create the inventory, we just run:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">sed &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">s/\${aws_instance.master.public_ip}/&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>terraform output master-public_ip&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74">/&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> inventory.template.cfg &amp;gt; inventory.cfg
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>This takes our &amp;lsquo;inventory template&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>&amp;rsquo; and populates it with the public IP of our master node, which is recorded in a Terraform output variable.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sed &lt;span style="color:#e6db74">&amp;#34;s/\${aws_instance.master.public_ip}/&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>terraform output master-public_ip&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74">/&amp;#34;&lt;/span> inventory.template.cfg &amp;gt; inventory.cfg
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This takes our &amp;lsquo;inventory template&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>&amp;rsquo; and populates it with the public IP of our master node, which is recorded in a Terraform output variable.&lt;/p>
 &lt;p>We can then copy the inventory to the bastion:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">ssh-add ~/.ssh/id_rsa
-scp ./inventory.cfg ec2-user@&lt;span style="color:#66d9ef">$(&lt;/span>terraform output bastion-public_dns&lt;span style="color:#66d9ef">)&lt;/span>:~
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can again use the Terraform output variables, this time to get the bastion IP. Finally, we pipe our install script to the bastion host:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">cat install-from-bastion.sh | ssh -A ec2-user@&lt;span style="color:#66d9ef">$(&lt;/span>terraform output bastion-public_dns&lt;span style="color:#66d9ef">)&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>There's a &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/issues/1">bug&lt;/a> which means you might see &lt;code>ansible-playbook: command not found&lt;/code>, if so, just run the script again. The install script clones the installation scripts and runs them, using the inventory we've provided:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ssh-add ~/.ssh/id_rsa
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>scp ./inventory.cfg ec2-user@&lt;span style="color:#66d9ef">$(&lt;/span>terraform output bastion-public_dns&lt;span style="color:#66d9ef">)&lt;/span>:~
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can again use the Terraform output variables, this time to get the bastion IP. Finally, we pipe our install script to the bastion host:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cat install-from-bastion.sh | ssh -A ec2-user@&lt;span style="color:#66d9ef">$(&lt;/span>terraform output bastion-public_dns&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>There&amp;rsquo;s a &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/issues/1">bug&lt;/a> which means you might see &lt;code>ansible-playbook: command not found&lt;/code>, if so, just run the script again. The install script clones the installation scripts and runs them, using the inventory we&amp;rsquo;ve provided:&lt;/p>
 &lt;p>&lt;img src="images/ansible.png" alt="Ansible Output">&lt;/p>
-&lt;p>This'll probably take about 10 minutes to run. And that's it, OpenShift is installed:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">open &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">https://&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>terraform output master-public_dns&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74">:8443&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Hit &amp;lsquo;advanced&amp;rsquo; and continue, as we're using a self-signed certificate most browsers will complain:&lt;/p>
+&lt;p>This&amp;rsquo;ll probably take about 10 minutes to run. And that&amp;rsquo;s it, OpenShift is installed:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>open &lt;span style="color:#e6db74">&amp;#34;https://&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>terraform output master-public_dns&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74">:8443&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Hit &amp;lsquo;advanced&amp;rsquo; and continue, as we&amp;rsquo;re using a self-signed certificate most browsers will complain:&lt;/p>
 &lt;p>&lt;img src="images/console1.png" alt="Invalid Certificate">&lt;/p>
-&lt;p>Enter any username and password (the system is configured to allow anyone to access it by default) and you'll be presented with the OpenShift console:&lt;/p>
+&lt;p>Enter any username and password (the system is configured to allow anyone to access it by default) and you&amp;rsquo;ll be presented with the OpenShift console:&lt;/p>
 &lt;p>&lt;img src="images/console2.png" alt="OpenShift console">&lt;/p>
 &lt;p>As the setup requires three t2.large instances, which are not available on the free plan, you might want to clean up when you are done with:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">terraform destroy
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="wrapping-up">Wrapping Up&lt;/h2>
-&lt;p>Hopefully you've found this useful, there are more details and references on the README of the github repo:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>terraform destroy
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="wrapping-up">Wrapping Up&lt;/h2>
+&lt;p>Hopefully you&amp;rsquo;ve found this useful, there are more details and references on the README of the github repo:&lt;/p>
 &lt;p>&lt;a href="https://github.com/dwmkerr/terraform-aws-openshift">https://github.com/dwmkerr/terraform-aws-openshift&lt;/a>&lt;/p>
 &lt;p>Comments and feedback are always welcome!&lt;/p>
 &lt;hr>
@@ -158,16 +158,16 @@ scp ./inventory.cfg ec2-user@&lt;span style="color:#66d9ef">$(&lt;/span>terrafor
 &lt;hr>
 &lt;ol>
 &lt;li id="fn:1" role="doc-endnote">
-&lt;p>See &lt;a href="https://docs.openshift.org/latest/install_config/install/prerequisites.html#system-requirements">https://docs.openshift.org/latest/install_config/install/prerequisites.html#system-requirements&lt;/a> &lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>See &lt;a href="https://docs.openshift.org/latest/install_config/install/prerequisites.html#system-requirements">https://docs.openshift.org/latest/install_config/install/prerequisites.html#system-requirements&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:2" role="doc-endnote">
-&lt;p>Use &amp;lsquo;brew install terraform&amp;rsquo;, full instructions in the &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift">README.md&lt;/a> &lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Use &amp;lsquo;brew install terraform&amp;rsquo;, full instructions in the &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift">README.md&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:3" role="doc-endnote">
-&lt;p>See &lt;a href="https://docs.openshift.org/latest/install_config/install/advanced_install.html">https://docs.openshift.org/latest/install_config/install/advanced_install.html&lt;/a> &lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>See &lt;a href="https://docs.openshift.org/latest/install_config/install/advanced_install.html">https://docs.openshift.org/latest/install_config/install/advanced_install.html&lt;/a>&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:4" role="doc-endnote">
-&lt;p>See &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/blob/master/inventory.template.cfg">https://github.com/dwmkerr/terraform-aws-openshift/blob/master/inventory.template.cfg&lt;/a> &lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>See &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/blob/master/inventory.template.cfg">https://github.com/dwmkerr/terraform-aws-openshift/blob/master/inventory.template.cfg&lt;/a>&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/section></description><category>CodeProject</category></item></channel></rss>

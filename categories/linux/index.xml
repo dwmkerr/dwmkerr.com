@@ -1,41 +1,41 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on dwmkerr.com</title><link>https://dwmkerr.com/categories/linux/</link><description>Recent content in Linux on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 25 Jun 2019 07:25:23 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Effective Shell Part 7: The Subtleties of Shell Commands</title><link>https://dwmkerr.com/effective-shell-7-shell-commands/</link><pubDate>Tue, 25 Jun 2019 07:25:23 +0000</pubDate><guid>https://dwmkerr.com/effective-shell-7-shell-commands/</guid><description>&lt;p>In this chapter, we'll take a look at the various different types of shell commands that exist and how this can affect your work.&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on dwmkerr.com</title><link>https://dwmkerr.com/categories/linux/</link><description>Recent content in Linux on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 25 Jun 2019 07:25:23 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Effective Shell Part 7: The Subtleties of Shell Commands</title><link>https://dwmkerr.com/effective-shell-7-shell-commands/</link><pubDate>Tue, 25 Jun 2019 07:25:23 +0000</pubDate><guid>https://dwmkerr.com/effective-shell-7-shell-commands/</guid><description>&lt;p>In this chapter, we&amp;rsquo;ll take a look at the various different types of shell commands that exist and how this can affect your work.&lt;/p>
 &lt;p>By the end of this chapter, you might even be able to make sense of the horrifying and perfectly syntactically valid code below:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">which &lt;span style="color:#66d9ef">$(&lt;/span>where &lt;span style="color:#66d9ef">$(&lt;/span>what &lt;span style="color:#66d9ef">$(&lt;/span>whence &lt;span style="color:#66d9ef">$(&lt;/span>whereis who&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>which &lt;span style="color:#66d9ef">$(&lt;/span>where &lt;span style="color:#66d9ef">$(&lt;/span>what &lt;span style="color:#66d9ef">$(&lt;/span>whence &lt;span style="color:#66d9ef">$(&lt;/span>whereis who&lt;span style="color:#66d9ef">))))&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>&lt;a href="https://www.dwmkerr.com/effective-shell-part-1-navigating-the-command-line/">Part 1: Navigating the Command Line&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://www.dwmkerr.com/effective-shell-part-2-become-a-clipboard-gymnast/">Part 2: Become a Clipboard Gymnast&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://www.dwmkerr.com/effective-shell-part-3-getting-hepl/">Part 3: Getting Help&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-4-moving-around/">Part 4: Moving Around&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-part-5-understanding-the-shell/">Part 5: Interlude - Understanding the Shell&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://dwmkerr.com/effective-shell-6-job-control/">Part 6: Everything You Don't Need to Know About Job Control&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://dwmkerr.com/effective-shell-6-job-control/">Part 6: Everything You Don&amp;rsquo;t Need to Know About Job Control&lt;/a>&lt;/li>
 &lt;li>&lt;strong>&lt;a href="https://dwmkerr.com/effective-shell-7-shell-commands/">Part 7: The Subtleties of Shell Commands&lt;/a>&lt;/strong>&lt;/li>
 &lt;/ul>
 &lt;h2 id="what-are-commands">What Are Commands?&lt;/h2>
-&lt;p>This is &lt;em>really&lt;/em> important to understand! A &lt;em>command&lt;/em> in a shell is something you execute. It might take parameters. Generally it'll have a form like this:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">command param1 param2
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>We've already seen many commands during this series:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">ls &lt;span style="color:#75715e"># Show the contents of the current directory&lt;/span>
-cd ~ &lt;span style="color:#75715e"># Move to the user&amp;#39;s home&lt;/span>
-cat file.txt &lt;span style="color:#75715e"># Output the contents of &amp;#39;file.txt&amp;#39; to stdout&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>But to be an effective shell user, you must understand that not all commands are created equal. The differences between the types of commands will affect how you use them.&lt;/p>
+&lt;p>This is &lt;em>really&lt;/em> important to understand! A &lt;em>command&lt;/em> in a shell is something you execute. It might take parameters. Generally it&amp;rsquo;ll have a form like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>command param1 param2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We&amp;rsquo;ve already seen many commands during this series:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>ls &lt;span style="color:#75715e"># Show the contents of the current directory&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ~ &lt;span style="color:#75715e"># Move to the user&amp;#39;s home&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat file.txt &lt;span style="color:#75715e"># Output the contents of &amp;#39;file.txt&amp;#39; to stdout&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>But to be an effective shell user, you must understand that not all commands are created equal. The differences between the types of commands will affect how you use them.&lt;/p>
 &lt;p>There are four types of commands in most shells:&lt;/p>
 &lt;ol>
 &lt;li>Executables&lt;/li>
-&lt;li>&amp;ldquo;Built-Ins&amp;rdquo; (which we'll just call &lt;em>builtins&lt;/em> from now on)&lt;/li>
+&lt;li>&amp;ldquo;Built-Ins&amp;rdquo; (which we&amp;rsquo;ll just call &lt;em>builtins&lt;/em> from now on)&lt;/li>
 &lt;li>Functions&lt;/li>
 &lt;li>Aliases&lt;/li>
 &lt;/ol>
-&lt;p>Let's quickly dig in and see a bit more.&lt;/p>
+&lt;p>Let&amp;rsquo;s quickly dig in and see a bit more.&lt;/p>
 &lt;h2 id="executables---programs">Executables - Programs&lt;/h2>
-&lt;p>Executables are just files with the &amp;lsquo;executable&amp;rsquo; bit set&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. If I execute the &lt;code>cat&lt;/code> command, the shell will search for an executable named &lt;code>cat&lt;/code> in my &lt;code>$PATH&lt;/code>. If it finds it, it will run the program.&lt;/p>
-&lt;pre>&lt;code>$ cat file.txt
+&lt;p>Executables are just files with the &amp;rsquo;executable&amp;rsquo; bit set&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. If I execute the &lt;code>cat&lt;/code> command, the shell will search for an executable named &lt;code>cat&lt;/code> in my &lt;code>$PATH&lt;/code>. If it finds it, it will run the program.&lt;/p>
+&lt;pre tabindex="0">&lt;code>$ cat file.txt
 This is a simple text file
-&lt;/code>&lt;/pre>&lt;p>What is &lt;code>$PATH&lt;/code>? &lt;code>$PATH&lt;/code> is the standard environment variable used to define &lt;em>where&lt;/em> the shell should search for programs. If we temporarily &lt;em>empty&lt;/em> this variable, the shell won't find the command:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ PATH&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> cat file.txt
-bash: cat: No such file or directory
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Normally your &lt;code>$PATH&lt;/code> variable will include the standard locations for Linux programs - folders such as &lt;code>/bin&lt;/code>, &lt;code>/sbin&lt;/code>, &lt;code>/usr/bin&lt;/code> and so on&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>.&lt;/p>
-&lt;p>If you were to print the variable, you'd see a bunch of paths (they are separated by colons; I've put them on separate lines for readability):&lt;/p>
-&lt;pre>&lt;code>/usr/local/bin
+&lt;/code>&lt;/pre>&lt;p>What is &lt;code>$PATH&lt;/code>? &lt;code>$PATH&lt;/code> is the standard environment variable used to define &lt;em>where&lt;/em> the shell should search for programs. If we temporarily &lt;em>empty&lt;/em> this variable, the shell won&amp;rsquo;t find the command:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ PATH&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> cat file.txt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bash: cat: No such file or directory
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Normally your &lt;code>$PATH&lt;/code> variable will include the standard locations for Linux programs - folders such as &lt;code>/bin&lt;/code>, &lt;code>/sbin&lt;/code>, &lt;code>/usr/bin&lt;/code> and so on&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>If you were to print the variable, you&amp;rsquo;d see a bunch of paths (they are separated by colons; I&amp;rsquo;ve put them on separate lines for readability):&lt;/p>
+&lt;pre tabindex="0">&lt;code>/usr/local/bin
 /usr/bin
 /bin
 /usr/sbin
@@ -44,80 +44,82 @@ bash: cat: No such file or directory
 &lt;p>There will likely be other locations too - you might see Java folders, package manager folders and so on.&lt;/p>
 &lt;h2 id="executables---scripts">Executables - Scripts&lt;/h2>
 &lt;p>Imagine we create a text file called &lt;code>dog&lt;/code> in the local folder:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">&lt;span style="color:#75715e">#!/bin/sh
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>echo &lt;span style="color:#e6db74">&amp;#34;🐶 woof 🐶&amp;#34;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we make the file &lt;em>executable&lt;/em>, by running &lt;code>chmod +x dog&lt;/code>&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>, then we can run this just like any other program - as long as we tell the shell to look for programs in the current directory:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ PATH&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;.&amp;#34;&lt;/span> dog
-🐶 woof 🐶
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>More common would be to run the program by giving a path:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ ./dog
-🐶 woof 🐶
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Or just move it to a standard location that the shell already checks for programs:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ mv dog /usr/local/bin
-$ dog
-🐶 woof 🐶
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>The point is that executables don't &lt;em>have&lt;/em> to be compiled program code. If a file starts with &lt;code>#!&lt;/code> (the &amp;lsquo;shebang&amp;rsquo;), then the system will try to run the contents of the file with the program specified in the shebang.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/sh
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>echo &lt;span style="color:#e6db74">&amp;#34;🐶 woof 🐶&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we make the file &lt;em>executable&lt;/em>, by running &lt;code>chmod +x dog&lt;/code>&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>, then we can run this just like any other program - as long as we tell the shell to look for programs in the current directory:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ PATH&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;.&amp;#34;&lt;/span> dog
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>🐶 woof 🐶
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>More common would be to run the program by giving a path:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ ./dog
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>🐶 woof 🐶
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Or just move it to a standard location that the shell already checks for programs:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ mv dog /usr/local/bin
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ dog
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>🐶 woof 🐶
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The point is that executables don&amp;rsquo;t &lt;em>have&lt;/em> to be compiled program code. If a file starts with &lt;code>#!&lt;/code> (the &amp;lsquo;shebang&amp;rsquo;), then the system will try to run the contents of the file with the program specified in the shebang.&lt;/p>
 &lt;p>We will look at shebangs in greater detail in a later chapter.&lt;/p>
 &lt;h2 id="builtins">Builtins&lt;/h2>
-&lt;p>OK, so we've seen executables. What about a command like this?&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">local V&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;hello&amp;#34;&lt;/span> echo $V
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will not find the &lt;code>local&lt;/code> executable anywhere on your system. It is a &lt;em>builtin&lt;/em> - a special command built directly into the shell program.&lt;/p>
+&lt;p>OK, so we&amp;rsquo;ve seen executables. What about a command like this?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>local V&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;hello&amp;#34;&lt;/span> echo $V
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will not find the &lt;code>local&lt;/code> executable anywhere on your system. It is a &lt;em>builtin&lt;/em> - a special command built directly into the shell program.&lt;/p>
 &lt;p>Builtins are often highly specific to your shell. They might be used for programming (&lt;code>local&lt;/code> for example is used to declare a locally scoped variable), or they might be for very shell-specific features.&lt;/p>
 &lt;p>This is where we need to take note. As soon as you are running a builtin, you are potentially using a feature that is specific to &lt;em>your&lt;/em> shell, rather than a program that is shared across the system and can be run by &lt;em>any&lt;/em> shell.&lt;/p>
 &lt;p>Trying to programmatically execute &lt;code>local&lt;/code> as a process will fail - there is no executable with that name; it is purely a shell construct.&lt;/p>
 &lt;p>So how do we know if a command is a builtin? The preferred method is to use the &lt;code>type&lt;/code> command:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ type local
-local is a shell builtin
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>type&lt;/code> command (which is &lt;em>itself&lt;/em> a builtin!) can tell you the exact type of shell command.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ type local
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>local is a shell builtin
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>type&lt;/code> command (which is &lt;em>itself&lt;/em> a builtin!) can tell you the exact type of shell command.&lt;/p>
 &lt;p>Interestingly, you might be using more builtins than you think. &lt;code>echo&lt;/code> is a program, but most of the time you are not executing it when you are in a shell:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ type -a echo
-echo is a shell builtin
-echo is /bin/echo
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>By using the &lt;code>-a&lt;/code> flag on &lt;code>type&lt;/code> to show &lt;em>all&lt;/em> commands that match the name, we see that &lt;code>echo&lt;/code> is actually both a builtin &lt;em>and&lt;/em> a program.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ type -a echo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo is a shell builtin
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo is /bin/echo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>By using the &lt;code>-a&lt;/code> flag on &lt;code>type&lt;/code> to show &lt;em>all&lt;/em> commands that match the name, we see that &lt;code>echo&lt;/code> is actually both a builtin &lt;em>and&lt;/em> a program.&lt;/p>
 &lt;p>Many simple programs have builtin versions. The shell can execute them much faster.&lt;/p>
 &lt;p>Some commands are a builtin so that they can function in a sensible manner. The &lt;code>cd&lt;/code> command changes the current directory - if we executed it as a process, it would change only the directory for the &lt;code>cd&lt;/code> process itself, not the shell, making it much less useful.&lt;/p>
 &lt;p>Builtins will vary from shell to shell, but many shells are &amp;lsquo;Bash-like&amp;rsquo; - meaning they will have a set very similar to the Bash builtins, which you can see here:&lt;/p>
 &lt;p>&lt;a href="https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html">https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html&lt;/a>&lt;/p>
 &lt;p>As should be familiar from &lt;a href="https://www.dwmkerr.com/effective-shell-part-3-getting-hepl/">Part 3: Getting Help&lt;/a>, you can get help for builtins:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ man source &lt;span style="color:#75715e"># source is a builtin&lt;/span>
-BUILTIN&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span> BSD General Commands Manual BUILTIN&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span>
-NAME
-builtin, !, %, &lt;span style="color:#75715e"># ...snip...&lt;/span>
-SYNOPSIS
-builtin &lt;span style="color:#f92672">[&lt;/span>-options&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">[&lt;/span>args ...&lt;span style="color:#f92672">]&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>However, the manual will &lt;em>not&lt;/em> show information on specific builtins, which is a pain. Your shell &lt;em>might&lt;/em> have an option to show more details - for example, in Bash you can use &lt;code>help&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ help source
-source: source filename &lt;span style="color:#f92672">[&lt;/span>arguments&lt;span style="color:#f92672">]&lt;/span>
-Read and execute commands from FILENAME and &lt;span style="color:#66d9ef">return&lt;/span>. The pathnames
-in $PATH are used to find the directory containing FILENAME. If any
-ARGUMENTS are supplied, they become the positional parameters when
-FILENAME is executed.
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>But remember: &lt;code>help&lt;/code> is a builtin; you might not find it in all shells (you won't find it in &lt;code>zsh&lt;/code>, for example). This highlights again the challenges of builtins.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ man source &lt;span style="color:#75715e"># source is a builtin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>BUILTIN&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span> BSD General Commands Manual BUILTIN&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>NAME
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> builtin, !, %, &lt;span style="color:#75715e"># ...snip...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SYNOPSIS
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> builtin &lt;span style="color:#f92672">[&lt;/span>-options&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">[&lt;/span>args ...&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>However, the manual will &lt;em>not&lt;/em> show information on specific builtins, which is a pain. Your shell &lt;em>might&lt;/em> have an option to show more details - for example, in Bash you can use &lt;code>help&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ help source
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>source: source filename &lt;span style="color:#f92672">[&lt;/span>arguments&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Read and execute commands from FILENAME and &lt;span style="color:#66d9ef">return&lt;/span>. The pathnames
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> in $PATH are used to find the directory containing FILENAME. If any
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ARGUMENTS are supplied, they become the positional parameters when
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FILENAME is executed.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>But remember: &lt;code>help&lt;/code> is a builtin; you might not find it in all shells (you won&amp;rsquo;t find it in &lt;code>zsh&lt;/code>, for example). This highlights again the challenges of builtins.&lt;/p>
 &lt;h2 id="functions">Functions&lt;/h2>
-&lt;p>You can define your own shell functions. We will see a lot more of this later, but let's show a quick example for now:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ restart-shell &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> exec -l &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$SHELL&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>This snippet creates a function that restarts the shell (quite useful if you are messing with shell configuration files or think you might have irreversibly goofed up your current session).&lt;/p>
+&lt;p>You can define your own shell functions. We will see a lot more of this later, but let&amp;rsquo;s show a quick example for now:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ restart-shell &lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span> exec -l &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$SHELL&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This snippet creates a function that restarts the shell (quite useful if you are messing with shell configuration files or think you might have irreversibly goofed up your current session).&lt;/p>
 &lt;p>We can execute this function just like any command:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ restart-shell
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>And running &lt;code>type&lt;/code> will show us that this is a function:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ type restart-shell
-restart-shell is a &lt;span style="color:#66d9ef">function&lt;/span>
-restart-shell &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
-&lt;span style="color:#f92672">{&lt;/span>
-exec -l $SHELL
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Functions are one of the most powerful shell constructs we will see; they are extremely useful for building sophisticated logic. We're going to see them in a lot more detail later, but for now it is enough to know that they exist, and can run logic, and are run as commands.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ restart-shell
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And running &lt;code>type&lt;/code> will show us that this is a function:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ type restart-shell
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>restart-shell is a &lt;span style="color:#66d9ef">function&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>restart-shell &lt;span style="color:#f92672">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exec -l $SHELL
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Functions are one of the most powerful shell constructs we will see; they are extremely useful for building sophisticated logic. We&amp;rsquo;re going to see them in a lot more detail later, but for now it is enough to know that they exist, and can run logic, and are run as commands.&lt;/p>
 &lt;h2 id="aliases">Aliases&lt;/h2>
 &lt;p>An alias is just a shortcut. Type in a certain set of characters, and the shell will replace them with the value defined in the alias.&lt;/p>
 &lt;p>Some common commands are actually already aliases - for example, in my &lt;code>zsh&lt;/code> shell, the &lt;code>ls&lt;/code> command is an alias:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% type -a ls
-ls is an alias &lt;span style="color:#66d9ef">for&lt;/span> ls -G
-ls is /bin/ls
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>I make sure that when I use the &lt;code>ls&lt;/code> command, the shell always expands it to &lt;code>ls -G&lt;/code>, which colours the output.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% type -a ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ls is an alias &lt;span style="color:#66d9ef">for&lt;/span> ls -G
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ls is /bin/ls
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>I make sure that when I use the &lt;code>ls&lt;/code> command, the shell always expands it to &lt;code>ls -G&lt;/code>, which colours the output.&lt;/p>
 &lt;p>We can quickly define aliases to save on keystrokes. For example:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ alias k&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;kubectl&amp;#39;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>From this point on, I can use the &lt;code>k&lt;/code> alias as shorthand for the &lt;code>kubectl&lt;/code> command.&lt;/p>
-&lt;p>Aliases are far less sophisticated than functions. Think of them as keystroke savers and nothing more, and you won't go far wrong. Aliases are not portable across shells and have certain behaviours which can make them problematic to work with, there will be an entire chapter dedicated to alisases coming up in the series.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ alias k&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;kubectl&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>From this point on, I can use the &lt;code>k&lt;/code> alias as shorthand for the &lt;code>kubectl&lt;/code> command.&lt;/p>
+&lt;p>Aliases are far less sophisticated than functions. Think of them as keystroke savers and nothing more, and you won&amp;rsquo;t go far wrong. Aliases are not portable across shells and have certain behaviours which can make them problematic to work with, there will be an entire chapter dedicated to alisases coming up in the series.&lt;/p>
 &lt;h2 id="so-what">So What?&lt;/h2>
 &lt;p>So we now hopefully have a greater understanding of the variety of shell commands. Not all commands are executables, not all of the commands we &lt;em>think&lt;/em> are executables necessarily are, and some commands might be more sophisticated.&lt;/p>
 &lt;p>As a shell user, the key things to remember are:&lt;/p>
@@ -128,9 +130,9 @@ ls is /bin/ls
 &lt;li>Aliases are conveniences for human operators, but only in the context of an interactive shell.&lt;/li>
 &lt;/ol>
 &lt;p>To find out how a command is implemented, just use the &lt;code>type -a&lt;/code> command:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ type -a cat
-cat is /bin/cat
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="more-than-you-need-to-know">More than You Need to Know&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ type -a cat
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat is /bin/cat
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="more-than-you-need-to-know">More than You Need to Know&lt;/h2>
 &lt;p>OK, for the masochistic few, you might be wondering about all of the other commands and utilities you may have seen that can tell you about programs and commands:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>what&lt;/code>&lt;/li>
@@ -142,57 +144,57 @@ cat is /bin/cat
 &lt;li>&lt;code>command&lt;/code>&lt;/li>
 &lt;li>&lt;code>type&lt;/code>&lt;/li>
 &lt;/ul>
-&lt;p>A &lt;em>lot&lt;/em> of these are legacy and should be avoided, but for completeness sake, we'll go through them.&lt;/p>
+&lt;p>A &lt;em>lot&lt;/em> of these are legacy and should be avoided, but for completeness sake, we&amp;rsquo;ll go through them.&lt;/p>
 &lt;h3 id="what">&lt;code>what&lt;/code>&lt;/h3>
 &lt;p>&lt;code>what&lt;/code> reads out special metadata embedded in a program, generally used to identify the version of source code it was built from:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ what /bin/ls
-/bin/ls
-Copyright &lt;span style="color:#f92672">(&lt;/span>c&lt;span style="color:#f92672">)&lt;/span> 1989, 1993, &lt;span style="color:#ae81ff">1994&lt;/span>
-PROGRAM:ls PROJECT:file_cmds-272.220.1
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>There should be almost no circumstance in which you need to use it in your day-to-day work, but you might come across it if you &lt;em>meant&lt;/em> to type &lt;code>whatis&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ what /bin/ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/bin/ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Copyright &lt;span style="color:#f92672">(&lt;/span>c&lt;span style="color:#f92672">)&lt;/span> 1989, 1993, &lt;span style="color:#ae81ff">1994&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> PROGRAM:ls PROJECT:file_cmds-272.220.1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>There should be almost no circumstance in which you need to use it in your day-to-day work, but you might come across it if you &lt;em>meant&lt;/em> to type &lt;code>whatis&lt;/code>.&lt;/p>
 &lt;h3 id="whatis">&lt;code>whatis&lt;/code>&lt;/h3>
 &lt;p>&lt;code>whatis&lt;/code> searches a local help database for text. This can be useful in tracking down manual pages:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ whatis bash
-bash&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span> - GNU Bourne-Again SHell
-bashbug&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span> - report a bug in bash
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>But I can't imagine it will be a regularly used tool by most users.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ whatis bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bash&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span> - GNU Bourne-Again SHell
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bashbug&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span> - report a bug in bash
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>But I can&amp;rsquo;t imagine it will be a regularly used tool by most users.&lt;/p>
 &lt;h3 id="which">&lt;code>which&lt;/code>&lt;/h3>
 &lt;p>&lt;code>which&lt;/code> will search your &lt;code>$PATH&lt;/code> to see whether an executable can be found. With the &lt;code>-a&lt;/code> flag, it will show all results.&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ which -a vi
-/usr/local/bin/vi
-/usr/bin/vi
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>which&lt;/code> originated in &lt;code>csh&lt;/code>. It remains on many systems for compatibility but in general should be avoided due to potentially odd behaviour&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ which -a vi
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/usr/local/bin/vi
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/usr/bin/vi
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>which&lt;/code> originated in &lt;code>csh&lt;/code>. It remains on many systems for compatibility but in general should be avoided due to potentially odd behaviour&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>.&lt;/p>
 &lt;h3 id="whence">&lt;code>whence&lt;/code>&lt;/h3>
 &lt;p>&lt;code>whence&lt;/code> was added to the Korn shell. You are unlikely to use it unless you are on systems using &lt;code>ksh&lt;/code>. &lt;code>zsh&lt;/code> also has this command, but it should be avoided and considered non-standard.&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% whence brew
-/usr/local/bin/brew
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="where">&lt;code>where&lt;/code>&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% whence brew
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/usr/local/bin/brew
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="where">&lt;code>where&lt;/code>&lt;/h3>
 &lt;p>This is a shell builtin that can provide information on commands, similar to &lt;code>type&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% where ls
-ls: aliased to ls -G
-/bin/ls
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>However, &lt;code>type&lt;/code> should be preferred, as it is more standard.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% where ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ls: aliased to ls -G
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/bin/ls
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>However, &lt;code>type&lt;/code> should be preferred, as it is more standard.&lt;/p>
 &lt;h3 id="whereis">&lt;code>whereis&lt;/code>&lt;/h3>
 &lt;p>&lt;code>whereis&lt;/code> is available on some systems and generally operates the same as &lt;code>which&lt;/code>, searching paths for an executable:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% whereis ls
-/bin/ls
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Again, &lt;code>type&lt;/code> should be preferred for compatability.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% whereis ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/bin/ls
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Again, &lt;code>type&lt;/code> should be preferred for compatability.&lt;/p>
 &lt;h3 id="command">&lt;code>command&lt;/code>&lt;/h3>
 &lt;p>&lt;code>command&lt;/code> is defined in the POSIX standard, so should be expected to be present on most modern systems. Without arguments, it simply executes a command. With the &lt;code>-v&lt;/code> argument, you get a fairly machine-readable or processable response; with the &lt;code>-V&lt;/code> argument, you get a more human readable response:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% command -v ls
-alias ls&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;ls -G&amp;#39;&lt;/span>
-% command -V ls
-ls is an alias &lt;span style="color:#66d9ef">for&lt;/span> ls -G
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>command&lt;/code> can be useful in scripts, as we will see in later chapters.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% command -v ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>alias ls&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;ls -G&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>% command -V ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ls is an alias &lt;span style="color:#66d9ef">for&lt;/span> ls -G
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>command&lt;/code> can be useful in scripts, as we will see in later chapters.&lt;/p>
 &lt;h3 id="type">&lt;code>type&lt;/code>&lt;/h3>
-&lt;p>&lt;code>type&lt;/code> is part of the Unix standard and will be present in most modern systems. As we've already seen, it will identify the type of command as well as the location for an executable:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% type -a ls
-ls is an alias &lt;span style="color:#66d9ef">for&lt;/span> ls -G
-ls is /bin/ls
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>This command can also be used to only search for paths:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% type -p ls
-ls is /bin/ls
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Summary&lt;/strong>&lt;/p>
+&lt;p>&lt;code>type&lt;/code> is part of the Unix standard and will be present in most modern systems. As we&amp;rsquo;ve already seen, it will identify the type of command as well as the location for an executable:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% type -a ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ls is an alias &lt;span style="color:#66d9ef">for&lt;/span> ls -G
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ls is /bin/ls
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This command can also be used to only search for paths:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% type -p ls
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ls is /bin/ls
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Summary&lt;/strong>&lt;/p>
 &lt;p>In summary, avoid anything that starts with &amp;lsquo;&lt;code>w&lt;/code>&amp;rsquo;! These are legacy commands, generally needed only when working on older Unix machines. &lt;code>type&lt;/code> or &lt;code>command&lt;/code> should be used instead.&lt;/p>
 &lt;hr>
 &lt;p>&lt;strong>Footnotes&lt;/strong>&lt;/p>
@@ -200,123 +202,125 @@ ls is /bin/ls
 &lt;hr>
 &lt;ol>
 &lt;li id="fn:1" role="doc-endnote">
-&lt;p>We will cover permissions and modes in later chapters. &lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>We will cover permissions and modes in later chapters.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:2" role="doc-endnote">
-&lt;p>Why these names and locations? It's a long story. The best place to start if you are intersted is the &lt;a href="https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">Filesystem Hierarchy Standard&lt;/a>. &lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Why these names and locations? It&amp;rsquo;s a long story. The best place to start if you are intersted is the &lt;a href="https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">Filesystem Hierarchy Standard&lt;/a>.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:3" role="doc-endnote">
-&lt;p>&lt;code>chmod&lt;/code> changes the mode of a file; &lt;code>+x&lt;/code> means &amp;lsquo;add the executable bit&amp;rsquo;. This tells the operating system the file can be executed. &lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>&lt;code>chmod&lt;/code> changes the mode of a file; &lt;code>+x&lt;/code> means &amp;lsquo;add the executable bit&amp;rsquo;. This tells the operating system the file can be executed.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:4" role="doc-endnote">
-&lt;p>&lt;a href="https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then">Stack Exchange: Why not use “which”? What to use then?&lt;/a> &lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then">Stack Exchange: Why not use “which”? What to use then?&lt;/a>&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/section></description><category>CodeProject</category></item><item><title>Effective Shell Part 6: Everything You Don't Need To Know About Job Control</title><link>https://dwmkerr.com/effective-shell-6-job-control/</link><pubDate>Mon, 10 Jun 2019 08:26:33 +0000</pubDate><guid>https://dwmkerr.com/effective-shell-6-job-control/</guid><description>&lt;p>&lt;em>Job control&lt;/em> is a feature of most shells, which is generally not particularly intuitive to work with. However, knowing the basics can help prevent you from getting yourself into a tangle, and can from time to time make certain tasks a little easier.&lt;/p>
-&lt;p>In this chapter, we'll look at the main features of job control, why it can be a problematic, and some alternatives.&lt;/p>
+&lt;p>In this chapter, we&amp;rsquo;ll look at the main features of job control, why it can be a problematic, and some alternatives.&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://www.dwmkerr.com/effective-shell-part-1-navigating-the-command-line/">Part 1: Navigating the Command Line&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://www.dwmkerr.com/effective-shell-part-2-become-a-clipboard-gymnast/">Part 2: Become a Clipboard Gymnast&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://www.dwmkerr.com/effective-shell-part-3-getting-hepl/">Part 3: Getting Help&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-4-moving-around/">Part 4: Moving Around&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-part-5-understanding-the-shell/">Part 5: Interlude - Understanding the Shell&lt;/a>&lt;/li>
-&lt;li>&lt;strong>&lt;a href="https://dwmkerr.com/effective-shell-6-job-control/">Part 6: Everything You Don't Need to Know About Job Control&lt;/a>&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>&lt;a href="https://dwmkerr.com/effective-shell-6-job-control/">Part 6: Everything You Don&amp;rsquo;t Need to Know About Job Control&lt;/a>&lt;/strong>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-7-shell-commands/">Part 7: The Subtleties of Shell Commands&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;h2 id="what-is-job-control">What Is Job Control?&lt;/h2>
-&lt;p>Let's start with an example. I am building a simple web page. It has one &lt;code>index.html&lt;/code> file, one &lt;code>styles.css&lt;/code> file, and one &lt;code>code.js&lt;/code> file. The &lt;code>index.html&lt;/code> file looks like this:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-html" data-lang="html">&amp;lt;&lt;span style="color:#f92672">html&lt;/span>&amp;gt;
-&amp;lt;&lt;span style="color:#f92672">head&lt;/span>&amp;gt;
-&amp;lt;&lt;span style="color:#f92672">title&lt;/span>&amp;gt;My New Project&amp;lt;/&lt;span style="color:#f92672">title&lt;/span>&amp;gt;
-&amp;lt;&lt;span style="color:#f92672">link&lt;/span> &lt;span style="color:#a6e22e">rel&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;stylesheet&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">type&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;text/css&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">href&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;styles.css&amp;#34;&lt;/span>&amp;gt;
-&amp;lt;&lt;span style="color:#f92672">script&lt;/span> &lt;span style="color:#a6e22e">src&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;code.js&amp;#34;&lt;/span>&amp;gt;&amp;lt;/&lt;span style="color:#f92672">script&lt;/span>&amp;gt;
-&amp;lt;/&lt;span style="color:#f92672">head&lt;/span>&amp;gt;
-&amp;lt;&lt;span style="color:#f92672">body&lt;/span>&amp;gt;
-&lt;span style="color:#75715e">&amp;lt;!--&lt;/span>&lt;span style="color:#75715e"> Snip... &lt;/span>&lt;span style="color:#75715e">--&amp;gt;&lt;/span>
-&amp;lt;/&lt;span style="color:#f92672">body&lt;/span>&amp;gt;
-&amp;lt;/&lt;span style="color:#f92672">html&lt;/span>&amp;gt;
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Opening the file in a browser doesn't quite work, as it won't load the code or the styles. We need a web server to serve styles and code.&lt;/p>
+&lt;p>Let&amp;rsquo;s start with an example. I am building a simple web page. It has one &lt;code>index.html&lt;/code> file, one &lt;code>styles.css&lt;/code> file, and one &lt;code>code.js&lt;/code> file. The &lt;code>index.html&lt;/code> file looks like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">html&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;&lt;span style="color:#f92672">head&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;&lt;span style="color:#f92672">title&lt;/span>&amp;gt;My New Project&amp;lt;/&lt;span style="color:#f92672">title&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;&lt;span style="color:#f92672">link&lt;/span> &lt;span style="color:#a6e22e">rel&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;stylesheet&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">type&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;text/css&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">href&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;styles.css&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;&lt;span style="color:#f92672">script&lt;/span> &lt;span style="color:#a6e22e">src&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;code.js&amp;#34;&lt;/span>&amp;gt;&amp;lt;/&lt;span style="color:#f92672">script&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/&lt;span style="color:#f92672">head&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;&lt;span style="color:#f92672">body&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">&amp;lt;!-- Snip... --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/&lt;span style="color:#f92672">body&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">html&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Opening the file in a browser doesn&amp;rsquo;t quite work, as it won&amp;rsquo;t load the code or the styles. We need a web server to serve styles and code.&lt;/p>
 &lt;p>A super-useful one-liner to run a web server on any machine with Python installed is:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>In fact, this is so useful that I normally &lt;em>alias&lt;/em> this command, so that I can just type &lt;code>serve&lt;/code>. We'll see aliases in a later chapter.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In fact, this is so useful that I normally &lt;em>alias&lt;/em> this command, so that I can just type &lt;code>serve&lt;/code>. We&amp;rsquo;ll see aliases in a later chapter.&lt;/p>
 &lt;p>For now, if we run this command (you can get &lt;a href="https://github.com/dwmkerr/effective-shell/tree/master/6-job-control/sample">the three sample files here&lt;/a> if you want to try this yourself), then we can open the webpage in a browser, with the styles and code loaded:&lt;/p>
-&lt;p>&lt;img src="images/website-screenshot.png" alt="Screenshot: Website" width="600" />&lt;/p>
+&lt;img src="images/website-screenshot.png" alt="Screenshot: Website" width="600" />
 &lt;p>We can also see that the server has served the HTML, JavaScript, and CSS files:&lt;/p>
-&lt;p>&lt;img src="images/server-screenshot.png" alt="Screenshot: Server" width="600" />&lt;/p>
+&lt;img src="images/server-screenshot.png" alt="Screenshot: Server" width="600" />
 &lt;p>All well and good so far.&lt;/p>
 &lt;h2 id="the-problem">The Problem&lt;/h2>
-&lt;p>Let's say we want to now continue using our shell, maybe to edit the website with a terminal editor like Vim or Emacs, or we want to zip up the site, or just run any shell command&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>.&lt;/p>
-&lt;p>We have a problem. The &lt;code>python&lt;/code> process is still running - it's serving the website. Our shell is essentially useless, until we stop the server. See what happens when I try to edit a file:&lt;/p>
-&lt;p>&lt;img src="images/blocked-shell.gif" alt="Demo: Blocked Shell" width="600" />&lt;/p>
+&lt;p>Let&amp;rsquo;s say we want to now continue using our shell, maybe to edit the website with a terminal editor like Vim or Emacs, or we want to zip up the site, or just run any shell command&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>We have a problem. The &lt;code>python&lt;/code> process is still running - it&amp;rsquo;s serving the website. Our shell is essentially useless, until we stop the server. See what happens when I try to edit a file:&lt;/p>
+&lt;img src="images/blocked-shell.gif" alt="Demo: Blocked Shell" width="600" />
 &lt;p>In the example above, I try to run &lt;code>vi&lt;/code>, but nothing is happening. Standard input is not being read by the server and not being interpreted by the shell.&lt;/p>
-&lt;p>I have to kill the server by hitting &lt;code>Ctrl+C&lt;/code> (which sends a &lt;code>SIGINT&lt;/code>&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> - we'll see more about signals later), clear my screen to get rid of all of the error messages, then start again.&lt;/p>
-&lt;p>This is obviously not optimal. Let's look at some solutions.&lt;/p>
+&lt;p>I have to kill the server by hitting &lt;code>Ctrl+C&lt;/code> (which sends a &lt;code>SIGINT&lt;/code>&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> - we&amp;rsquo;ll see more about signals later), clear my screen to get rid of all of the error messages, then start again.&lt;/p>
+&lt;p>This is obviously not optimal. Let&amp;rsquo;s look at some solutions.&lt;/p>
 &lt;h2 id="solution-1-start-the-server-in-the-background">Solution 1: Start the Server in the Background&lt;/h2>
-&lt;p>In most shells, you can run a command and instruct the shell to run it in the &lt;em>background&lt;/em>. To do this, you end the line with an ampersand. Here's how the example would look in this case:&lt;/p>
-&lt;p>&lt;img src="images/start-in-background.gif" alt="Demo: Starting a Background Job" width="600" />&lt;/p>
+&lt;p>In most shells, you can run a command and instruct the shell to run it in the &lt;em>background&lt;/em>. To do this, you end the line with an ampersand. Here&amp;rsquo;s how the example would look in this case:&lt;/p>
+&lt;img src="images/start-in-background.gif" alt="Demo: Starting a Background Job" width="600" />
 &lt;p>By ending the command with an &lt;code>&amp;amp;&lt;/code> ampersand symbol, we instruct the shell to run the command as a &lt;em>background job&lt;/em>. This means that our shell is still functional. The shell has also notified us that this command is running as a background job with a specific &lt;em>job number&lt;/em>:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span> &amp;amp;
-&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#ae81ff">19372&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>In slightly obtuse language, the shell has informed us that it has started a job in the background, with job number &lt;code>1&lt;/code> and that this job is currently handling the process with ID &lt;code>19372&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span> &amp;amp;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#ae81ff">19372&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In slightly obtuse language, the shell has informed us that it has started a job in the background, with job number &lt;code>1&lt;/code> and that this job is currently handling the process with ID &lt;code>19372&lt;/code>.&lt;/p>
 &lt;p>The ampersand solution is a fairly common pattern used in day-to-day work.&lt;/p>
 &lt;h2 id="solution-2-move-the-server-to-the-background">Solution 2: Move the Server to the Background&lt;/h2>
-&lt;p>Let's say you forgot to start the command in the background. Most likely in this case you'd kill the server with &lt;code>Ctrl+C&lt;/code> and then start it again with the &lt;code>&amp;amp;&lt;/code> option. However, what if this was a large file download or a task you didn't want to abort?&lt;/p>
-&lt;p>In the example below, we'll move the job to the background:&lt;/p>
-&lt;p>&lt;img src="images/move-to-background.gif" alt="Demo: Moving a Job to the Background" width="600" />&lt;/p>
+&lt;p>Let&amp;rsquo;s say you forgot to start the command in the background. Most likely in this case you&amp;rsquo;d kill the server with &lt;code>Ctrl+C&lt;/code> and then start it again with the &lt;code>&amp;amp;&lt;/code> option. However, what if this was a large file download or a task you didn&amp;rsquo;t want to abort?&lt;/p>
+&lt;p>In the example below, we&amp;rsquo;ll move the job to the background:&lt;/p>
+&lt;img src="images/move-to-background.gif" alt="Demo: Moving a Job to the Background" width="600" />
 &lt;p>The process is currently in the foreground, so my shell is inactive. Hitting &lt;code>Ctrl+Z&lt;/code> sends a &amp;lsquo;suspend&amp;rsquo; signal to the process&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>, pausing it and moving it to the background.&lt;/p>
-&lt;p>Let's dissect this:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-Serving HTTP on 0.0.0.0 port &lt;span style="color:#ae81ff">3000&lt;/span> ...
-127.0.0.1 - - &lt;span style="color:#f92672">[&lt;/span>03/Jun/2019 13:38:45&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#e6db74">&amp;#34;GET / HTTP/1.1&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">200&lt;/span> -
-^Z
-&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + &lt;span style="color:#ae81ff">21268&lt;/span> suspended python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>The shell echos as I type, so we see &lt;code>^Z&lt;/code> (i.e., the &lt;code>Ctrl+Z&lt;/code> chord I entered). The shell responds by moving the process into a background job and suspending it.&lt;/p>
+&lt;p>Let&amp;rsquo;s dissect this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Serving HTTP on 0.0.0.0 port &lt;span style="color:#ae81ff">3000&lt;/span> ...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>127.0.0.1 - - &lt;span style="color:#f92672">[&lt;/span>03/Jun/2019 13:38:45&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#e6db74">&amp;#34;GET / HTTP/1.1&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">200&lt;/span> -
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>^Z
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + &lt;span style="color:#ae81ff">21268&lt;/span> suspended python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The shell echos as I type, so we see &lt;code>^Z&lt;/code> (i.e., the &lt;code>Ctrl+Z&lt;/code> chord I entered). The shell responds by moving the process into a background job and suspending it.&lt;/p>
 &lt;p>The key here is that it is &lt;em>suspended&lt;/em>. The process is paused. So the web server is no longer serving. If you are following with the sample, reload your browser. The webpage fails to load, as the server process is not able to respond to requests.&lt;/p>
-&lt;p>To &lt;em>continue&lt;/em> the job, in the background, we use the &lt;code>bg&lt;/code> (&amp;lsquo;background&amp;rsquo;) command, with a &lt;em>job identifier&lt;/em> (which always starts with a &lt;code>%&lt;/code> symbol - we'll see why soon) to tell the shell to continue the job:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% bg %1
-&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + &lt;span style="color:#ae81ff">21268&lt;/span> continued python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>The shell lets us know the job is being continued, and if we load the webpage again, the content is shown as expected.&lt;/p>
+&lt;p>To &lt;em>continue&lt;/em> the job, in the background, we use the &lt;code>bg&lt;/code> (&amp;lsquo;background&amp;rsquo;) command, with a &lt;em>job identifier&lt;/em> (which always starts with a &lt;code>%&lt;/code> symbol - we&amp;rsquo;ll see why soon) to tell the shell to continue the job:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% bg %1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + &lt;span style="color:#ae81ff">21268&lt;/span> continued python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The shell lets us know the job is being continued, and if we load the webpage again, the content is shown as expected.&lt;/p>
 &lt;p>As a final check, we run the &lt;code>jobs&lt;/code> command to see what jobs the shell is running:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% jobs
-&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + running python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>And there you have it - our server is running as a background job. This is exactly what we would see if we run &lt;code>jobs&lt;/code> after starting the server with an &lt;code>&amp;amp;&lt;/code> at the end. In fact, using an &lt;code>&amp;amp;&lt;/code> is perhaps an easier way to remember how to continue a suspended job:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% %1 &amp;amp;
-&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + &lt;span style="color:#ae81ff">21268&lt;/span> continued python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the same way ending a command with &lt;code>&amp;amp;&lt;/code> runs it in the background, ending a job identifier with &lt;code>&amp;amp;&lt;/code> &lt;em>continues&lt;/em> it in the background.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% jobs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + running python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And there you have it - our server is running as a background job. This is exactly what we would see if we run &lt;code>jobs&lt;/code> after starting the server with an &lt;code>&amp;amp;&lt;/code> at the end. In fact, using an &lt;code>&amp;amp;&lt;/code> is perhaps an easier way to remember how to continue a suspended job:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% %1 &amp;amp;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + &lt;span style="color:#ae81ff">21268&lt;/span> continued python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the same way ending a command with &lt;code>&amp;amp;&lt;/code> runs it in the background, ending a job identifier with &lt;code>&amp;amp;&lt;/code> &lt;em>continues&lt;/em> it in the background.&lt;/p>
 &lt;p>There is at least one more way to move a job to the background&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>, but I have not yet found it useful in any scenarios, and it is overly complex to explain. See the footnote for details if you are interested.&lt;/p>
 &lt;h2 id="moving-background-jobs-to-the-foreground">Moving Background Jobs to the Foreground&lt;/h2>
-&lt;p>If you have a job in the background, you can bring it back to the foreground with the &lt;code>fg&lt;/code> (&amp;lsquo;foreground&amp;rsquo;) command. Let's show the jobs, with the &lt;code>jobs&lt;/code> command:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% jobs
-&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + running python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here I have a background job running a server. Any one of the following commands will bring it back to the foreground:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">fg %1 &lt;span style="color:#75715e"># Explicitly bring Job 1 into the foreground&lt;/span>
-%1 &lt;span style="color:#75715e"># ...or in shorthand, just enter the job id...&lt;/span>
-fg &lt;span style="color:#75715e"># ...if not given an id, fg and bg assume the most recent job.&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now the job is in the foreground, and you can interact with the process again however you like.&lt;/p>
+&lt;p>If you have a job in the background, you can bring it back to the foreground with the &lt;code>fg&lt;/code> (&amp;lsquo;foreground&amp;rsquo;) command. Let&amp;rsquo;s show the jobs, with the &lt;code>jobs&lt;/code> command:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% jobs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + running python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here I have a background job running a server. Any one of the following commands will bring it back to the foreground:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>fg %1 &lt;span style="color:#75715e"># Explicitly bring Job 1 into the foreground&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>%1 &lt;span style="color:#75715e"># ...or in shorthand, just enter the job id...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>fg &lt;span style="color:#75715e"># ...if not given an id, fg and bg assume the most recent job.&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now the job is in the foreground, and you can interact with the process again however you like.&lt;/p>
 &lt;h2 id="cleaning-up-jobs">Cleaning Up Jobs&lt;/h2>
-&lt;p>You might realise you cannot continue what you are doing because an old job is &lt;em>still running&lt;/em>. Here's an example:&lt;/p>
-&lt;p>&lt;img src="images/kill-job.gif" alt="Demo: Cleaning Up Jobs" width="600" />&lt;/p>
+&lt;p>You might realise you cannot continue what you are doing because an old job is &lt;em>still running&lt;/em>. Here&amp;rsquo;s an example:&lt;/p>
+&lt;img src="images/kill-job.gif" alt="Demo: Cleaning Up Jobs" width="600" />
 &lt;p>I tried to run my web server, but there was still one running as a background job. The server failed to start because the port is in use.&lt;/p>
 &lt;p>To clean it up, I run the &lt;code>jobs&lt;/code> command to list the jobs:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% jobs
-&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + suspended python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>There's my old web server. Note that even though it is suspended, it'll still be blocking the port it is serving on&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>. The process is paused, but it is still holding onto all of the resources it is using.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% jobs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + suspended python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>There&amp;rsquo;s my old web server. Note that even though it is suspended, it&amp;rsquo;ll still be blocking the port it is serving on&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>. The process is paused, but it is still holding onto all of the resources it is using.&lt;/p>
 &lt;p>Now that I know the job identifier (&lt;code>%1&lt;/code> in this case), I can kill the job:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">% kill %1
-&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + &lt;span style="color:#ae81ff">22843&lt;/span> terminated python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>This is why job identifiers start with a percentage sign!&lt;/em> The &lt;code>kill&lt;/code> command I have used is not a special job control command (like &lt;code>bg&lt;/code> or &lt;code>fg&lt;/code>). It is the normal &lt;code>kill&lt;/code> command, which terminates a process. But shells that support job control can normally use a job identifier in place of a &lt;em>process identifier&lt;/em>. So rather than working out what the process identifier is that I need to kill, I can just use the job identifier&lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup>.&lt;/p>
-&lt;h2 id="why-you-shouldnt-use-jobs">Why You Shouldn't Use Jobs&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>% kill %1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> + &lt;span style="color:#ae81ff">22843&lt;/span> terminated python -m SimpleHTTPServer &lt;span style="color:#ae81ff">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>This is why job identifiers start with a percentage sign!&lt;/em> The &lt;code>kill&lt;/code> command I have used is not a special job control command (like &lt;code>bg&lt;/code> or &lt;code>fg&lt;/code>). It is the normal &lt;code>kill&lt;/code> command, which terminates a process. But shells that support job control can normally use a job identifier in place of a &lt;em>process identifier&lt;/em>. So rather than working out what the process identifier is that I need to kill, I can just use the job identifier&lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup>.&lt;/p>
+&lt;h2 id="why-you-shouldnt-use-jobs">Why You Shouldn&amp;rsquo;t Use Jobs&lt;/h2>
 &lt;p>Avoid jobs. They are not intuitive to interface with, and they suffer from some serious problems.&lt;/p>
 &lt;p>The most obvious one is that all jobs write to the same output, meaning you can quickly get garbled output like this:&lt;/p>
-&lt;p>&lt;img src="images/output.png" alt="Screenshot: Garbled Output" width="600" />&lt;/p>
-&lt;p>This is what happens when I run a job, which just outputs text every second. It's in the background, but it's printing all over my commands. Even running the &lt;code>jobs&lt;/code> command to try and find the job to stop it is difficult.&lt;/p>
+&lt;img src="images/output.png" alt="Screenshot: Garbled Output" width="600" />
+&lt;p>This is what happens when I run a job, which just outputs text every second. It&amp;rsquo;s in the background, but it&amp;rsquo;s printing all over my commands. Even running the &lt;code>jobs&lt;/code> command to try and find the job to stop it is difficult.&lt;/p>
 &lt;p>Input is even more complex. If a job is &lt;em>running&lt;/em> in the background, but requires input, it will be &lt;em>silently suspended&lt;/em>. This can cause confusion.&lt;/p>
 &lt;p>Jobs &lt;em>can&lt;/em> be used in scripts but must be done so with caution and could easily confuse a consumer of the script if they leave background jobs hanging around, which cannot be easily cleaned up&lt;sup id="fnref:7">&lt;a href="#fn:7" class="footnote-ref" role="doc-noteref">7&lt;/a>&lt;/sup>.&lt;/p>
 &lt;p>Handling errors and exit codes for jobs can be problematic, causing confusion, poor error handling, or overly complex code.&lt;/p>
 &lt;h2 id="how-to-escape-jobs">How to Escape Jobs&lt;/h2>
 &lt;p>If there are two things to take away, it would be this:&lt;/p>
 &lt;blockquote>
-&lt;p>If you have started running a command in the foreground, and you don't want to stop it and would rather move it to the background, hit &lt;code>Ctrl+Z&lt;/code>. Then Google &amp;ldquo;job control&amp;rdquo;.&lt;/p>
+&lt;p>If you have started running a command in the foreground, and you don&amp;rsquo;t want to stop it and would rather move it to the background, hit &lt;code>Ctrl+Z&lt;/code>. Then Google &amp;ldquo;job control&amp;rdquo;.&lt;/p>
 &lt;/blockquote>
 &lt;p>And:&lt;/p>
 &lt;blockquote>
@@ -325,14 +329,14 @@ fg &lt;span style="color:#75715e"># ...if not given an id, fg and bg assume the 
 &lt;p>In either case, if you need to do something more subtle, you can return to this reference. But the first command should allow you to get your shell back while you work out how to continue the job, and the second should kill a background job that is messing with your screen.&lt;/p>
 &lt;h2 id="alternatives-to-jobs">Alternatives to Jobs&lt;/h2>
 &lt;p>If you are using any kind of modern terminal such as iTerm, Terminal or the GNOME Terminal, just open a new tab or split! Much easier.&lt;/p>
-&lt;p>The benefit to this is that each tab gets its own standard input and output, so there's no risk of overwriting. And of course you can hide/reveal/rearrange the tabs however you like.&lt;/p>
+&lt;p>The benefit to this is that each tab gets its own standard input and output, so there&amp;rsquo;s no risk of overwriting. And of course you can hide/reveal/rearrange the tabs however you like.&lt;/p>
 &lt;p>The traditional alternative to a job for an operator who simply wants more than one thing going on at once would be a &lt;em>terminal multiplexer&lt;/em>, such as &lt;code>screen&lt;/code> or &lt;code>tmux&lt;/code>:&lt;/p>
 &lt;p>&lt;img src="images/terminal-multiplexer.gif" alt="terminal-multiplexer">&lt;/p>
 &lt;p>Multiplexers work in a very similar way to a modern graphical terminal - they manage many shell instances. The benefits to a modern terminal, such as iTerm, is that you have a very intuitive GUI and lots of features.&lt;/p>
 &lt;p>The benefits to a multiplexer are that you can run them over SSH sessions to manage complex operations on remote machines and that they run a client-server model, meaning many people can work with many multiplexed processes (and they can persist beyond sessions).&lt;/p>
-&lt;p>My personal preference is both - I use a modern terminal &lt;em>and&lt;/em> run everything inside it in &lt;code>tmux&lt;/code>. We'll look at both of these options in later chapters.&lt;/p>
+&lt;p>My personal preference is both - I use a modern terminal &lt;em>and&lt;/em> run everything inside it in &lt;code>tmux&lt;/code>. We&amp;rsquo;ll look at both of these options in later chapters.&lt;/p>
 &lt;h2 id="quick-reference">Quick Reference&lt;/h2>
-&lt;p>You might find that jobs are useful, or you might find that they are not. Either way, here's a quick reference of some common commands:&lt;/p>
+&lt;p>You might find that jobs are useful, or you might find that they are not. Either way, here&amp;rsquo;s a quick reference of some common commands:&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -371,7 +375,7 @@ fg &lt;span style="color:#75715e"># ...if not given an id, fg and bg assume the 
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;p>If you want to find out more about the gory details of jobs, the best place to start is the &lt;a href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Job-Control">Bash Manual - Job Control Section&lt;/a>, or the &amp;lsquo;Job Control&amp;rsquo; section of your preferred shell's manual.&lt;/p>
+&lt;p>If you want to find out more about the gory details of jobs, the best place to start is the &lt;a href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Job-Control">Bash Manual - Job Control Section&lt;/a>, or the &amp;lsquo;Job Control&amp;rsquo; section of your preferred shell&amp;rsquo;s manual.&lt;/p>
 &lt;p>I hope you found this useful, and, as always, please leave comments, questions or suggestions below!&lt;/p>
 &lt;hr>
 &lt;h2 id="footnotes">Footnotes&lt;/h2>
@@ -379,105 +383,110 @@ fg &lt;span style="color:#75715e"># ...if not given an id, fg and bg assume the 
 &lt;hr>
 &lt;ol>
 &lt;li id="fn:1" role="doc-endnote">
-&lt;p>If you are not a heavy shell user, this might seem unlikely. But if you do a lot of work in shells, such as sysadmin, devops, or do your coding from a terminal, this happens all the time! &lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>If you are not a heavy shell user, this might seem unlikely. But if you do a lot of work in shells, such as sysadmin, devops, or do your coding from a terminal, this happens all the time!&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:2" role="doc-endnote">
-&lt;p>Signals like &lt;code>SIGINT&lt;/code>, &lt;code>SIGKILL&lt;/code>, &lt;code>SIGTERM&lt;/code> and so on will be covered in a later chapter. &lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Signals like &lt;code>SIGINT&lt;/code>, &lt;code>SIGKILL&lt;/code>, &lt;code>SIGTERM&lt;/code> and so on will be covered in a later chapter.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:3" role="doc-endnote">
-&lt;p>Technically, &lt;code>SIGTSTP&lt;/code> - which is &amp;lsquo;TTY stop&amp;rsquo;. If you have always wondered about the &amp;lsquo;TTY&amp;rsquo; acroynm, check the previous chatper, &lt;a href="https://dwmkerr.com/effective-shell-part-5-understanding-the-shell/">Interlude: Understanding the Shell&lt;/a>. &lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Technically, &lt;code>SIGTSTP&lt;/code> - which is &amp;lsquo;TTY stop&amp;rsquo;. If you have always wondered about the &amp;lsquo;TTY&amp;rsquo; acroynm, check the previous chatper, &lt;a href="https://dwmkerr.com/effective-shell-part-5-understanding-the-shell/">Interlude: Understanding the Shell&lt;/a>.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:4" role="doc-endnote">
-&lt;p>The alternative method is to use &lt;code>Ctrl+Y&lt;/code>, which will send a &lt;em>delayed interrupt&lt;/em>, which will continue to run the process until it tries to read from &lt;code>stdin&lt;/code>. At this point, the job is suspended and the control given to the shell. The operator can then use &lt;code>bg&lt;/code> or &lt;code>kill&lt;/code> or &lt;code>fg&lt;/code> to either move to the background, stop the process, or keep in the foreground as preferred. See: &lt;a href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Job-Control">https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Job-Control&lt;/a> &lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>The alternative method is to use &lt;code>Ctrl+Y&lt;/code>, which will send a &lt;em>delayed interrupt&lt;/em>, which will continue to run the process until it tries to read from &lt;code>stdin&lt;/code>. At this point, the job is suspended and the control given to the shell. The operator can then use &lt;code>bg&lt;/code> or &lt;code>kill&lt;/code> or &lt;code>fg&lt;/code> to either move to the background, stop the process, or keep in the foreground as preferred. See: &lt;a href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Job-Control">https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Job-Control&lt;/a>&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:5" role="doc-endnote">
-&lt;p>Another super-useful snippet: &lt;code>lsof -i -P -n | grep 8000&lt;/code> to find any process that has a given port open. Another one for the aliases chapter! &lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Another super-useful snippet: &lt;code>lsof -i -P -n | grep 8000&lt;/code> to find any process that has a given port open. Another one for the aliases chapter!&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:6" role="doc-endnote">
-&lt;p>There are times this is needed. If a job runs &lt;em>many processes&lt;/em> - for example, by running a pipeline - the process identifier will change as the command moves from one stage of the pipeline to the next. The job identifier will remain constant. Remember, a job is a shell &lt;em>command&lt;/em>, so could run many processes. &lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>There are times this is needed. If a job runs &lt;em>many processes&lt;/em> - for example, by running a pipeline - the process identifier will change as the command moves from one stage of the pipeline to the next. The job identifier will remain constant. Remember, a job is a shell &lt;em>command&lt;/em>, so could run many processes.&amp;#160;&lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:7" role="doc-endnote">
-&lt;p>To see how bad this can be, create a script that starts jobs, then run it. Then run the &lt;code>jobs&lt;/code> command to see what is running. The output might surprise you! &lt;a href="#fnref:7" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>To see how bad this can be, create a script that starts jobs, then run it. Then run the &lt;code>jobs&lt;/code> command to see what is running. The output might surprise you!&amp;#160;&lt;a href="#fnref:7" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/section></description><category>CodeProject</category></item><item><title>A portable and magic-free way to open Pull Requests from the Command Line</title><link>https://dwmkerr.com/a-portable-and-magic-free-way-to-open-pull-requests-from-the-command-line/</link><pubDate>Wed, 10 Oct 2018 09:17:26 +0000</pubDate><guid>https://dwmkerr.com/a-portable-and-magic-free-way-to-open-pull-requests-from-the-command-line/</guid><description>&lt;p>This little bash snippet will let you open a GitHub or GitLab pull request from the command line on most Unix-like systems (OSX, Ubuntu, etc), without using any magic libraries, ZSH tricks or other dependencies.&lt;/p>
 &lt;p>&lt;img src="images/gpr.png" alt="gpr">&lt;/p>
-&lt;p>Here's how it looks in action OSX:&lt;/p>
+&lt;p>Here&amp;rsquo;s how it looks in action OSX:&lt;/p>
 &lt;p>&lt;img src="images/gpr.gif" alt="gpr">&lt;/p>
 &lt;p>And Ubuntu:&lt;/p>
 &lt;p>&lt;img src="images/gpr-ubuntu.gif" alt="gpr-ubuntu">&lt;/p>
 &lt;p>The script is available as the &lt;a href="https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d">&lt;code>gpr.sh&lt;/code>&lt;/a> gist. You can also find it in my &lt;a href="https://github.com/dwmkerr/dotfiles">dotfiles&lt;/a>, in the &lt;a href="https://github.com/dwmkerr/dotfiles/blob/master/profile/git.sh">git.sh&lt;/a> file.&lt;/p>
 &lt;h2 id="the-script">The Script&lt;/h2>
-&lt;p>Here's the script in its entirety:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#75715e"># Colour constants for nicer output.&lt;/span>
-GREEN&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0;32m&amp;#39;&lt;/span>
-RESET&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0m&amp;#39;&lt;/span>
-&lt;span style="color:#75715e"># Push the current branch to origin, set upstream, open the PR page if possible.&lt;/span>
-gpr&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#75715e"># Get the current branch name, or use &amp;#39;HEAD&amp;#39; if we cannot get it.&lt;/span>
-branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>git symbolic-ref -q HEAD&lt;span style="color:#66d9ef">)&lt;/span>
-branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch##refs/heads/&lt;span style="color:#e6db74">}&lt;/span>
-branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#66d9ef">:-&lt;/span>HEAD&lt;span style="color:#e6db74">}&lt;/span>
-&lt;span style="color:#75715e"># Pushing take a little while, so let the user know we&amp;#39;re working.&lt;/span>
-echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">Opening pull request for &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-&lt;span style="color:#75715e"># Push to origin, grabbing the output but then echoing it back.&lt;/span>
-push_output&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>git push origin -u &lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#e6db74">}&lt;/span> 2&amp;gt;&amp;amp;1&lt;span style="color:#e6db74">`&lt;/span>
-echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span>
-&lt;span style="color:#75715e"># If there&amp;#39;s anything which starts with http, it&amp;#39;s a good guess it&amp;#39;ll be a&lt;/span>
-&lt;span style="color:#75715e"># link to GitHub/GitLab/Whatever. So open it.&lt;/span>
-link&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span> | grep -o &lt;span style="color:#e6db74">&amp;#39;http.*&amp;#39;&lt;/span> | sed -e &lt;span style="color:#e6db74">&amp;#39;s/[[:space:]]*$//&amp;#39;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
-echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">Opening: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-python -mwebbrowser &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span>
-&lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="how-it-works">How It Works&lt;/h2>
-&lt;p>Blow-by-blow, let's take a look.&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#75715e"># Colour constants for nicer output.&lt;/span>
-GREEN&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0;32m&amp;#39;&lt;/span>
-RESET&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0m&amp;#39;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>To make colouring console output easier, we create strings with the escape code required to set the &amp;lsquo;green&amp;rsquo; colour, and reset the text colour.&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">gpr&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#75715e"># Get the current branch name, or use &amp;#39;HEAD&amp;#39; if we cannot get it.&lt;/span>
-branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>git symbolic-ref -q HEAD&lt;span style="color:#66d9ef">)&lt;/span>
-branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch##refs/heads/&lt;span style="color:#e6db74">}&lt;/span>
-branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#66d9ef">:-&lt;/span>HEAD&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we define the &lt;code>gpr&lt;/code> (Git Pull Request) function. We'll need to push the current branch, so we need to get the current branch name. There's plenty of discussion on how this works on &lt;a href="https://stackoverflow.com/questions/6245570/how-to-get-the-current-branch-name-in-git">Stack Overflow: How to get the current branch name in Git&lt;/a>. Essentially we just get the symbolic name for the head of our current branch, which will be something like this:&lt;/p>
-&lt;pre>&lt;code>refs/heads/my-new-branch
+&lt;p>Here&amp;rsquo;s the script in its entirety:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Colour constants for nicer output.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>GREEN&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0;32m&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RESET&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0m&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Push the current branch to origin, set upstream, open the PR page if possible.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gpr&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Get the current branch name, or use &amp;#39;HEAD&amp;#39; if we cannot get it.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>git symbolic-ref -q HEAD&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch##refs/heads/&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#66d9ef">:-&lt;/span>HEAD&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Pushing take a little while, so let the user know we&amp;#39;re working.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Opening pull request for &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}${&lt;/span>branch&lt;span style="color:#e6db74">}${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Push to origin, grabbing the output but then echoing it back.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> push_output&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>git push origin -u &lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#e6db74">}&lt;/span> 2&amp;gt;&amp;amp;1&lt;span style="color:#e6db74">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># If there&amp;#39;s anything which starts with http, it&amp;#39;s a good guess it&amp;#39;ll be a&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># link to GitHub/GitLab/Whatever. So open it.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> link&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span> | grep -o &lt;span style="color:#e6db74">&amp;#39;http.*&amp;#39;&lt;/span> | sed -e &lt;span style="color:#e6db74">&amp;#39;s/[[:space:]]*$//&amp;#39;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Opening: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}${&lt;/span>link&lt;span style="color:#e6db74">}${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> python -mwebbrowser &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="how-it-works">How It Works&lt;/h2>
+&lt;p>Blow-by-blow, let&amp;rsquo;s take a look.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Colour constants for nicer output.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>GREEN&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0;32m&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RESET&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0m&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>To make colouring console output easier, we create strings with the escape code required to set the &amp;lsquo;green&amp;rsquo; colour, and reset the text colour.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gpr&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Get the current branch name, or use &amp;#39;HEAD&amp;#39; if we cannot get it.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>git symbolic-ref -q HEAD&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch##refs/heads/&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#66d9ef">:-&lt;/span>HEAD&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we define the &lt;code>gpr&lt;/code> (Git Pull Request) function. We&amp;rsquo;ll need to push the current branch, so we need to get the current branch name. There&amp;rsquo;s plenty of discussion on how this works on &lt;a href="https://stackoverflow.com/questions/6245570/how-to-get-the-current-branch-name-in-git">Stack Overflow: How to get the current branch name in Git&lt;/a>. Essentially we just get the symbolic name for the head of our current branch, which will be something like this:&lt;/p>
+&lt;pre tabindex="0">&lt;code>refs/heads/my-new-branch
 &lt;/code>&lt;/pre>&lt;p>We then use &lt;a href="https://www.tldp.org/LDP/abs/html/string-manipulation.html">Bash substring removal&lt;/a> to rip out the &lt;code>ref/heads/&lt;/code> part. If we have no branch (for example, we are detached) we just use &lt;code>HEAD&lt;/code> a the branch name.&lt;/p>
 &lt;p>Next we have this:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash"> &lt;span style="color:#75715e"># Pushing take a little while, so let the user know we&amp;#39;re working.&lt;/span>
-echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">Opening pull request for &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-&lt;span style="color:#75715e"># Push to origin, grabbing the output but then echoing it back.&lt;/span>
-push_output&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>git push origin -u &lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#e6db74">}&lt;/span> 2&amp;gt;&amp;amp;1&lt;span style="color:#e6db74">`&lt;/span>
-echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>We've previously defined some strings which include the escape codes to colour terminal output. Now we just show the user the branch we're going to push, push it and then store all of the output in the &lt;code>push_output&lt;/code> variable.&lt;/p>
-&lt;p>The &lt;code>2&amp;gt;&amp;amp;1&lt;/code> idiom is a common one. This simply makes sure we put all &lt;code>stderr&lt;/code> output (which is always file descriptor 2) into &lt;code>stdout&lt;/code> (which is always file descriptor 1). This means whether the program writes output to &lt;code>stdout&lt;/code> or &lt;code>stderr&lt;/code>, we capture it. There's a nice write-up on this in the blog post &amp;lsquo;&lt;a href="https://www.brianstorti.com/understanding-shell-script-idiom-redirect/">Understanding Shell Script's idiom: 2&amp;gt;&amp;amp;1
-&lt;/a>'.&lt;/p>
-&lt;p>The output from Git push will be dependent on the Git server being used. For GitHub it'll look like this:&lt;/p>
-&lt;pre>&lt;code>remote:
-remote: Create a pull request for 'feat/doc-cleanup' on GitHub by visiting:
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Pushing take a little while, so let the user know we&amp;#39;re working.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Opening pull request for &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}${&lt;/span>branch&lt;span style="color:#e6db74">}${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Push to origin, grabbing the output but then echoing it back.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> push_output&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>git push origin -u &lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#e6db74">}&lt;/span> 2&amp;gt;&amp;amp;1&lt;span style="color:#e6db74">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We&amp;rsquo;ve previously defined some strings which include the escape codes to colour terminal output. Now we just show the user the branch we&amp;rsquo;re going to push, push it and then store all of the output in the &lt;code>push_output&lt;/code> variable.&lt;/p>
+&lt;p>The &lt;code>2&amp;gt;&amp;amp;1&lt;/code> idiom is a common one. This simply makes sure we put all &lt;code>stderr&lt;/code> output (which is always file descriptor 2) into &lt;code>stdout&lt;/code> (which is always file descriptor 1). This means whether the program writes output to &lt;code>stdout&lt;/code> or &lt;code>stderr&lt;/code>, we capture it. There&amp;rsquo;s a nice write-up on this in the blog post &amp;lsquo;&lt;a href="https://www.brianstorti.com/understanding-shell-script-idiom-redirect/">Understanding Shell Script&amp;rsquo;s idiom: 2&amp;gt;&amp;amp;1
+&lt;/a>&amp;rsquo;.&lt;/p>
+&lt;p>The output from Git push will be dependent on the Git server being used. For GitHub it&amp;rsquo;ll look like this:&lt;/p>
+&lt;pre tabindex="0">&lt;code>remote:
+remote: Create a pull request for &amp;#39;feat/doc-cleanup&amp;#39; on GitHub by visiting:
 remote: https://github.com/dwmkerr/dotfiles/pull/new/feat/doc-cleanup
 remote:
 To github.com:dwmkerr/dotfiles
 * [new branch] feat/doc-cleanup -&amp;gt; feat/doc-cleanup
 Branch feat/doc-cleanup set up to track remote branch feat/doc-cleanup from origin.
-&lt;/code>&lt;/pre>&lt;p>Now all we want to do is see if there is any text which starts with &lt;code>http&lt;/code> and if there is, then open it. Here's how we do that:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash"> &lt;span style="color:#75715e"># If there&amp;#39;s anything which starts with http, it&amp;#39;s a good guess it&amp;#39;ll be a&lt;/span>
-&lt;span style="color:#75715e"># link to GitHub/GitLab/Whatever. So open it.&lt;/span>
-link&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span> | grep -o &lt;span style="color:#e6db74">&amp;#39;http.*&amp;#39;&lt;/span> | sed -e &lt;span style="color:#e6db74">&amp;#39;s/[[:space:]]*$//&amp;#39;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
-echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">Opening: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-python -mwebbrowser &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span>
-&lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>This uses &lt;code>grep&lt;/code> to rip out everything from &lt;code>http&lt;/code> onwards, and the &lt;code>sed&lt;/code> to remove any trailing whitespace. If we have found a link, we use &lt;code>python&lt;/code> to open it (which is a fairly safe cross-platform solution).&lt;/p>
-&lt;p>That's it! When you have a branch ready which you want to push and create a pull request from, just run:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">gpr
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>And the branch will be pushed to &lt;code>origin&lt;/code>, and if there is a Pull Request webpage, it'll be opened.&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>Now all we want to do is see if there is any text which starts with &lt;code>http&lt;/code> and if there is, then open it. Here&amp;rsquo;s how we do that:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># If there&amp;#39;s anything which starts with http, it&amp;#39;s a good guess it&amp;#39;ll be a&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># link to GitHub/GitLab/Whatever. So open it.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> link&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span> | grep -o &lt;span style="color:#e6db74">&amp;#39;http.*&amp;#39;&lt;/span> | sed -e &lt;span style="color:#e6db74">&amp;#39;s/[[:space:]]*$//&amp;#39;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Opening: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}${&lt;/span>link&lt;span style="color:#e6db74">}${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> python -mwebbrowser &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This uses &lt;code>grep&lt;/code> to rip out everything from &lt;code>http&lt;/code> onwards, and the &lt;code>sed&lt;/code> to remove any trailing whitespace. If we have found a link, we use &lt;code>python&lt;/code> to open it (which is a fairly safe cross-platform solution).&lt;/p>
+&lt;p>That&amp;rsquo;s it! When you have a branch ready which you want to push and create a pull request from, just run:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gpr
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And the branch will be pushed to &lt;code>origin&lt;/code>, and if there is a Pull Request webpage, it&amp;rsquo;ll be opened.&lt;/p>
 &lt;h2 id="prior-art">Prior Art&lt;/h2>
 &lt;p>My colleague Tobias recently shared a nice trick we worked out to open a GitLab merge request - which also now works for GitHub:&lt;/p>
 &lt;blockquote class="twitter-tweet" data-lang="en">&lt;p lang="en" dir="ltr">git push and directly open PR in Chrome - works for &lt;a href="https://twitter.com/github?ref_src=twsrc%5Etfw">@github&lt;/a> &amp;amp; &lt;a href="https://twitter.com/gitlab?ref_src=twsrc%5Etfw">@gitlab&lt;/a> 🚀&lt;br>&lt;br>Here is how to set it up 👉 &lt;a href="https://t.co/YfNTmdwTFt">https://t.co/YfNTmdwTFt&lt;/a> &lt;a href="https://twitter.com/hashtag/github?src=hash&amp;amp;ref_src=twsrc%5Etfw">#github&lt;/a> &lt;a href="https://twitter.com/hashtag/gitlab?src=hash&amp;amp;ref_src=twsrc%5Etfw">#gitlab&lt;/a> &lt;a href="https://t.co/ISE9kVZmw1">pic.twitter.com/ISE9kVZmw1&lt;/a>&lt;/p>&amp;mdash; Tobias Büschel (@TobiasBueschel) &lt;a href="https://twitter.com/TobiasBueschel/status/1042452158430502915?ref_src=twsrc%5Etfw">September 19, 2018&lt;/a>&lt;/blockquote>
@@ -489,29 +498,29 @@ python -mwebbrowser &lt;span style="color:#e6db74">${&lt;/span>link&lt;span styl
 &lt;li>&lt;strong>&lt;a href="https://www.dwmkerr.com/effective-shell-part-3-getting-hepl/">Part 3: Getting Help&lt;/a>&lt;/strong>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-4-moving-around/">Part 4: Moving Around&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-part-5-understanding-the-shell/">Part 5: Interlude - Understanding the Shell&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://dwmkerr.com/effective-shell-6-job-control/">Part 6: Everything You Don't Need to Know About Job Control&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://dwmkerr.com/effective-shell-6-job-control/">Part 6: Everything You Don&amp;rsquo;t Need to Know About Job Control&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-7-shell-commands/">Part 7: The Subtleties of Shell Commands&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>In this article I'll show you how to quickly get help when working with tools in the shell, without disrupting your flow!&lt;/p>
+&lt;p>In this article I&amp;rsquo;ll show you how to quickly get help when working with tools in the shell, without disrupting your flow!&lt;/p>
 &lt;h2 id="getting-help-is-important">Getting Help is Important!&lt;/h2>
 &lt;p>If you are trying to be more effective when using the shell, it is crucial to know how to quickly look things up.&lt;/p>
-&lt;p>There'll be many circumstances where you'll need to open a browser to search for help, but there's also a wealth of information only a few keystrokes away. Looking up parameters, checking how to run commads, C library docs or useful information like ASCII charts are available directly in the system.&lt;/p>
-&lt;p>Before we look at the standard way of accessing documentation on unix-like systems, which is the &lt;code>man&lt;/code> command, I'm going to introduce &lt;a href="https://github.com/tldr-pages/tldr">&lt;code>tldr&lt;/code>&lt;/a>.&lt;/p>
+&lt;p>There&amp;rsquo;ll be many circumstances where you&amp;rsquo;ll need to open a browser to search for help, but there&amp;rsquo;s also a wealth of information only a few keystrokes away. Looking up parameters, checking how to run commads, C library docs or useful information like ASCII charts are available directly in the system.&lt;/p>
+&lt;p>Before we look at the standard way of accessing documentation on unix-like systems, which is the &lt;code>man&lt;/code> command, I&amp;rsquo;m going to introduce &lt;a href="https://github.com/tldr-pages/tldr">&lt;code>tldr&lt;/code>&lt;/a>.&lt;/p>
 &lt;p>Nine times out of ten I get the help I need in a few seconds with &lt;code>tldr&lt;/code>, so if you take only one thing away from the article, take the first section. Then if you want to learn more about the system manuals, read on!&lt;/p>
 &lt;h2 id="tldr">tl;dr&lt;/h2>
-&lt;p>Let's say I need to find and replace some text in a file. I know I can do this with the &lt;code>sed&lt;/code> command, but have forgotten the syntax.&lt;/p>
+&lt;p>Let&amp;rsquo;s say I need to find and replace some text in a file. I know I can do this with the &lt;code>sed&lt;/code> command, but have forgotten the syntax.&lt;/p>
 &lt;p>All I need to do is run &lt;code>tldr sed&lt;/code>:&lt;/p>
 &lt;p>&lt;img src="images/tldr-sed.png" alt="tldr sed screenshot">&lt;/p>
-&lt;p>The first example is exactly what I'm looking for. Now for any more detail than a few basic examples, I'm going to have to go to the manual, but it's overkill for the basics. Here's what &lt;code>man sed&lt;/code> shows me:&lt;/p>
+&lt;p>The first example is exactly what I&amp;rsquo;m looking for. Now for any more detail than a few basic examples, I&amp;rsquo;m going to have to go to the manual, but it&amp;rsquo;s overkill for the basics. Here&amp;rsquo;s what &lt;code>man sed&lt;/code> shows me:&lt;/p>
 &lt;p>&lt;img src="images/man-sed.png" alt="sed manpage">&lt;/p>
-&lt;p>And this is just page one of six! There's a &lt;em>lot&lt;/em> of detail, which is great sometimes, but for a quick lookup, &lt;code>tldr&lt;/code> is perfect.&lt;/p>
-&lt;p>You can install the &lt;a href="https://github.com/tldr-pages/tldr">&lt;code>tldr&lt;/code>&lt;/a> tool with &lt;code>npm install -g tldr&lt;/code>. It's open source and community maintained.&lt;/p>
-&lt;p>Now a lot of the time, you are still going to need more help or more detail. For the rest of the article, we'll dive a bit deeper into &lt;code>man&lt;/code>, the system manual pages.&lt;/p>
+&lt;p>And this is just page one of six! There&amp;rsquo;s a &lt;em>lot&lt;/em> of detail, which is great sometimes, but for a quick lookup, &lt;code>tldr&lt;/code> is perfect.&lt;/p>
+&lt;p>You can install the &lt;a href="https://github.com/tldr-pages/tldr">&lt;code>tldr&lt;/code>&lt;/a> tool with &lt;code>npm install -g tldr&lt;/code>. It&amp;rsquo;s open source and community maintained.&lt;/p>
+&lt;p>Now a lot of the time, you are still going to need more help or more detail. For the rest of the article, we&amp;rsquo;ll dive a bit deeper into &lt;code>man&lt;/code>, the system manual pages.&lt;/p>
 &lt;h2 id="understanding-man">Understanding &amp;lsquo;man&amp;rsquo;&lt;/h2>
-&lt;p>Most tools you encounter in the shell have manual pages available. Many people will be familiar with the &lt;code>man&lt;/code> command to get help on a tool, but let's take a look in a bit more detail, there's actually a lot more available than just the documentation for common commands.&lt;/p>
+&lt;p>Most tools you encounter in the shell have manual pages available. Many people will be familiar with the &lt;code>man&lt;/code> command to get help on a tool, but let&amp;rsquo;s take a look in a bit more detail, there&amp;rsquo;s actually a lot more available than just the documentation for common commands.&lt;/p>
 &lt;h3 id="getting-help-on-a-command">Getting help on a command&lt;/h3>
-&lt;p>The most basic way to get help on a command is with &lt;code>man&lt;/code>. Here's an example:&lt;/p>
-&lt;pre>&lt;code>$ man cp
+&lt;p>The most basic way to get help on a command is with &lt;code>man&lt;/code>. Here&amp;rsquo;s an example:&lt;/p>
+&lt;pre tabindex="0">&lt;code>$ man cp
 CP(1) BSD General Commands Manual CP(1)
 NAME
 cp -- copy files
@@ -543,17 +552,17 @@ cp detects an attempt to copy a file to itself, the copy will fail.
 &lt;/ul>
 &lt;p>There are &lt;em>many&lt;/em> other commands, but the set above is normally what I find myself using the most.&lt;/p>
 &lt;p>If you are interested, you can actually see what your pager is with the command below:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ echo $PAGER
-less
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>$PAGER&lt;/code> environment variable is used to tell the shell what program to use for paging. More details are found with &lt;code>man man&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ echo $PAGER
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>less
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>$PAGER&lt;/code> environment variable is used to tell the shell what program to use for paging. More details are found with &lt;code>man man&lt;/code>.&lt;/p>
 &lt;p>You can put any text content into your pager - try this:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">ls -al /usr/bin | less
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>This lists the contents of the &lt;code>/usr/bin&lt;/code> folder, piping the output to &lt;code>less&lt;/code> so we can easily scroll through it.&lt;/p>
-&lt;p>There are alternative pagers available (on many Unix-y systems you'll have &lt;code>less&lt;/code>, &lt;code>more&lt;/code> and &lt;code>most&lt;/code>) but in general you'll normally get what you need with &lt;code>less&lt;/code>.&lt;/p>
-&lt;h3 id="whats-with-the-numbers">What's with the numbers?&lt;/h3>
-&lt;p>You'll often see tools referred to in manpages with numbers after them. Take a look at &lt;code>man less&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>ls -al /usr/bin | less
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This lists the contents of the &lt;code>/usr/bin&lt;/code> folder, piping the output to &lt;code>less&lt;/code> so we can easily scroll through it.&lt;/p>
+&lt;p>There are alternative pagers available (on many Unix-y systems you&amp;rsquo;ll have &lt;code>less&lt;/code>, &lt;code>more&lt;/code> and &lt;code>most&lt;/code>) but in general you&amp;rsquo;ll normally get what you need with &lt;code>less&lt;/code>.&lt;/p>
+&lt;h3 id="whats-with-the-numbers">What&amp;rsquo;s with the numbers?&lt;/h3>
+&lt;p>You&amp;rsquo;ll often see tools referred to in manpages with numbers after them. Take a look at &lt;code>man less&lt;/code>:&lt;/p>
 &lt;p>&lt;img src="images/numbers.png" alt="Screenshot of numbers">&lt;/p>
-&lt;p>The number is the manual &lt;strong>Section Number&lt;/strong>. The different sections of the manual are documented be found on most unix-like systems in &lt;code>man&lt;/code>'s documentation, which you can check by running &lt;code>man man&lt;/code>&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. Here's what you'd get on Ubuntu 16:&lt;/p>
+&lt;p>The number is the manual &lt;strong>Section Number&lt;/strong>. The different sections of the manual are documented be found on most unix-like systems in &lt;code>man&lt;/code>&amp;rsquo;s documentation, which you can check by running &lt;code>man man&lt;/code>&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. Here&amp;rsquo;s what you&amp;rsquo;d get on Ubuntu 16:&lt;/p>
 &lt;p>| 1 | Executable programs or shell commands |
 | 2 | System calls (functions provided by the kernel) |
 | 3 | Library calls (functions within program libraries) |
@@ -563,11 +572,11 @@ less
 | 7 | Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7) |
 | 8 | System administration commands (usually only for root) |
 | 9 | Kernel routines [Non standard] |&lt;/p>
-&lt;p>We'll go through the setions in detail shorltly.&lt;/p>
+&lt;p>We&amp;rsquo;ll go through the setions in detail shorltly.&lt;/p>
 &lt;p>You can specifically choose &lt;em>which&lt;/em> section of the manual you are looking in by using:&lt;/p>
-&lt;pre>&lt;code>man &amp;lt;section&amp;gt; &amp;lt;search&amp;gt;
+&lt;pre tabindex="0">&lt;code>man &amp;lt;section&amp;gt; &amp;lt;search&amp;gt;
 &lt;/code>&lt;/pre>&lt;p>You can also get more information about the sections themselves by opening up the &lt;code>intro&lt;/code> page. For example:&lt;/p>
-&lt;pre>&lt;code>$ man 1 intro
+&lt;pre tabindex="0">&lt;code>$ man 1 intro
 INTRO(1) BSD General Commands Manual INTRO(1)
 NAME
 intro -- introduction to general commands (tools and utilities)
@@ -576,7 +585,7 @@ Section one of the manual contains most of the commands which comprise...
 &lt;/code>&lt;/pre>&lt;p>Why would you do this, and why would you care? A few examples from each section show how this can be quite useful to know about.&lt;/p>
 &lt;h4 id="section-1-programs-and-shell-commands">Section 1: Programs and Shell Commands&lt;/h4>
 &lt;p>These are programs, probably what you are going to be looking up most regularly! For example, &lt;code>man 1 time&lt;/code> shows:&lt;/p>
-&lt;pre>&lt;code>TIME(1) BSD General Commands Manual TIME(1)
+&lt;pre tabindex="0">&lt;code>TIME(1) BSD General Commands Manual TIME(1)
 NAME
 time -- time command execution
 SYNOPSIS
@@ -587,8 +596,8 @@ elapsed, the time consumed by system overhead, and the time used to execute util
 error stream. Times are reported in seconds.
 ...
 &lt;/code>&lt;/pre>&lt;h4 id="section-2-system-calls">Section 2: System Calls&lt;/h4>
-&lt;p>You'll probably not use this section unless you are doing systems programming&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>. This section contains info on the avaiable Linux Kernel system calls. For example, running &lt;code>man 2 chown&lt;/code> gives:&lt;/p>
-&lt;pre>&lt;code>CHOWN(2) BSD System Calls Manual CHOWN(2)
+&lt;p>You&amp;rsquo;ll probably not use this section unless you are doing systems programming&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>. This section contains info on the avaiable Linux Kernel system calls. For example, running &lt;code>man 2 chown&lt;/code> gives:&lt;/p>
+&lt;pre tabindex="0">&lt;code>CHOWN(2) BSD System Calls Manual CHOWN(2)
 NAME
 chown, fchown, lchown, fchownat -- change owner and group of a file
 SYNOPSIS
@@ -598,7 +607,7 @@ chown(const char *path, uid_t owner, gid_t group);
 ...
 &lt;/code>&lt;/pre>&lt;h4 id="section-3-library-calls">Section 3: Library Calls&lt;/h4>
 &lt;p>These are the manpages for the C standard library functions. For example, &lt;code>man 3 time&lt;/code>:&lt;/p>
-&lt;pre>&lt;code>TIME(3) BSD Library Functions Manual TIME(3)
+&lt;pre tabindex="0">&lt;code>TIME(3) BSD Library Functions Manual TIME(3)
 NAME
 time -- get time of day
 LIBRARY
@@ -610,10 +619,10 @@ time(time_t *tloc);
 ...
 &lt;/code>&lt;/pre>&lt;p>Here we can see why the sections are important to know about.&lt;/p>
 &lt;p>Running &lt;code>man time&lt;/code> would &lt;em>not&lt;/em> open the page above, because &lt;code>man&lt;/code> searches the library in ascending section order, meaning that it actually finds &lt;code>time(1)&lt;/code> and shows the pages for the &lt;code>time&lt;/code> program, not the &lt;code>time&lt;/code> C library call.&lt;/p>
-&lt;p>Because of the potential ambiguity of names if no section number is included, in lots of Linux documentation you'll see the man section number written next to library calls, system calls, programs and so on (things will refer to &lt;code>sed(1)&lt;/code> or &lt;code>time(3)&lt;/code> for example.&lt;/p>
+&lt;p>Because of the potential ambiguity of names if no section number is included, in lots of Linux documentation you&amp;rsquo;ll see the man section number written next to library calls, system calls, programs and so on (things will refer to &lt;code>sed(1)&lt;/code> or &lt;code>time(3)&lt;/code> for example.&lt;/p>
 &lt;h4 id="section-4-devices">Section 4: Devices&lt;/h4>
 &lt;p>This section deals with the special devices which live in the &lt;code>/dev/*&lt;/code> folder. For example, running &lt;code>man 4 random&lt;/code> shows:&lt;/p>
-&lt;pre>&lt;code>RANDOM(4) BSD Kernel Interfaces Manual RANDOM(4)
+&lt;pre tabindex="0">&lt;code>RANDOM(4) BSD Kernel Interfaces Manual RANDOM(4)
 NAME
 random , urandom -- random data source devices.
 SYNOPSIS
@@ -622,8 +631,8 @@ DESCRIPTION
 The random device produces uniformly distributed random byte values of
 potentially high quality.
 ...
-&lt;/code>&lt;/pre>&lt;p>Again, we see that section numbers can be important. If you just run &lt;code>man random&lt;/code>, you'll see:&lt;/p>
-&lt;pre>&lt;code>RANDOM(3) BSD Library Functions Manual RANDOM(3)
+&lt;/code>&lt;/pre>&lt;p>Again, we see that section numbers can be important. If you just run &lt;code>man random&lt;/code>, you&amp;rsquo;ll see:&lt;/p>
+&lt;pre tabindex="0">&lt;code>RANDOM(3) BSD Library Functions Manual RANDOM(3)
 NAME
 initstate, random, setstate, srandom, srandomdev -- better random num-
 ber generator; routines for changing generators
@@ -639,12 +648,12 @@ random(void);
 &lt;/code>&lt;/pre>&lt;p>Which is the manpage for &lt;code>random(3)&lt;/code>, which is C library function, not the &lt;code>/dev/random&lt;/code> file!&lt;/p>
 &lt;h4 id="section-5-file-formats">Section 5: File Formats&lt;/h4>
 &lt;p>This section details special files in the system. For example, &lt;code>man 5 crontab&lt;/code> shows:&lt;/p>
-&lt;pre>&lt;code>CRONTAB(5) BSD File Formats Manual CRONTAB(5)
+&lt;pre tabindex="0">&lt;code>CRONTAB(5) BSD File Formats Manual CRONTAB(5)
 NAME
 crontab -- tables for driving cron
 DESCRIPTION
 A crontab file contains instructions to the cron(8) daemon of the gen-
-eral form: ``run this command at this time on this date''. Each user
+eral form: ``run this command at this time on this date&amp;#39;&amp;#39;. Each user
 has their own crontab, and commands in any given crontab will be exe-
 cuted as the user who owns the crontab. Uucp and News will usually
 have their own crontabs, eliminating the need for explicitly running
@@ -652,13 +661,13 @@ su(1) as part of a cron command.
 ...
 &lt;/code>&lt;/pre>&lt;p>Which describes the crontab file used to define scheduled tasks. Again, this is different to &lt;code>man crontab&lt;/code> which would document &lt;code>crontab(1)&lt;/code>. Similarly, &lt;code>man 5 passwd&lt;/code> is going to show something quite different to &lt;code>man passwd&lt;/code>.&lt;/p>
 &lt;h4 id="section-6-games">Section 6: Games&lt;/h4>
-&lt;p>Nothing says it better than &lt;code>man 6 intro&lt;/code> itself (this'll not work on a Mac sadly, but try it on another Linux system):&lt;/p>
-&lt;pre>&lt;code>...
+&lt;p>Nothing says it better than &lt;code>man 6 intro&lt;/code> itself (this&amp;rsquo;ll not work on a Mac sadly, but try it on another Linux system):&lt;/p>
+&lt;pre tabindex="0">&lt;code>...
 DESCRIPTION
 Section 6 of the manual describes all the games and funny little programs available on the system.
 ...
-&lt;/code>&lt;/pre>&lt;p>There are probably a few silly programs available on your system, here you'll find their manuals. For example, &lt;code>man 6 banner&lt;/code> on a Mac shows:&lt;/p>
-&lt;pre>&lt;code>BANNER(6) BSD Games Manual BANNER(6)
+&lt;/code>&lt;/pre>&lt;p>There are probably a few silly programs available on your system, here you&amp;rsquo;ll find their manuals. For example, &lt;code>man 6 banner&lt;/code> on a Mac shows:&lt;/p>
+&lt;pre tabindex="0">&lt;code>BANNER(6) BSD Games Manual BANNER(6)
 NAME
 banner -- print large banner on printer
 SYNOPSIS
@@ -670,8 +679,8 @@ dard input.
 ...
 &lt;/code>&lt;/pre>&lt;p>This section is going to be highly dependent on your OS!&lt;/p>
 &lt;h4 id="section-7-miscellaneous">Section 7: Miscellaneous&lt;/h4>
-&lt;p>This is where you'll find additional assorted documentation. For example, &lt;code>man 7 ascii&lt;/code> shows:&lt;/p>
-&lt;pre>&lt;code>ASCII(7) BSD Miscellaneous Information Manual ASCII(7)
+&lt;p>This is where you&amp;rsquo;ll find additional assorted documentation. For example, &lt;code>man 7 ascii&lt;/code> shows:&lt;/p>
+&lt;pre tabindex="0">&lt;code>ASCII(7) BSD Miscellaneous Information Manual ASCII(7)
 NAME
 ascii -- octal, hexadecimal and decimal ASCII character sets
 DESCRIPTION
@@ -679,8 +688,8 @@ The octal set:
 000 nul 001 soh 002 stx 003 etx 004 eot 005 enq 006 ack 007 bel
 ...
 &lt;/code>&lt;/pre>&lt;h4 id="section-8-system-commands">Section 8: System Commands&lt;/h4>
-&lt;p>We've actually already seen one of these commands mentioned, in the manpage for &lt;code>crontab(5)&lt;/code> it mentions &lt;code>cron(8)&lt;/code>. Let's see, with &lt;code>man 8 cron&lt;/code>:&lt;/p>
-&lt;pre>&lt;code>CRON(8) BSD System Manager's Manual CRON(8)
+&lt;p>We&amp;rsquo;ve actually already seen one of these commands mentioned, in the manpage for &lt;code>crontab(5)&lt;/code> it mentions &lt;code>cron(8)&lt;/code>. Let&amp;rsquo;s see, with &lt;code>man 8 cron&lt;/code>:&lt;/p>
+&lt;pre tabindex="0">&lt;code>CRON(8) BSD System Manager&amp;#39;s Manual CRON(8)
 NAME
 cron -- daemon to execute scheduled commands (Vixie Cron)
 SYNOPSIS
@@ -690,7 +699,7 @@ cron [-s] [-o] [-x debugflag[,...]]
 &lt;h4 id="getting-the-index-of-manual-section">Getting the Index of Manual Section&lt;/h4>
 &lt;p>Manpages are just files on the filesystem, so you can get the index of a section just by looking in the appropriate folder.&lt;/p>
 &lt;p>For example, to index the available system calls, try &lt;code>ls /usr/share/man/man2&lt;/code>:&lt;/p>
-&lt;pre>&lt;code>EV_SET.2
+&lt;pre tabindex="0">&lt;code>EV_SET.2
 FD_CLR.2
 FD_COPY.2
 FD_ISSET.2
@@ -702,18 +711,18 @@ access.2
 acct.2
 ...
 &lt;/code>&lt;/pre>&lt;p>This is quick and easy way to see what sort of entries you have on your system. If you want to work out where an entry lives, use the &lt;code>-w&lt;/code> flag:&lt;/p>
-&lt;pre>&lt;code>$ man -w printf
+&lt;pre tabindex="0">&lt;code>$ man -w printf
 /usr/share/man/man1/printf.1
 &lt;/code>&lt;/pre>&lt;h3 id="searching-the-manual">Searching the Manual&lt;/h3>
 &lt;p>You can search the manpage titles and summaries with &lt;code>man -k&lt;/code>. For example, &lt;code>man -k cpu&lt;/code> shows:&lt;/p>
-&lt;pre>&lt;code>cpuwalk.d(1m) - Measure which CPUs a process runs on. Uses DTrace
+&lt;pre tabindex="0">&lt;code>cpuwalk.d(1m) - Measure which CPUs a process runs on. Uses DTrace
 dispqlen.d(1m) - dispatcher queue length by CPU. Uses DTrace
 gasm(n), grammar::me::cpu::gasm(n) - ME assembler
 &lt;/code>&lt;/pre>&lt;p>You can find more advanced options for searching by using your newfound &lt;code>man&lt;/code> skills on &lt;code>man&lt;/code> itself.&lt;/p>
-&lt;h2 id="thats-enough">That's Enough!&lt;/h2>
-&lt;p>I'd recommend &lt;code>tldr&lt;/code> as a first-call for checking to see how to use a command.&lt;/p>
-&lt;p>&lt;code>man&lt;/code> is a powerful tool to dive deeper into how programs and components of the system work. Like many tools which have been around for a long time, there's a lot you can do with &lt;code>man&lt;/code>. Much of it you'll likely never need, so I've tried to keep this article to the basics.&lt;/p>
-&lt;p>Understanding manpage sections is useful - you'll see them referenced again and again in documentation on the system and online.&lt;/p>
+&lt;h2 id="thats-enough">That&amp;rsquo;s Enough!&lt;/h2>
+&lt;p>I&amp;rsquo;d recommend &lt;code>tldr&lt;/code> as a first-call for checking to see how to use a command.&lt;/p>
+&lt;p>&lt;code>man&lt;/code> is a powerful tool to dive deeper into how programs and components of the system work. Like many tools which have been around for a long time, there&amp;rsquo;s a lot you can do with &lt;code>man&lt;/code>. Much of it you&amp;rsquo;ll likely never need, so I&amp;rsquo;ve tried to keep this article to the basics.&lt;/p>
+&lt;p>Understanding manpage sections is useful - you&amp;rsquo;ll see them referenced again and again in documentation on the system and online.&lt;/p>
 &lt;p>I hope this helps you save some time when you are working! Please let me know in the comments if you have any questions or thoughts.&lt;/p>
 &lt;p>You can also check out the &lt;a href="https://github.com/dwmkerr/effective-shell">rest of the effective shell series&lt;/a>.&lt;/p>
 &lt;h2 id="appendix-dash">Appendix: Dash&lt;/h2>
@@ -725,13 +734,13 @@ gasm(n), grammar::me::cpu::gasm(n) - ME assembler
 &lt;hr>
 &lt;ol>
 &lt;li id="fn:1" role="doc-endnote">
-&lt;p>Weirdly satisfying to run. &lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Weirdly satisfying to run.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:2" role="doc-endnote">
-&lt;p>Which it is always fun to try if you get the chance, and a great way to learn more about the fundamentals of the operating system. &lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Which it is always fun to try if you get the chance, and a great way to learn more about the fundamentals of the operating system.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:3" role="doc-endnote">
-&lt;p>Dash is a paid product. Full disclosure - I don't get any money from them or anyone else to write about anything, all content is 100% based on my experiences. I don't run ads on my site either. &lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Dash is a paid product. Full disclosure - I don&amp;rsquo;t get any money from them or anyone else to write about anything, all content is 100% based on my experiences. I don&amp;rsquo;t run ads on my site either.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/section></description><category>CodeProject</category></item><item><title>Effective Shell Part 2: Become a Clipboard Gymnast</title><link>https://dwmkerr.com/effective-shell-part-2-become-a-clipboard-gymnast/</link><pubDate>Tue, 10 Oct 2017 09:57:54 +0000</pubDate><guid>https://dwmkerr.com/effective-shell-part-2-become-a-clipboard-gymnast/</guid><description>&lt;p>This is the second part of my &lt;a href="https://github.com/dwmkerr/effective-shell">Effective Shell&lt;/a> series, which contains practical tips for using the shell to help with every day tasks and be more efficient:&lt;/p>
@@ -741,41 +750,41 @@ gasm(n), grammar::me::cpu::gasm(n) - ME assembler
 &lt;li>&lt;a href="https://www.dwmkerr.com/effective-shell-part-3-getting-hepl/">Part 3: Getting Help&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-4-moving-around/">Part 4: Moving Around&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-part-5-understanding-the-shell/">Part 5: Interlude - Understanding the Shell&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://dwmkerr.com/effective-shell-6-job-control/">Part 6: Everything You Don't Need to Know About Job Control&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://dwmkerr.com/effective-shell-6-job-control/">Part 6: Everything You Don&amp;rsquo;t Need to Know About Job Control&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dwmkerr.com/effective-shell-7-shell-commands/">Part 7: The Subtleties of Shell Commands&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>In this article I'll show you how you can use the shell as an efficient tool to compliment how you use the clipboard.&lt;/p>
-&lt;p>&lt;em>Note for Linux Users: In this article I'll use the &lt;code>pbcopy&lt;/code> and &lt;code>pbpaste&lt;/code> commands to access the clipboard, which are available on a Mac only. To get access to the same commands on other platforms, check &lt;a href="#appendixclipboardaccessonlinux">Appendix: Clipboard Access on Linux&lt;/a>&lt;/em>.&lt;/p>
+&lt;p>In this article I&amp;rsquo;ll show you how you can use the shell as an efficient tool to compliment how you use the clipboard.&lt;/p>
+&lt;p>&lt;em>Note for Linux Users: In this article I&amp;rsquo;ll use the &lt;code>pbcopy&lt;/code> and &lt;code>pbpaste&lt;/code> commands to access the clipboard, which are available on a Mac only. To get access to the same commands on other platforms, check &lt;a href="#appendixclipboardaccessonlinux">Appendix: Clipboard Access on Linux&lt;/a>&lt;/em>.&lt;/p>
 &lt;h2 id="use-the-shell-on-the-clipboard">Use the Shell on the Clipboard&lt;/h2>
 &lt;p>You can easily use shell commands on the contents of your clipboard. Just use &lt;code>pbpaste&lt;/code> to output the clipboard, run the output through some commands, then use &lt;code>pbcopy&lt;/code> to copy the result.&lt;/p>
 &lt;p>Try copying the following text:&lt;/p>
-&lt;pre>&lt;code>Kirk Van Houten
+&lt;pre tabindex="0">&lt;code>Kirk Van Houten
 Timothy Lovejoy
 Artie Ziff
 &lt;/code>&lt;/pre>&lt;p>Then in the shell, run:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">pbpaste
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>You should see the contents of the clipboard. Now we'll look at some ways that shell access to the clipboard can help with common tasks.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pbpaste
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You should see the contents of the clipboard. Now we&amp;rsquo;ll look at some ways that shell access to the clipboard can help with common tasks.&lt;/p>
 &lt;h2 id="removing-formatting">Removing Formatting&lt;/h2>
-&lt;p>Don't you hate it when you have to copy formatted text and don't have an easy way to paste it as &lt;em>unformatted&lt;/em> text? Here's an example, I want to copy this Wikipedia page on &amp;lsquo;bash&amp;rsquo;, and paste it into a Word document:&lt;/p>
+&lt;p>Don&amp;rsquo;t you hate it when you have to copy formatted text and don&amp;rsquo;t have an easy way to paste it as &lt;em>unformatted&lt;/em> text? Here&amp;rsquo;s an example, I want to copy this Wikipedia page on &amp;lsquo;bash&amp;rsquo;, and paste it into a Word document:&lt;/p>
 &lt;p>&lt;img src="images/strip-formatting-before.png" alt="Copying and pasting with formatting">&lt;/p>
 &lt;p>Many programs have a shortcut to paste the contents of the clipboard (such as &amp;lsquo;command + shift + v&amp;rsquo;) but if you are like me you might find yourself pasting &lt;em>into&lt;/em> a plain text editor just to copy &lt;em>out&lt;/em> the plain text.&lt;/p>
 &lt;p>If you just run the command &lt;code>pbpaste | pbcopy&lt;/code>, you can easily strip the formatting:&lt;/p>
 &lt;p>&lt;img src="images/strip-formatting-after-2.png" alt="Stripping formatting from the clipboard">&lt;/p>
-&lt;p>We're just piping out the clipboard (which ends up as plain text, cause we're in a terminal!) and then piping that plain text &lt;em>back into the clipboard&lt;/em>, replacing the formatted text which was there before.&lt;/p>
+&lt;p>We&amp;rsquo;re just piping out the clipboard (which ends up as plain text, cause we&amp;rsquo;re in a terminal!) and then piping that plain text &lt;em>back into the clipboard&lt;/em>, replacing the formatted text which was there before.&lt;/p>
 &lt;p>This little trick can be very useful. But we can use the same pattern to quickly manipulate the contents of the clipboard in more sophisticated ways.&lt;/p>
 &lt;h2 id="manipulating-text">Manipulating Text&lt;/h2>
-&lt;p>Let's say someone has emailed me a list of people I need to invite to an event:&lt;/p>
+&lt;p>Let&amp;rsquo;s say someone has emailed me a list of people I need to invite to an event:&lt;/p>
 &lt;p>&lt;img src="images/email_list_excel.png" alt="Email List">&lt;/p>
 &lt;p>The problem is:&lt;/p>
 &lt;ol>
 &lt;li>The list is in Excel and is formatted&lt;/li>
 &lt;li>The list has duplicates&lt;/li>
-&lt;li>I need to turn each name into an email address like &lt;a href="mailto:'Artie_Ziff@simpsons.com">'Artie_Ziff@simpsons.com&lt;/a>&amp;rsquo;&lt;/li>
+&lt;li>I need to turn each name into an email address like &amp;lsquo;&lt;a href="mailto:Artie_Ziff@simpsons.com">Artie_Ziff@simpsons.com&lt;/a>&amp;rsquo;&lt;/li>
 &lt;/ol>
 &lt;p>And I want to email everyone quickly.&lt;/p>
 &lt;p>We can quickly handle this task without leaving the shell.&lt;/p>
 &lt;p>Copy the raw text below if you want to try out the same commands and follow along:&lt;/p>
-&lt;pre>&lt;code>Artie Ziff
+&lt;pre tabindex="0">&lt;code>Artie Ziff
 Kirk Van Houten
 Timothy Lovejoy
 Artie Ziff
@@ -791,7 +800,7 @@ Agnes Skinner
 Helen Lovejoy
 &lt;/code>&lt;/pre>&lt;p>First, we copy the text to the clipboard.&lt;/p>
 &lt;p>Now we can paste and sort:&lt;/p>
-&lt;pre>&lt;code>$ pbpaste | sort
+&lt;pre tabindex="0">&lt;code>$ pbpaste | sort
 Agnes Skinner
 Artie Ziff
 Artie Ziff
@@ -807,7 +816,7 @@ Seymore Skinner
 Timothy Lovejoy
 Timothy Lovejoy
 &lt;/code>&lt;/pre>&lt;p>Then remove the duplicates:&lt;/p>
-&lt;pre>&lt;code>$ pbpaste | sort | uniq
+&lt;pre tabindex="0">&lt;code>$ pbpaste | sort | uniq
 Agnes Skinner
 Artie Ziff
 Cletus Spuckler
@@ -820,7 +829,7 @@ Ruth Powers
 Seymore Skinner
 Timothy Lovejoy
 &lt;/code>&lt;/pre>&lt;p>Replace the underscore with an ampersand:&lt;/p>
-&lt;pre>&lt;code>$ pbpaste | sort | uniq | tr &amp;quot; &amp;quot; &amp;quot;_&amp;quot;
+&lt;pre tabindex="0">&lt;code>$ pbpaste | sort | uniq | tr &amp;#34; &amp;#34; &amp;#34;_&amp;#34;
 Agnes_Skinner
 Artie_Ziff
 Cletus_Spuckler
@@ -833,7 +842,7 @@ Ruth_Powers
 Seymore_Skinner
 Timothy_Lovejoy
 &lt;/code>&lt;/pre>&lt;p>Then add the final part of the email address:&lt;/p>
-&lt;pre>&lt;code>$ pbpaste | sort | uniq | tr &amp;quot; &amp;quot; &amp;quot;_&amp;quot; | sed 's/$/@simpsons.com/'
+&lt;pre tabindex="0">&lt;code>$ pbpaste | sort | uniq | tr &amp;#34; &amp;#34; &amp;#34;_&amp;#34; | sed &amp;#39;s/$/@simpsons.com/&amp;#39;
 Agnes_Skinner@simpsons.com
 Artie_Ziff@simpsons.com
 Cletus_Spuckler@simpsons.com
@@ -846,7 +855,7 @@ Ruth_Powers@simpsons.com
 Seymore_Skinner@simpsons.com
 Timothy_Lovejoy@simpsons.com
 &lt;/code>&lt;/pre>&lt;p>This looks perfect! We can now put the transformed text back onto the clipboard:&lt;/p>
-&lt;pre>&lt;code>$ pbpaste | sort | uniq | tr ' ' '_' | sed 's/$/@simpsons.com' | pbcopy
+&lt;pre tabindex="0">&lt;code>$ pbpaste | sort | uniq | tr &amp;#39; &amp;#39; &amp;#39;_&amp;#39; | sed &amp;#39;s/$/@simpsons.com&amp;#39; | pbcopy
 &lt;/code>&lt;/pre>&lt;p>All in all we have the following pipeline:&lt;/p>
 &lt;ol>
 &lt;li>&lt;code>pbpaste&lt;/code> - output the clipboard&lt;/li>
@@ -855,30 +864,30 @@ Timothy_Lovejoy@simpsons.com
 &lt;li>&lt;code>tr ' ' '_'&lt;/code> - replace spaces with underscores&lt;/li>
 &lt;li>&lt;code>sed /$/@simpsons.com&lt;/code> - add the email domain to the end of the row&lt;/li>
 &lt;/ol>
-&lt;p>Building this in one go is hard, let's look at little more at the pipeline.&lt;/p>
+&lt;p>Building this in one go is hard, let&amp;rsquo;s look at little more at the pipeline.&lt;/p>
 &lt;h2 id="thinking-in-pipelines">Thinking in Pipelines&lt;/h2>
 &lt;p>Some of these commands might be unfamiliar, some might not make sense, and you might be thinking &amp;lsquo;how would I remember that&amp;rsquo;. Actually, there are many ways to solve the problem above, this is the one I came up with by &lt;em>iteratively&lt;/em> changing my input text.&lt;/p>
-&lt;p>Here's what I mean - you'll see that I actually build a pipeline like this step-by-step:&lt;/p>
+&lt;p>Here&amp;rsquo;s what I mean - you&amp;rsquo;ll see that I actually build a pipeline like this step-by-step:&lt;/p>
 &lt;p>&lt;img src="images/pipeline.gif" alt="Animation of the process of building a pipeline">&lt;/p>
 &lt;p>You can see in the screenshots that I start simple, and step by step add the stages we need.&lt;/p>
-&lt;p>(P.S - if you are wondering how I am jumping backwards and forwards a word at a time, check the last chapter &amp;lsquo;&lt;a href="www.dwmkerr.com/effective-shell-part-1-navigating-the-command-line/">Navigating the Command Line&lt;/a>').&lt;/p>
-&lt;p>What we're doing here is only possible because these simple commands all follow &amp;lsquo;the Unix Philosophy&amp;rsquo;. They do one thing well, and each command expects it's input to become the input of &lt;em>another&lt;/em> command later on. Specifically:&lt;/p>
+&lt;p>(P.S - if you are wondering how I am jumping backwards and forwards a word at a time, check the last chapter &amp;lsquo;&lt;a href="www.dwmkerr.com/effective-shell-part-1-navigating-the-command-line/">Navigating the Command Line&lt;/a>&amp;rsquo;).&lt;/p>
+&lt;p>What we&amp;rsquo;re doing here is only possible because these simple commands all follow &amp;rsquo;the Unix Philosophy&amp;rsquo;. They do one thing well, and each command expects it&amp;rsquo;s input to become the input of &lt;em>another&lt;/em> command later on. Specifically:&lt;/p>
 &lt;ol>
 &lt;li>The commands are primitive and simple - &lt;code>sort&lt;/code> is sorting a list, &lt;code>uniq&lt;/code> is making elements unique.&lt;/li>
-&lt;li>The commands don't produce unnecessary output - &lt;code>sort&lt;/code> doesn't add a header such as &lt;code>Sorted Items&lt;/code>, which is great because otherwise it would clutter our pipeline.&lt;/li>
+&lt;li>The commands don&amp;rsquo;t produce unnecessary output - &lt;code>sort&lt;/code> doesn&amp;rsquo;t add a header such as &lt;code>Sorted Items&lt;/code>, which is great because otherwise it would clutter our pipeline.&lt;/li>
 &lt;li>We are chaining commands together, the output of one becomes the input of another.&lt;/li>
 &lt;/ol>
-&lt;p>We don't need a command such as &amp;lsquo;Take a muddy list, sort and clean it, then turn pairs of words into an email address&amp;rsquo; - with a few simple &amp;lsquo;workhorse&amp;rsquo; commands we can easily build this functionality ourselves.&lt;/p>
-&lt;p>These workhorse commands will be introduced and detailed as we go through the series. We'll also spend a lot more time looking at pipelines.&lt;/p>
+&lt;p>We don&amp;rsquo;t need a command such as &amp;lsquo;Take a muddy list, sort and clean it, then turn pairs of words into an email address&amp;rsquo; - with a few simple &amp;lsquo;workhorse&amp;rsquo; commands we can easily build this functionality ourselves.&lt;/p>
+&lt;p>These workhorse commands will be introduced and detailed as we go through the series. We&amp;rsquo;ll also spend a lot more time looking at pipelines.&lt;/p>
 &lt;p>I hope this was useful! Please comment if you have any questions or tips. To see further articles as they come out, follow the repo at:&lt;/p>
 &lt;p>&lt;a href="https://github.com/dwmkerr/effective-shell">github.com/dwmkerr/effective-shell&lt;/a>&lt;/p>
 &lt;p>Or just follow &lt;a href="https://twitter.com/dwmkerr">@dwmkerr&lt;/a> on Twitter.&lt;/p>
 &lt;h1 id="appendix---clipboard-access-on-linux">Appendix - Clipboard Access on Linux&lt;/h1>
 &lt;p>If you are using Linux, there is no &lt;code>pbcopy&lt;/code> and &lt;code>pbpaste&lt;/code> commands. You can use the &lt;a href="https://linux.die.net/man/1/xclip">&lt;code>xclip&lt;/code>&lt;/a> tool to create equivalent commands.&lt;/p>
 &lt;p>First, install &lt;code>xclip&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">sudo apt-get install -y xclip
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then add the following to your &lt;code>.bashrc&lt;/code> file:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#75715e"># Create mac style aliases for clipboard access.&lt;/span>
-alias pbcopy&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;xclip -selection c&amp;#34;&lt;/span>
-alias pbpaste&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;xclip -selection c -o&amp;#34;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Obviously you can use any alias you like! The article assumes that &lt;code>pbcopy&lt;/code> and &lt;code>pbpaste&lt;/code> have been used.&lt;/p></description><category>CodeProject</category></item></channel></rss>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get install -y xclip
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then add the following to your &lt;code>.bashrc&lt;/code> file:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create mac style aliases for clipboard access.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>alias pbcopy&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;xclip -selection c&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>alias pbpaste&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;xclip -selection c -o&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Obviously you can use any alias you like! The article assumes that &lt;code>pbcopy&lt;/code> and &lt;code>pbpaste&lt;/code> have been used.&lt;/p></description><category>CodeProject</category></item></channel></rss>

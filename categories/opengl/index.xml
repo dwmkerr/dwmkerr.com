@@ -15,8 +15,8 @@ private Dictionary&amp;lt;string, Delegate&amp;gt; extensionFunctions = new Dict
 &lt;p>/// &amp;lt;summary&amp;gt;
 /// Invokes an extension function.
 /// &amp;lt;/summary&amp;gt;
-/// &amp;lt;typeparam name=&amp;quot;T&amp;rdquo;&amp;gt;The extension delegate type.&amp;lt;/typeparam&amp;gt;
-/// &amp;lt;param name=&amp;quot;args&amp;rdquo;&amp;gt;The arguments to the pass to the function.&amp;lt;/param&amp;gt;
+/// &amp;lt;typeparam name=&amp;ldquo;T&amp;rdquo;&amp;gt;The extension delegate type.&amp;lt;/typeparam&amp;gt;
+/// &amp;lt;param name=&amp;ldquo;args&amp;rdquo;&amp;gt;The arguments to the pass to the function.&amp;lt;/param&amp;gt;
 /// &amp;lt;returns&amp;gt;The return value of the extension function.&amp;lt;/returns&amp;gt;
 private object InvokeExtensionFunction&amp;lt;T&amp;gt;(params object[] args)
 {

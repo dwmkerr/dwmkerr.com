@@ -1,21 +1,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DBA on dwmkerr.com</title><link>https://dwmkerr.com/categories/dba/</link><description>Recent content in DBA on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Wed, 16 May 2018 20:09:53 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/dba/index.xml" rel="self" type="application/rss+xml"/><item><title>mongo-monitor - a simple CLI to monitor your MongoDB cluster</title><link>https://dwmkerr.com/mongo-monitor-cli/</link><pubDate>Wed, 16 May 2018 20:09:53 +0000</pubDate><guid>https://dwmkerr.com/mongo-monitor-cli/</guid><description>&lt;p>The &lt;code>mongo-monitor&lt;/code> CLI is a lean and simple tool to check the status of a MongoDB server or cluster. The code is on GitHub:&lt;/p>
 &lt;p>&lt;a href="https://github.com/dwmkerr/mongo-monitor">github.com/dwmkerr/mongo-monitor&lt;/a>&lt;/p>
-&lt;p>Here's how it looks in action:&lt;/p>
+&lt;p>Here&amp;rsquo;s how it looks in action:&lt;/p>
 &lt;p>&lt;img src="images/overview.gif" alt="Screenshot: Using the mongo-monitor CLI to monitor a sharded cluster">&lt;/p>
 &lt;p>In this animation I am monitoring a simple sharded cluster, and running some example maintenance operations, adding a node to a replicaset, stepping down a primary and shutting down a replicaset node.&lt;/p>
 &lt;p>A simple CLI which shows the status in real-time can be very useful to keep open when performing admin, letting you see how your changes affect the cluster as you work on it.&lt;/p>
 &lt;h2 id="installing-the-cli">Installing the CLI&lt;/h2>
 &lt;p>The CLI is installed with &lt;code>npm&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">npm install -g mongo-monitor
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="connecting-to-a-cluster">Connecting to a Cluster&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm install -g mongo-monitor
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="connecting-to-a-cluster">Connecting to a Cluster&lt;/h2>
 &lt;p>Connect to a cluster by providing a connection string. The tool uses &lt;a href="https://github.com/dwmkerr/mongo-connection-string">&lt;code>mongo-connection-string&lt;/code>&lt;/a> to parse the connection string, so you can be flexible with the input:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#75715e"># Connect to a local instance&lt;/span>
-mongo-monitor localhost:27107
-&lt;span style="color:#75715e"># Connect to a remote replicaset, authenticated&lt;/span>
-mongo-monitor admin:P@sswrd@mdbnode1,mdbnode2,mdbnode3?replicaSet&lt;span style="color:#f92672">=&lt;/span>rs
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once a connection is established, the tool will periodically check the status of the cluster. If the cluster is sharded, it will also inspect each individual replicaset.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Connect to a local instance&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mongo-monitor localhost:27107
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Connect to a remote replicaset, authenticated&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mongo-monitor admin:P@sswrd@mdbnode1,mdbnode2,mdbnode3?replicaSet&lt;span style="color:#f92672">=&lt;/span>rs
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once a connection is established, the tool will periodically check the status of the cluster. If the cluster is sharded, it will also inspect each individual replicaset.&lt;/p>
 &lt;h2 id="replicaset-status">Replicaset Status&lt;/h2>
-&lt;p>Here's the kind of output you might get from a replicaset:&lt;/p>
+&lt;p>Here&amp;rsquo;s the kind of output you might get from a replicaset:&lt;/p>
 &lt;p>&lt;img src="images/replicaset.jpg" alt="Screenshot: Replicaset Status">&lt;/p>
 &lt;p>The name of the replicaset is shown, along with each member. The status of each member is also shown, updating automatically every second.&lt;/p>
 &lt;p>This is convenient when administering replicasets, stepping down a master, adding or removing nodes and so on.&lt;/p>
@@ -25,7 +26,7 @@ mongo-monitor admin:P@sswrd@mdbnode1,mdbnode2,mdbnode3?replicaSet&lt;span style=
 &lt;p>Each shard is shown, along with the details of the replicaset which make it up.&lt;/p>
 &lt;p>Keeping a view like this open is useful when administering sharded clusters, adding or removing shards, desharding, updating the replicasets which make up shards and so on.&lt;/p>
 &lt;h2 id="get-involved">Get Involved!&lt;/h2>
-&lt;p>If you like the tool, check out the code and feel free to make pull requests with additions! There are a few &lt;a href="https://github.com/dwmkerr/mongo-monitor/issues">issues&lt;/a> on the project already, and there are all sorts of features I'd love to add but haven't had the time, such as:&lt;/p>
+&lt;p>If you like the tool, check out the code and feel free to make pull requests with additions! There are a few &lt;a href="https://github.com/dwmkerr/mongo-monitor/issues">issues&lt;/a> on the project already, and there are all sorts of features I&amp;rsquo;d love to add but haven&amp;rsquo;t had the time, such as:&lt;/p>
 &lt;ul>
 &lt;li>Being able to see the lag for replicaset members, to see if secondaries are falling behind&lt;/li>
 &lt;li>Being able to perform replicaset operations directly from the tool&lt;/li>

@@ -2,4 +2,4 @@
 &lt;p>This release has been primarily a bugfixing release, but there is one very useful new feature, the Server Registration Manager tool (srm.exe). This is a standalone application that can be used to install and uninstall SharpShell servers.&lt;/p>
 &lt;pre>srm install server.dll -codebase
 srm uninstall server.dll&lt;/pre>
-&lt;p>This tool makes it much easier to deploy SharpShell servers. You can call the tool as a Custom Action in a MSI project, either by using Visual Studio 2010's installer project type, or a WiX project. I'll be writing up an article on the CodeProject on how to use the tool soon, until then you can download the tool and try it out now!&lt;/p></description><category>CodeProject</category></item></channel></rss>
+&lt;p>This tool makes it much easier to deploy SharpShell servers. You can call the tool as a Custom Action in a MSI project, either by using Visual Studio 2010&amp;rsquo;s installer project type, or a WiX project. I&amp;rsquo;ll be writing up an article on the CodeProject on how to use the tool soon, until then you can download the tool and try it out now!&lt;/p></description><category>CodeProject</category></item></channel></rss>

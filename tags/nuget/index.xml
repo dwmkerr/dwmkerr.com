@@ -6,7 +6,7 @@
 &lt;/ul>
 Then you may encounter some weird problems when trying to update Nuget packages. For me, updates regularly fail with:
 &lt;p>&lt;strong>Recursive read lock acquisitions not allowed in this mode.&lt;/strong>&lt;/p>
-&lt;p>I'm lost on the root cause of this, but it does seem that the project I'm working on has files set to read-only by something regularly, perhaps Visual Studio is trying to make Git more TFS-y by locking things all over the place. Whatever the cause, I've found that the following usually helps:&lt;/p>
+&lt;p>I&amp;rsquo;m lost on the root cause of this, but it does seem that the project I&amp;rsquo;m working on has files set to read-only by something regularly, perhaps Visual Studio is trying to make Git more TFS-y by locking things all over the place. Whatever the cause, I&amp;rsquo;ve found that the following usually helps:&lt;/p>
 &lt;ol>
 &lt;li>&lt;span style="line-height: 14px;">Don't use Update-Package - use Install-Package instead.&lt;/span>&lt;/li>
 &lt;li>Make sure the solution has all of its files read+write, not read only.&lt;/li>
