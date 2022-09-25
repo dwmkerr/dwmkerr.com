@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.0.1...v0.0.2) (2022-09-25)
+
+
+### Documentation
+
+* added the makefile help command post ([b37b97a](https://github.com/dwmkerr/dwmkerr.com/commit/b37b97ae1d131751fdb339f5a5a5a6da5aac4758))
+* minor changes to the readme ([bc6a965](https://github.com/dwmkerr/dwmkerr.com/commit/bc6a96541f904720e99a4a005d630ee71cd57d71))
+
 ## 0.0.1 (2022-09-25)
 
 
