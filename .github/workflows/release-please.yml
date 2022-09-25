@@ -1,11 +1,14 @@
-name: Validate Pull Request
-
-# This workflow verifies that the site will build for pull requests.
-on: [pull_request]
-
+# The 'release-please' workflow is used to create the 'Release Please' pull
+# request. This PR is opened when we have a new commit to main.
+# See:
+#   https://github.com/googleapis/release-please
+name: Release Please
+on:
+  push:
+    branches:
+      - main
 jobs:
-  build-deploy:
-    runs-on: ubuntu-20.04
+  release-please:
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
