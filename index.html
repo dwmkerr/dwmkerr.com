@@ -37,12 +37,15 @@ Sep 25, 2022
 <time datetime=2022-09-25T00:00:00Z>
 Sep 25, 2022
 </time>
-| 2 words
+| 672 words
 |
-~1 min
+~4 mins
 </p></header><div class=c-article__summary>
-Blah blah
-</div></article><article class="c-article p-list-article">
+In this article I&rsquo;m going to show you how to add a make help command to your makefiles that quickly and easily shows simple documentation for your commands:
+To add the help command to your makefile, add a recipe like so:
+.PHONY: help help: # Show help for each of the Makefile recipes. @grep -E '^[a-zA-Z0-9 -]+:.*#' Makefile | sort | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done Now just make sure that each of your recipes has a comment that follows the recipe name, which will be used as its documentation.
+</div><a href=https://dwmkerr.com/makefile-help-command/ class="c-article__btn p-list-article__btn">Read more</a>
+</article><article class="c-article p-list-article">
 <header>
 <h2 class="c-title c-article__title"><a href=https://dwmkerr.com/building-least-privilege-permissions-aws/>Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework</a></h2><p class=c-article__meta>
 Posted on
