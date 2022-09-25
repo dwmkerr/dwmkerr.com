@@ -1,17 +1,15 @@
-name: Build & Deploy
+name: Validate Pull Request
 
-on:
-  push:
-    branches:
-    - 'main'
-    - 'build/**'
+# This workflow verifies that the site will build for pull requests.
+on: [pull_request]
 
 jobs:
   build-deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
+
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         submodules: true
 
