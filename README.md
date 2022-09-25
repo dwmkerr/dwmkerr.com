@@ -1,5 +1,7 @@
 # dwmkerr.com
 
+[![Release Please](https://github.com/dwmkerr/dwmkerr.com/actions/workflows/release-please.yml/badge.svg)](https://github.com/dwmkerr/dwmkerr.com/actions/workflows/release-please.yml)
+
 Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
 
 <!-- vim-markdown-toc GFM -->
@@ -12,6 +14,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
     * [Using a Forked Theme](#using-a-forked-theme)
 * [Developer Guide](#developer-guide)
 * [CI/CD](#cicd)
+* [TODO](#todo)
 
 <!-- vim-markdown-toc -->
 
@@ -68,6 +71,8 @@ And update the `config.toml` to use this theme. Then pull request back into upst
 
 ## Developer Guide
 
+Check the available `makefile` recipes with `make help`.
+
 To setup your local environment work on the site, run:
 
 ```sh
@@ -91,10 +96,15 @@ make build
 
 ## CI/CD
 
-Any changes to the `main` branch, or a branch which matches the `build/*` pattern will trigger a deployment to GitHub Pages.
+Pull requests are validated with the 'Pull Request' pipeline. When a merge to `main` occurs, the 'Release Please' pipeline runs, creating a pull request used to trigger a deployment and update the version number and changelog.
 
 The address of the deployed site is:
 
 https://dwmkerr.github.io/dwmkerr.com/
 
 A public domain name routes to this address.
+
+## TODO
+
+- Release please should trigger on docs changes
+- Show version number in footer
