@@ -14,6 +14,7 @@ Code, articles and utilities for the [dwmkerr.com](https://dwmkerr.com) website.
     * [Using a Forked Theme](#using-a-forked-theme)
 * [Developer Guide](#developer-guide)
 * [CI/CD](#cicd)
+* [TODO](#todo)
 
 <!-- vim-markdown-toc -->
 
@@ -102,3 +103,8 @@ The address of the deployed site is:
 https://dwmkerr.github.io/dwmkerr.com/
 
 A public domain name routes to this address.
+
+## TODO
+
+- Release please should trigger on docs changes
+- Show version number in footer
