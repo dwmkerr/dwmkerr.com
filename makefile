@@ -1,21 +1,23 @@
-# Setup tools required for local development.
+default: help
+
+.PHONY: help
+help: # Show help for each of the Makefile recipes.
+	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done
+
 .PHONY: setup
-setup:
+setup: # Setup tools required for local development.
 	brew install hugo
 	hugo version
 	git submodule update --init --recursive --remote
 
-# Create a new post.
 .PHONY: newpost
-newpost:
+newpost: # Create a new post.
 	cd dwmkerr.com; hugo new posts/my-first-post.md
 
-# Serve the site locally for testing.
 .PHONY: serve
-serve:
+serve: # Serve the site locally for testing.
 	cd dwmkerr.com; hugo server --baseURL "http://localhost/" --buildDrafts -v --debug
 
-# Build the site.
-.PHONY: build
+.PHONY: build # Build the site.
 build:
 	cd dwmkerr.com; hugo --minify
