@@ -1,2 +1,3 @@
 # Don't check in the generated site files.
 dwmkerr.com/public
+.DS_Store
