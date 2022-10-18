@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.0.2...v0.0.3) (2022-10-18)
+
+
+### Bug Fixes
+
+* correct variable typo ([2147a7b](https://github.com/dwmkerr/dwmkerr.com/commit/2147a7bd619e227052927619bb0fce8d81eddb70))
+
 ## [0.0.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.0.1...v0.0.2) (2022-09-25)
 
 
