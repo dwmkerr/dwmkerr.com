@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.0.3...v0.1.0) (2023-05-02)
+
+
+### Features
+
+* dotnet release please ([1bbd90d](https://github.com/dwmkerr/dwmkerr.com/commit/1bbd90db2cb23872a4f363890893520061ab8ae6))
+
 ## [0.0.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.0.2...v0.0.3) (2022-10-18)
 
 
