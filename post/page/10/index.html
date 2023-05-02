@@ -27,6 +27,23 @@ Articles on the craft of software development. No ads, no sponsored content.
 </p></header><main id=main class=l-main>
 <h2 class="c-title p-tag-title">Posts</h2><article class="c-article p-list-article">
 <header>
+<h2 class="c-title c-article__title"><a href=https://dwmkerr.com/disabling-constraints-with-a-stored-procedure-in-oracle/>Disabling Constraints with a Stored Procedure in Oracle</a></h2><p class=c-article__meta>
+Posted on
+<time datetime=2012-02-24T06:20:00Z>
+Feb 24, 2012
+</time>
+| Updated on
+<time datetime=2012-02-24T06:20:00Z>
+Feb 24, 2012
+</time>
+| 213 words
+|
+~1 min
+</p></header><div class=c-article__summary>
+Sometimes you need to disable constraints on a Oracle Database. Why might this be? Well image the situation that you are exporting data into an intermediate schema, you only want to import data from a certain date range and due to this you have only a subset of the records. You need this subset for analysis but you don't care about referential integrity - in fact if it is on then constraints will be violated.
+</div><a href=https://dwmkerr.com/disabling-constraints-with-a-stored-procedure-in-oracle/ class="c-article__btn p-list-article__btn">Read more</a>
+</article><article class="c-article p-list-article">
+<header>
 <h2 class="c-title c-article__title"><a href=https://dwmkerr.com/sharpgl-2-0/>SharpGL 2.0</a></h2><p class=c-article__meta>
 Posted on
 <time datetime=2012-02-22T03:42:00Z>
@@ -191,27 +208,7 @@ Nov 30, 2011
 </p></header><div class=c-article__summary>
 I have published the first of a series of articles on extending Visual Studio on the CodeProject. Part 1 deals with Code Snippets, the article link is below, enjoy!
 http://www.codeproject.com/KB/dotnet/extendingvisualstudio1.aspx
-</div></article><article class="c-article p-list-article">
-<header>
-<h2 class="c-title c-article__title"><a href=https://dwmkerr.com/how-to-debug-a-visual-studio-extension/>How to Debug a Visual Studio Extension</a></h2><p class=c-article__meta>
-Posted on
-<time datetime=2011-11-28T11:11:00Z>
-Nov 28, 2011
-</time>
-| Updated on
-<time datetime=2011-11-28T11:11:00Z>
-Nov 28, 2011
-</time>
-| 169 words
-|
-~1 min
-</p></header><div class=c-article__summary>
-Here are a few tips for debugging Visual Studio Extensions.
-Visual Studio 2008/2010
-If you need to debug your Visual Studio extension, you may find that Visual Studio itself locks it. This is a real drag - to resolve this issue, add the following as a pre-build step:
-if exist "$(TargetPath).locked" del "$(TargetPath).locked" if not exist "$(TargetPath).locked" if exist "$(TargetPath)" move "$(TargetPath)" "$(TargetPath).locked" This will ensure the locked file is moved out of the way first - very useful!
-</div><a href=https://dwmkerr.com/how-to-debug-a-visual-studio-extension/ class="c-article__btn p-list-article__btn">Read more</a>
-</article><nav class="c-pagination p-pagination">
+</div></article><nav class="c-pagination p-pagination">
 <div class=c-pagination__ctrl>
 <div class=c-pagination__newer>
 <a href=/post/page/9/>Newer</a>

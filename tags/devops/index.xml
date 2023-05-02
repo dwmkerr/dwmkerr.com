@@ -1,4 +1,104 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Devops on dwmkerr.com</title><link>https://dwmkerr.com/tags/devops/</link><description>Recent content in Devops on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Wed, 01 Jul 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>Modernising .NET projects for .NET Core and beyond!</title><link>https://dwmkerr.com/modernising-dotnet-projects/</link><pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/modernising-dotnet-projects/</guid><description>&lt;p>The world of .NET is going through a transformation. The .NET Framework is reaching end of life, &lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">.NET Core&lt;/a> is an increasingly feature rich and robust platform to develop solutions which target Linux, MacOS, embedded devices, containers and more. There&amp;rsquo;s also the .NET Standard.&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Devops on dwmkerr.com</title><link>https://dwmkerr.com/tags/devops/</link><description>Recent content in Devops on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sat, 29 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>Semantic Versioning, Conventional Commits and Release Pull Requests for .NET with Google's Release Please Project</title><link>https://dwmkerr.com/release-please-dotnet/</link><pubDate>Sat, 29 Apr 2023 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/release-please-dotnet/</guid><description>&lt;p>&lt;a href="https://github.com/googleapis/release-please">Release Please&lt;/a> is an excellent library from Google that simplifies the management of releases for projects. However, it is not immediately apparent from the Release Please documentation that you can very easily get this working for your .NET projects.&lt;/p>
+&lt;p>In this article we&amp;rsquo;ll take a quick tour of how to configure release please for a .NET project and how it can save you time and effort.&lt;/p>
+&lt;h2 id="what-is-release-please">What is Release Please?&lt;/h2>
+&lt;p>In a nutshell, Release Please is a tool that can be run as a CLI or a GitHub action, that looks over the commit history for a repository. Based on the commit history, the tool will attempt to identify whether there have been major, minor or patch level changes to the code, based on the &lt;a href="https://semver.org/">semantic versioning&lt;/a> spec and the usage of &lt;a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits&lt;/a>. It will then open a pull request that updates the changelog for your project and sets a new version number, and allows you to then easily run custom release actions if the pull request is merged.&lt;/p>
+&lt;p>This is easier to see with a few screenshots. I recently added Release Please to my &lt;a href="https://github.com/dwmkerr/SharpGL">SharpGL&lt;/a> project. After making a change, I get a pull request like this:&lt;/p>
+&lt;p>&lt;img src="./images/pull-request-summary.png" alt="Screenshot: Pull Request Summary">&lt;/p>
+&lt;p>Going into the details of the pull request, what is particularly useful is that my changelog has been updated, as well as the version data in my &lt;code>SharedAssemblyInfo.cs&lt;/code> file:&lt;/p>
+&lt;p>&lt;img src="./images/pull-request-details.png" alt="Screenshot: Pull Request Details">&lt;/p>
+&lt;h2 id="how-does-this-help">How does this help?&lt;/h2>
+&lt;p>If you maintain a lot of open source projects, anything you can do to automate chores like this just brings rigour to the process and makes bringing in contributions far easier.&lt;/p>
+&lt;p>A bug had been raised on the repo:&lt;/p>
+&lt;p>&lt;a href="https://github.com/dwmkerr/sharpgl/issues/220">https://github.com/dwmkerr/sharpgl/issues/220&lt;/a>&lt;/p>
+&lt;p>This bug indicated that the published version on NuGet was mis-aligned with the version in the source code. This is obviously a real problem for consumers of the library as well as contributors.&lt;/p>
+&lt;p>I use Release Please for most of my projects now, I particularly like having the release pull request to review, it makes it really easy to see what&amp;rsquo;ll be in the next published vesrion.&lt;/p>
+&lt;h2 id="how-do-you-configure-release-please-for-net">How do you configure Release Please for .NET?&lt;/h2>
+&lt;p>It turns out that this is really easy! You can configure you manifest like so:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;release-type&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;simple&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;package-name&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;sharpgl&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;extra-files&amp;#34;&lt;/span>: [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;SharpGL/AssemblyInfo.cs&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Or directly in your GitHub pipeline configuration:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">on&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">push&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">branches&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">jobs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">main&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">runs-on&lt;/span>: &lt;span style="color:#ae81ff">ubuntu-20.04&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">steps&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">google-github-actions/release-please-action@v3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">id&lt;/span>: &lt;span style="color:#ae81ff">release&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">with&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">token&lt;/span>: &lt;span style="color:#ae81ff">${{ secrets.GITHUB_TOKEN }}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">release-type&lt;/span>: &lt;span style="color:#ae81ff">simple&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">package-name&lt;/span>: &lt;span style="color:#ae81ff">sharpgl&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">extra-files&lt;/span>: |&lt;span style="color:#e6db74">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &lt;/span> &lt;span style="color:#ae81ff">SharpGL/AssemblyInfo.cs&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It is not immediately apparent from the Release Please documentation that you can manage version numbers in a C# file, but the after looking at the &lt;a href="https://github.com/googleapis/release-please/blob/main/docs/customizing.md#updating-arbitrary-files">Customising Guide&lt;/a>, it turns out there is a &amp;lsquo;generic&amp;rsquo; file updater that simply looks for version numbers, based on regexes, in any arbitrary files. You just need to use some comments to show where these version numbers are. In my case, the code looks like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cs" data-lang="cs">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">using&lt;/span> System.Reflection;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">using&lt;/span> System.Runtime.CompilerServices;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">using&lt;/span> System.Runtime.InteropServices;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">[assembly: AssemblyProduct(&amp;#34;SharpGL&amp;#34;)]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">[assembly: AssemblyCopyright(&amp;#34;Copyright © Dave Kerr 2023&amp;#34;)]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// x-release-please-start-version&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">[assembly: AssemblyVersion(&amp;#34;3.0.0.0&amp;#34;)]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">[assembly: AssemblyFileVersion(&amp;#34;3.0.0.0&amp;#34;)]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// x-release-please-end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Adding these &lt;code>x-release-please&lt;/code> comments is enough for Release Please to be able to identify the lines that need to be updated.&lt;/p>
+&lt;h2 id="other-improvements">Other Improvements&lt;/h2>
+&lt;p>There are two immediate improvements that you can make on top of these changes to make it even easier to handle releases.&lt;/p>
+&lt;h3 id="commit-linting">Commit Linting&lt;/h3>
+&lt;p>The first improvement is to look at something like &lt;a href="https://github.com/conventional-changelog/commitlint">&lt;code>commitlint&lt;/code>&lt;/a> to ensure that incoming pull requests have commits that meet the conventional commit spec. For Release Please to be able to properly infer the types of changes from the commit history, it is essential that &lt;a href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commits&lt;/a> are used.&lt;/p>
+&lt;p>Remember - even with a hook to check commit messages, you&amp;rsquo;ll need need to confirm that the author of the changes has structured the commit message appropriately, such as correctly identifying breaking changes.&lt;/p>
+&lt;h3 id="automated-publishing">Automated Publishing&lt;/h3>
+&lt;p>It is possible to update your build pipeline to actually publish your packages when the release pull request is merged. Here&amp;rsquo;s an example for a .NET project:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># The &amp;#39;main&amp;#39; workflow is used to create the &amp;#39;Release Please&amp;#39; pull&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># request. This PR is opened when we have a new commit to main.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># See:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># https://github.com/googleapis/release-please&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">on&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">push&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">branches&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">jobs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">main&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">runs-on&lt;/span>: &lt;span style="color:#ae81ff">windows-2022&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">steps&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Checkout&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/checkout@v3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Note - this is where you put your build / test steps. See:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># https://github.com/dwmkerr/sharpgl/blob/main/.github/workflows/main.yaml&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># For an example.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Now that we know the build runs, create a release PR if needed.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">google-github-actions/release-please-action@v3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">id&lt;/span>: &lt;span style="color:#ae81ff">release&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">with&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">token&lt;/span>: &lt;span style="color:#ae81ff">${{ secrets.GITHUB_TOKEN }}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">release-type&lt;/span>: &lt;span style="color:#ae81ff">simple&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">package-name&lt;/span>: &lt;span style="color:#ae81ff">sharpgl&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">extra-files&lt;/span>: |&lt;span style="color:#e6db74">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> &lt;/span> &lt;span style="color:#ae81ff">source/SharpGL/SharedAssemblyInfo.cs&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># If we are building a release (i.e. we&amp;#39;ve merged from release-please) then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># we can deploy.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Publish&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">dotnet nuget push ./source/SharpGL/artifacts/packages/*.nupkg --source &amp;#39;https://api.nuget.org/v3/index.json&amp;#39; --api-key ${{secrets.NUGET_API_KEY}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">shell&lt;/span>: &lt;span style="color:#ae81ff">bash&lt;/span> &lt;span style="color:#75715e"># bash for globs in commmand above...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">if&lt;/span>: &lt;span style="color:#ae81ff">${{ steps.release.outputs.release_created }}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="summary">Summary&lt;/h2>
+&lt;p>I&amp;rsquo;d highly recommend this approach for .NET projects. Adopting semver and conventional commits should make managing contributions and your changelog easier. Release Please really is the icing on the cake - by having structured commits with strong semantics you can reduce overhead and effort and increase automation.&lt;/p>
+&lt;p>I have not included much on enforcing conventional commits in the repository or this article at the moment, some of the best tooling for this uses the Node stack (Husky and commitlint specifically). The benefits of enforcing conventional commits may well be worth the extra effort of setting these tools up, it&amp;rsquo;s really up to you to decide.&lt;/p></description><category>CodeProject</category></item><item><title>Modernising .NET projects for .NET Core and beyond!</title><link>https://dwmkerr.com/modernising-dotnet-projects/</link><pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/modernising-dotnet-projects/</guid><description>&lt;p>The world of .NET is going through a transformation. The .NET Framework is reaching end of life, &lt;a href="https://docs.microsoft.com/en-gb/dotnet/core/">.NET Core&lt;/a> is an increasingly feature rich and robust platform to develop solutions which target Linux, MacOS, embedded devices, containers and more. There&amp;rsquo;s also the .NET Standard.&lt;/p>
 &lt;p>But what does this mean for .NET &lt;em>Framework&lt;/em> projects? In this article I&amp;rsquo;ll describe how to modernise your .NET Framework projects for .NET Core, the .NET Standard and .NET 5, which is planned to be released this year. I&amp;rsquo;ll also explain the high level differences between the platforms and what the consequences of upgrading are for consumers, developers and maintainers.&lt;/p>
 &lt;!-- vim-markdown-toc GFM -->
 &lt;ul>

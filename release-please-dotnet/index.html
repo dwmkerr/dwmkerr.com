@@ -2,14 +2,14 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>A simple Makefile 'help' command</title><meta property="og:title" content="A simple Makefile 'help' command">
-<meta name=twitter:title content="A simple Makefile 'help' command">
-<meta name=description content="A simple Makefile 'help' Command">
-<meta property="og:description" content="A simple Makefile 'help' Command">
-<meta name=twitter:description content="A simple Makefile 'help' Command">
+<title>Semantic Versioning, Conventional Commits and Release Pull Requests for .NET with Google's Release Please Project</title><meta property="og:title" content="Semantic Versioning, Conventional Commits and Release Pull Requests for .NET with Google's Release Please Project">
+<meta name=twitter:title content="Semantic Versioning, Conventional Commits and Release Pull Requests for .NET with Google's Release Please Project">
+<meta name=description content="Learn how to use the excellent 'release-please' tool to automate release management in .NET projects">
+<meta property="og:description" content="Learn how to use the excellent 'release-please' tool to automate release management in .NET projects">
+<meta name=twitter:description content="Learn how to use the excellent 'release-please' tool to automate release management in .NET projects">
 <meta name=author content="Dave Kerr">
 <meta property="og:site_name" content="dwmkerr.com">
-<meta property="og:url" content="https://dwmkerr.com/makefile-help-command/">
+<meta property="og:url" content="https://dwmkerr.com/release-please-dotnet/">
 <meta name=twitter:card content="summary">
 <meta name=twitter:site content="@dwmkerr">
 <meta name=twitter:creator content="@dwmkerr">
@@ -27,97 +27,108 @@ Articles on the craft of software development. No ads, no sponsored content.
 </p></header><main id=main class=l-main>
 <article class=p-article>
 <header>
-<h1>A simple Makefile 'help' command</h1><div>
+<h1>Semantic Versioning, Conventional Commits and Release Pull Requests for .NET with Google's Release Please Project</h1><div>
 <div class=c-meta>
 Posted on
-<time datetime=2022-09-25T00:00:00Z>
-Sep 25, 2022
+<time datetime=2023-04-29T00:00:00Z>
+Apr 29, 2023
 </time>
 |
-672 words
+906 words
 |
-~4 mins
-</div></div><a href=https://dwmkerr.com/tags/shell class=c-tag>shell</a>
-<a href=https://dwmkerr.com/tags/bash class=c-tag>bash</a>
-<a href=https://dwmkerr.com/tags/devsecops class=c-tag>devsecops</a>
-<a href=https://dwmkerr.com/tags/codeproject class=c-tag>CodeProject</a>
+~5 mins
+</div></div><a href=https://dwmkerr.com/tags/codeproject class=c-tag>CodeProject</a>
+<a href=https://dwmkerr.com/tags/dotnet class=c-tag>dotnet</a>
+<a href=https://dwmkerr.com/tags/devops class=c-tag>devops</a>
 </div></header><section id=js-article class=p-article__body>
-<p>In this article I&rsquo;m going to show you how to add a <code>make help</code> command to your makefiles that quickly and easily shows simple documentation for your commands:</p><p><img src=./images/demo.svg alt="Screen recording of the &lsquo;makefile help&rsquo; command in action"></p><p>To add the <code>help</code> command to your makefile, add a recipe like so:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-make data-lang=make><span style=display:flex><span><span style=color:#a6e22e>.PHONY</span><span style=color:#f92672>:</span> help
-</span></span><span style=display:flex><span><span style=color:#a6e22e>help</span><span style=color:#f92672>:</span> <span style=color:#75715e># Show help for each of the Makefile recipes.
-</span></span></span><span style=display:flex><span><span style=color:#75715e></span>	@grep -E <span style=color:#e6db74>&#39;^[a-zA-Z0-9 -]+:.*#&#39;</span>  Makefile | sort | <span style=color:#66d9ef>while</span> read -r l; <span style=color:#66d9ef>do</span> printf <span style=color:#e6db74>&#34;\033[1;32m</span>$$<span style=color:#e6db74>(echo </span>$$<span style=color:#e6db74>l | cut -f 1 -d&#39;:&#39;)\033[00m:</span>$$<span style=color:#e6db74>(echo </span>$$<span style=color:#e6db74>l | cut -f 2- -d&#39;#&#39;)\n&#34;</span>; <span style=color:#66d9ef>done</span>
-</span></span></code></pre></div><p>Now just make sure that each of your recipes has a comment that follows the recipe name, which will be used as its documentation. For example, my <a href=https://github.com/dwmkerr/dwmkerr.com>website repository</a> has the following recipes in the makefile:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-make data-lang=make><span style=display:flex><span><span style=color:#a6e22e>default</span><span style=color:#f92672>:</span> help
+<p><a href=https://github.com/googleapis/release-please>Release Please</a> is an excellent library from Google that simplifies the management of releases for projects. However, it is not immediately apparent from the Release Please documentation that you can very easily get this working for your .NET projects.</p><p>In this article we&rsquo;ll take a quick tour of how to configure release please for a .NET project and how it can save you time and effort.</p><h2 id=what-is-release-please>What is Release Please?</h2><p>In a nutshell, Release Please is a tool that can be run as a CLI or a GitHub action, that looks over the commit history for a repository. Based on the commit history, the tool will attempt to identify whether there have been major, minor or patch level changes to the code, based on the <a href=https://semver.org/>semantic versioning</a> spec and the usage of <a href=https://www.conventionalcommits.org/en/v1.0.0/>Conventional Commits</a>. It will then open a pull request that updates the changelog for your project and sets a new version number, and allows you to then easily run custom release actions if the pull request is merged.</p><p>This is easier to see with a few screenshots. I recently added Release Please to my <a href=https://github.com/dwmkerr/SharpGL>SharpGL</a> project. After making a change, I get a pull request like this:</p><p><img src=./images/pull-request-summary.png alt="Screenshot: Pull Request Summary"></p><p>Going into the details of the pull request, what is particularly useful is that my changelog has been updated, as well as the version data in my <code>SharedAssemblyInfo.cs</code> file:</p><p><img src=./images/pull-request-details.png alt="Screenshot: Pull Request Details"></p><h2 id=how-does-this-help>How does this help?</h2><p>If you maintain a lot of open source projects, anything you can do to automate chores like this just brings rigour to the process and makes bringing in contributions far easier.</p><p>A bug had been raised on the repo:</p><p><a href=https://github.com/dwmkerr/sharpgl/issues/220>https://github.com/dwmkerr/sharpgl/issues/220</a></p><p>This bug indicated that the published version on NuGet was mis-aligned with the version in the source code. This is obviously a real problem for consumers of the library as well as contributors.</p><p>I use Release Please for most of my projects now, I particularly like having the release pull request to review, it makes it really easy to see what&rsquo;ll be in the next published vesrion.</p><h2 id=how-do-you-configure-release-please-for-net>How do you configure Release Please for .NET?</h2><p>It turns out that this is really easy! You can configure you manifest like so:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;release-type&#34;</span>: <span style=color:#e6db74>&#34;simple&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;package-name&#34;</span>: <span style=color:#e6db74>&#34;sharpgl&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;extra-files&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;SharpGL/AssemblyInfo.cs&#34;</span>
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Or directly in your GitHub pipeline configuration:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>main</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>main</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>main</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-20.04</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>google-github-actions/release-please-action@v3</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>id</span>: <span style=color:#ae81ff>release</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>token</span>: <span style=color:#ae81ff>${{ secrets.GITHUB_TOKEN }}</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>release-type</span>: <span style=color:#ae81ff>simple</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>package-name</span>: <span style=color:#ae81ff>sharpgl</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>extra-files</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            </span>            <span style=color:#ae81ff>SharpGL/AssemblyInfo.cs</span>
+</span></span></code></pre></div><p>It is not immediately apparent from the Release Please documentation that you can manage version numbers in a C# file, but the after looking at the <a href=https://github.com/googleapis/release-please/blob/main/docs/customizing.md#updating-arbitrary-files>Customising Guide</a>, it turns out there is a &lsquo;generic&rsquo; file updater that simply looks for version numbers, based on regexes, in any arbitrary files. You just need to use some comments to show where these version numbers are. In my case, the code looks like this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=display:flex><span><span style=color:#66d9ef>using</span> System.Reflection;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> System.Runtime.CompilerServices;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> System.Runtime.InteropServices;
+</span></span><span style=display:flex><span><span style=color:#a6e22e>
+</span></span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyProduct(&#34;SharpGL&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyCopyright(&#34;Copyright © Dave Kerr 2023&#34;)]</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>.PHONY</span><span style=color:#f92672>:</span> help
-</span></span><span style=display:flex><span><span style=color:#a6e22e>help</span><span style=color:#f92672>:</span> <span style=color:#75715e># Show help for each of the Makefile recipes.
-</span></span></span><span style=display:flex><span><span style=color:#75715e></span>	@grep -E <span style=color:#e6db74>&#39;^[a-zA-Z0-9 -]+:.*#&#39;</span>  Makefile | sort | <span style=color:#66d9ef>while</span> read -r l; <span style=color:#66d9ef>do</span> printf <span style=color:#e6db74>&#34;\033[1;32m</span>$$<span style=color:#e6db74>(echo </span>$$<span style=color:#e6db74>l | cut -f 1 -d&#39;:&#39;)\033[00m:</span>$$<span style=color:#e6db74>(echo </span>$$<span style=color:#e6db74>l | cut -f 2- -d&#39;#&#39;)\n&#34;</span>; <span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// x-release-please-start-version</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyVersion(&#34;3.0.0.0&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyFileVersion(&#34;3.0.0.0&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// x-release-please-end</span>
+</span></span></code></pre></div><p>Adding these <code>x-release-please</code> comments is enough for Release Please to be able to identify the lines that need to be updated.</p><h2 id=other-improvements>Other Improvements</h2><p>There are two immediate improvements that you can make on top of these changes to make it even easier to handle releases.</p><h3 id=commit-linting>Commit Linting</h3><p>The first improvement is to look at something like <a href=https://github.com/conventional-changelog/commitlint><code>commitlint</code></a> to ensure that incoming pull requests have commits that meet the conventional commit spec. For Release Please to be able to properly infer the types of changes from the commit history, it is essential that <a href=https://www.conventionalcommits.org/en/v1.0.0/>conventional commits</a> are used.</p><p>Remember - even with a hook to check commit messages, you&rsquo;ll need need to confirm that the author of the changes has structured the commit message appropriately, such as correctly identifying breaking changes.</p><h3 id=automated-publishing>Automated Publishing</h3><p>It is possible to update your build pipeline to actually publish your packages when the release pull request is merged. Here&rsquo;s an example for a .NET project:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># The &#39;main&#39; workflow is used to create the &#39;Release Please&#39; pull</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># request. This PR is opened when we have a new commit to main.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># See:</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#   https://github.com/googleapis/release-please</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>main</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>main</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>main</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>windows-2022</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>.PHONY</span><span style=color:#f92672>:</span> setup
-</span></span><span style=display:flex><span><span style=color:#a6e22e>setup</span><span style=color:#f92672>:</span> <span style=color:#75715e># Setup tools required for local development.
-</span></span></span><span style=display:flex><span><span style=color:#75715e></span>	brew install hugo
-</span></span><span style=display:flex><span>	hugo version
-</span></span><span style=display:flex><span>	git submodule update --init --recursive --remote
+</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Checkout</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v3</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>.PHONY</span><span style=color:#f92672>:</span> newpost
-</span></span><span style=display:flex><span><span style=color:#a6e22e>newpost</span><span style=color:#f92672>:</span> <span style=color:#75715e># Create a new post.
-</span></span></span><span style=display:flex><span><span style=color:#75715e></span>	cd dwmkerr.com; hugo new posts/my-first-post.md
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Note - this is where you put your build / test steps. See:</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># https://github.com/dwmkerr/sharpgl/blob/main/.github/workflows/main.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># For an example.</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>.PHONY</span><span style=color:#f92672>:</span> serve
-</span></span><span style=display:flex><span><span style=color:#a6e22e>serve</span><span style=color:#f92672>:</span> <span style=color:#75715e># Serve the site locally for testing.
-</span></span></span><span style=display:flex><span><span style=color:#75715e></span>	cd dwmkerr.com; hugo server --baseURL <span style=color:#e6db74>&#34;http://localhost/&#34;</span> --buildDrafts -v --debug
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Now that we know the build runs, create a release PR if needed.</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>google-github-actions/release-please-action@v3</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>id</span>: <span style=color:#ae81ff>release</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>with</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>token</span>: <span style=color:#ae81ff>${{ secrets.GITHUB_TOKEN }}</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>release-type</span>: <span style=color:#ae81ff>simple</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>package-name</span>: <span style=color:#ae81ff>sharpgl</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>extra-files</span>: |<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>          </span>          <span style=color:#ae81ff>source/SharpGL/SharedAssemblyInfo.cs</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>.PHONY</span><span style=color:#f92672>:</span> build <span style=color:#75715e># Build the site.
-</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#a6e22e>build</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>	cd dwmkerr.com; hugo --minify
-</span></span></code></pre></div><p>With this setup, you can just enter <code>make</code>, or <code>make help</code>, to see the output below:</p><pre tabindex=0><code>$ make help
-help: Show help for each of the Makefile recipes.
-newpost: Create a new post.
-serve: Serve the site locally for testing.
-setup: Setup tools required for local development.
-</code></pre><p>Simple! You can find the code at:</p><p><a href=https://github.com/dwmkerr/makefile-help>https://github.com/dwmkerr/makefile-help</a></p><h2 id=how-it-works>How it Works</h2><p>This project was inspired by the project <a href=https://github.com/FalcoSuessgott/golang-cli-template><code>golang-cli-template</code></a>, which I noticed had this cool feature of showing help for the makefile commands.</p><p>I built my own version of the command, which is a little bit more verbose, but I think a little easier to read and parse. I&rsquo;ve also included the original version, with a link to the source in the <a href=https://github.com/dwmkerr/makefile-help><code>makefile-help</code></a> repo.</p><p>Essentially, the code simply:</p><ol>
-<li>Searches for recipes - these are lines that start with text, have a colon and a hash symbol</li><li>Goes through each recipe found, extracts the recipe name and documentation comment</li><li>Write each of the recipe names and its documentation to the console</li></ol><h2 id=testing-scripts>Testing Scripts</h2><p>I wanted to make sure that if I improve on the script over time, or add different versions, the code won&rsquo;t break. There&rsquo;s a test script, which is a simple shell script that runs the two help commands and assets the output is as expected.</p><p>At the time of writing, the shell script looks like this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/usr/bin/env bash
-</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
-</span></span><span style=display:flex><span>set -e
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>recipes<span style=color:#f92672>=(</span><span style=color:#e6db74>&#34;help&#34;</span> <span style=color:#e6db74>&#34;help-compact&#34;</span><span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Some colour codes for formatting.</span>
-</span></span><span style=display:flex><span>green<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;\033[1;32m&#34;</span>
-</span></span><span style=display:flex><span>red<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;\033[1;31m&#34;</span>
-</span></span><span style=display:flex><span>reset<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;\033[00m&#34;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Default to success for the result of tests.</span>
-</span></span><span style=display:flex><span>result<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> recipe in <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>recipes[@]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>; <span style=color:#66d9ef>do</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># Create the path to the expected output file.</span>
-</span></span><span style=display:flex><span>    expected_output<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;./test-cases/</span><span style=color:#e6db74>${</span>recipe<span style=color:#e6db74>}</span><span style=color:#e6db74>-expected-output.txt&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> ! -f <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>expected_output<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
-</span></span><span style=display:flex><span>        printf <span style=color:#e6db74>&#34;[</span><span style=color:#e6db74>${</span>red<span style=color:#e6db74>}</span><span style=color:#e6db74>FAIL</span><span style=color:#e6db74>${</span>reset<span style=color:#e6db74>}</span><span style=color:#e6db74>] &#39;</span><span style=color:#e6db74>${</span>recipe<span style=color:#e6db74>}</span><span style=color:#e6db74>&#39; failed, test file &#39;</span><span style=color:#e6db74>${</span>expected_output<span style=color:#e6db74>}</span><span style=color:#e6db74>&#39; not found\n&#34;</span>
-</span></span><span style=display:flex><span>        result<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>elif</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>make <span style=color:#e6db74>${</span>recipe<span style=color:#e6db74>}</span><span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>cat <span style=color:#e6db74>${</span>expected_output<span style=color:#e6db74>}</span><span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
-</span></span><span style=display:flex><span>        printf <span style=color:#e6db74>&#34;[</span><span style=color:#e6db74>${</span>green<span style=color:#e6db74>}</span><span style=color:#e6db74>PASS</span><span style=color:#e6db74>${</span>reset<span style=color:#e6db74>}</span><span style=color:#e6db74>] &#39;</span><span style=color:#e6db74>${</span>recipe<span style=color:#e6db74>}</span><span style=color:#e6db74>&#39; passed\n&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>
-</span></span><span style=display:flex><span>        printf <span style=color:#e6db74>&#34;[</span><span style=color:#e6db74>${</span>red<span style=color:#e6db74>}</span><span style=color:#e6db74>FAIL</span><span style=color:#e6db74>${</span>reset<span style=color:#e6db74>}</span><span style=color:#e6db74>] &#39;</span><span style=color:#e6db74>${</span>recipe<span style=color:#e6db74>}</span><span style=color:#e6db74>&#39; failed\n&#34;</span>
-</span></span><span style=display:flex><span>        result<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fi</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Return the exit code.</span>
-</span></span><span style=display:flex><span>exit <span style=color:#e6db74>${</span>result<span style=color:#e6db74>}</span>
-</span></span></code></pre></div><p>One thing that is nice about the tests is that they are incorporated into a GitHub Action, which runs the tests using Ubuntu, MacOS and Windows, and tests on both Bash and the generic <code>sh</code> shell.</p><p>This uses the following features of GitHub actions:</p><ul>
-<li><a href=https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources>Runner Images</a> - predefined images are made available by GitHub for various operating systems</li><li><a href=https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell>Shell Specificity</a> - GitHub actions allow you to specify the shell used for a step</li><li><a href=https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs>GitHub Action Matrix Strategies</a> - A matrix of operating systems is specified, to avoid duplicating the pipeline steps for each supported operating system</li></ul><p>This project provides a nice template or starting point if you want to build a simple shell script with some basic testing features.</p><h2 id=further-reading>Further Reading</h2><p>If you found this interesting, you might enjoy <a href=https://effective-shell.com>Effective Shell</a> - My free online book of shell techniques.</p></section><footer>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># If we are building a release (i.e. we&#39;ve merged from release-please) then</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># we can deploy.</span>
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Publish</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>dotnet nuget push ./source/SharpGL/artifacts/packages/*.nupkg --source &#39;https://api.nuget.org/v3/index.json&#39; --api-key ${{secrets.NUGET_API_KEY}}</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>shell</span>: <span style=color:#ae81ff>bash</span> <span style=color:#75715e># bash for globs in commmand above...</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>if</span>: <span style=color:#ae81ff>${{ steps.release.outputs.release_created }}</span>
+</span></span></code></pre></div><h2 id=summary>Summary</h2><p>I&rsquo;d highly recommend this approach for .NET projects. Adopting semver and conventional commits should make managing contributions and your changelog easier. Release Please really is the icing on the cake - by having structured commits with strong semantics you can reduce overhead and effort and increase automation.</p><p>I have not included much on enforcing conventional commits in the repository or this article at the moment, some of the best tooling for this uses the Node stack (Husky and commitlint specifically). The benefits of enforcing conventional commits may well be worth the extra effort of setting these tools up, it&rsquo;s really up to you to decide.</p></section><footer>
 <div id=disqus_thread></div><script>var disqus_shortname="dwmkerr";(function(){var e=document,t=e.createElement("script");t.src="https://"+disqus_shortname+".disqus.com/embed.js",t.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(t)})()</script>
 <noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><nav class="p-pagination c-pagination">
 <div class=c-pagination__ctrl>
 <div class=c-pagination__newer>
-<a href=https://dwmkerr.com/release-please-dotnet/>Newer</a>
 </div><div class=c-pagination__older>
-<a href=https://dwmkerr.com/building-least-privilege-permissions-aws/>Older</a>
+<a href=https://dwmkerr.com/makefile-help-command/>Older</a>
 </div></div></nav><section class=p-related>
 <h3>See Also</h3><div class=p-related__list>
 <div class="swiper swiper-container">
 <ul class=swiper-wrapper>
 <li class="p-related__item swiper-slide">
+<a href=/makefile-help-command/>
+<span>A simple Makefile 'help' command</span>
+</a>
+</li><li class="p-related__item swiper-slide">
 <a href=/building-least-privilege-permissions-aws/>
 <span>Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework</span>
 </a>
@@ -136,10 +147,6 @@ setup: Setup tools required for local development.
 </li><li class="p-related__item swiper-slide">
 <a href=/conventional-commits-and-semantic-versioning-for-java/>
 <span>Supercharge your Java Projects with Conventional Commits, Semantic Versioning and Semantic Releases</span>
-</a>
-</li><li class="p-related__item swiper-slide">
-<a href=/effective-shell-for-beginners/>
-<span>Effective Shell for Beginners</span>
 </a>
 </li></ul></div><div class=related-prev></div><div class=related-next></div></div></section><aside class=p-author>
 <div class="c-avatar p-author__avatar">
