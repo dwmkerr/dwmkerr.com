@@ -34,7 +34,7 @@ Posted on
 Oct 10, 2018
 </time>
 |
-812 words
+817 words
 |
 ~4 mins
 </div></div><a href=https://dwmkerr.com/tags/bash class=c-tag>Bash</a>
@@ -42,7 +42,7 @@ Oct 10, 2018
 <a href=https://dwmkerr.com/tags/linux class=c-tag>Linux</a>
 <a href=https://dwmkerr.com/tags/codeproject class=c-tag>CodeProject</a>
 </div></header><section id=js-article class=p-article__body>
-<p>This little bash snippet will let you open a GitHub or GitLab pull request from the command line on most Unix-like systems (OSX, Ubuntu, etc), without using any magic libraries, ZSH tricks or other dependencies.</p><p><img src=images/gpr.png alt=gpr></p><p>Here&rsquo;s how it looks in action OSX:</p><p><img src=images/gpr.gif alt=gpr></p><p>And Ubuntu:</p><p><img src=images/gpr-ubuntu.gif alt=gpr-ubuntu></p><p>The script is available as the <a href=https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d><code>gpr.sh</code></a> gist. You can also find it in my <a href=https://github.com/dwmkerr/dotfiles>dotfiles</a>, in the <a href=https://github.com/dwmkerr/dotfiles/blob/master/profile/git.sh>git.sh</a> file.</p><h2 id=the-script>The Script</h2><p>Here&rsquo;s the script in its entirety:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Colour constants for nicer output.</span>
+<p>This little bash snippet will let you open a GitHub or GitLab pull request from the command line on most Unix-like systems (OSX, Ubuntu, etc), without using any magic libraries, ZSH tricks or other dependencies.</p><p><strong>tl;dr</strong> download the <a href=https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d><code>gpr.sh</code></a> gist.</p><p><img src=images/gpr.png alt=gpr></p><p>Here&rsquo;s how it looks in action OSX:</p><p><img src=images/gpr.gif alt=gpr></p><p>And Ubuntu:</p><p><img src=images/gpr-ubuntu.gif alt=gpr-ubuntu></p><p>The script is available as the <a href=https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d><code>gpr.sh</code></a> gist. You can also find it in my <a href=https://github.com/dwmkerr/dotfiles>dotfiles</a>, in the <a href=https://github.com/dwmkerr/dotfiles/blob/master/profile/git.sh>git.sh</a> file.</p><h2 id=the-script>The Script</h2><p>Here&rsquo;s the script in its entirety:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Colour constants for nicer output.</span>
 </span></span><span style=display:flex><span>GREEN<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;\033[0;32m&#39;</span>
 </span></span><span style=display:flex><span>RESET<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;\033[0m&#39;</span>
 </span></span><span style=display:flex><span>
