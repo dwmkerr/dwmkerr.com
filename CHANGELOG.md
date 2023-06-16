@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.0...v0.1.1) (2023-06-16)
+
+
+### Documentation
+
+* improve gpr doc ([ae44bdb](https://github.com/dwmkerr/dwmkerr.com/commit/ae44bdb07d663bfcc79f389008d0fe15f6659968))
+
 ## [0.1.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.0.3...v0.1.0) (2023-05-02)
 
 
