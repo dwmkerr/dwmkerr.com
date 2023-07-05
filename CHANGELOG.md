@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.3...v0.1.4) (2023-07-05)
+
+
+### Bug Fixes
+
+* add some references to chatgpt article ([71f1b44](https://github.com/dwmkerr/dwmkerr.com/commit/71f1b447b8978c8d5cd60193c75da9d2a9279cce))
+
 ## [0.1.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.2...v0.1.3) (2023-07-05)
 
 
