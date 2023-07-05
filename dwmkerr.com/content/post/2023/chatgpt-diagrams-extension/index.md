@@ -14,19 +14,19 @@ tags:
 - "typescript"
 ---
 
-# A ChatGPT Extension to Create Diagrams
+Quick Links: [ChatGPT Diagrams on the Chrome Web Store](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpni) | [ChatGPT Diagrams on GitHub](https://github.com/dwmkerr/chatgpt-diagrams-extension)
 
 The [ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn) browser extension makes it extremely easy to create diagrams with ChatGPT. Here's how the extension looks in action:
 
-![Video recording of the 'Apple Store' prompt for ChatGPT Diagrams](./images/apple-store.gif)
+![Video recording of the 'Apple Store' prompt for ChatGPT Diagrams](images/apple-store.gif)
 
 ## How to create diagrams
 
 To create diagrams, just follow the steps below:
 
-- Install the **[ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn)** from the Chrome Web Store
-- Enter a prompt asking to draw a diagram - and make sure you include the text **use Mermaid syntax**
-- ChatGPT will output some code - press the **Show Diagram** button above the code block to render your diagram
+- Install the [ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn) from the Chrome Web Store
+- Enter a prompt asking to draw a diagram - and make sure you include the text "use mermaid syntax", for example: _Show the basic building blocks of a chrome extension using mermaid syntax_
+- ChatGPT will output some code - press the "Show Diagram" button above the code block to render your diagram
 
 That's it! We just need to prompt ChatGPT to use [Mermaid Syntax](https://mermaid.js.org/). Mermaid is a text-based language that can be used to describe flowcharts, sequence diagrams, and many of types of diagram.
 
@@ -42,15 +42,15 @@ And here's what each of the prompts would produce:
 
 > Show the basic building blocks of a chrome extension using mermaid syntax
 
-![Video recording of the 'Chrome Extension' prompt for ChatGPT Diagrams](./images/chrome-extension.gif)
+![Video recording of the 'Chrome Extension' prompt for ChatGPT Diagrams](images/chrome-extension.gif)
 
 > Show a flowchart of the steps I need to go through to create and publish a simple website, use Mermaid syntax
 
-![Video recording of the 'Simple Website' prompt for ChatGPT Diagrams](./images/simple-website.gif)
+![Video recording of the 'Simple Website' prompt for ChatGPT Diagrams](images/simple-website.gif)
 
 > What's the sequence diagram for publishing an app in the apple store? Use Mermaid Syntax.
 
-![Video recording of the 'Apple Store' prompt for ChatGPT Diagrams](./images/apple-store.gif)
+![Video recording of the 'Apple Store' prompt for ChatGPT Diagrams](images/apple-store.gif)
 
 That's really all there is to it! Raise any suggestions or bugs on the [issues page](https://github.com/dwmkerr/chatgpt-diagrams-extension/issues) and if you find this extension useful please do [rate it or leave a review](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn)!
 
