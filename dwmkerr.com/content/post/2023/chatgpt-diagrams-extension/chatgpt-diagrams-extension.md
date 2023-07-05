@@ -16,13 +16,21 @@ tags:
 
 # A ChatGPT Extension to Create Diagrams
 
-The [ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn) browser extension makes it extremely easy to create diagrams with ChatGPT. In this article I'll show how to use the extension, and share some of the learnings from building it.
+The [ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn) browser extension makes it extremely easy to create diagrams with ChatGPT. Here's how the extension looks in action:
 
 ![Video recording of the 'Apple Store' prompt for ChatGPT Diagrams](./images/apple-store.gif)
 
 ## How to create diagrams
 
-To create diagrams, we just need to prompt ChatGPT to use [Mermaid Syntax](https://mermaid.js.org/). Mermaid is a text-based language that can be used to describe flowcharts, sequence diagrams, and many of types of diagram.
+To create diagrams, just follow the steps below:
+
+- Install the [ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn) from the Chrome Web Store
+- Enter a prompt asking to draw a diagram - and make sure you include the text **use Mermaid syntax**
+- ChatGPT will output some code - press the "Show Diagram" button above the code block to render your diagram
+
+That's it! We just need to prompt ChatGPT to use [Mermaid Syntax](https://mermaid.js.org/). Mermaid is a text-based language that can be used to describe flowcharts, sequence diagrams, and many of types of diagram.
+
+The extension searches for code blocks that look like they could be Mermaid diagrams, and then adds a little "Show Diagram" button to each one - pressing this will then attempt to render the diagram using Mermaid. It is not 100% fool-proof, sometimes ChatGPT gets the syntax wrong, but generally works pretty reliably.
 
 Here's what a few prompts could look like - not that in each one we request that the output uses Mermaid syntax:
 
@@ -44,7 +52,7 @@ And here's what each of the prompts would produce:
 
 ![Video recording of the 'Apple Store' prompt for ChatGPT Diagrams](./images/apple-store.gif)
 
-That's really all there is to it!
+That's really all there is to it! Raise any suggestions or bugs on the [issues page](https://github.com/dwmkerr/chatgpt-diagrams-extension/issues) and if you find this extension useful please do [rate it or leave a review](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn)!
 
 ## Troubleshooting and common issues
 
