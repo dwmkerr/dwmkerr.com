@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.2...v0.1.3) (2023-07-05)
+
+
+### Bug Fixes
+
+* correct links ([#43](https://github.com/dwmkerr/dwmkerr.com/issues/43)) ([cae8b3b](https://github.com/dwmkerr/dwmkerr.com/commit/cae8b3b06084d24b67e98d9f7b316cef2f23105f))
+
 ## [0.1.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.1...v0.1.2) (2023-07-05)
 
 
