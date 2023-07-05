@@ -80,3 +80,7 @@ npm start
 ```
 
 Open chrome at: `chrome://extensions`, choose "Load Unpacked" and select the `./dist` folder from your local copy of the `chatgpt-diagrams-extension` repository. Everything else you need to know should be on the [README](https://github.com/dwmkerr/chatgpt-diagrams-extension).
+
+## Further Reading
+
+- [Using ChatGPT to build System Diagrams](https://aruva.medium.com/using-chatgpt-to-build-system-diagrams-part-i-69efc7603926)
