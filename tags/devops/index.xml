@@ -1,48 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Devops on dwmkerr.com</title><link>https://dwmkerr.com/tags/devops/</link><description>Recent content in Devops on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 05 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>A ChatGPT Extension to Create Diagrams</title><link>https://dwmkerr.com/release-please-dotnet/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/release-please-dotnet/</guid><description>&lt;h1 id="a-chatgpt-extension-to-create-diagrams">A ChatGPT Extension to Create Diagrams&lt;/h1>
-&lt;p>The &lt;a href="https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn">ChatGPT Diagrams&lt;/a> browser extension makes it extremely easy to create diagrams with ChatGPT. Here&amp;rsquo;s how the extension looks in action:&lt;/p>
-&lt;p>&lt;img src="./images/apple-store.gif" alt="Video recording of the &amp;lsquo;Apple Store&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
-&lt;h2 id="how-to-create-diagrams">How to create diagrams&lt;/h2>
-&lt;p>To create diagrams, just follow the steps below:&lt;/p>
-&lt;ul>
-&lt;li>Install the &lt;a href="https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn">ChatGPT Diagrams&lt;/a> from the Chrome Web Store&lt;/li>
-&lt;li>Enter a prompt asking to draw a diagram - and make sure you include the text &lt;strong>use Mermaid syntax&lt;/strong>&lt;/li>
-&lt;li>ChatGPT will output some code - press the &amp;ldquo;Show Diagram&amp;rdquo; button above the code block to render your diagram&lt;/li>
-&lt;/ul>
-&lt;p>That&amp;rsquo;s it! We just need to prompt ChatGPT to use &lt;a href="https://mermaid.js.org/">Mermaid Syntax&lt;/a>. Mermaid is a text-based language that can be used to describe flowcharts, sequence diagrams, and many of types of diagram.&lt;/p>
-&lt;p>The extension searches for code blocks that look like they could be Mermaid diagrams, and then adds a little &amp;ldquo;Show Diagram&amp;rdquo; button to each one - pressing this will then attempt to render the diagram using Mermaid. It is not 100% fool-proof, sometimes ChatGPT gets the syntax wrong, but generally works pretty reliably.&lt;/p>
-&lt;p>Here&amp;rsquo;s what a few prompts could look like - not that in each one we request that the output uses Mermaid syntax:&lt;/p>
-&lt;ul>
-&lt;li>Show the basic building blocks of a chrome extension using mermaid syntax&lt;/li>
-&lt;li>Show a flowchart of the steps I need to go through to create and publish a simple website, use Mermaid syntax&lt;/li>
-&lt;li>What&amp;rsquo;s the sequence diagram for publishing an app in the apple store? Use Mermaid Syntax.&lt;/li>
-&lt;/ul>
-&lt;p>And here&amp;rsquo;s what each of the prompts would produce:&lt;/p>
-&lt;blockquote>
-&lt;p>Show the basic building blocks of a chrome extension using mermaid syntax&lt;/p>
-&lt;/blockquote>
-&lt;p>&lt;img src="./images/chrome-extension.gif" alt="Video recording of the &amp;lsquo;Chrome Extension&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
-&lt;blockquote>
-&lt;p>Show a flowchart of the steps I need to go through to create and publish a simple website, use Mermaid syntax&lt;/p>
-&lt;/blockquote>
-&lt;p>&lt;img src="./images/simple-website.gif" alt="Video recording of the &amp;lsquo;Simple Website&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
-&lt;blockquote>
-&lt;p>What&amp;rsquo;s the sequence diagram for publishing an app in the apple store? Use Mermaid Syntax.&lt;/p>
-&lt;/blockquote>
-&lt;p>&lt;img src="./images/apple-store.gif" alt="Video recording of the &amp;lsquo;Apple Store&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
-&lt;p>That&amp;rsquo;s really all there is to it! Raise any suggestions or bugs on the &lt;a href="https://github.com/dwmkerr/chatgpt-diagrams-extension/issues">issues page&lt;/a> and if you find this extension useful please do &lt;a href="https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn">rate it or leave a review&lt;/a>!&lt;/p>
-&lt;h2 id="troubleshooting-and-common-issues">Troubleshooting and common issues&lt;/h2>
-&lt;p>This project is something I&amp;rsquo;ve put together quite quickly and there are still some rough edges. Some issues you might face:&lt;/p>
-&lt;p>&lt;strong>Mermaid Syntax Error&lt;/strong>&lt;/p>
-&lt;p>This normally happens if you haven&amp;rsquo;t told ChatGPT to use Mermaid Syntax. Try your prompt again but make sure to include the text &amp;ldquo;show output using Mermaid syntax&amp;rdquo;.&lt;/p>
-&lt;p>&lt;strong>Diagrams are empty&lt;/strong>&lt;/p>
-&lt;p>Try refreshing the page and then choose &amp;ldquo;Show Diagram&amp;rdquo;.&lt;/p>
-&lt;h2 id="building-the-extension">Building the Extension&lt;/h2>
-&lt;p>The extension is available on GitHub at:&lt;/p>
-&lt;p>&lt;a href="https://github.com/dwmkerr/chatgpt-diagrams-extension">https://github.com/dwmkerr/chatgpt-diagrams-extension&lt;/a>&lt;/p>
-&lt;p>Just clone, then run:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm install
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>npm start
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Open chrome at: &lt;code>chrome://extensions&lt;/code>, choose &amp;ldquo;Load Unpacked&amp;rdquo; and select the &lt;code>./dist&lt;/code> folder from your local copy of the &lt;code>chatgpt-diagrams-extension&lt;/code> repository. Everything else you need to know should be on the &lt;a href="https://github.com/dwmkerr/chatgpt-diagrams-extension">README&lt;/a>.&lt;/p></description><category>CodeProject</category></item><item><title>Semantic Versioning, Conventional Commits and Release Pull Requests for .NET with Google's Release Please Project</title><link>https://dwmkerr.com/release-please-dotnet/</link><pubDate>Sat, 29 Apr 2023 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/release-please-dotnet/</guid><description>&lt;p>&lt;a href="https://github.com/googleapis/release-please">Release Please&lt;/a> is an excellent library from Google that simplifies the management of releases for projects. However, it is not immediately apparent from the Release Please documentation that you can very easily get this working for your .NET projects.&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Devops on dwmkerr.com</title><link>https://dwmkerr.com/tags/devops/</link><description>Recent content in Devops on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sat, 29 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>Semantic Versioning, Conventional Commits and Release Pull Requests for .NET with Google's Release Please Project</title><link>https://dwmkerr.com/release-please-dotnet/</link><pubDate>Sat, 29 Apr 2023 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/release-please-dotnet/</guid><description>&lt;p>&lt;a href="https://github.com/googleapis/release-please">Release Please&lt;/a> is an excellent library from Google that simplifies the management of releases for projects. However, it is not immediately apparent from the Release Please documentation that you can very easily get this working for your .NET projects.&lt;/p>
 &lt;p>In this article we&amp;rsquo;ll take a quick tour of how to configure release please for a .NET project and how it can save you time and effort.&lt;/p>
 &lt;h2 id="what-is-release-please">What is Release Please?&lt;/h2>
 &lt;p>In a nutshell, Release Please is a tool that can be run as a CLI or a GitHub action, that looks over the commit history for a repository. Based on the commit history, the tool will attempt to identify whether there have been major, minor or patch level changes to the code, based on the &lt;a href="https://semver.org/">semantic versioning&lt;/a> spec and the usage of &lt;a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits&lt;/a>. It will then open a pull request that updates the changelog for your project and sets a new version number, and allows you to then easily run custom release actions if the pull request is merged.&lt;/p>
