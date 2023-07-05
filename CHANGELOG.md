@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.1...v0.1.2) (2023-07-05)
+
+
+### Documentation
+
+* chatgpt extension post ([#41](https://github.com/dwmkerr/dwmkerr.com/issues/41)) ([3e010d9](https://github.com/dwmkerr/dwmkerr.com/commit/3e010d920e0ef93dfa26fb6c0483027c64cd3e74))
+
 ## [0.1.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.0...v0.1.1) (2023-06-16)
 
 
