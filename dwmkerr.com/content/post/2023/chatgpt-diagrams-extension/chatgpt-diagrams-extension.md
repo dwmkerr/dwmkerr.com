@@ -3,15 +3,15 @@ author: Dave Kerr
 type: posts
 date: "2023-05-05"
 title: "A ChatGPT Extension to Create Diagrams"
-description: "TODO"
-slug: release-please-dotnet
+description: "A ChatGPT Extension to Create Diagrams"
+slug: chatgpt-diagrams-extension
 categories:
-- "dotnet"
-- "devops"
+- "chatgpt"
+- "javascript"
+- "typescript"
 tags:
-- "CodeProject"
-- "dotnet"
-- "devops"
+- "javascript"
+- "typescript"
 ---
 
 # A ChatGPT Extension to Create Diagrams
@@ -24,9 +24,9 @@ The [ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagram
 
 To create diagrams, just follow the steps below:
 
-- Install the [ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn) from the Chrome Web Store
+- Install the **[ChatGPT Diagrams](https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn)** from the Chrome Web Store
 - Enter a prompt asking to draw a diagram - and make sure you include the text **use Mermaid syntax**
-- ChatGPT will output some code - press the "Show Diagram" button above the code block to render your diagram
+- ChatGPT will output some code - press the **Show Diagram** button above the code block to render your diagram
 
 That's it! We just need to prompt ChatGPT to use [Mermaid Syntax](https://mermaid.js.org/). Mermaid is a text-based language that can be used to describe flowcharts, sequence diagrams, and many of types of diagram.
 
