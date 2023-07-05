@@ -98,4 +98,61 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">if&lt;/span>: &lt;span style="color:#ae81ff">${{ steps.release.outputs.release_created }}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="summary">Summary&lt;/h2>
 &lt;p>I&amp;rsquo;d highly recommend this approach for .NET projects. Adopting semver and conventional commits should make managing contributions and your changelog easier. Release Please really is the icing on the cake - by having structured commits with strong semantics you can reduce overhead and effort and increase automation.&lt;/p>
-&lt;p>I have not included much on enforcing conventional commits in the repository or this article at the moment, some of the best tooling for this uses the Node stack (Husky and commitlint specifically). The benefits of enforcing conventional commits may well be worth the extra effort of setting these tools up, it&amp;rsquo;s really up to you to decide.&lt;/p></description><category>CodeProject</category></item></channel></rss>
+&lt;p>I have not included much on enforcing conventional commits in the repository or this article at the moment, some of the best tooling for this uses the Node stack (Husky and commitlint specifically). The benefits of enforcing conventional commits may well be worth the extra effort of setting these tools up, it&amp;rsquo;s really up to you to decide.&lt;/p></description><category>CodeProject</category></item><item><title>TODO</title><link>https://dwmkerr.com/todo/</link><pubDate>Wed, 01 Mar 2023 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/todo/</guid><description>&lt;h2 id="installation-and-setup">installation and setup&lt;/h2>
+&lt;p>GOROOT
+src
+bin&lt;/p>
+&lt;h2 id="source-code-structure">Source Code Structure&lt;/h2>
+&lt;h2 id="modules">Modules&lt;/h2>
+&lt;p>TODO definition of a module&lt;/p>
+&lt;h2 id="packages">Packages&lt;/h2>
+&lt;p>TODO definition of a packge&lt;/p>
+&lt;h2 id="the-gomod-file">The go.mod File&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-gomod" data-lang="gomod">module github.com/dwmker/jac
+go 1.20
+&lt;/code>&lt;/pre>&lt;h2 id="protobufs">Protobufs&lt;/h2>
+&lt;p>Note that if using:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>protoc --go_out&lt;span style="color:#f92672">=&lt;/span>. --go-grpc_out&lt;span style="color:#f92672">=&lt;/span>. --go-grpc_opt&lt;span style="color:#f92672">=&lt;/span>paths&lt;span style="color:#f92672">=&lt;/span>source_relative proto/*.proto
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will spit out a folder tree like &lt;code>github.com/dwmkerr/whatever&lt;/code>, to omit this tree and use relative paths, include the options below:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>protoc --go_out&lt;span style="color:#f92672">=&lt;/span>. --go_opt&lt;span style="color:#f92672">=&lt;/span>paths&lt;span style="color:#f92672">=&lt;/span>source_relative --go-grpc_out&lt;span style="color:#f92672">=&lt;/span>. --go-grpc_opt&lt;span style="color:#f92672">=&lt;/span>paths&lt;span style="color:#f92672">=&lt;/span>source_relative proto/*.proto
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&amp;quot; Press ? for help&lt;/p>
+&lt;p>.. (up a dir)
+&amp;lt;/dwmkerr/repos/golang/jac/
+▾ github.com/dwmkerr/jac/pb/
+jac.pb.go
+jac_grpc.pb.go
+▾ proto/
+jac.proto
+▾ server/
+main.go&lt;/p>
+&lt;p>For developing applications:&lt;/p>
+&lt;ul>
+&lt;li>Code directory in home&lt;/li>
+&lt;li>Can do it in any folder&lt;/li>
+&lt;li>To make it public, use the github url, e.g. github.com/dwmkerr/jac&lt;/li>
+&lt;li>one top level module, e.g. &amp;lsquo;jac&amp;rsquo;, then the subfolders are packages&lt;/li>
+&lt;li>(For reference, multi-module workspaces might be worth looking at)&lt;/li>
+&lt;/ul>
+&lt;p>If I do for example:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir ~/repos/golang/jac
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ~/repos/golang/jac
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go mod init github.com/dwmkerr/jac
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now when I import:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;github.com/dwmkerr/jac&amp;#34;&lt;/span> &lt;span style="color:#75715e">// is would download from github
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If I did &lt;code>go mod get&lt;/code> then I can download the package locally, or &lt;code>go mod install&lt;/code> to&lt;/p>
+&lt;p>go mod&lt;/p>
+&lt;pre tabindex="0">&lt;code>go mod
+go mod tidy
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>vendor directory&lt;/li>
+&lt;li>code organisation&lt;/li>
+&lt;li>where to run go mod&lt;/li>
+&lt;li>what is go.mod&lt;/li>
+&lt;li>most simple folder structure&lt;/li>
+&lt;/ul>
+&lt;h2 id="packages-1">Packages&lt;/h2>
+&lt;p>Anything with lowercase is private, anything starting with Uppercase is public and exported&lt;/p>
+&lt;h2 id="client--server">Client / Server&lt;/h2>
+&lt;p>Simple echo server&lt;/p></description><category>CodeProject</category></item></channel></rss>

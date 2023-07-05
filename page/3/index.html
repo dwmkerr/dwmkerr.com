@@ -28,6 +28,27 @@ Articles on the craft of software development. No ads, no sponsored content.
 </p></header><main id=main class=l-main>
 <article class="c-article p-list-article">
 <header>
+<h2 class="c-title c-article__title"><a href=https://dwmkerr.com/mongo-monitor-cli/>mongo-monitor - a simple CLI to monitor your MongoDB cluster</a></h2><p class=c-article__meta>
+Posted on
+<time datetime=2018-05-16T20:09:53Z>
+May 16, 2018
+</time>
+| Updated on
+<time datetime=2018-05-16T20:09:53Z>
+May 16, 2018
+</time>
+| 398 words
+|
+~2 mins
+</p></header><div class=c-article__summary>
+The mongo-monitor CLI is a lean and simple tool to check the status of a MongoDB server or cluster. The code is on GitHub:
+github.com/dwmkerr/mongo-monitor
+Here&rsquo;s how it looks in action:
+In this animation I am monitoring a simple sharded cluster, and running some example maintenance operations, adding a node to a replicaset, stepping down a primary and shutting down a replicaset node.
+A simple CLI which shows the status in real-time can be very useful to keep open when performing admin, letting you see how your changes affect the cluster as you work on it.
+</div><a href=https://dwmkerr.com/mongo-monitor-cli/ class="c-article__btn p-list-article__btn">Read more</a>
+</article><article class="c-article p-list-article">
+<header>
 <h2 class="c-title c-article__title"><a href=https://dwmkerr.com/the-death-of-microservice-madness-in-2018/>The Death of Microservice Madness in 2018</a></h2><p class=c-article__meta>
 Posted on
 <time datetime=2018-01-12T10:52:25Z>
@@ -197,27 +218,6 @@ In this article I&rsquo;m going to show you how to create a resilient Consul clu
 The final code is at github.com/dwmkerr/terraform-consul-cluster. Note that it has evolved somewhat since the time of writing, see the Appendices at the end of the article for details.
 Consul, Terraform & AWS Consul is a technology which enables Service Discovery1, a pattern which allows services to locate each other via a central authority.
 </div><a href=https://dwmkerr.com/creating-a-resilient-consul-cluster-for-docker-microservice-discovery-with-terraform-and-aws/ class="c-article__btn p-list-article__btn">Read more</a>
-</article><article class="c-article p-list-article">
-<header>
-<h2 class="c-title c-article__title"><a href=https://dwmkerr.com/using-slack-for-server-development/>Using Slack for Server Development</a></h2><p class=c-article__meta>
-Posted on
-<time datetime=2016-11-18T01:25:00Z>
-Nov 18, 2016
-</time>
-| Updated on
-<time datetime=2016-11-18T01:25:00Z>
-Nov 18, 2016
-</time>
-| 523 words
-|
-~3 mins
-</p></header><div class=c-article__summary>
-I recently found a surprisingly helpful approach for server-side development which uses Slack in a creative way.
-The Problem The scenario can be roughly simplified to this:
-We are building a mobile app and application server. This will take data from a user, transform it and then pass it to the enterprise system processing.
-The problem is that the enterprise system doesn&rsquo;t exist yet!
-Now this is not too much of a challenge, the first thing we did was build a simple mock of the enterprise system in Node.
-</div><a href=https://dwmkerr.com/using-slack-for-server-development/ class="c-article__btn p-list-article__btn">Read more</a>
 </article><nav class="c-pagination p-pagination">
 <div class=c-pagination__ctrl>
 <div class=c-pagination__newer>

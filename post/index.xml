@@ -1,12 +1,12 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on dwmkerr.com</title><link>https://dwmkerr.com/post/</link><description>Recent content in Posts on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 05 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>A ChatGPT Extension to Create Diagrams</title><link>https://dwmkerr.com/chatgpt-diagrams-extension/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/chatgpt-diagrams-extension/</guid><description>&lt;h1 id="a-chatgpt-extension-to-create-diagrams">A ChatGPT Extension to Create Diagrams&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on dwmkerr.com</title><link>https://dwmkerr.com/post/</link><description>Recent content in Posts on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 05 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>A ChatGPT Extension to Create Diagrams</title><link>https://dwmkerr.com/chatgpt-diagrams-extension/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/chatgpt-diagrams-extension/</guid><description>&lt;p>Quick Links: &lt;a href="https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpni">ChatGPT Diagrams on the Chrome Web Store&lt;/a> | &lt;a href="https://github.com/dwmkerr/chatgpt-diagrams-extension">ChatGPT Diagrams on GitHub&lt;/a>&lt;/p>
 &lt;p>The &lt;a href="https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn">ChatGPT Diagrams&lt;/a> browser extension makes it extremely easy to create diagrams with ChatGPT. Here&amp;rsquo;s how the extension looks in action:&lt;/p>
-&lt;p>&lt;img src="./images/apple-store.gif" alt="Video recording of the &amp;lsquo;Apple Store&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
+&lt;p>&lt;img src="images/apple-store.gif" alt="Video recording of the &amp;lsquo;Apple Store&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
 &lt;h2 id="how-to-create-diagrams">How to create diagrams&lt;/h2>
 &lt;p>To create diagrams, just follow the steps below:&lt;/p>
 &lt;ul>
-&lt;li>Install the &lt;strong>&lt;a href="https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn">ChatGPT Diagrams&lt;/a>&lt;/strong> from the Chrome Web Store&lt;/li>
-&lt;li>Enter a prompt asking to draw a diagram - and make sure you include the text &lt;strong>use Mermaid syntax&lt;/strong>&lt;/li>
-&lt;li>ChatGPT will output some code - press the &lt;strong>Show Diagram&lt;/strong> button above the code block to render your diagram&lt;/li>
+&lt;li>Install the &lt;a href="https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn">ChatGPT Diagrams&lt;/a> from the Chrome Web Store&lt;/li>
+&lt;li>Enter a prompt asking to draw a diagram - and make sure you include the text &amp;ldquo;use mermaid syntax&amp;rdquo;, for example: &lt;em>Show the basic building blocks of a chrome extension using mermaid syntax&lt;/em>&lt;/li>
+&lt;li>ChatGPT will output some code - press the &amp;ldquo;Show Diagram&amp;rdquo; button above the code block to render your diagram&lt;/li>
 &lt;/ul>
 &lt;p>That&amp;rsquo;s it! We just need to prompt ChatGPT to use &lt;a href="https://mermaid.js.org/">Mermaid Syntax&lt;/a>. Mermaid is a text-based language that can be used to describe flowcharts, sequence diagrams, and many of types of diagram.&lt;/p>
 &lt;p>The extension searches for code blocks that look like they could be Mermaid diagrams, and then adds a little &amp;ldquo;Show Diagram&amp;rdquo; button to each one - pressing this will then attempt to render the diagram using Mermaid. It is not 100% fool-proof, sometimes ChatGPT gets the syntax wrong, but generally works pretty reliably.&lt;/p>
@@ -20,15 +20,15 @@
 &lt;blockquote>
 &lt;p>Show the basic building blocks of a chrome extension using mermaid syntax&lt;/p>
 &lt;/blockquote>
-&lt;p>&lt;img src="./images/chrome-extension.gif" alt="Video recording of the &amp;lsquo;Chrome Extension&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
+&lt;p>&lt;img src="images/chrome-extension.gif" alt="Video recording of the &amp;lsquo;Chrome Extension&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
 &lt;blockquote>
 &lt;p>Show a flowchart of the steps I need to go through to create and publish a simple website, use Mermaid syntax&lt;/p>
 &lt;/blockquote>
-&lt;p>&lt;img src="./images/simple-website.gif" alt="Video recording of the &amp;lsquo;Simple Website&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
+&lt;p>&lt;img src="images/simple-website.gif" alt="Video recording of the &amp;lsquo;Simple Website&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
 &lt;blockquote>
 &lt;p>What&amp;rsquo;s the sequence diagram for publishing an app in the apple store? Use Mermaid Syntax.&lt;/p>
 &lt;/blockquote>
-&lt;p>&lt;img src="./images/apple-store.gif" alt="Video recording of the &amp;lsquo;Apple Store&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
+&lt;p>&lt;img src="images/apple-store.gif" alt="Video recording of the &amp;lsquo;Apple Store&amp;rsquo; prompt for ChatGPT Diagrams">&lt;/p>
 &lt;p>That&amp;rsquo;s really all there is to it! Raise any suggestions or bugs on the &lt;a href="https://github.com/dwmkerr/chatgpt-diagrams-extension/issues">issues page&lt;/a> and if you find this extension useful please do &lt;a href="https://chrome.google.com/webstore/detail/chatgpt-diagrams/gllophmfnbdpgfnbmbndlihdlcgohcpn">rate it or leave a review&lt;/a>!&lt;/p>
 &lt;h2 id="troubleshooting-and-common-issues">Troubleshooting and common issues&lt;/h2>
 &lt;p>This project is something I&amp;rsquo;ve put together quite quickly and there are still some rough edges. Some issues you might face:&lt;/p>
@@ -142,7 +142,64 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">if&lt;/span>: &lt;span style="color:#ae81ff">${{ steps.release.outputs.release_created }}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="summary">Summary&lt;/h2>
 &lt;p>I&amp;rsquo;d highly recommend this approach for .NET projects. Adopting semver and conventional commits should make managing contributions and your changelog easier. Release Please really is the icing on the cake - by having structured commits with strong semantics you can reduce overhead and effort and increase automation.&lt;/p>
-&lt;p>I have not included much on enforcing conventional commits in the repository or this article at the moment, some of the best tooling for this uses the Node stack (Husky and commitlint specifically). The benefits of enforcing conventional commits may well be worth the extra effort of setting these tools up, it&amp;rsquo;s really up to you to decide.&lt;/p></description><category>CodeProject</category></item><item><title>A simple Makefile 'help' command</title><link>https://dwmkerr.com/makefile-help-command/</link><pubDate>Sun, 25 Sep 2022 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/makefile-help-command/</guid><description>&lt;p>In this article I&amp;rsquo;m going to show you how to add a &lt;code>make help&lt;/code> command to your makefiles that quickly and easily shows simple documentation for your commands:&lt;/p>
+&lt;p>I have not included much on enforcing conventional commits in the repository or this article at the moment, some of the best tooling for this uses the Node stack (Husky and commitlint specifically). The benefits of enforcing conventional commits may well be worth the extra effort of setting these tools up, it&amp;rsquo;s really up to you to decide.&lt;/p></description><category>CodeProject</category></item><item><title>TODO</title><link>https://dwmkerr.com/todo/</link><pubDate>Wed, 01 Mar 2023 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/todo/</guid><description>&lt;h2 id="installation-and-setup">installation and setup&lt;/h2>
+&lt;p>GOROOT
+src
+bin&lt;/p>
+&lt;h2 id="source-code-structure">Source Code Structure&lt;/h2>
+&lt;h2 id="modules">Modules&lt;/h2>
+&lt;p>TODO definition of a module&lt;/p>
+&lt;h2 id="packages">Packages&lt;/h2>
+&lt;p>TODO definition of a packge&lt;/p>
+&lt;h2 id="the-gomod-file">The go.mod File&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-gomod" data-lang="gomod">module github.com/dwmker/jac
+go 1.20
+&lt;/code>&lt;/pre>&lt;h2 id="protobufs">Protobufs&lt;/h2>
+&lt;p>Note that if using:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>protoc --go_out&lt;span style="color:#f92672">=&lt;/span>. --go-grpc_out&lt;span style="color:#f92672">=&lt;/span>. --go-grpc_opt&lt;span style="color:#f92672">=&lt;/span>paths&lt;span style="color:#f92672">=&lt;/span>source_relative proto/*.proto
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will spit out a folder tree like &lt;code>github.com/dwmkerr/whatever&lt;/code>, to omit this tree and use relative paths, include the options below:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>protoc --go_out&lt;span style="color:#f92672">=&lt;/span>. --go_opt&lt;span style="color:#f92672">=&lt;/span>paths&lt;span style="color:#f92672">=&lt;/span>source_relative --go-grpc_out&lt;span style="color:#f92672">=&lt;/span>. --go-grpc_opt&lt;span style="color:#f92672">=&lt;/span>paths&lt;span style="color:#f92672">=&lt;/span>source_relative proto/*.proto
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&amp;quot; Press ? for help&lt;/p>
+&lt;p>.. (up a dir)
+&amp;lt;/dwmkerr/repos/golang/jac/
+▾ github.com/dwmkerr/jac/pb/
+jac.pb.go
+jac_grpc.pb.go
+▾ proto/
+jac.proto
+▾ server/
+main.go&lt;/p>
+&lt;p>For developing applications:&lt;/p>
+&lt;ul>
+&lt;li>Code directory in home&lt;/li>
+&lt;li>Can do it in any folder&lt;/li>
+&lt;li>To make it public, use the github url, e.g. github.com/dwmkerr/jac&lt;/li>
+&lt;li>one top level module, e.g. &amp;lsquo;jac&amp;rsquo;, then the subfolders are packages&lt;/li>
+&lt;li>(For reference, multi-module workspaces might be worth looking at)&lt;/li>
+&lt;/ul>
+&lt;p>If I do for example:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir ~/repos/golang/jac
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ~/repos/golang/jac
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go mod init github.com/dwmkerr/jac
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now when I import:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;github.com/dwmkerr/jac&amp;#34;&lt;/span> &lt;span style="color:#75715e">// is would download from github
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If I did &lt;code>go mod get&lt;/code> then I can download the package locally, or &lt;code>go mod install&lt;/code> to&lt;/p>
+&lt;p>go mod&lt;/p>
+&lt;pre tabindex="0">&lt;code>go mod
+go mod tidy
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>vendor directory&lt;/li>
+&lt;li>code organisation&lt;/li>
+&lt;li>where to run go mod&lt;/li>
+&lt;li>what is go.mod&lt;/li>
+&lt;li>most simple folder structure&lt;/li>
+&lt;/ul>
+&lt;h2 id="packages-1">Packages&lt;/h2>
+&lt;p>Anything with lowercase is private, anything starting with Uppercase is public and exported&lt;/p>
+&lt;h2 id="client--server">Client / Server&lt;/h2>
+&lt;p>Simple echo server&lt;/p></description><category>CodeProject</category></item><item><title>A simple Makefile 'help' command</title><link>https://dwmkerr.com/makefile-help-command/</link><pubDate>Sun, 25 Sep 2022 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/makefile-help-command/</guid><description>&lt;p>In this article I&amp;rsquo;m going to show you how to add a &lt;code>make help&lt;/code> command to your makefiles that quickly and easily shows simple documentation for your commands:&lt;/p>
 &lt;p>&lt;img src="./images/demo.svg" alt="Screen recording of the &amp;lsquo;makefile help&amp;rsquo; command in action">&lt;/p>
 &lt;p>To add the &lt;code>help&lt;/code> command to your makefile, add a recipe like so:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-make" data-lang="make">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">.PHONY&lt;/span>&lt;span style="color:#f92672">:&lt;/span> help
