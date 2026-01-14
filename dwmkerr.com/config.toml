@@ -19,10 +19,9 @@ googleAnalytics = "G-XNRSGLYJRM"
   paginate = 10
   # Social accounts. Link to these accounts are displayed in the header and
   # footer
-  twitter = "dwmkerr"
   github = "dwmkerr"
-  npm = "dwmkerr"
   linkedin = "dwmkerr"
+  bookurl = "https://amzn.to/4ho0F91"
   # Disqus shortname
   disqus = "dwmkerr"
   author = "Dave Kerr"

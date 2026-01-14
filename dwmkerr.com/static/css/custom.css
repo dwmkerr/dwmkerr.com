@@ -36,6 +36,12 @@
   width: 12px;
 }
 
+.header-icons .c-links__icon--amazon {
+  height: 16px;
+  width: 16px;
+}
+
+
 .c-article-date {
   font-size: 1.2rem;
   color: #999;
