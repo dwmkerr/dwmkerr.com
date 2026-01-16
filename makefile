@@ -14,8 +14,8 @@ init: # Setup tools required for local development.
 newpost: # Create a new post.
 	cd dwmkerr.com; hugo new posts/my-first-post.md
 
-.PHONY: serve
-serve: # Serve the site locally for testing.
+.PHONY: dev
+dev: # Serve the site locally for testing.
 	cd dwmkerr.com; hugo server --baseURL "http://localhost/" --buildDrafts --logLevel debug -p 3965
 
 .PHONY: build # Build the site.
