@@ -1,0 +1,62 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SharpShell on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-47/categories/sharpshell/</link><description>Recent content in SharpShell on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Thu, 27 Jun 2013 05:40:58 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-47/categories/sharpshell/index.xml" rel="self" type="application/rss+xml"/><item><title>Context Menu for Trello</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-47/context-menu-for-trello/</link><pubDate>Thu, 27 Jun 2013 05:40:58 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-47/context-menu-for-trello/</guid><description>&lt;p&gt;I&amp;rsquo;m on holiday at the moment, back in sunny England. Holiday may not be the right term really, I&amp;rsquo;m mostly working through charity stuff (for my charity &lt;a title="Namaste - Children's Homes Nepal" href="http://www.childrenshomesnepal.org/" target="_blank"&gt;Namaste - Children&amp;rsquo;s Homes Nepal&lt;/a&gt;) and company administration. I&amp;rsquo;m also starting working on a big new project, which is pretty exciting.&lt;/p&gt;
+&lt;p&gt;Anyway, I got a nice message from a fellow coder &lt;a title="Goerge Hahn on Twitter" href="https://twitter.com/George_Hahn" target="_blank"&gt;George Hahn&lt;/a&gt; who has put together a pretty cool project that lets you send files directly to &lt;a title="Trello" href="https://trello.com/" target="_blank"&gt;Trello&lt;/a&gt; as an attachment to a card, or even as a new card. Here&amp;rsquo;s a screenshot of it in action:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.dwmkerr.com/wp-content/uploads/2013/06/TrelloContextMenuExample.png"&gt;&lt;img src="images/TrelloContextMenuExample.png" alt="TrelloContextMenuExample" width="503" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s a nice project, you can check it out on GitHub:&lt;/p&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;iframe style="width: 170px; height: 30px;" src="http://ghbtns.com/github-btn.html?user=GeorgeHahn&amp;amp;repo=TrelloContextMenu&amp;amp;type=watch&amp;amp;count=true&amp;amp;size=large" height="30" width="170" frameborder="0" scrolling="0"&gt;&lt;/iframe&gt;&lt;/td&gt;
+&lt;td&gt;&lt;iframe style="width: 170px; height: 30px;" src="http://ghbtns.com/github-btn.html?user=GeorgeHahn&amp;amp;repo=TrelloContextMenu&amp;amp;type=fork&amp;amp;count=true&amp;amp;size=large" height="30" width="170" frameborder="0" scrolling="0"&gt;&lt;/iframe&gt;&lt;/td&gt;
+&lt;td&gt;&lt;iframe style="width: 240px; height: 30px;" src="http://ghbtns.com/github-btn.html?user=GeorgeHahn&amp;amp;type=follow&amp;amp;count=true&amp;amp;size=large" height="30" width="240" frameborder="0" scrolling="0"&gt;&lt;/iframe&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+What's also cool about this project is that it's the first project that someone's told me about that uses &lt;a title="SharpShell" href="https://sharpshell.codeplex.com/" target="_blank"&gt;SharpShell&lt;/a&gt;. Many people have got in touch with me about SharpShell (in fact, &lt;a title="SharpShell Context Menus on the CodeProject" href="http://www.codeproject.com/Articles/512956/NET-Shell-Extensions-Shell-Context-Menus" target="_blank"&gt;the SharpShell Context Menus article on the CodeProject&lt;/a&gt; is very popular), but so far this is the first real-world project where the writer got in touch after the project is completed.
+&lt;p&gt;Thanks George, I look forward to seeing what else you&amp;rsquo;re working on!&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Creating Info Tip Handlers with .NET</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-47/creating-info-tip-handlers-with-net/</link><pubDate>Mon, 14 Jan 2013 03:47:44 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-47/creating-info-tip-handlers-with-net/</guid><description>&lt;p&gt;I have just added an article to the CodeProject that discusses how to create Info Tip shell extensions in .NET. These extensions are used by the shell to customise the tooltips shown over shell items.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.dwmkerr.com/2013/01/creating-info-tip-handlers-with-net/shellinfotiphandler/" rel="attachment wp-att-210"&gt;&lt;img src="images/ShellInfoTipHandler.png" alt="ShellInfoTipHandler" width="385" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The article shows how you can use &lt;a title="SharpShell on CodePlex" href="http://sharpshell.codeplex.com"&gt;SharpShell &lt;/a&gt;to very quickly create these extensions, you can find it at: &lt;a title="Shell Info Tip Handlers" href="http://www.codeproject.com/Articles/527058/NET-Shell-Extensions-Shell-Info-Tip-Handlers"&gt;&lt;a href="http://www.codeproject.com/Articles/527058/NET-Shell-Extensions-Shell-Info-Tip-Handlers"&gt;http://www.codeproject.com/Articles/527058/NET-Shell-Extensions-Shell-Info-Tip-Handlers&lt;/a&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;So just how easy does SharpShell make creating Shell Info Tip Handlers? The answer is pretty easy indeed. The code below shows the &lt;strong&gt;full &lt;/strong&gt;implementation of a Shell Info Tip Handler that changes the tooltips for folders to show the name of the folder and the number of items it contains:&lt;/p&gt;
+&lt;p&gt;[csharp]/// &amp;lt;summary&amp;gt;
+/// The FolderInfoTip handler is an example SharpInfoTipHandler that provides an info tip
+/// for folders that shows the number of items in the folder.
+/// &amp;lt;/summary&amp;gt;
+[ComVisible(true)]
+[COMServerAssociation(AssociationType.Directory)]
+public class FolderInfoTipHandler : SharpInfoTipHandler
+{
+/// &amp;lt;summary&amp;gt;
+/// Gets info for the selected item (SelectedItemPath).
+/// &amp;lt;/summary&amp;gt;
+/// &amp;lt;param name=&amp;quot;infoType&amp;quot;&amp;gt;Type of info to return.&amp;lt;/param&amp;gt;
+/// &amp;lt;param name=&amp;quot;singleLine&amp;quot;&amp;gt;if set to &amp;lt;c&amp;gt;true&amp;lt;/c&amp;gt;, put the info in a single line.&amp;lt;/param&amp;gt;
+/// &amp;lt;returns&amp;gt;
+/// Specified info for the selected file.
+/// &amp;lt;/returns&amp;gt;
+protected override string GetInfo(RequestedInfoType infoType, bool singleLine)
+{
+// Switch on the tip of info we need to provide.
+switch (infoType)
+{
+case RequestedInfoType.InfoTip:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; // Format the formatted info tip.
+return string.Format(singleLine
+? &amp;amp;quot;{0} - {1} Items&amp;amp;quot;
+: &amp;amp;quot;{0}&amp;amp;quot; + Environment.NewLine + &amp;amp;quot;Contains {1} Items&amp;amp;quot;,
+Path.GetFileName(SelectedItemPath), Directory.GetFiles(SelectedItemPath).Length);
+case RequestedInfoType.Name:
+// Return the name of the folder.
+return string.Format(&amp;amp;quot;Folder '{0}'&amp;amp;quot;, Path.GetFileName(SelectedItemPath));
+default:
+// We won't be asked for anything else, like shortcut paths, for folders, so we
+// can return an empty string in the default case.
+return string.Empty;
+}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;} [/csharp]&lt;/p&gt;
+&lt;p&gt;As you can see, all of the COM interfaces are hidden away and handled for you, there is no ugly pinvoke code and no use of strange structures imported from Win32. SharpShell handles all of the plumbing for you.&lt;/p&gt;</description><category>CodeProject</category></item><item><title>SharpShell</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-47/sharpshell/</link><pubDate>Tue, 08 Jan 2013 16:28:05 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-47/sharpshell/</guid><description>&lt;p&gt;SharpShell is a project that I have recently uploaded to CodePlex. This class library, and set of tools and samples, is designed to be a framework to enable rapid development of Shell Extensions using the .NET Framework. In time it may grow to contain some functionality for using Shell entities within managed applications (for example, allowing an Explorer context menu to be built dynamically for a given path).&lt;/p&gt;
+&lt;p&gt;Anyway, the code is all at &lt;a title="SharpShell on CodePlex" href="http://sharpshell.codeplex.com" target="_blank"&gt;sharpshell.codeplex.com&lt;/a&gt;. You can also see a nice article on the CodeProject that show&amp;rsquo;s how to create a Shell Context Menu Extension using C#, the article is at: &lt;a title=".NET Shell Extensions - Shell Context Menus" href="http://www.codeproject.com/Articles/512956/NET-Shell-Extensions-Shell-Context-Menus" target="_blank"&gt;.NET Shell Extensions - Shell Context Menus&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.dwmkerr.com/2013/01/sharpshell/screenshot1_exampleiconhandler/" rel="attachment wp-att-200"&gt;&lt;img src="images/Screenshot1_ExampleIconHandler.png" alt="Screenshot1_ExampleIconHandler" width="515" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Above: An example of a Managed Shell Extension. This sample colours the icons for dlls differently, depending on whether they are native dlls or assemblies.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;So far, in the repo on CodePlex there are also samples for Shell Icon Handlers (which customise icons in Explorer) and Shell Info Tip Handlers (which customise tooltips). Both of these extension types are fully supported in the current dev version and will be released in the next few days. There&amp;rsquo;s also a partially functioning Shell Property Sheet implementation which will be delivered in the subsequent version. The Shell Property Sheet introduces some particularly strange code - 32 and 64 bit C++ dlls are embedded as manifest resource streams and extracted as needed to provide access to C++ function pointers - ouch.&lt;/p&gt;
+&lt;p&gt;More to follow - check out the project and the article.&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>
