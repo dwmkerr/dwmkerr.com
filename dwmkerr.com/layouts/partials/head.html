@@ -40,9 +40,7 @@
   {{ hugo.Generator -}}
 
   {{ if not hugo.IsServer }}
-  {{ with .Site.GoogleAnalytics }}
-    {{ template "_internal/google_analytics.html" $ }}
-  {{ end }}
+    {{ template "_internal/google_analytics.html" . }}
   {{ end }}
 
   <link rel="stylesheet" href="{{ .Site.BaseURL }}css/style.css" />
