@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.2...v0.2.3) (2026-01-19)
+
+
+### Bug Fixes
+
+* add write permissions for gh-pages deploy ([ad7d8ac](https://github.com/dwmkerr/dwmkerr.com/commit/ad7d8acaf35792fa2de1e6e4b7b2ddaa6a9de032))
+* use github_token for gh-pages deploy ([eaade6c](https://github.com/dwmkerr/dwmkerr.com/commit/eaade6c57f6503ec7674ecd1074874600bb11894))
+
 ## [0.2.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.1...v0.2.2) (2026-01-19)
 
 
