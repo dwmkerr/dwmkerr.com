@@ -1,0 +1,442 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Golang on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-50/categories/golang/</link><description>Recent content in Golang on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 08 Oct 2018 21:34:02 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-50/categories/golang/index.xml" rel="self" type="application/rss+xml"/><item><title>Manipulating Istio and other Custom Kubernetes Resources in Golang</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-50/manipulating-istio-and-other-custom-kubernetes-resources-in-golang/</link><pubDate>Mon, 08 Oct 2018 21:34:02 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-50/manipulating-istio-and-other-custom-kubernetes-resources-in-golang/</guid><description>&lt;p&gt;In this article I&amp;rsquo;ll demonstrate how to use Golang to manipulate Kubernetes Custom Resources, with Istio as an example. No knowledge of Istio is needed, I&amp;rsquo;ll just use it to demonstrate the concepts!&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/code-2.jpg" alt="code"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://istio.io"&gt;Istio&lt;/a&gt; is a highly popular Service Mesh platform which allows engineers to quickly add telemetry, advanced traffic management and more to their service-based applications.&lt;/p&gt;
+&lt;p&gt;One interesting element of how Istio works is that when deployed into a Kubernetes cluster, many key configuration objects are handled as &lt;a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/"&gt;Custom Resources&lt;/a&gt;. Custom Resources are a very powerful Kubernetes feature, which allow you to create your own &amp;lsquo;first class&amp;rsquo; resources (just like Pods, ReplicaSets, Deployments or whatever) and then interface with them using &lt;code&gt;kubectl&lt;/code&gt; or the Kubernetes APIs.&lt;/p&gt;
+&lt;p&gt;In this article I&amp;rsquo;ll show you how to interface with these Custom Resources using the Golang Kubernetes client.&lt;/p&gt;
+&lt;h2 id="crds-a-quick-overview"&gt;CRDs: A Quick Overview&lt;/h2&gt;
+&lt;p&gt;When you set up Istio for your cluster, one common thing you will likely do is specify how you will route traffic. This can be quite sophisticated, as shown below:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/TrafficManagementOverview.svg" alt="TrafficManagementOverview"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://istio.io/docs/concepts/traffic-management/"&gt;Figure 1: Istio Traffic Management Examples, from istio.io&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;One way for a system like this to be configured would be to have a ConfigMap which contains the definition of how services are routed.&lt;/p&gt;
+&lt;p&gt;However, Istio actually registers new types of resources (Custom Resource Definitions) which represent things like Gateways or Services. We can create/update/delete/manipulate them just like any other Kubernetes object.&lt;/p&gt;
+&lt;p&gt;For example, I could create a virtual service for the example above with something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt; EOF | kubectl create -f -
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;apiVersion: networking.istio.io/v1alpha3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;kind: VirtualService
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;metadata:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; name: service2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;spec:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; hosts:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - &amp;#34;*&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; gateways:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - demo1-gateway
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; http:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - route:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - destination:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; host: service2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; subset: v1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; weight: 95
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - destination:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; host: service2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; subset: v2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; weight: 5
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Again, the important thing is not the specific content of this resource, more the fact that I can treat my Istio resources just like I would any other Kubernetes object:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ kubectl get virtualservices.networking.istio.io
+NAME AGE
+service2 93s
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Or:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ kubectl delete virtualservices.networking.istio.io/service2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I can use &lt;code&gt;edit&lt;/code&gt;, &lt;code&gt;describe&lt;/code&gt;, register lifecycle events, watch for changes, and so on.&lt;/p&gt;
+&lt;h2 id="working-with-crds-in-golang"&gt;Working with CRDs in Golang&lt;/h2&gt;
+&lt;p&gt;The &lt;a href="https://github.com/kubernetes/client-go"&gt;Golang Kubernetes Client&lt;/a&gt; allows you to create strongly defined types which you can then use to interface with CRDs. An example is in the Red Hat blog post &lt;a href="https://blog.openshift.com/kubernetes-deep-dive-code-generation-customresources/"&gt;Kubernetes Deep Dive: Code Generation for Custom Resources&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is an excellent approach, but can feel pretty heavy if you want to quickly access some data, and don&amp;rsquo;t want to have to generate a lot of code.&lt;/p&gt;
+&lt;p&gt;There is an alternative, which is to use the &lt;a href="https://github.com/kubernetes/client-go/blob/master/dynamic/interface.go"&gt;&lt;code&gt;DynamicClient&lt;/code&gt;&lt;/a&gt;. The &lt;em&gt;preferred&lt;/em&gt; approach seems to be the first, which involves code generation, so little documentation exists for the second approach. However, it is actually very simple.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s an example of how you can list all Istio &lt;code&gt;VirtualService&lt;/code&gt; resources, without having to generate any code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;metav1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/apimachinery/pkg/apis/meta/v1&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/dynamic&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Create a Dynamic Client to interface with CRDs.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;dynamicClient&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;dynamic&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewForConfig&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Create a GVR which represents an Istio Virtual Service.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;virtualServiceGVR&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;schema&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GroupVersionResource&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Group&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;networking.istio.io&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;v1alpha3&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Resource&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;virtualservices&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// List all of the Virtual Services.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;virtualServices&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;dynamicClient&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Resource&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;virtualServiceGVR&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;Namespace&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;List&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;metav1&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;ListOptions&lt;/span&gt;{})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;virtualService&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;range&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;virtualServices&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Items&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;fmt&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Printf&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;VirtualService: %s\n&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;virtualService&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GetName&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This snippet omits setup and error-handling for clarity, the full example is in the &lt;a href="https://gist.github.com/dwmkerr/09ac0fd98595460456e17d5ef0c77667"&gt;k8s-list-virtualservices.go&lt;/a&gt; gist.&lt;/p&gt;
+&lt;h2 id="patching-crds-in-golang"&gt;Patching CRDs in Golang&lt;/h2&gt;
+&lt;p&gt;You may have noticed that the &lt;code&gt;.Resource().Namespace().List()&lt;/code&gt; code looks very similar to the structure for making API calls when using the Kubernetes &lt;code&gt;Clientset&lt;/code&gt;. In fact, it is essentially the same. Looking at &lt;a href="https://github.com/kubernetes/client-go/blob/master/dynamic/interface.go"&gt;the interface&lt;/a&gt;, you can see you have all of the operations you&amp;rsquo;d expect:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Create&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Update&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Delete&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Get&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And so on. This is nice because you can use the same trick in my article &amp;lsquo;&lt;a href="https://www.dwmkerr.com/patching-kubernetes-resources-in-golang/"&gt;Patching Kubernetes Resources in Golang&lt;/a&gt;&amp;rsquo; to manipulate these entities, without ever having to create a structure to represent it.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s another abbreviated example, this time showing how we can adjust the weight of the routing from the services to 50%/50%:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;metav1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/apimachinery/pkg/apis/meta/v1&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/dynamic&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Create a GVR which represents an Istio Virtual Service.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;virtualServiceGVR&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;schema&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GroupVersionResource&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Group&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;networking.istio.io&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;v1alpha3&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Resource&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;virtualservices&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Weight the two routes - 50/50.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; make([]&lt;span style="color:#a6e22e"&gt;PatchUInt32Value&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;replace&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;/spec/http/0/route/0/weight&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt; = &lt;span style="color:#ae81ff"&gt;50&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;replace&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;/spec/http/0/route/1/weight&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt; = &lt;span style="color:#ae81ff"&gt;50&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchBytes&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;json&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Marshal&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Apply the patch to the &amp;#39;service2&amp;#39; service.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;_&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;dynamicClient&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Resource&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;virtualServiceGVR&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;Namespace&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;Patch&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;service2&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;types&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;JSONPatchType&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;patchBytes&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See the full example in the gist &lt;a href="https://gist.github.com/dwmkerr/7332888e092156ce8ce4ea551b0c321f"&gt;k8s-patch-virtualservice.go&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;After running the sample, you can use the Kubernetes CLI to verify the changes:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ kubectl get virtualservices.networking.istio.io/service2 -o yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+clusterName: &amp;#34;&amp;#34;
+creationTimestamp: 2018-10-08T09:53:16Z
+generation: 0
+name: service2
+namespace: default
+resourceVersion: &amp;#34;487435&amp;#34;
+selfLink: /apis/networking.istio.io/v1alpha3/namespaces/default/virtualservices/service2
+uid: fac5930c-cadf-11e8-90a2-42010a94005b
+spec:
+gateways:
+- demo1-gateway
+hosts:
+- &amp;#39;*&amp;#39;
+http:
+- route:
+- destination:
+host: service2
+subset: v1
+weight: 50
+- destination:
+host: service2
+subset: v2
+weight: 50
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="keep-it-simple"&gt;Keep It Simple!&lt;/h2&gt;
+&lt;p&gt;That&amp;rsquo;s it! This trick made something I was working on a &lt;em&gt;lot&lt;/em&gt; easier, but it took a little bit of experimentation to get right. I hope you find the approach useful. Please share any thoughts/questions in the comments.&lt;/p&gt;
+&lt;h2 id="further-reading"&gt;Further Reading&lt;/h2&gt;
+&lt;p&gt;The following articles were using in working out this approach:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.openshift.com/kubernetes-deep-dive-code-generation-customresources/"&gt;Red Hat: Deep Dive: Code Generation for Custom Resources&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/"&gt;Kubernetes Docs: Custom Resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><category>CodeProject</category></item><item><title>Patching Kubernetes Resources in Golang</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-50/patching-kubernetes-resources-in-golang/</link><pubDate>Tue, 24 Jul 2018 06:33:17 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-50/patching-kubernetes-resources-in-golang/</guid><description>&lt;p&gt;Recently I needed to be able to quickly adjust the number of replicas in a Kubernetes Replication Controller. The original solution I&amp;rsquo;d seen pulled down the spec, modified it, then updated it. There&amp;rsquo;s a better way!&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/patch-1.jpg" alt="Kuberentes Patch API"&gt;&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s a &lt;a href="https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/"&gt;patch API for Kubernetes resources&lt;/a&gt;. Patching resources is faster and easier than pulling them and updating the spec wholesale. However, the documentation is a little limited.&lt;/p&gt;
+&lt;p&gt;After some trial and error I got it working, here&amp;rsquo;s the solution. I thought it might be helpful to share for others!&lt;/p&gt;
+&lt;h3 id="the-solution"&gt;The Solution&lt;/h3&gt;
+&lt;p&gt;I&amp;rsquo;ll start with the solution. If this is all you need, you are good to go. The details of how this works are presented afterwards. In this example I&amp;rsquo;ll update the number of replicas in the &lt;code&gt;my-rc&lt;/code&gt; controller:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;package&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;encoding/json&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;types&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/apimachinery/pkg/types&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/kubernetes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/plugin/pkg/client/auth&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/tools/clientcmd&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Leave blank for the default context in your kube config.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;context&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Name of the replication controller to scale, and the desired number of replicas.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;replicationControllerName&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;my-rc&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;replicas&lt;/span&gt; = uint32(&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// patchStringValue specifies a patch operation for a string.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;type&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;patchStringValue&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;op&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;path&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;value&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// patchStringValue specifies a patch operation for a uint32.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;type&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;patchUInt32Value&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;op&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;path&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;uint32&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;value&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;func&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;scaleReplicationController&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;clientSet&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;kubernetes&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Clientset&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicasetName&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;scale&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;uint32&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;error&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;payload&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; []&lt;span style="color:#a6e22e"&gt;patchUInt32Value&lt;/span&gt;{{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;replace&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/spec/replicas&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt;: &lt;span style="color:#a6e22e"&gt;scale&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;payloadBytes&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;json&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Marshal&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;payload&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;clientSet&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;CoreV1&lt;/span&gt;().
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;ReplicationControllers&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;).
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Patch&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;replicasetName&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;types&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;JSONPatchType&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;payloadBytes&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;func&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Get the local kube config.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;fmt&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Printf&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Connecting to Kubernetes Context %v\n&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;context&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;clientcmd&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewNonInteractiveDeferredLoadingClientConfig&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;clientcmd&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewDefaultClientConfigLoadingRules&lt;/span&gt;(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;clientcmd&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;ConfigOverrides&lt;/span&gt;{&lt;span style="color:#a6e22e"&gt;CurrentContext&lt;/span&gt;: &lt;span style="color:#a6e22e"&gt;context&lt;/span&gt;}).&lt;span style="color:#a6e22e"&gt;ClientConfig&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; panic(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Error&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Creates the clientset&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;clientset&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;kubernetes&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewForConfig&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; panic(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Error&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Scale our replication controller.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;fmt&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Printf&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Scaling replication controller %v to %v\n&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicationControllerName&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicas&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; = &lt;span style="color:#a6e22e"&gt;scaleReplicationController&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;clientset&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicationControllerName&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicas&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; panic(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Error&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This code is also available in the &lt;a href="https://gist.github.com/dwmkerr/447692c8bba28929ef914239781c4e59"&gt;k8s-patch.go&lt;/a&gt; gist.&lt;/p&gt;
+&lt;h3 id="the-mechanism"&gt;The Mechanism&lt;/h3&gt;
+&lt;p&gt;The Kubernetes Patch API supports a few different methods for modifying resources. It is important to be aware that there is not a universally accepted &amp;lsquo;standard&amp;rsquo; approach to representing a &lt;em&gt;change&lt;/em&gt; to a resource in a REST API.&lt;/p&gt;
+&lt;p&gt;There are three strategies you can use to patch:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;merge&lt;/code&gt;: follows the &lt;a href="https://tools.ietf.org/html/rfc7386"&gt;JSON Merge Patch Spec (RFC 7386)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;stragetic&lt;/code&gt;: A strategic merge, which addresses some limitations of the merge patch (noted in &lt;a href="%5Bdocs/devel/api-conventions.md#patch-operations%5D(https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/devel/api-conventions.md#patch-operations)"&gt;this doc&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;json&lt;/code&gt;: follows the &lt;a href="https://tools.ietf.org/html/rfc6902"&gt;JSON Patch Spec (RFC 6902)&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These are documented in detail at:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/devel/api-conventions.md#patch-operations"&gt;docs/devel/api-conventions.md#patch-operations&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The mechanism I&amp;rsquo;ve used here is &lt;code&gt;json&lt;/code&gt;, which I think is the clearest to the reader. To use this strategy we need to build a payload describing what we are changing. This might look like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;op&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;replace&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/spec/replicas&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;value&amp;#34;&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;op&lt;/code&gt; field can be &lt;code&gt;remove&lt;/code&gt;, &lt;code&gt;replace&lt;/code&gt;, &lt;code&gt;add&lt;/code&gt; etc etc (all the details are in the &lt;a href="https://tools.ietf.org/html/rfc6902"&gt;RFC 6902)&lt;/a&gt;, or the slightly more readable &lt;a href="jsonpatch.com"&gt;jsonpatch.com&lt;/a&gt;). This allows the operation to be very &lt;em&gt;explicit&lt;/em&gt; to the reader, which is helpful. We create a struct which represents an operation on a string or integer (or whatever data type we need), serialize it and pass to the API.&lt;/p&gt;
+&lt;p&gt;Under the hood, the Golang client will simply translate this into an HTTP call which will look like something like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;PATCH /api/v1/namespaces/default/replicationcontrollers/app-server-blue HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/json-patch+json
+Content-Length: 70
+[{
+&amp;#34;op&amp;#34;: &amp;#34;replace&amp;#34;,
+&amp;#34;path&amp;#34;: &amp;#34;/spec/replicas&amp;#34;,
+&amp;#34;value&amp;#34;: 4
+}]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This corresponds to the documentation on the &lt;a href="https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/devel/api-conventions.md#patch-operations"&gt;Patch Operations&lt;/a&gt;. Note that the patch operation type is specified in the &lt;code&gt;Content-Type&lt;/code&gt; header.&lt;/p&gt;
+&lt;p&gt;Hopefully this&amp;rsquo;ll help you if you need to patch resources, are struggling with the docs and are a Go noob like me! Any tips on how to make the code cleaner or more idomatic would be welcome.&lt;/p&gt;
+&lt;p&gt;Thanks to the following articles and issues which helped me unpick this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/43415728/kubernetes-go-client-patch-example"&gt;Stack Overflow: Kubernetes Go Client Patch Example&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/"&gt;Kubernetes Docs: Update API Objects in Place Using kubectl patch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/devel/api-conventions.md#patch-operations"&gt;Kubernetes Docs: Patch Operations&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><category>CodeProject</category></item><item><title>Is it worth persevering with Golang?</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-50/is-it-worth-persevering-with-golang/</link><pubDate>Wed, 01 Jun 2016 22:10:40 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-50/is-it-worth-persevering-with-golang/</guid><description>&lt;p&gt;I recently decided to try out &lt;a href="https://golang.org/"&gt;the Go Programming Language&lt;/a&gt;, by building a little project called &lt;a href="http://www.github.com/dwmkerr/google-it"&gt;google-it&lt;/a&gt; which let&amp;rsquo;s me run a google search from a terminal:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/google-it.gif" alt="google-it screenshot"&gt;&lt;/p&gt;
+&lt;p&gt;The idea behind the project is simple - avoid jumping into a browser if you need to quickly look up something which you can find in the first line of a Google search result. The idea is to try and stay in the zone. For example, forgotten how to split panes in tmux?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;google-it &lt;span style="color:#e6db74"&gt;&amp;#34;split pane tmux&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Would probably show enough information to get going without leaving the terminal.&lt;/p&gt;
+&lt;p&gt;Anyway, the project itself is not that useful&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt; but it seemed like an ideal project to use as a learning exercise for a new language. After perhaps 10-20 hours of learning, coding and messing around, I&amp;rsquo;m wondering - is it worth persevering with Golang?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update 3/6/2016&lt;/strong&gt; If you are learning too, check the &lt;a href="#tipsfornoobs"&gt;Tips for Noobs&lt;/a&gt; section at the end of the article, great tips from members of the community!&lt;/p&gt;
+&lt;h2 id="why-go"&gt;Why Go&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;?&lt;/h2&gt;
+&lt;p&gt;The decision to choose Go for this learning exercise was fairly arbitrary. For the last few years I&amp;rsquo;ve been using mainly interpretted languages or languages which use a platform (.NET, Node.js, Java etc) and the idea of going back to something which compiles into in good ol&amp;rsquo; binaries seemed appealing. I&amp;rsquo;d also heard a lot of good things about Go in general, mostly relating to simplicity, ease of use and concurrency.&lt;/p&gt;
+&lt;h2 id="why-persevere"&gt;Why Persevere?&lt;/h2&gt;
+&lt;p&gt;That&amp;rsquo;s where I&amp;rsquo;m looking for guidance. I&amp;rsquo;ve collected some of my observations so far, and my overall experience with the language is uninspiring. Anyone who can comment on what makes Go great, or whether my ambivalence is justified will help me decide whether to build my next mess-around project in Go or move on to something else.&lt;/p&gt;
+&lt;h2 id="frustrations-so-far"&gt;Frustrations So Far&lt;/h2&gt;
+&lt;p&gt;Before I upset anyone, this is all just the opinion of a total Go noob with maybe 15 hours of coding time in Go. But I&amp;rsquo;ve been developing using a few different languages and platforms for while.&lt;/p&gt;
+&lt;h3 id="folder-structure-is-way-too-opinionated"&gt;Folder structure is way too opinionated&lt;/h3&gt;
+&lt;p&gt;Setup itself is easy, at least on unix or a Mac. But like many coders, I&amp;rsquo;m anal-retentive about how I like to organise things:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;~
+└───repositories
+├───github.com
+├───dwmkerr
+├───project1
+├───etc
+├───organisation1
+├───etc
+├───bitbucket.com
+├───etc
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is how I structure my projects on all my machines, and it works for me.&lt;/p&gt;
+&lt;p&gt;Go forces me to put all of my Go projects in the &lt;code&gt;$GOPATH&lt;/code&gt;, so now I have:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;└───repositories
+├───github.com
+├───etc
+├───go
+├───src
+├───github.com
+├───dwmkerr
+├───goproject1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Which unnecessarily spreads out my projects. Other thoughts:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;My &lt;code&gt;src&lt;/code&gt; folder is increasingly cluttered with dependent modules, making it harder to find my own work.&lt;/li&gt;
+&lt;li&gt;Even within the project folder, I have little flexibility. I&amp;rsquo;d like to have a &lt;code&gt;src&lt;/code&gt; folder to keep my code in, with just the &lt;code&gt;README.md&lt;/code&gt; at the root (leaving space for a &lt;code&gt;docs&lt;/code&gt; folder and others if necessary) - this cannot be done, so &lt;a href="https://github.com/dwmkerr/google-it"&gt;my root folder is cluttered&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Again, in the project folder itself, &lt;a href="https://www.reddit.com/r/golang/comments/2lq3it/is_there_a_way_to_arrange_go_code_into_multiple/"&gt;I cannot use sub-folders for code&lt;/a&gt;. Some might argue if you need subfolders you have too much code in one project.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;All in all it feels like there are a lot of constraints for structure and organisation, with little benefit.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update 3/6/2016&lt;/strong&gt; Steve Francia has rightly pointed out that points 2 and 3 are actually wrong, a project can be simply a &lt;code&gt;main.go&lt;/code&gt; file in the root and a set of submodules, see &lt;a href="http://www.dwmkerr.com/is-it-worth-persevering-with-golang/#comment-2708416211"&gt;this comment&lt;/a&gt; for details.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update 3/6/2016&lt;/strong&gt; A very nice way to separate internal and external go modules is described in &lt;a href="https://www.reddit.com/r/golang/comments/4m5it3/is_it_worth_persevering_with_golang/d3ssyts"&gt;this reddit thread&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="the-idiomatic-approach-to-error-handling-is-flawed"&gt;The idiomatic approach to error handling is flawed&lt;/h3&gt;
+&lt;p&gt;This is likely to prove contentious.&lt;/p&gt;
+&lt;p&gt;My code contains sections like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;func LoadSettings() (Settings, error) {
+var s Settings
+exists, err := exists(GetSettingsPath())
+if err != nil {
+return s, err
+}
+if !exists {
+return CreateDefaultSettings(), nil
+}
+raw, err := ioutil.ReadFile(GetSettingsPath())
+if err != nil {
+return s, err
+}
+json.Unmarshal(raw, &amp;amp;s)
+return s, err
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I see smells:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The &lt;code&gt;s&lt;/code&gt; structure is created even though I may not need it.&lt;/li&gt;
+&lt;li&gt;Even worse, it is &lt;strong&gt;returned uninitialised&lt;/strong&gt; in error conditions.&lt;/li&gt;
+&lt;li&gt;Repetitive code for dealing with error conditions for calls.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now I could avoid the first smell by returning a pointer to the structure, but that incures unnecessary complexity and heap allocations. Here I feel the language is forcing me to do something awful (return a structure I know is invalid) and expect the caller to deal with it.&lt;/p&gt;
+&lt;p&gt;Even worse - the calling code now does this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;settings, err := LoadSettings()
+if err != nil {
+color.Red(&amp;#34;Error loading settings: &amp;#34;, err)
+os.Exit(1)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I&amp;rsquo;ve seen this in many places - nested calls passing the same error around, with little extra context, and eventually terminating.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;This is what exceptions are for.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Native exceptions in languages handle this for you, giving stack information and killing the process by default.&lt;/p&gt;
+&lt;p&gt;The &amp;lsquo;pass the error on to the caller approach&amp;rsquo; may not be the right way to go, but the Go blog suggests exactly this:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.golang.org/error-handling-and-go"&gt;https://blog.golang.org/error-handling-and-go&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;And to me it stinks a bit. If this is the truly desired idomatic approach, then why not supported it natively by the language? Here&amp;rsquo;s the same pseudo-code in F#:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;let loadSettings =
+let path = getSettingsPath()
+match exists path with
+| true -&amp;gt; path |&amp;gt; readFile |&amp;gt; readSettings
+| _ -&amp;gt; createDefaultSettings
+match loadSettings with
+| Some settings -&amp;gt; // ..whatever
+| None -&amp;gt; // ..deal with errors
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If &lt;code&gt;loadSettings&lt;/code&gt; can&amp;rsquo;t return settings, it doesn&amp;rsquo;t return settings. If the caller doesn&amp;rsquo;t handle the &amp;rsquo;no settings&amp;rsquo; scenario explicitly, the compiler will complain that there&amp;rsquo;s a case missing. In this case we have an approach which will warn the coder if they miss something.&lt;/p&gt;
+&lt;h3 id="inconsistent-syntax"&gt;Inconsistent Syntax&lt;/h3&gt;
+&lt;p&gt;A small one, but when I&amp;rsquo;m defining a structure I can do this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;type Link struct {
+Id string
+Uri string
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;but when I&amp;rsquo;m returning a structure, I need commas:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;return Link{
+Id: strconv.Itoa(linkNumber),
+Uri: item.Link,
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I can see the benefit of &lt;strong&gt;allowing&lt;/strong&gt; a comma on the last line, to support quick refactoring, but &lt;strong&gt;forcing&lt;/strong&gt; it seems odd. Why commas for some constructs and not others&lt;sup id="fnref:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;?&lt;/p&gt;
+&lt;p&gt;Also, some more &amp;lsquo;unusual&amp;rsquo; syntax (depending on your background) is present, I assume to save space:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;something := createAndAssign()
+// rather than
+var something SomeType
+something = assign()
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;But some space saving constructs such as ternary operators are missing:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;// easy- c++, c#, java style
+something := condition ? case1() : case2()
+// easy- python style
+something := case1() if condition else case2() // python
+// hard - go style
+var something SomeType
+if condition {
+something = case1()
+} else {
+something = case2()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="difficult-debugging"&gt;Difficult Debugging&lt;/h3&gt;
+&lt;p&gt;For C, C++, .NET, Java and many other languages, debugging is pretty straightforward. For Node.js, you can just use the excellent Chrome debugging tools. For Go, it seems like it&amp;rsquo;s &lt;strong&gt;much&lt;/strong&gt; harder.&lt;/p&gt;
+&lt;p&gt;In my limited time using the language, I avoided &lt;code&gt;gdb&lt;/code&gt; because it looked like a lot of work:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://golang.org/doc/gdb"&gt;https://golang.org/doc/gdb&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I did see some projects like &lt;a href="https://github.com/mailgun/godebug"&gt;godebug&lt;/a&gt; which may ease the process but I was initially surprised by the effort needed to get into debugging.&lt;/p&gt;
+&lt;p&gt;Commenter Sotirios Mantziaris &lt;a href="http://www.dwmkerr.com/is-it-worth-persevering-with-golang/#comment-2707804888"&gt;mentioned that delve provides a nice experience as a debugger&lt;/a&gt;, so this would be worth exploring.&lt;/p&gt;
+&lt;h2 id="delights-so-far"&gt;Delights So Far&lt;/h2&gt;
+&lt;p&gt;It&amp;rsquo;s also worth talking about what I&amp;rsquo;ve liked or loved about Go so far.&lt;/p&gt;
+&lt;h3 id="simple-tooling"&gt;Simple Tooling&lt;/h3&gt;
+&lt;p&gt;A project can be nothing more than a single file, go knows how to build and install it. Compare that to Java, where you have a lot of &amp;lsquo;project&amp;rsquo; related stuff - Gradle stuff, Ant stuff, Maven stuff, xml project files stuff and it feels much cleaner.&lt;/p&gt;
+&lt;p&gt;The tooling is intuitive, fast and works well if you are happy living in a terminal.&lt;/p&gt;
+&lt;h3 id="fantastic-community"&gt;Fantastic Community&lt;/h3&gt;
+&lt;p&gt;I&amp;rsquo;ve added this observation just recently, since writing the article I&amp;rsquo;ve had a &lt;strong&gt;huge&lt;/strong&gt; amount of positive input, describing how to improve my code, better understand Go idioms and where its sweet spots like.&lt;/p&gt;
+&lt;p&gt;For someone new to a language, the community support is great and will really help people just getting into Go get advice and guidance.&lt;/p&gt;
+&lt;h3 id="testing-as-a-first-class-citizen"&gt;Testing as a First Class Citizen&lt;/h3&gt;
+&lt;p&gt;Testing is built in, which is great. Knowing that you can run &lt;code&gt;go test&lt;/code&gt; on a project and have a standard way of executing tests is really quite nice. I love &lt;code&gt;npm test&lt;/code&gt; for Node.js projects as it has helped standardise testing as a practice (checkout &lt;code&gt;npm install&lt;/code&gt; then &lt;code&gt;npm test&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;However, I did have to rely on a library, &lt;a href="https://github.com/smartystreets/goconvey"&gt;goconvey&lt;/a&gt;, to allow me to write tests in the more BBD structured style which I prefer:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;func TestSpec(t *testing.T) {
+Convey(&amp;#34;The param loader&amp;#34;, t, func() {
+Convey(&amp;#34;Should handle no params&amp;#34;, func() {
+params, err := ParseParams([]string{})
+So(params.ShowHelp.Present, ShouldEqual, false)
+So(params.Results.Present, ShouldEqual, false)
+So(params.Open.Present, ShouldEqual, false)
+So(err, ShouldEqual, nil)
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;But that&amp;rsquo;s a totally personal thing and I&amp;rsquo;m sure many others will prefer more &amp;lsquo;vanilla&amp;rsquo; tests.&lt;/p&gt;
+&lt;h3 id="great-documentation"&gt;Great Documentation&lt;/h3&gt;
+&lt;p&gt;I&amp;rsquo;ve found everything I&amp;rsquo;ve needed so far on &lt;a href="https://golang.org/doc/"&gt;Go&amp;rsquo;s own documentation&lt;/a&gt;. The documentation is clean, accessible and seems fairly complete from my limited interactions with it.&lt;/p&gt;
+&lt;h3 id="delightful-vim-development-experience"&gt;Delightful Vim Development Experience&lt;/h3&gt;
+&lt;p&gt;OK - this is not a language feature. But if you are a noob like me moving from this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/VimGoVanilla-1.jpg" alt="Vim vanilla"&gt;&lt;/p&gt;
+&lt;p&gt;to this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/VimWithVimGo.jpg" alt="Vim with vim-go plugin screenshot"&gt;&lt;/p&gt;
+&lt;p&gt;made a big difference. The excellent &lt;a href="https://github.com/fatih/vim-go"&gt;vim-go&lt;/a&gt; plugin gives syntax highlighting and supports some really useful commands. As a learner, regularly running &lt;code&gt;:GoLint&lt;/code&gt; is really helping me write more &amp;lsquo;conventional&amp;rsquo; Go.&lt;/p&gt;
+&lt;h2 id="what-am-i-missing"&gt;What am I missing?&lt;/h2&gt;
+&lt;p&gt;There are some things I know I haven&amp;rsquo;t had a chance to look at which may really be demonstrating the best parts of Go:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Concurrency patterns&lt;/li&gt;
+&lt;li&gt;Performance&lt;/li&gt;
+&lt;li&gt;Writing web servers&lt;/li&gt;
+&lt;li&gt;Godoc&lt;/li&gt;
+&lt;li&gt;Debugging with Delve&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="should-i-continue"&gt;Should I continue?&lt;/h2&gt;
+&lt;p&gt;At this stage I&amp;rsquo;m leaning towards moving on and trying something different, hoping that I&amp;rsquo;ll come back to Go later. Should I persevere with Go for my next project, would Go enthusiasts suggest so and what sort of project hits the &amp;lsquo;sweet spot&amp;rsquo; where Go is a really effective choice?&lt;/p&gt;
+&lt;p&gt;An interesting comment by a colleague was: &amp;ldquo;I would say the usual &amp;lsquo;does it change the way you think about programming?&amp;rsquo;, if yes then persevere, if no then are you going to really leverage Go’s strengths (and find out weaknesses) in your project? If no then either change language or project.&amp;rdquo; was rather insightful.&lt;/p&gt;
+&lt;p&gt;Any comments are welcome!&lt;/p&gt;
+&lt;h2 id="can-you-help-me-get-better"&gt;Can you help me get better?&lt;/h2&gt;
+&lt;p&gt;Any pull requests to my project or comments which show where I&amp;rsquo;ve gone wrong and what I could do to improve my experience and code would be welcome at:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/google-it"&gt;https://github.com/dwmkerr/google-it&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Thanks!&lt;/p&gt;
+&lt;h2 id="tips-for-noobs"&gt;Tips for Noobs!&lt;/h2&gt;
+&lt;p&gt;Since publishing this article I&amp;rsquo;ve collected some useful tips from people who&amp;rsquo;ve commented or got in touch.&lt;/p&gt;
+&lt;h4 id="use-gofmt-and-lint"&gt;Use gofmt and lint&lt;/h4&gt;
+&lt;p&gt;The tool &lt;code&gt;gofmt&lt;/code&gt; will update your code to format it in a conventional go style. This&amp;rsquo;ll help you keep your code consistent with others&amp;rsquo;. Using a linter will also help you stay conventional - if you are using &lt;a href="https://github.com/fatih/vim-go"&gt;vim-go&lt;/a&gt; you can run it from vim with &lt;code&gt;:GoLint&lt;/code&gt;. Thanks @snoproblem!&lt;/p&gt;
+&lt;h4 id="understand-where-go-is-a-ferrari"&gt;Understand where Go is a Ferrari&lt;/h4&gt;
+&lt;p&gt;This I am still working on, and it&amp;rsquo;s certainly tricky for a noob. But commenter devdungeon pointed out that a project like mine is not a great use case for Go - Go excels at speed and concurrency. Projects where that is key are going to be more inspiring. See &lt;a href="http://www.dwmkerr.com/is-it-worth-persevering-with-golang/#comment-2708265044"&gt;this comment&lt;/a&gt; for more.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Footnotes&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Mainly because you have to sign up for the Google Cloud Platform to get an API key so you can perform searches, as Google have deprecated the free and easy search API.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=DvijZuvEiQo"&gt;https://www.youtube.com/watch?v=DvijZuvEiQo&lt;/a&gt;&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;SnoProblem describes why in &lt;a href="http://www.dwmkerr.com/is-it-worth-persevering-with-golang/#comment-2707767852"&gt;this comment&lt;/a&gt;&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item></channel></rss>
