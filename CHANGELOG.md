@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.4...v0.2.5) (2026-01-19)
+
+
+### Bug Fixes
+
+* clean up typos ([3a96f51](https://github.com/dwmkerr/dwmkerr.com/commit/3a96f51a82e53d8e5b0219b72884aad34f90848c))
+
 ## [0.2.4](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.3...v0.2.4) (2026-01-19)
 
 
