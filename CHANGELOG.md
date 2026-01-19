@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.0...v0.2.1) (2026-01-19)
+
+
+### Documentation
+
+* add disclaimer to AI26 supply chain attack article ([#52](https://github.com/dwmkerr/dwmkerr.com/issues/52)) ([5eb9ecb](https://github.com/dwmkerr/dwmkerr.com/commit/5eb9ecba2600117700311911a0126e25831b14e7))
+
+
+### Bug Fixes
+
+* use config file for release-please v4 ([12c90c3](https://github.com/dwmkerr/dwmkerr.com/commit/12c90c3c96a92eb66c2403fd8407f1f37b25a6a4))
+
 ## [0.2.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.3...v0.2.0) (2026-01-19)
 
 
