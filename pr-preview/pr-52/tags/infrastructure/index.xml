@@ -1,0 +1,88 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Infrastructure on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/tags/infrastructure/</link><description>Recent content in Infrastructure on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 11 Dec 2018 21:24:34 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/tags/infrastructure/index.xml" rel="self" type="application/rss+xml"/><item><title>Dynamic and Configurable Availability Zones in Terraform</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/dynamic-and-configurable-availability-zones-in-terraform/</link><pubDate>Tue, 11 Dec 2018 21:24:34 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/dynamic-and-configurable-availability-zones-in-terraform/</guid><description>&lt;p&gt;When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I&amp;rsquo;ve come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we&amp;rsquo;ll support.&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/screenshot-1.jpg" alt="screenshot"&gt;&lt;/p&gt;
+&lt;p&gt;To demonstrate, I&amp;rsquo;ve set up a module which deploys a cluster of web servers. My goal is to be able to configure the region, VPC CIDR block, subnets and subnet CIDR blocks as below:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;module &amp;#34;cluster&amp;#34; {
+source = &amp;#34;github.com/dwmkerr/terraform-aws-vpc&amp;#34;
+# Note how we can specify any number of availability zones here...
+region = &amp;#34;ap-northeast-2&amp;#34;
+vpc_cidr = &amp;#34;10.0.0.0/16&amp;#34;
+subnets = {
+ap-northeast-2a = &amp;#34;10.0.1.0/24&amp;#34;
+ap-northeast-2b = &amp;#34;10.0.2.0/24&amp;#34;
+ap-northeast-2c = &amp;#34;10.0.3.0/24&amp;#34;
+}
+# This just defines the number of web servers to deploy, and uses
+# adds my public key so I can SSH into the servers...
+web_server_count = &amp;#34;3&amp;#34;
+public_key_path = &amp;#34;~/.ssh/id_rsa.pub&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The example module is at &lt;a href="https://github.com/dwmkerr/terraform-aws-vpc"&gt;github.com/dwmkerr/terraform-aws-vpc&lt;/a&gt;. Let&amp;rsquo;s take a look at some of the key elements.&lt;/p&gt;
+&lt;h2 id="the-variables"&gt;The Variables&lt;/h2&gt;
+&lt;p&gt;We define the required variables very explicitly, with descriptions and a variable type to avoid confusion:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;variable &amp;#34;region&amp;#34; {
+description = &amp;#34;The region to deploy the VPC in, e.g: us-east-1.&amp;#34;
+type = &amp;#34;string&amp;#34;
+}
+variable &amp;#34;vpc_cidr&amp;#34; {
+description = &amp;#34;The CIDR block for the VPC, e.g: 10.0.0.0/16&amp;#34;
+type = &amp;#34;string&amp;#34;
+}
+variable &amp;#34;subnets&amp;#34; {
+description = &amp;#34;A map of availability zones to CIDR blocks, which will be set up as subnets.&amp;#34;
+type = &amp;#34;map&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="the-vpc"&gt;The VPC&lt;/h2&gt;
+&lt;p&gt;Now that we have defined the variables, we can set up the VPC:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;// Define the VPC.
+resource &amp;#34;aws_vpc&amp;#34; &amp;#34;cluster&amp;#34; {
+cidr_block = &amp;#34;${var.vpc_cidr}&amp;#34;
+enable_dns_hostnames = true
+}
+// An Internet Gateway for the VPC.
+resource &amp;#34;aws_internet_gateway&amp;#34; &amp;#34;cluster_gateway&amp;#34; {
+vpc_id = &amp;#34;${aws_vpc.cluster.id}&amp;#34;
+}
+// Create one public subnet per key in the subnet map.
+resource &amp;#34;aws_subnet&amp;#34; &amp;#34;public-subnet&amp;#34; {
+count = &amp;#34;${length(var.subnets)}&amp;#34;
+vpc_id = &amp;#34;${aws_vpc.cluster.id}&amp;#34;
+cidr_block = &amp;#34;${element(values(var.subnets), count.index)}&amp;#34;
+map_public_ip_on_launch = true
+depends_on = [&amp;#34;aws_internet_gateway.cluster_gateway&amp;#34;]
+availability_zone = &amp;#34;${element(keys(var.subnets), count.index)}&amp;#34;
+}
+// Create a route table allowing all addresses access to the IGW.
+resource &amp;#34;aws_route_table&amp;#34; &amp;#34;public&amp;#34; {
+vpc_id = &amp;#34;${aws_vpc.cluster.id}&amp;#34;
+route {
+cidr_block = &amp;#34;0.0.0.0/0&amp;#34;
+gateway_id = &amp;#34;${aws_internet_gateway.cluster_gateway.id}&amp;#34;
+}
+}
+// Now associate the route table with the public subnet - giving
+// all public subnet instances access to the internet.
+resource &amp;#34;aws_route_table_association&amp;#34; &amp;#34;public-subnet&amp;#34; {
+count = &amp;#34;${length(var.subnets)}&amp;#34;
+subnet_id = &amp;#34;${element(aws_subnet.public-subnet.*.id, count.index)}&amp;#34;
+route_table_id = &amp;#34;${aws_route_table.public.id}&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;There are a few things of interest here. First, we can easily build a variable number of subnets by using the &lt;code&gt;count&lt;/code&gt; field on the &lt;code&gt;aws_subnet&lt;/code&gt; resource:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;resource &amp;#34;aws_subnet&amp;#34; &amp;#34;public-subnet&amp;#34; {
+count = &amp;#34;${length(var.subnets)}&amp;#34;
+availability_zone = &amp;#34;${element(keys(var.subnets), count.index)}&amp;#34;
+cidr_block = &amp;#34;${element(values(var.subnets), count.index)}&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;By using the &lt;a href="https://www.terraform.io/docs/configuration/interpolation.html"&gt;Terraform Interpolation Syntax&lt;/a&gt;, and in particular the &lt;code&gt;count&lt;/code&gt;, &lt;code&gt;keys&lt;/code&gt;, &lt;code&gt;values&lt;/code&gt; and &lt;code&gt;element&lt;/code&gt; functions, we can grab the subnet name and CIDR block from the variables.&lt;/p&gt;
+&lt;h2 id="the-web-server-cluster"&gt;The Web Server Cluster&lt;/h2&gt;
+&lt;p&gt;A cluster of web servers behind a load balancer are created by the module, to demonstrate that it works. There is little of interest in the script except for how the subnets are referenced:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;resource &amp;#34;aws_autoscaling_group&amp;#34; &amp;#34;cluster_node&amp;#34; {
+name = &amp;#34;cluster_node&amp;#34;
+vpc_zone_identifier = [&amp;#34;${aws_subnet.public-subnet.*.id}&amp;#34;]
+launch_configuration = &amp;#34;${aws_launch_configuration.cluster_node.name}&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that we can specify the entire list of subnet ids by using the &lt;code&gt;*&lt;/code&gt; symbol in the resource path - &lt;code&gt;[&amp;quot;${aws_subnet.public-subnet.*.id}&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="thats-it"&gt;That&amp;rsquo;s It!&lt;/h2&gt;
+&lt;p&gt;That&amp;rsquo;s really all there is to it. I quite like this approach. I think it makes it very clear what is going on with the infrastructure, and is fairly manageable.&lt;/p&gt;
+&lt;p&gt;One question which may be raised is why I am not using the &lt;a href="https://www.terraform.io/docs/configuration/interpolation.html#cidrsubnet-iprange-newbits-netnum-"&gt;&lt;code&gt;cidrsubnet&lt;/code&gt;&lt;/a&gt; function to automatically calculate the CIDR blocks for the subnets. The reason is purely one of preference - I prefer to explicitly specify the CIDR blocks and use various patterns to set conventions. For example, if I see an IP address such as &lt;code&gt;10.0.3.121&lt;/code&gt; then it is in the third AZ of my public subnet, or &lt;code&gt;10.2.2.11&lt;/code&gt; is in the second AZ of my locked down data zone.&lt;/p&gt;
+&lt;p&gt;You can see a sample Terraform module which uses this pattern at: &lt;a href="https://github.com/dwmkerr/terraform-aws-vpc-example"&gt;github.com/dwmkerr/terraform-aws-vpc-example&lt;/a&gt;. This module also has a basic build pipeline and is published on the &lt;a href="https://registry.terraform.io/modules/dwmkerr/vpc-example"&gt;Terraform Registry&lt;/a&gt;. I&amp;rsquo;ll also be updating my &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift"&gt;AWS Openshift&lt;/a&gt; module to use this pattern.&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>

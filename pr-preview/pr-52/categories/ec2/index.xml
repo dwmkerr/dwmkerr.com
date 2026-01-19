@@ -1,0 +1,11 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>EC2 on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/categories/ec2/</link><description>Recent content in EC2 on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 16 Mar 2015 10:34:04 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/categories/ec2/index.xml" rel="self" type="application/rss+xml"/><item><title>Failures Connecting from Elastic Beanstalk servers to MongoDB on EC?</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/failures-connecting-from-elastic-beanstalk-servers-to-mongodb-on-ec/</link><pubDate>Mon, 16 Mar 2015 10:34:04 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/failures-connecting-from-elastic-beanstalk-servers-to-mongodb-on-ec/</guid><description>&lt;p&gt;tl;dr?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Check your mongodb.conf &lt;code&gt;bind_ip&lt;/code&gt; settings to make sure that you&amp;rsquo;re not allowing connections only from localhost.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This may just end up being the first part of a wider troubleshooting guide, but this is one I&amp;rsquo;ve spent a few hours fixing, after assuming I was making terrible mistakes with my security groups.&lt;/p&gt;
+&lt;p&gt;If you find you cannot connect to your MongoDB server from an EB app server (or anything for that matter), before you spend ages checking your Elastic IP, VPC and Security Group config, don&amp;rsquo;t forget that you may have simply used &lt;code&gt;bind_ip&lt;/code&gt; in your config file.&lt;/p&gt;
+&lt;p&gt;Check for:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;bind_ip = 127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Comment it out or remove it and restart:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;service mongod restart
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Don&amp;rsquo;t forget to make sure your firewall is still set up correctly - only allow connections from IPs or even better other security groups you trust.&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>

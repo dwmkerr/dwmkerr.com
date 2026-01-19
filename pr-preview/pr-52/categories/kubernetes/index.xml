@@ -1,0 +1,523 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/categories/kubernetes/</link><description>Recent content in Kubernetes on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Thu, 04 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/categories/kubernetes/index.xml" rel="self" type="application/rss+xml"/><item><title>Observations, tips and tricks for the CKA certification</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/tips-for-cka/</link><pubDate>Thu, 04 Jun 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/tips-for-cka/</guid><description>&lt;p&gt;In this article I&amp;rsquo;ll share some observations, tips and tricks for the &lt;a href="https://www.linuxfoundation.org/"&gt;Linux Foundation&amp;rsquo;s&lt;/a&gt; &amp;ldquo;&lt;a href="https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/"&gt;Certified Kubernetes Administrator&lt;/a&gt; certification and exam.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve been operating Kubernetes in multiple environments for a few years now. I thought this would be an easy certification to get, but I was surprised by how hard it was!&lt;/p&gt;
+&lt;p&gt;I took this exam without doing any formal training, I mostly focused on the areas of the curriculum which I knew I was a little weak at. The task-based structure for the exam I thought was really excellent. It took me two attempts to pass, and I learnt a few things along the way.&lt;/p&gt;
+&lt;p&gt;Here I&amp;rsquo;ll share some thoughts on the certification which hopefully will be useful if you are considering taking it!&lt;/p&gt;
+&lt;!-- vim-markdown-toc GFM --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#tip-do-the-right-certification"&gt;Tip: Do the right Certification!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#tip-understand-the-format"&gt;Tip: Understand the Format!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#tip-know-your-vim"&gt;Tip: Know your Vim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#you-need-to-know-the-architecture-of-kubernetes"&gt;You need to know the architecture of Kubernetes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#tip-you-need-to-know-linux-sysadmin"&gt;Tip: You Need to know Linux Sysadmin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#tip-dry-run-is-your-friend"&gt;Tip: &amp;ldquo;Dry Run&amp;rdquo; is your friend&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#tip-know-how-to-troubleshoot-networking"&gt;Tip: Know how to troubleshoot networking&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#tip-nail-the-easy-questions-quickly"&gt;Tip: Nail the easy questions quickly&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#thats-it"&gt;That&amp;rsquo;s it!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- vim-markdown-toc --&gt;
+&lt;h2 id="tip-do-the-right-certification"&gt;Tip: Do the right Certification!&lt;/h2&gt;
+&lt;p&gt;The CKA exam tests &lt;em&gt;administration&lt;/em&gt; and &lt;em&gt;operation&lt;/em&gt; skills and techniques for Kubernetes. If you have set up and administered clusters before, this will likely not be too challenging. But if you&amp;rsquo;ve never set up a cluster by hand, troubleshot weird issues, fixed clusters and so on, then this is likely going to be very hard.&lt;/p&gt;
+&lt;p&gt;There is a certification which is much more geared towards developers who use Kubernetes, but don&amp;rsquo;t necessarily administer it - that&amp;rsquo;s the &lt;a href="https://www.cncf.io/certification/ckad/"&gt;CKAD&lt;/a&gt; exam and might be the one to take if you are not too familiar with system administration.&lt;/p&gt;
+&lt;h2 id="tip-understand-the-format"&gt;Tip: Understand the Format!&lt;/h2&gt;
+&lt;p&gt;This is not a multiple choice question exam. It&amp;rsquo;s a task based exam, meaning you have about 22 or so specific tasks to complete, in a web browser which has a terminal connected to a cluster.&lt;/p&gt;
+&lt;p&gt;It is open-book - meaning that you can use the &lt;a href="https://kubernetes.io/docs/home/"&gt;Kubernetes Documentation&lt;/a&gt; during the exam. It&amp;rsquo;s not a memory test of specific flags for commands or whatever, it will really require you to work with a running cluster. This means you&amp;rsquo;ll have to be pretty familiar with &lt;code&gt;kubectl&lt;/code&gt;, &lt;code&gt;kubeadm&lt;/code&gt; and also Linux in general!&lt;/p&gt;
+&lt;h2 id="tip-know-your-vim"&gt;Tip: Know your Vim&lt;/h2&gt;
+&lt;p&gt;In the two exams I took, &lt;code&gt;nano&lt;/code&gt; was available. But if you are using &lt;code&gt;nano&lt;/code&gt; to work with files you may struggle for time.&lt;/p&gt;
+&lt;p&gt;I spent a &lt;em&gt;lot&lt;/em&gt; of time in &lt;code&gt;vim&lt;/code&gt; in the exam. &lt;code&gt;vim&lt;/code&gt; is my main text editor for day to day work, so I&amp;rsquo;m fairly familiar with it. Knowing how to quickly copy a file (lets say for example a file which represents a deployment) and quickly manipulate the text in it will be crucial. Make sure you are going to be using a text editor which you can be efficient in!&lt;/p&gt;
+&lt;p&gt;You won&amp;rsquo;t be using a graphical text editor to work with files, so being competent in a terminal editor like &lt;code&gt;vim&lt;/code&gt; or &lt;code&gt;emacs&lt;/code&gt; could make a big difference. Of course you could install your favourite text editor, but you won&amp;rsquo;t be able to use a graphical editor like VS Code.&lt;/p&gt;
+&lt;p&gt;Also, as in most Linux distributions, &lt;code&gt;screen&lt;/code&gt; is available out of the box, and &lt;code&gt;tmux&lt;/code&gt; can also be installed. If you are familiar with either of these terminal mutliplexers it could save you a tonne of time, for example being able to run &lt;code&gt;watch -n 5 -d kubectl get pods&lt;/code&gt; in one pane while applying resources in another.&lt;/p&gt;
+&lt;h2 id="you-need-to-know-the-architecture-of-kubernetes"&gt;You need to know the architecture of Kubernetes&lt;/h2&gt;
+&lt;p&gt;This exam will require you to deal with trivial tasks such as running a deployment or creating a volume. But the questions which focus on that tend to only count for one or two percent of the overall grade each. Questions which deal with troubleshooting actual Kubernetes issues could count for six or seven percent each.&lt;/p&gt;
+&lt;p&gt;This means you &lt;em&gt;need&lt;/em&gt; to know how Kubernetes is architecture. The &lt;code&gt;kubelet&lt;/code&gt; which runs on nodes, the API server, the &lt;code&gt;etcd&lt;/code&gt; store, all of these things you &lt;em&gt;have&lt;/em&gt; to understand how they work and how they fit together.&lt;/p&gt;
+&lt;p&gt;The online documentation covers the architecture in detail, here&amp;rsquo;s the best place to start:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kubernetes.io/docs/concepts/overview/components/"&gt;https://kubernetes.io/docs/concepts/overview/components/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kubernetes.io/docs/concepts/overview/components/"&gt;&lt;img src="./images/k8s-architecture.png" alt="Kubernetes Architecture"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You will need to know how the control plane works, how nodes communicate, how transport of messages works and is secured if you are going to have a chance at dealing with the harder questions.&lt;/p&gt;
+&lt;h2 id="tip-you-need-to-know-linux-sysadmin"&gt;Tip: You Need to know Linux Sysadmin&lt;/h2&gt;
+&lt;p&gt;If you are not familiar with &lt;code&gt;systemctl&lt;/code&gt;, &lt;code&gt;journalctl&lt;/code&gt;, &lt;code&gt;apt&lt;/code&gt;, &lt;code&gt;systemd&lt;/code&gt; units and how the core Kubernetes components are configured, you&amp;rsquo;ll really struggle.&lt;/p&gt;
+&lt;p&gt;Look over the &lt;a href="https://github.com/cncf/curriculum"&gt;CNCF curriculum&lt;/a&gt; - expect to not just have to know how to deal with &amp;lsquo;happy path&amp;rsquo; situations, but also broken clusters, incorrect configuration and so on.&lt;/p&gt;
+&lt;h2 id="tip-dry-run-is-your-friend"&gt;Tip: &amp;ldquo;Dry Run&amp;rdquo; is your friend&lt;/h2&gt;
+&lt;p&gt;One thing which helped me a lot in my second attempt at the exam was the &lt;code&gt;--dry-run&lt;/code&gt; flag. Before you create resources or change anything, run the operation with the &lt;code&gt;--dry-run&lt;/code&gt; flag and see whether the output is what you would expect.&lt;/p&gt;
+&lt;p&gt;This is a quick and easy way to see the changes to the cluster which you are going to apply - and troubleshoot them - before making any actual changes.&lt;/p&gt;
+&lt;h2 id="tip-know-how-to-troubleshoot-networking"&gt;Tip: Know how to troubleshoot networking&lt;/h2&gt;
+&lt;p&gt;Networking in Kubernetes is complex. You must be able to troubleshoot networking issues in the cluster to be able to deal with the more complex tasks.&lt;/p&gt;
+&lt;p&gt;This means that you should know how to be able to run typical networking tools like &lt;code&gt;dig&lt;/code&gt;, &lt;code&gt;nslookup&lt;/code&gt;, &lt;code&gt;telnet&lt;/code&gt; etc, in the cluster itself.&lt;/p&gt;
+&lt;p&gt;If you are not familiar with these tools you might need to take an online course in Kubernetes or Linux Networking Administration before considering this certification. The &lt;a href="https://training.linuxfoundation.org/certification/linux-foundation-certified-sysadmin-lfcs/"&gt;Linux Certified Systems Administrator&lt;/a&gt; training would be a good place to start.&lt;/p&gt;
+&lt;p&gt;If you have taken the &lt;a href="https://success.docker.com/certification"&gt;Docker Certified Associate&lt;/a&gt; exam then some of this should be familiar. If you are not very familiar with how Docker itself works, you&amp;rsquo;ll likely struggle with Kubernetes.&lt;/p&gt;
+&lt;h2 id="tip-nail-the-easy-questions-quickly"&gt;Tip: Nail the easy questions quickly&lt;/h2&gt;
+&lt;p&gt;There are a lot of tasks which only count for one or two percent each; these ones you should be able to complete in a few minutes. You&amp;rsquo;ll need all the time in the exam to work on the really hard questions which deal with diagnosing and fixing cluster issues.&lt;/p&gt;
+&lt;p&gt;Know your core Kubernetes concepts; if you have done the CKAD exam you should be good, if not, check the curriculum and make sure you can quickly complete all of the trivial tasks without wasting too much time.&lt;/p&gt;
+&lt;h2 id="thats-it"&gt;That&amp;rsquo;s it!&lt;/h2&gt;
+&lt;p&gt;Hopefully this was helpful! Good luck if you are taking the exam and hopefully you&amp;rsquo;ll find it a challenging but rewarding experience. I&amp;rsquo;ve taken many exams over the years but this was one of the most challenging, but also one of the most enjoyable, I really felt like it was testing practical techniques rather than your ability to just remember random commands and flags.&lt;/p&gt;
+&lt;p&gt;As always, if you have any comments or questions, please just add them in the section below!&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/cka-cert.png" alt="CKA Certification"&gt;&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Manipulating Istio and other Custom Kubernetes Resources in Golang</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/manipulating-istio-and-other-custom-kubernetes-resources-in-golang/</link><pubDate>Mon, 08 Oct 2018 21:34:02 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/manipulating-istio-and-other-custom-kubernetes-resources-in-golang/</guid><description>&lt;p&gt;In this article I&amp;rsquo;ll demonstrate how to use Golang to manipulate Kubernetes Custom Resources, with Istio as an example. No knowledge of Istio is needed, I&amp;rsquo;ll just use it to demonstrate the concepts!&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/code-2.jpg" alt="code"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://istio.io"&gt;Istio&lt;/a&gt; is a highly popular Service Mesh platform which allows engineers to quickly add telemetry, advanced traffic management and more to their service-based applications.&lt;/p&gt;
+&lt;p&gt;One interesting element of how Istio works is that when deployed into a Kubernetes cluster, many key configuration objects are handled as &lt;a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/"&gt;Custom Resources&lt;/a&gt;. Custom Resources are a very powerful Kubernetes feature, which allow you to create your own &amp;lsquo;first class&amp;rsquo; resources (just like Pods, ReplicaSets, Deployments or whatever) and then interface with them using &lt;code&gt;kubectl&lt;/code&gt; or the Kubernetes APIs.&lt;/p&gt;
+&lt;p&gt;In this article I&amp;rsquo;ll show you how to interface with these Custom Resources using the Golang Kubernetes client.&lt;/p&gt;
+&lt;h2 id="crds-a-quick-overview"&gt;CRDs: A Quick Overview&lt;/h2&gt;
+&lt;p&gt;When you set up Istio for your cluster, one common thing you will likely do is specify how you will route traffic. This can be quite sophisticated, as shown below:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/TrafficManagementOverview.svg" alt="TrafficManagementOverview"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://istio.io/docs/concepts/traffic-management/"&gt;Figure 1: Istio Traffic Management Examples, from istio.io&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;One way for a system like this to be configured would be to have a ConfigMap which contains the definition of how services are routed.&lt;/p&gt;
+&lt;p&gt;However, Istio actually registers new types of resources (Custom Resource Definitions) which represent things like Gateways or Services. We can create/update/delete/manipulate them just like any other Kubernetes object.&lt;/p&gt;
+&lt;p&gt;For example, I could create a virtual service for the example above with something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt; EOF | kubectl create -f -
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;apiVersion: networking.istio.io/v1alpha3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;kind: VirtualService
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;metadata:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; name: service2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;spec:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; hosts:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - &amp;#34;*&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; gateways:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - demo1-gateway
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; http:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - route:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - destination:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; host: service2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; subset: v1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; weight: 95
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; - destination:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; host: service2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; subset: v2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; weight: 5
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Again, the important thing is not the specific content of this resource, more the fact that I can treat my Istio resources just like I would any other Kubernetes object:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ kubectl get virtualservices.networking.istio.io
+NAME AGE
+service2 93s
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Or:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ kubectl delete virtualservices.networking.istio.io/service2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I can use &lt;code&gt;edit&lt;/code&gt;, &lt;code&gt;describe&lt;/code&gt;, register lifecycle events, watch for changes, and so on.&lt;/p&gt;
+&lt;h2 id="working-with-crds-in-golang"&gt;Working with CRDs in Golang&lt;/h2&gt;
+&lt;p&gt;The &lt;a href="https://github.com/kubernetes/client-go"&gt;Golang Kubernetes Client&lt;/a&gt; allows you to create strongly defined types which you can then use to interface with CRDs. An example is in the Red Hat blog post &lt;a href="https://blog.openshift.com/kubernetes-deep-dive-code-generation-customresources/"&gt;Kubernetes Deep Dive: Code Generation for Custom Resources&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is an excellent approach, but can feel pretty heavy if you want to quickly access some data, and don&amp;rsquo;t want to have to generate a lot of code.&lt;/p&gt;
+&lt;p&gt;There is an alternative, which is to use the &lt;a href="https://github.com/kubernetes/client-go/blob/master/dynamic/interface.go"&gt;&lt;code&gt;DynamicClient&lt;/code&gt;&lt;/a&gt;. The &lt;em&gt;preferred&lt;/em&gt; approach seems to be the first, which involves code generation, so little documentation exists for the second approach. However, it is actually very simple.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s an example of how you can list all Istio &lt;code&gt;VirtualService&lt;/code&gt; resources, without having to generate any code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;metav1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/apimachinery/pkg/apis/meta/v1&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/dynamic&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Create a Dynamic Client to interface with CRDs.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;dynamicClient&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;dynamic&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewForConfig&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Create a GVR which represents an Istio Virtual Service.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;virtualServiceGVR&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;schema&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GroupVersionResource&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Group&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;networking.istio.io&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;v1alpha3&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Resource&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;virtualservices&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// List all of the Virtual Services.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;virtualServices&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;dynamicClient&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Resource&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;virtualServiceGVR&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;Namespace&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;List&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;metav1&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;ListOptions&lt;/span&gt;{})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;virtualService&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;range&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;virtualServices&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Items&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;fmt&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Printf&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;VirtualService: %s\n&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;virtualService&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GetName&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This snippet omits setup and error-handling for clarity, the full example is in the &lt;a href="https://gist.github.com/dwmkerr/09ac0fd98595460456e17d5ef0c77667"&gt;k8s-list-virtualservices.go&lt;/a&gt; gist.&lt;/p&gt;
+&lt;h2 id="patching-crds-in-golang"&gt;Patching CRDs in Golang&lt;/h2&gt;
+&lt;p&gt;You may have noticed that the &lt;code&gt;.Resource().Namespace().List()&lt;/code&gt; code looks very similar to the structure for making API calls when using the Kubernetes &lt;code&gt;Clientset&lt;/code&gt;. In fact, it is essentially the same. Looking at &lt;a href="https://github.com/kubernetes/client-go/blob/master/dynamic/interface.go"&gt;the interface&lt;/a&gt;, you can see you have all of the operations you&amp;rsquo;d expect:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Create&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Update&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Delete&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Get&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And so on. This is nice because you can use the same trick in my article &amp;lsquo;&lt;a href="https://www.dwmkerr.com/patching-kubernetes-resources-in-golang/"&gt;Patching Kubernetes Resources in Golang&lt;/a&gt;&amp;rsquo; to manipulate these entities, without ever having to create a structure to represent it.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s another abbreviated example, this time showing how we can adjust the weight of the routing from the services to 50%/50%:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;metav1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/apimachinery/pkg/apis/meta/v1&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/dynamic&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Create a GVR which represents an Istio Virtual Service.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;virtualServiceGVR&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;schema&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GroupVersionResource&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Group&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;networking.istio.io&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;v1alpha3&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Resource&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;virtualservices&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Weight the two routes - 50/50.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; make([]&lt;span style="color:#a6e22e"&gt;PatchUInt32Value&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;replace&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;/spec/http/0/route/0/weight&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt; = &lt;span style="color:#ae81ff"&gt;50&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;replace&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;/spec/http/0/route/1/weight&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt; = &lt;span style="color:#ae81ff"&gt;50&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;patchBytes&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;json&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Marshal&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;patchPayload&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Apply the patch to the &amp;#39;service2&amp;#39; service.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;_&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;dynamicClient&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Resource&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;virtualServiceGVR&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;Namespace&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;Patch&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;service2&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;types&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;JSONPatchType&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;patchBytes&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See the full example in the gist &lt;a href="https://gist.github.com/dwmkerr/7332888e092156ce8ce4ea551b0c321f"&gt;k8s-patch-virtualservice.go&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;After running the sample, you can use the Kubernetes CLI to verify the changes:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ kubectl get virtualservices.networking.istio.io/service2 -o yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+clusterName: &amp;#34;&amp;#34;
+creationTimestamp: 2018-10-08T09:53:16Z
+generation: 0
+name: service2
+namespace: default
+resourceVersion: &amp;#34;487435&amp;#34;
+selfLink: /apis/networking.istio.io/v1alpha3/namespaces/default/virtualservices/service2
+uid: fac5930c-cadf-11e8-90a2-42010a94005b
+spec:
+gateways:
+- demo1-gateway
+hosts:
+- &amp;#39;*&amp;#39;
+http:
+- route:
+- destination:
+host: service2
+subset: v1
+weight: 50
+- destination:
+host: service2
+subset: v2
+weight: 50
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="keep-it-simple"&gt;Keep It Simple!&lt;/h2&gt;
+&lt;p&gt;That&amp;rsquo;s it! This trick made something I was working on a &lt;em&gt;lot&lt;/em&gt; easier, but it took a little bit of experimentation to get right. I hope you find the approach useful. Please share any thoughts/questions in the comments.&lt;/p&gt;
+&lt;h2 id="further-reading"&gt;Further Reading&lt;/h2&gt;
+&lt;p&gt;The following articles were using in working out this approach:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.openshift.com/kubernetes-deep-dive-code-generation-customresources/"&gt;Red Hat: Deep Dive: Code Generation for Custom Resources&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/"&gt;Kubernetes Docs: Custom Resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><category>CodeProject</category></item><item><title>Patching Kubernetes Resources in Golang</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/patching-kubernetes-resources-in-golang/</link><pubDate>Tue, 24 Jul 2018 06:33:17 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/patching-kubernetes-resources-in-golang/</guid><description>&lt;p&gt;Recently I needed to be able to quickly adjust the number of replicas in a Kubernetes Replication Controller. The original solution I&amp;rsquo;d seen pulled down the spec, modified it, then updated it. There&amp;rsquo;s a better way!&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/patch-1.jpg" alt="Kuberentes Patch API"&gt;&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s a &lt;a href="https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/"&gt;patch API for Kubernetes resources&lt;/a&gt;. Patching resources is faster and easier than pulling them and updating the spec wholesale. However, the documentation is a little limited.&lt;/p&gt;
+&lt;p&gt;After some trial and error I got it working, here&amp;rsquo;s the solution. I thought it might be helpful to share for others!&lt;/p&gt;
+&lt;h3 id="the-solution"&gt;The Solution&lt;/h3&gt;
+&lt;p&gt;I&amp;rsquo;ll start with the solution. If this is all you need, you are good to go. The details of how this works are presented afterwards. In this example I&amp;rsquo;ll update the number of replicas in the &lt;code&gt;my-rc&lt;/code&gt; controller:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;package&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;encoding/json&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;types&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/apimachinery/pkg/types&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/kubernetes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/plugin/pkg/client/auth&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;k8s.io/client-go/tools/clientcmd&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Leave blank for the default context in your kube config.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;context&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Name of the replication controller to scale, and the desired number of replicas.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;replicationControllerName&lt;/span&gt; = &lt;span style="color:#e6db74"&gt;&amp;#34;my-rc&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;replicas&lt;/span&gt; = uint32(&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// patchStringValue specifies a patch operation for a string.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;type&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;patchStringValue&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;op&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;path&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;value&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// patchStringValue specifies a patch operation for a uint32.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;type&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;patchUInt32Value&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;op&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;path&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;uint32&lt;/span&gt; &lt;span style="color:#e6db74"&gt;`json:&amp;#34;value&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;func&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;scaleReplicationController&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;clientSet&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;kubernetes&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Clientset&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicasetName&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;scale&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;uint32&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;error&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;payload&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; []&lt;span style="color:#a6e22e"&gt;patchUInt32Value&lt;/span&gt;{{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Op&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;replace&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Path&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/spec/replicas&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Value&lt;/span&gt;: &lt;span style="color:#a6e22e"&gt;scale&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;payloadBytes&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;json&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Marshal&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;payload&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;clientSet&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;CoreV1&lt;/span&gt;().
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;ReplicationControllers&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;).
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;Patch&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;replicasetName&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;types&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;JSONPatchType&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;payloadBytes&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;func&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Get the local kube config.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;fmt&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Printf&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Connecting to Kubernetes Context %v\n&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;context&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;clientcmd&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewNonInteractiveDeferredLoadingClientConfig&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;clientcmd&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewDefaultClientConfigLoadingRules&lt;/span&gt;(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;clientcmd&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;ConfigOverrides&lt;/span&gt;{&lt;span style="color:#a6e22e"&gt;CurrentContext&lt;/span&gt;: &lt;span style="color:#a6e22e"&gt;context&lt;/span&gt;}).&lt;span style="color:#a6e22e"&gt;ClientConfig&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; panic(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Error&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Creates the clientset&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;clientset&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;kubernetes&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewForConfig&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; panic(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Error&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Scale our replication controller.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;fmt&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Printf&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Scaling replication controller %v to %v\n&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicationControllerName&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicas&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; = &lt;span style="color:#a6e22e"&gt;scaleReplicationController&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;clientset&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicationControllerName&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;replicas&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; panic(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Error&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This code is also available in the &lt;a href="https://gist.github.com/dwmkerr/447692c8bba28929ef914239781c4e59"&gt;k8s-patch.go&lt;/a&gt; gist.&lt;/p&gt;
+&lt;h3 id="the-mechanism"&gt;The Mechanism&lt;/h3&gt;
+&lt;p&gt;The Kubernetes Patch API supports a few different methods for modifying resources. It is important to be aware that there is not a universally accepted &amp;lsquo;standard&amp;rsquo; approach to representing a &lt;em&gt;change&lt;/em&gt; to a resource in a REST API.&lt;/p&gt;
+&lt;p&gt;There are three strategies you can use to patch:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;merge&lt;/code&gt;: follows the &lt;a href="https://tools.ietf.org/html/rfc7386"&gt;JSON Merge Patch Spec (RFC 7386)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;stragetic&lt;/code&gt;: A strategic merge, which addresses some limitations of the merge patch (noted in &lt;a href="%5Bdocs/devel/api-conventions.md#patch-operations%5D(https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/devel/api-conventions.md#patch-operations)"&gt;this doc&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;json&lt;/code&gt;: follows the &lt;a href="https://tools.ietf.org/html/rfc6902"&gt;JSON Patch Spec (RFC 6902)&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These are documented in detail at:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/devel/api-conventions.md#patch-operations"&gt;docs/devel/api-conventions.md#patch-operations&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The mechanism I&amp;rsquo;ve used here is &lt;code&gt;json&lt;/code&gt;, which I think is the clearest to the reader. To use this strategy we need to build a payload describing what we are changing. This might look like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;op&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;replace&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/spec/replicas&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;value&amp;#34;&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;op&lt;/code&gt; field can be &lt;code&gt;remove&lt;/code&gt;, &lt;code&gt;replace&lt;/code&gt;, &lt;code&gt;add&lt;/code&gt; etc etc (all the details are in the &lt;a href="https://tools.ietf.org/html/rfc6902"&gt;RFC 6902)&lt;/a&gt;, or the slightly more readable &lt;a href="jsonpatch.com"&gt;jsonpatch.com&lt;/a&gt;). This allows the operation to be very &lt;em&gt;explicit&lt;/em&gt; to the reader, which is helpful. We create a struct which represents an operation on a string or integer (or whatever data type we need), serialize it and pass to the API.&lt;/p&gt;
+&lt;p&gt;Under the hood, the Golang client will simply translate this into an HTTP call which will look like something like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;PATCH /api/v1/namespaces/default/replicationcontrollers/app-server-blue HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/json-patch+json
+Content-Length: 70
+[{
+&amp;#34;op&amp;#34;: &amp;#34;replace&amp;#34;,
+&amp;#34;path&amp;#34;: &amp;#34;/spec/replicas&amp;#34;,
+&amp;#34;value&amp;#34;: 4
+}]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This corresponds to the documentation on the &lt;a href="https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/devel/api-conventions.md#patch-operations"&gt;Patch Operations&lt;/a&gt;. Note that the patch operation type is specified in the &lt;code&gt;Content-Type&lt;/code&gt; header.&lt;/p&gt;
+&lt;p&gt;Hopefully this&amp;rsquo;ll help you if you need to patch resources, are struggling with the docs and are a Go noob like me! Any tips on how to make the code cleaner or more idomatic would be welcome.&lt;/p&gt;
+&lt;p&gt;Thanks to the following articles and issues which helped me unpick this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/43415728/kubernetes-go-client-patch-example"&gt;Stack Overflow: Kubernetes Go Client Patch Example&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/"&gt;Kubernetes Docs: Update API Objects in Place Using kubectl patch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/kubernetes/kubernetes/blob/release-1.1/docs/devel/api-conventions.md#patch-operations"&gt;Kubernetes Docs: Patch Operations&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><category>CodeProject</category></item><item><title>The Death of Microservice Madness in 2018</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/the-death-of-microservice-madness-in-2018/</link><pubDate>Fri, 12 Jan 2018 10:52:25 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/the-death-of-microservice-madness-in-2018/</guid><description>&lt;p&gt;&lt;a href="https://www.campusmvp.es/recursos/post/la-muerte-de-la-locura-de-los-microservicios-en-2018.aspx"&gt;En Español&lt;/a&gt; | &lt;a href="https://www.reddit.com/r/programming/comments/7pxriw/the_death_of_microservice_madness_in_2018/"&gt;Reddit Thread&lt;/a&gt; | &lt;a href="https://news.ycombinator.com/item?id=16200007"&gt;Hacker News Thread&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Microservices became a very popular topic over the last couple of years&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;. &amp;lsquo;Microservice madness&amp;rsquo; goes something like this:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Netflix are great at devops.
+Netflix do microservices.
+Therefore: If I do microservices, I am great at devops.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;There are many cases where great efforts have been made to adopt microservice patterns without necessarily understanding how the costs and benefits will apply to the specifics of the problem at hand.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m going to describe in detail what microservices are, why the pattern is so appealing, and also some of the key challenges that they present.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ll finish with a set of simple questions might be valuable to ask yourself when you are considering whether microservices are the right pattern &lt;em&gt;for you&lt;/em&gt;. The questions are at the end of the article.&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/letterbox.png" alt="Letterbox sample of diagram"&gt;&lt;/p&gt;
+&lt;h2 id="what-are-microservices-and-why-are-they-so-popular"&gt;What are microservices, and why are they so popular?&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s start with the basics. Here is how a hypothetical video sharing platform might be implemented, first in the form of a monolith (single large unit) and then in the form of microservices:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/video-platform-monolith-microservices.png" alt="Diagram: Comparison of a Video Sharing Platform, Monolith vs Microservice"&gt;&lt;/p&gt;
+&lt;p&gt;The difference between the two systems is that the first is a single large unit; a monolith. The second is a set of small, specific services. Each service has a specific role.&lt;/p&gt;
+&lt;p&gt;When the diagram is drawn &lt;em&gt;at this level of detail&lt;/em&gt;, it is easy to see the appeal. There are a whole host of potential benefits:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Independent Development&lt;/strong&gt;: Small, independent components can be built by small, independent teams. A group can work on a change to the &amp;lsquo;Upload&amp;rsquo; service without interfering with the &amp;lsquo;Transcode&amp;rsquo; service, or even knowing about it. The amount of time to learn about a component is greatly reduced, and it is easier to develop new features.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Independent Deployment&lt;/strong&gt;: Each individual component can be deployed independently. This allows new features to be released with greater velocity and less risk. Fixes or features for the &amp;lsquo;Streaming&amp;rsquo; component can be deployed without requiring other components to be deployed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Independent Scalability&lt;/strong&gt;: Each component can be scaled independently of each other. During busy periods when new shows are released, the &amp;lsquo;Download&amp;rsquo; component can be scaled up to handle the increased load, without having to scale up every component, which makes elastic scaling more feasible and reduces costs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Reusability&lt;/strong&gt;: Components fulfil a small, specific function. This means that they can more easily be adapted for use in other systems, services or products. The &amp;lsquo;Transcode&amp;rsquo; component could be used by other business units, or even turned into a new business, perhaps offering transcoding services for other groups.&lt;/p&gt;
+&lt;p&gt;At this level of detail, the benefits of a microservice model over a monolithic model seem obvious. So if that&amp;rsquo;s the case - why is this pattern only recently in vogue? Where has it been all my life?&lt;/p&gt;
+&lt;h2 id="if-this-is-so-great-why-hasnt-it-been-done-before"&gt;If this is so great, why hasn&amp;rsquo;t it been done before?&lt;/h2&gt;
+&lt;p&gt;There are two answers to this question. One is that &lt;em&gt;it has&lt;/em&gt; - to the best of our technical capabilities, and the other is that more recent technical advances have allowed us to take it to a new level.&lt;/p&gt;
+&lt;p&gt;When I started writing the answer to this question, it turned into a &lt;em&gt;long&lt;/em&gt; description, so I&amp;rsquo;m actually going to separate it into another article and publish it a little later&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;. At this stage, I will skip the journey from single program to many programs, ignore ESBs and Service Orientated Architecture, component design and bounded contexts, and so on.&lt;/p&gt;
+&lt;p&gt;Those who are interested can read more about the journey separately. Instead I&amp;rsquo;ll say that in many ways we&amp;rsquo;ve been doing this for a while, but with the recent explosion in popularity of container technology (Docker in particular) and in orchestration technology (such as Kubernetes, Mesos, Consul and so on) this pattern has become much more viable to implement from a technical standpoint.&lt;/p&gt;
+&lt;p&gt;So if we take it as a given that we &lt;em&gt;can&lt;/em&gt; implement a microservice arrangement, we need to think carefully about the &lt;em&gt;should&lt;/em&gt;. We&amp;rsquo;ve seen the high-level theoretical benefits, but what about the challenges?&lt;/p&gt;
+&lt;h2 id="whats-the-problem-with-microservices"&gt;What&amp;rsquo;s the problem with microservices?&lt;/h2&gt;
+&lt;p&gt;If microservices are so great, what&amp;rsquo;s the big deal? Here are some of the biggest issues I&amp;rsquo;ve seen.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Increased complexity for developers&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Things &lt;em&gt;can&lt;/em&gt; get a lot harder for developers. In the case where a developer wants to work on a &lt;em&gt;journey&lt;/em&gt;, or feature which might span many services, that developer has to run them all on their machine, or connect to them. This is often more complex than simply running a single program.&lt;/p&gt;
+&lt;p&gt;This challenge can be partially mitigated with tooling&lt;sup id="fnref:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;, but as the number of services which makes up a system increases, the more challenges developers will face when running the system as a whole.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Increased complexity for operators&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;For teams who don&amp;rsquo;t develop services, but maintain them, there is an explosion in potential complexity. Instead of perhaps managing a few running services, they are managing dozens, hundreds or thousands of running services. There are more services, more communication paths, and more areas of potential failure.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Increased complexity for devops&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Reading the two points above, it may grate that operations and development are treated separately, especially given the popularity of devops as a practice (which I am a big proponent of). Doesn&amp;rsquo;t devops mitigate this?&lt;/p&gt;
+&lt;p&gt;The challenge is that many organisations still run with separated development and operations teams - and a organisation that does is much more likely to struggle with adoption of microservices.&lt;/p&gt;
+&lt;p&gt;For organisations which have adopted devops, it&amp;rsquo;s still hard. Being both a developer and an operator is already tough (but critical to build good software), but having to also understand the nuances of container orchestration systems, particularly systems which are evolving at a rapid pace, is very hard. Which brings me onto the next point.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;It requires serious expertise&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;When done by experts, the results can be wonderful. But imagine an organisation where perhaps things are not running smoothly with a single monolithic system. What possible reason would there be that things would be any better by increasing the number of systems, which increases the operational complexity?&lt;/p&gt;
+&lt;p&gt;Yes, with effective automation, monitoring, orchestration and so on, this is all possible. But the challenge is rarely the technology - the challenge is finding people who can use it effectively. These skillsets are currently in very high demand, and may be difficult to find.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Real world systems often have poorly defined boundaries&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In all of the examples we used to describe the benefits of microservices, we spoke about &lt;em&gt;independent&lt;/em&gt; components. However in many cases components are simply not independent. On paper, certain domains may look bounded, but as you get into the muddy details, you may find that they are more challenging to model than you anticipated.&lt;/p&gt;
+&lt;p&gt;This is where things can get &lt;em&gt;extremely&lt;/em&gt; complex. If your boundaries are actually not well defined, then what happens is that even though &lt;em&gt;theoretically&lt;/em&gt; services can be deployed in isolation, you find that due to the inter-dependencies between services, you have to deploy &lt;em&gt;sets&lt;/em&gt; of services as a group.&lt;/p&gt;
+&lt;p&gt;This then means that you need to manage coherent versions of services which are proven and tested when working together, you don&amp;rsquo;t actually have an independently deployable system, because to deploy a new feature, you need to carefully orchestrate the simultaneous deployment of many services.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The complexities of state are often ignored&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In the previous example, I mentioned that a feature deployment may require the simultaneous rollout of many versions of many services in tandem. It is tempting to assume that sensible deployment techniques will mitigate this, for example blue/green deployments (which most service orchestration platforms handle with little effort), or multiple versions of a service being run in parallel, with consuming channels deciding which version to use.&lt;/p&gt;
+&lt;p&gt;These techniques mitigate a large number of the challenges &lt;em&gt;if the services are stateless&lt;/em&gt;. But stateless services are quite frankly, easy to deal with. In fact, if you have stateless services, then I&amp;rsquo;d be inclined to consider skipping microservices altogether and consider using a serverless model.&lt;/p&gt;
+&lt;p&gt;In reality, many services require state. An example from our video sharing platform might be the subscription service. A new version of the subscriptions service may store data in the subscriptions database in a different shape. If you are running both services in parallel, you are running the system with two schemas at once. If you do a blue green deployment, and other services depend on data in the new shape, then they must be updated &lt;em&gt;at the same time&lt;/em&gt;, and if the subscription service deployment fails and rolls back, they might need to roll back too, with cascading consequences.&lt;/p&gt;
+&lt;p&gt;Again, it might be tempting to think that with NoSQL databases these issues of schema go away, but they don&amp;rsquo;t. Databases which don&amp;rsquo;t enforce schema do not lead to schemaless systems - they just mean that schema tends to be managed at the application level, rather than the database level. The fundamental challenge of understanding the shape of your data, and how it evolves, cannot be eliminated.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The complexitities of communication are often ignored&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;As you build a large network of services which depend on each other, the liklihood is that there will be a lot of inter-service communication. This leads to a few challenges. Firstly, there are a lot more points at which things can fail. We must expect that network calls will fail, which means when one service calls another, it should expect to have to retry a number of times at the least. Now when a service has to potentially call many services, we end up in a complicated situation.&lt;/p&gt;
+&lt;p&gt;Imagine a user uploads a video in the video sharing service. We might need to run the upload service, pass data to the transcode service, update subscriptions, update recommendations and so on. All of these calls require a degree of orchestration, if things fail we need to retry.&lt;/p&gt;
+&lt;p&gt;This retry logic can get hard to manage. Trying to do things synchronously often ends up being untenable, there are too many points of failure. In this case, a more reliable solution is to use asynchronous patterns to handle communication. The challenge here is that asynchronous patterns inherently make a system stateful. As mentioned in the previous point, stateful systems and systems with distributed state are very hard to handle.&lt;/p&gt;
+&lt;p&gt;When a microservice system uses message queues for intra-service communication, you essentially have a large database (the message queue or broker) glueing the services together. Again, although it might not seem like a challenge at first, schema will come back to bite you. A service at version X might write a message with a certain format, services which depend on this message will also need to be updated when the sending service changes the details of the message it sends.&lt;/p&gt;
+&lt;p&gt;It is possible to have services which can handle messages in many different formats, but this is hard to manage. Now when deploying new versions of services, you will have times where two different versions of a service may be trying to process messages from the same queue, perhaps even messages sent by different versions of a sending service. This can lead to complicated edge cases. To avoid these edge cases, it may be easier to only allow certain versions of messages to exist, meaning that you need to deploy a set of versions of a set of services as a coherent whole, ensuring messages of older versions are drained appropriately first.&lt;/p&gt;
+&lt;p&gt;This highlights again that the idea of independent deployments may not hold as expected when you get into the details.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Versioning can be hard&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;To mitigate the challenges mentioned previously, versioning needs to be very carefully managed. Again, there can be a tendency to assume that following a standard such as semver[4] will solve the problem. It doesn&amp;rsquo;t. Semver is a sensible convention to use, but you will still have to track the versions of services and APIs which can work together.&lt;/p&gt;
+&lt;p&gt;This can get very challenging very quickly, and may get to the point where you don&amp;rsquo;t know which versions of services will actually work properly together.&lt;/p&gt;
+&lt;p&gt;Managing dependencies in software systems is notoriously hard, whether it is node modules, Java modules, C libraries or whatever. The challenges of &lt;em&gt;conflicts between independent components&lt;/em&gt; when consumed by a single entity are very hard to deal with.&lt;/p&gt;
+&lt;p&gt;These challenges are hard to deal with when the dependencies are static, and can be patched, updated, edited and so on, but if the dependencies are themselves &lt;em&gt;live services&lt;/em&gt;, then you may not be able to just update them - you may have to run many versions (with the challenges already described) or bring down the system until it is fixed holistically.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Distributed Transactions&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In situations where you need transaction integrity across an operation, microservices can be very painful. Distributed state is hard to deal with, many small units which can fail make orchestrating transactions very hard.&lt;/p&gt;
+&lt;p&gt;It may be tempting to attempt to avoid the problem by making operations idempotent, offering retry mechanisms and so on, and in many cases this might work. But you may have scenarios where you simply need a transaction to fail or succeed, and never be in an intermediate state. The effort involved in working around this or implementing it in a microservice model may be very high.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Microservices can be monoliths in disguise&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Yes, individual services and components &lt;em&gt;may&lt;/em&gt; be deployed in isolation, however in most cases you are going to have to be running some kind of orchestration platform, such as Kubernetes. If you are using a managed service, such as Google&amp;rsquo;s GKE&lt;sup id="fnref:4"&gt;&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref"&gt;4&lt;/a&gt;&lt;/sup&gt; or Amazon&amp;rsquo;s EKS&lt;sup id="fnref:5"&gt;&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref"&gt;5&lt;/a&gt;&lt;/sup&gt;, then a large amount of the complexity of managing the cluster is handled for you.&lt;/p&gt;
+&lt;p&gt;However, if you are managing the cluster yourself, you are managing a large, complicated, mission critical system. Although the individual services may have all of the benefits described earlier, you need to very carefully manage your cluster. Deployments of this system can be hard, updates can be hard, failover can be hard and so on.&lt;/p&gt;
+&lt;p&gt;In many cases the overall benefits are still there, but it is important not to trivialise or underestimate the additional complexity of managing another big, complex system. Managed services may help, but in many cases these services are nascent (Amazon EKS was only announced at the end of 2017 for example).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Networking Nightmares&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A more traditional model of services running on known hosts, with known addresses, has a fairly simple networking setup.&lt;/p&gt;
+&lt;p&gt;However, when using microservices, generally there will be many services distributed across many nodes, which typically means there&amp;rsquo;s going to be a &lt;em&gt;much&lt;/em&gt; more complicated networking arrangement. There will be load balancing between services, DNS may be more heavily used, virtual networking layers, etc etc, to attempt to &amp;lsquo;hide&amp;rsquo; the complexity of this networking.&lt;/p&gt;
+&lt;p&gt;However, as per &lt;a href="https://github.com/dwmkerr/hacker-laws/#the-law-of-conservation-of-complexity-teslers-law"&gt;Tesler&amp;rsquo;s Law&lt;/a&gt; (or the Law of Conservation of Compexlity), this networking complexity is inherent - when you are finding real, runtime issues in larger scale clusters, it can often be at a very low networking level. These sorts of issues can be &lt;em&gt;very&lt;/em&gt; hard to diagnose. I have started tracking some examples at the end of the article, but I think that &lt;a href="https://medium.com/@tinder.engineering/tinders-move-to-kubernetes-cda2a6372f44"&gt;Tinder&amp;rsquo;s Migration to Kuberenetes&lt;/a&gt; shows this challenge very well.&lt;/p&gt;
+&lt;p&gt;Overall - the transition is still likely to be for the best, but doesn&amp;rsquo;t come without some serious challenges at the networking level, which will require some serious expertise to deal with!&lt;/p&gt;
+&lt;h2 id="the-death-of-microservice-madness"&gt;The Death of Microservice Madness!&lt;/h2&gt;
+&lt;p&gt;Avoid the madness by making careful and considered decisions. To help out on this I&amp;rsquo;ve noted a few questions you might want to ask yourself, and what the answers might indicate:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/questions.png" alt="Diagram: Questions to ask yourself when considering microservices"&gt;&lt;/p&gt;
+&lt;p&gt;You can download a PDF copy here: &lt;a href="https://github.com/dwmkerr/blog/blob/master/articles/2018/microservice-madness/images/microservice-questions.pdf"&gt;microservice-questions.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="final-thoughts-dont-confuse-microservices-with-architecture"&gt;Final Thoughts: Don&amp;rsquo;t Confuse Microservices with Architecture&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve deliberately avoided the &amp;lsquo;a&amp;rsquo; word in this article. But my friend &lt;a href="http://twitter.com/zoltanarvai"&gt;Zoltan&lt;/a&gt; made a very good point when proofing this article (which he has contributed to).&lt;/p&gt;
+&lt;p&gt;There is no microservice architecture. Microservices are just another pattern or implementation of components, nothing more, nothing less. Whether they are present in a system or not does not mean that the architecture of the system is solved.&lt;/p&gt;
+&lt;p&gt;Microservices relate in many ways more to the technical processes around packaging and operations rather than the intrinsic design of the system. Appropriate boundaries for components continues to be one of the most important challenges in engineering systems.&lt;/p&gt;
+&lt;p&gt;Regardless of the size of your services, whether they are in Docker containers or not, you will always need to think carefully about how to put a system together. There are no right answers, and there are a &lt;em&gt;lot&lt;/em&gt; of options.&lt;/p&gt;
+&lt;p&gt;I hope you found this article interesting! As always, please do comment below if you have any questions or thoughts. You can also follow some lively discussions on:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.reddit.com/r/programming/comments/7pxriw/the_death_of_microservice_madness_in_2018/"&gt;Reddit - The Death of Microservice Madness&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://news.ycombinator.com/item?id=16200007"&gt;Hacker News - The Death of Microservice Madness&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="appendix-further-reading"&gt;Appendix: Further Reading&lt;/h2&gt;
+&lt;p&gt;The following links might be of interest:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://martinfowler.com/bliki/BoundedContext.html"&gt;Martin Fowler - Bounded Context&lt;/a&gt; - Martin&amp;rsquo;s articles are great, I&amp;rsquo;d thoroughly recommend this.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://martinfowler.com/articles/microservices.html"&gt;Martin Fowler - Microservices&lt;/a&gt; - An often recommended introduction to the pattern.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://r2m.se/microservices-good-or-bad/"&gt;Microservices - Good or Bad?&lt;/a&gt; - Björn Frantzén&amp;rsquo;s thoughts on microservices, after reading this article.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.christianposta.com/microservices/when-not-to-do-microservices/"&gt;When Not To Do Microservices&lt;/a&gt; - Excellent post on the topic from Christian Posta&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.iheavy.com/2017/03/13/30-questions-to-ask-a-serverless-fanboy/"&gt;Sean Hull - 30 questions to ask a serverless fanboy&lt;/a&gt; - Interesting thoughts on the challenges of serverless, from a serverless fan!&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://youtu.be/NVb7aljfKYo?t=6657"&gt;Dave Kerr - Monoliths to Microservices - Practical tips for CI/CD and DevOps in the Microservice world&lt;/a&gt; - A recent conference presentation I did on devops with microservices.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://yermakov.net/microservices-without-fundamentals/"&gt;Alexander Yermakov - Microservices without fundamentals&lt;/a&gt; - A response to this article, with Alex&amp;rsquo;s thoughts and counterpoints to the points raised here (see also &lt;a href="https://yermakov.net/microservices-as-a-self-sufficient-concept/"&gt;Microservices as a self sufficient concept&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Please do share anything else you think makes great reading or watching on the topic!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="thanks"&gt;Thanks&lt;/h2&gt;
+&lt;p&gt;Thanks José from &lt;a href="https://www.campusmvp.es"&gt;campusmvp.es&lt;/a&gt; for having the article translated in Spanish - &lt;a href="https://www.campusmvp.es/recursos/post/la-muerte-de-la-locura-de-los-microservicios-en-2018.aspx"&gt;La muerte de la locura de los microservicios en 2018&lt;/a&gt;!&lt;/p&gt;
+&lt;h2 id="case-studies"&gt;Case Studies&lt;/h2&gt;
+&lt;p&gt;Some interesting examples of experiences I am collecting of larger organisations who have made large scale transitions to microservices:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://medium.com/@tinder.engineering/tinders-move-to-kubernetes-cda2a6372f44"&gt;Tinder&amp;rsquo;s Move to Kubernetes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;&lt;a href="https://trends.google.com/trends/explore?date=today%205-y&amp;amp;q=microservice"&gt;https://trends.google.com/trends/explore?date=today%205-y&amp;amp;q=microservice&lt;/a&gt;&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;If you don&amp;rsquo;t want to miss the article, you can subscribe to the &lt;a href="http://www.dwmkerr.com/rss/"&gt;RSS Feed&lt;/a&gt;, or follow me on &lt;a href="https://www.linkedin.com/in/dwmkerr/"&gt;LinkedIn&lt;/a&gt; or &lt;a href="https://twitter.com/dwmkerr"&gt;Twitter&lt;/a&gt;.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;Docker Compose is a good solution, &lt;a href="https://github.com/apparatus/fuge"&gt;Fuge&lt;/a&gt; is very clever, and there is also the option of running orchestration locally as is the case with something like MiniKube.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:4"&gt;
+&lt;p&gt;Google Kubernetes Engine, a managed service from Google Cloud Platform for Kubernetes: &lt;a href="https://cloud.google.com/kubernetes-engine/"&gt;https://cloud.google.com/kubernetes-engine/&lt;/a&gt;&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:5"&gt;
+&lt;p&gt;Amazon Elastic Container Services for Kubernetes, a managed service from Amazon Web Services for Kubernetes: &lt;a href="https://aws.amazon.com/eks/"&gt;https://aws.amazon.com/eks/&lt;/a&gt;&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item><item><title>Integrating OpenShift and Splunk for Docker Container Logging</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/integrating-openshift-and-splunk-for-logging/</link><pubDate>Sun, 29 Oct 2017 07:15:04 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/integrating-openshift-and-splunk-for-logging/</guid><description>&lt;p&gt;In this article I&amp;rsquo;m going to show you how to set up OpenShift to integrate with Splunk for logging in a Docker container orchestration environment.&lt;/p&gt;
+&lt;p&gt;These techniques could easily be adapted for a standard Kubernetes installation as well!&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service-splunk.png" alt="Screenshot: Counter service splunk"&gt;&lt;/p&gt;
+&lt;p&gt;The techniques used in this article are based on the &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/logging"&gt;Kubernetes Logging Cluster Administration Guide&lt;/a&gt;. I also found Jason Poon&amp;rsquo;s article &lt;a href="http://jasonpoon.ca/2017/04/03/kubernetes-logging-with-splunk/"&gt;Kubernetes Logging with Splunk&lt;/a&gt; very helpful.&lt;/p&gt;
+&lt;p&gt;First, clone the &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift"&gt;Terraform AWS OpenShift&lt;/a&gt; repo:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;git clone git@github.com:dwmkerr/terraform-aws-openshift
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This repo can be used to create a vanilla OpenShift cluster. I&amp;rsquo;m adding &amp;lsquo;recipes&amp;rsquo; to the project, which will allow you to mix in more features (but still keep the main codebase clean). For now, let&amp;rsquo;s merge in the &amp;lsquo;splunk&amp;rsquo; recipe:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;cd terraform-aws-openshift
+git pull origin recipes/splunk
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Pulling this recipe in adds the extra config and scripts required to set up Splunk&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Now we&amp;rsquo;ve got the code, we can get started!&lt;/p&gt;
+&lt;h2 id="create-the-infrastructure"&gt;Create the Infrastructure&lt;/h2&gt;
+&lt;p&gt;To create the cluster, you&amp;rsquo;ll need to install the &lt;a href="https://aws.amazon.com/cli/"&gt;AWS CLI&lt;/a&gt; and log in, and install &lt;a href="https://www.terraform.io/downloads.html"&gt;Terraform&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Before you continue, &lt;font color="red"&gt;&lt;strong&gt;be aware&lt;/strong&gt;&lt;/font&gt;: the machines on AWS we&amp;rsquo;ll create are going to run to about $250 per month:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/aws-cost.png" alt="AWS Cost Calculator"&gt;&lt;/p&gt;
+&lt;p&gt;Once you are logged in with the AWS CLI just run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make infrastructure
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You&amp;rsquo;ll be asked to specify a region:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/region.png" alt="Specify Region"&gt;&lt;/p&gt;
+&lt;p&gt;Any &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions"&gt;AWS region&lt;/a&gt; will work fine, use &lt;code&gt;us-east-1&lt;/code&gt; if you are not sure.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;ll take about 5 minutes for Terraform to build the required infrastructure, which looks like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/splunk-architecture.png" alt="AWS Infrastructure"&gt;&lt;/p&gt;
+&lt;p&gt;Once it&amp;rsquo;s done you&amp;rsquo;ll see a message like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/apply-complete.png" alt="Apply Complete"&gt;&lt;/p&gt;
+&lt;p&gt;The infrastructure is ready! A few of the most useful parameters are shown as output variables. If you log into AWS you&amp;rsquo;ll see our new instances, as well as the VPC, network settings etc etc:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/aws.png" alt="AWS"&gt;&lt;/p&gt;
+&lt;h2 id="installing-openshift"&gt;Installing OpenShift&lt;/h2&gt;
+&lt;p&gt;Installing OpenShift is easy:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make openshift
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command will take quite some time to run (sometimes up to 30 minutes). Once it is complete you&amp;rsquo;ll see a message like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/openshift-complete.png" alt="OpenShift Installation Complete"&gt;&lt;/p&gt;
+&lt;p&gt;You can now open the OpenShift console. Use the public address of the master node (which you can get with &lt;code&gt;$(terraform output master-url)&lt;/code&gt;), or just run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make browse-openshift
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The default username and password is &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;123&lt;/code&gt;. You&amp;rsquo;ll see we have a clean installation and are ready to create our first project:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/welcome-to-openshift.png" alt="Welcome to OpenShift"&gt;&lt;/p&gt;
+&lt;p&gt;Close the console for now.&lt;/p&gt;
+&lt;h2 id="installing-splunk"&gt;Installing Splunk&lt;/h2&gt;
+&lt;p&gt;You&amp;rsquo;ve probably figured out the pattern by now&amp;hellip;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once this command is complete, you can open the Splunk console with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make browse-splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Again the username and password is &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;123&lt;/code&gt;. You can change the password on login, or leave it:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/splunk-home.png" alt="Splunk Login"&gt;&lt;/p&gt;
+&lt;p&gt;You can close the Splunk console now, we&amp;rsquo;ll come back to it shortly.&lt;/p&gt;
+&lt;h2 id="demoing-splunk-and-openshift"&gt;Demoing Splunk and OpenShift&lt;/h2&gt;
+&lt;p&gt;To see Splunk and OpenShift in action, it helps to have some kind of processing going on in the cluster. You can create a very basic sample project which will spin up two nodes which just write a counter every second as a way to get something running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make sample
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will create a simple &amp;lsquo;counter&amp;rsquo; service:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service.png" alt="Screenshot: The counter service"&gt;&lt;/p&gt;
+&lt;p&gt;We can see the logs in OpenShift:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service-logs.png" alt="Screenshot: The counter service logs"&gt;&lt;/p&gt;
+&lt;p&gt;Almost immediately you&amp;rsquo;ll be able to see the data in Splunk:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service-splunk-data-summary.png" alt="Screenshot: The Splunk data explorer"&gt;&lt;/p&gt;
+&lt;p&gt;And because of the way the log files are named, we can even rip out the namespace, pod, container and id:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service-splunk.png" alt="Screenshot: Counter service splunk"&gt;&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s it! You have OpenShift running, Splunk set up and automatically forwarding of all container logs. Enjoy!&lt;/p&gt;
+&lt;h2 id="how-it-works"&gt;How It Works&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve tried to keep the setup as simple as possible. Here&amp;rsquo;s how it works.&lt;/p&gt;
+&lt;h3 id="how-log-files-are-written"&gt;How Log Files Are Written&lt;/h3&gt;
+&lt;p&gt;The Docker Engine has a &lt;a href="https://docs.docker.com/engine/admin/logging/overview/"&gt;log driver&lt;/a&gt; which determines how container logs are handled&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;. It defaults to the &lt;code&gt;json-file&lt;/code&gt; driver, which means that logs are written as a json file to:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;/var/lib/docker/containers/{container-id}/{container-id}-json.log
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Or visually:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/logging-docker-1.png" alt="Diagram: How Docker writes log files"&gt;&lt;/p&gt;
+&lt;p&gt;Normally we wouldn&amp;rsquo;t touch this file, in theory it is supposed to be used internally&lt;sup id="fnref1:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt; and we would use &lt;code&gt;docker logs &amp;lt;container-id&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In theory, all we need to do is use a &lt;a href="http://docs.splunk.com/Documentation/Forwarder/7.0.0/Forwarder/Abouttheuniversalforwarder"&gt;Splunk Forwarder&lt;/a&gt; to send this file to our indexer. The only problem is that we only get the container ID from the file name, finding the right container ID for your container can be a pain. However, we are running on Kubernetes, which means the picture is a little different&amp;hellip;&lt;/p&gt;
+&lt;h3 id="how-log-files-are-written---on-kubernetes"&gt;How Log Files Are Written - on Kubernetes&lt;/h3&gt;
+&lt;p&gt;When running on Kubernetes, things are little different. On machines with &lt;code&gt;systemd&lt;/code&gt;, the log driver for the docker engine is set to &lt;code&gt;journald&lt;/code&gt; (see &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/logging/"&gt;Kubernetes - Logging Architecture&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It &lt;em&gt;is&lt;/em&gt; possible to forward &lt;code&gt;journald&lt;/code&gt; to Splunk, but only by streaming it to a file and then forwarding the file. Given that we need to use a file as an intermediate, it seems easier just to change the driver back to &lt;code&gt;json-file&lt;/code&gt; and forward that.&lt;/p&gt;
+&lt;p&gt;So first, we configure the docker engine to use &lt;code&gt;json-file&lt;/code&gt; (see &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/blob/recipes/splunk/scripts/postinstall-master.sh"&gt;this file&lt;/a&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -i &lt;span style="color:#e6db74"&gt;&amp;#39;/OPTIONS=.*/c\OPTIONS=&amp;#34;--selinux-enabled --insecure-registry 172.30.0.0/16 --log-driver=json-file --log-opt max-size=1M --log-opt max-file=3&amp;#34;&amp;#39;&lt;/span&gt; /etc/sysconfig/docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here we just change the options to default to the &lt;code&gt;json-file&lt;/code&gt; driver, with a max file size of 1MB (and maximum of three files, so we don&amp;rsquo;t chew all the space on the host).&lt;/p&gt;
+&lt;p&gt;Now the cool thing about Kubernetes is that it creates symlinks to the log files, which have much more descriptive names:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/logging-k8s.png" alt="Symlink diagram"&gt;&lt;/p&gt;
+&lt;p&gt;We still have the original container log, in the same location. But we also have a pod container log (which is a symlink to the container log) and another container log, which is a symlink to the pod container log.&lt;/p&gt;
+&lt;p&gt;This means we can read the container log, and extract some really useful information from the file name. The container log file name has the following format:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;/var/log/containers/{container-id}/{container-id}-json.log
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="how-log-files-are-read"&gt;How Log Files Are Read&lt;/h3&gt;
+&lt;p&gt;Now that we are writing the log files to a well defined location, reading them is straightforward. The diagram below shows how we use a splunk-forwarder to complete the picture:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/how-logs-are-read.png" alt="Diagram: How logs are read"&gt;&lt;/p&gt;
+&lt;p&gt;First, we create a DaemonSet, which ensures we run a specific pod on every node.&lt;/p&gt;
+&lt;p&gt;The DaemonSet runs with a new account which has the &amp;lsquo;any id&amp;rsquo; privilege, allowing it to run as root. We then mount the log folders into the container (which are owned by root, which is why our container needs these extra permissions to read the files).&lt;/p&gt;
+&lt;p&gt;The pod contains a splunk-forwarder container, which is configured to monitor the &lt;code&gt;/var/log/containers&lt;/code&gt; folder. It also monitors the docker socket, allowing us to see docker events. The forwarder is also configured with the IP address of the Splunk Indexer.&lt;/p&gt;
+&lt;h2 id="footnotes"&gt;Footnotes&lt;/h2&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;As a reference, you can also see the recipe pull request to see what changes from a &amp;lsquo;vanilla&amp;rsquo; installation to add Splunk: &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/pull/16"&gt;Splunk Recipe Pull Request&lt;/a&gt;&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;It is useful to check the documentation on logging drivers for Docker. See &lt;a href="https://docs.docker.com/engine/admin/logging/overview/#supported-logging-drivers"&gt;Configure Logging Drivers&lt;/a&gt; and &lt;a href="https://docs.docker.com/engine/extend/plugins_logging/"&gt;Docker Log Driver Plugins&lt;/a&gt;. It is possible to create custom log drivers. However, at the time of writing only the journald and json-file log drivers will work with the integrated logging view in OpenShift.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item></channel></rss>

@@ -1,0 +1,178 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DynamoDB on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/tags/dynamodb/</link><description>Recent content in DynamoDB on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Thu, 03 Nov 2016 05:14:35 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/tags/dynamodb/index.xml" rel="self" type="application/rss+xml"/><item><title>Simple Continuous Integration for Docker Images</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/simple-continuous-integration-for-docker-images/</link><pubDate>Thu, 03 Nov 2016 05:14:35 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/simple-continuous-integration-for-docker-images/</guid><description>&lt;p&gt;In this article I&amp;rsquo;m going to demonstrate a few tips and tricks which can make your life easier when you are building or maintaining Dockerfiles.&lt;/p&gt;
+&lt;h2 id="the-need-for-a-build-pipeline"&gt;The need for a Build Pipeline&lt;/h2&gt;
+&lt;p&gt;Do we really need any kind of continuous integration or build pipeline for Dockerfiles?&lt;/p&gt;
+&lt;p&gt;There will be cases when the answer is no. However, if the answer to any of the following questions is &amp;lsquo;yes&amp;rsquo;, it might be worth considering:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Do you want others to be able to contribute to the Dockerfile, perhaps changing the image over time?&lt;/li&gt;
+&lt;li&gt;Are there specific functionalities in your Dockerfiles which could break if altered?&lt;/li&gt;
+&lt;li&gt;Do you expect to need to release updates to your Dockerfile?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Essentially, if we are looking at providing some kind of automated quality assurance and automation around building and releasing, then a build pipeline is not a bad idea.&lt;/p&gt;
+&lt;h2 id="a-simple-build-pipeline"&gt;A simple Build Pipeline&lt;/h2&gt;
+&lt;p&gt;Here&amp;rsquo;s what a simple build pipeline could look like. This example is for a Docker Image I just created for local DynamoDB development - &lt;a href="https://github.com/dwmkerr/docker-dynamodb"&gt;dwmkerr/docker-dynamodb&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/Simple-Docker-Image-CI.png" alt="Simple Continous Intergration Pipeline"&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s dissect what we&amp;rsquo;ve got here.&lt;/p&gt;
+&lt;h3 id="the-dockerfile"&gt;The Dockerfile&lt;/h3&gt;
+&lt;p&gt;This is the main &amp;lsquo;code&amp;rsquo; of the project if you like. The &lt;a href="https://github.com/dwmkerr/docker-dynamodb/blob/master/Dockerfile"&gt;Dockerfile&lt;/a&gt; is the recipe for the image we create.&lt;/p&gt;
+&lt;h3 id="the-continuous-integration-service"&gt;The Continuous Integration Service&lt;/h3&gt;
+&lt;p&gt;In this case, I am using &lt;a href="https://circleci.com/"&gt;CircleCI&lt;/a&gt;, however the approach described would work fine with most CI systems (such as Jenkins, TravisCI and TeamCity). There &lt;em&gt;is&lt;/em&gt; an option to use the &lt;a href="https://docs.docker.com/docker-hub/builds/"&gt;Docker Hub Automated Builds&lt;/a&gt;, but I&amp;rsquo;ve found this doesn&amp;rsquo;t give the flexibility I need (see &lt;a href="#appendix1whynotdockerhubautomatedbuilds"&gt;Why not Docker Hub Automated Builds&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Essentially the CI service needs to offer the option to have three distinct steps in the pipeline, each of which must pass for process to proceed:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Build&lt;/li&gt;
+&lt;li&gt;Test&lt;/li&gt;
+&lt;li&gt;Deploy&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="the-build"&gt;The Build&lt;/h3&gt;
+&lt;p&gt;We can build with tools, script files, whatever. At the moment, I am leaning towards &lt;a href="https://www.gnu.org/software/make/"&gt;makefiles&lt;/a&gt;. Normally I only need a few lines of shell script to do a build - anything more complex and the makefile can call a shell script. See also &lt;a href="#appendix2whymakefiles"&gt;Why Makefiles?&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s what it might look like:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;build:
+docker build -t dwmkerr/dynamodb:latest .
+ifndef BUILD_NUM
+$(warning No build number is defined, skipping build number tag.)
+else
+docker build -t dwmkerr/dynamodb:$(BUILD_NUM) .
+endif
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This command just builds the &lt;code&gt;Dockerfile&lt;/code&gt; and tags it as &lt;code&gt;dwmkerr/dynamodb:lastest&lt;/code&gt;. If a &lt;code&gt;BUILD_NUM&lt;/code&gt; variable is present, we also create the tag &lt;code&gt;dwmkerr/dynamodb:BUILD_NUM&lt;/code&gt;. This means if we want to deploy to a service such as &lt;a href="https://aws.amazon.com/ecs/"&gt;Amazon ECS&lt;/a&gt; we can push a specific build by referring to the image with that tag.&lt;/p&gt;
+&lt;h3 id="the-tests"&gt;The Tests&lt;/h3&gt;
+&lt;p&gt;Again I&amp;rsquo;m relying on &lt;code&gt;make&lt;/code&gt;. I just want to be able to run &lt;code&gt;make test&lt;/code&gt; - if zero is returned I&amp;rsquo;m happy. If not, the pipeline should stop and I&amp;rsquo;ll check the output. Here&amp;rsquo;s my test command:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;test: build
+./test/basics.test.sh
+./test/ephemeral.test.sh
+./test/persistent.test.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Not a thing of beauty, but it works. These scripts I&amp;rsquo;ll discuss a little bit later on, in the delightly titled &lt;a href="#appendix3whatarethesetestscripts"&gt;What are these test scripts&lt;/a&gt; section.&lt;/p&gt;
+&lt;p&gt;For CircleCI, this is enough to have the main part of our pipeline. Here&amp;rsquo;s how the &lt;code&gt;circle.yml&lt;/code&gt; file looks at this stage:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;machine:
+services:
+- docker
+environment:
+# Set the build number, used in makefiles.
+BUILD_NUM: $CIRCLE_BUILD_NUM
+test:
+override:
+- make test
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;(Actually there&amp;rsquo;s a couple of other bits but they&amp;rsquo;re just to make sure circle uses the right version of Docker, &lt;a href="https://github.com/dwmkerr/docker-dynamodb/blob/master/circle.yml"&gt;see the full circle.yml file here&lt;/a&gt;).&lt;/p&gt;
+&lt;h3 id="the-deployments"&gt;The Deployments&lt;/h3&gt;
+&lt;p&gt;Deployments are trivial as all we need to do is push to the Docker Hub. The &lt;code&gt;make deploy&lt;/code&gt; command looks-a like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;deploy:
+docker push dwmkerr/dynamodb:latest
+ifndef BUILD_NUM
+$(warning No build number is defined, skipping push of build number tag.)
+else
+docker push dwmkerr/dynamodb:$(BUILD_NUM)
+endif
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We&amp;rsquo;re pushing the &lt;code&gt;latest&lt;/code&gt; tag and &lt;code&gt;BUILD_NUM&lt;/code&gt; tag if present. To add this to the CircleCI pipeline, we just add the following to &lt;code&gt;circle.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;deployment:
+master:
+branch: master
+commands:
+- docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+- make deploy
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If we have a push to &lt;code&gt;master&lt;/code&gt;, we log in to Docker (using environment variables I configure in the CircleCI UI) and then run &lt;code&gt;make deploy&lt;/code&gt; to push our images.&lt;/p&gt;
+&lt;h2 id="thats-it"&gt;That&amp;rsquo;s It&lt;/h2&gt;
+&lt;p&gt;That&amp;rsquo;s about it. This is a pretty simple approach, you can see it in action at:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/docker-dynamodb"&gt;github.com/dwmkerr/docker-dynamodb&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The rest of this post is a bit of a deep dive into some specific areas I found interesting.&lt;/p&gt;
+&lt;h2 id="appendix-1-why-not-docker-hub-automated-builds"&gt;Appendix 1: Why not Docker Hub Automated Builds?&lt;/h2&gt;
+&lt;p&gt;There are automated builds available in the Docker Hub:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/dockerhubbuilds.png" alt="Docker Hub Automated Builds"&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m not using this feauture at the moment, here&amp;rsquo;s a brief roundup of what I think are the current pros and cons:&lt;/p&gt;
+&lt;p&gt;Pros&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You don&amp;rsquo;t have to goof around installing Docker on a CI platform.&lt;/li&gt;
+&lt;li&gt;It allows you to update the description of your Docker image automatically, from the GitHub &lt;code&gt;README.md&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;It allows you to associate the image with a specific GitHub repo (rather than just linking from the image description).&lt;/li&gt;
+&lt;li&gt;Branch management - allowing tags to be built for specific branches.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cons&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It doesn&amp;rsquo;t &lt;em&gt;seem&lt;/em&gt; to support any kind of configurable gating, such as a running a test command prior to deploying.&lt;/li&gt;
+&lt;li&gt;It doesn&amp;rsquo;t &lt;em&gt;seem&lt;/em&gt; to support any kind of triggering of downstream processes, such as updating environments, sending notifications or whatever.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The lack of ability to perform tests on the image before deploying it why I&amp;rsquo;m currently not using the service.&lt;/p&gt;
+&lt;p&gt;By doing the testing in a CI system for every pull request and only merging PRs where the tests pass we could mitigate the risk here. This service is worth watching as I&amp;rsquo;m sure it will evolve quickly.&lt;/p&gt;
+&lt;h2 id="appendix-2-why-makefiles"&gt;Appendix 2: Why Makefiles?&lt;/h2&gt;
+&lt;p&gt;I started coding with a commandline compiler in DOS. When I used my first GUI (Borland Turbo C++) it felt like a huge leap:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/turbocpp.png" alt="Borland Turbo C++"&gt;&lt;/p&gt;
+&lt;p&gt;Later on I moved onto Microsoft Visual C++ 4.2:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/visualcpp.png" alt="Visual C++ 4.2"&gt;&lt;/p&gt;
+&lt;p&gt;And you cannot imagine the excitement when I got my boxed edition of Visual Studio .NET:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/visualstudiodotnet.jpg" alt="Visual Studio .NET"&gt;&lt;/p&gt;
+&lt;p&gt;Wow!&lt;/p&gt;
+&lt;p&gt;Anyway, I digress. GNU &lt;code&gt;make&lt;/code&gt; was invented by Leonardo Da Vinci in 1473 to allow you to build something from the commandline, using a fairly consistent syntax.&lt;/p&gt;
+&lt;p&gt;It is near ubiquitous on *nix systems. I am increasingly using it as an &amp;rsquo;entry point&amp;rsquo; to builds, as I use variety of languages and platforms. Being able to know that most of the time:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;make build
+make test
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Will build and test something is convenient. Makefiles actually are not that great to work with (see &lt;a href="http://stackoverflow.com/questions/448910/makefile-variable-assignment"&gt;this&lt;/a&gt;, &lt;a href="http://stackoverflow.com/questions/10121182/multiline-bash-commands-in-makefile"&gt;this&lt;/a&gt; and &lt;a href="http://www.conifersystems.com/whitepapers/gnu-make/"&gt;this&lt;/a&gt;). I&amp;rsquo;ve found as long as you keep the commands simple, they&amp;rsquo;re OK. For anything really complex, I normally have a &lt;code&gt;scripts/&lt;/code&gt; folder, but call the scripts &lt;em&gt;from&lt;/em&gt; the makefile, so that there&amp;rsquo;s still a simple entrypoint.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m not entirely sold on makefiles, but they tend to be my default at the moment if I know I&amp;rsquo;m going to use the commandline for builds (for example, in Java projects I&amp;rsquo;ll often write a makefile to call Maven or Gradle).&lt;/p&gt;
+&lt;p&gt;For things like Node.js, where you have commands like &lt;code&gt;npm test&lt;/code&gt; or &lt;code&gt;npm run xyz&lt;/code&gt; I &lt;em&gt;still&lt;/em&gt; sometimes use makefiles, using &lt;code&gt;npm&lt;/code&gt; for day-to-day dev tests (&lt;code&gt;npm start&lt;/code&gt;) and &lt;code&gt;make&lt;/code&gt; if it&amp;rsquo;s something more complex (e.g. &lt;code&gt;make deploy-sit&lt;/code&gt; to deploy to an SIT environment).&lt;/p&gt;
+&lt;h2 id="appendix-3-what-are-these-test-scripts"&gt;Appendix 3: What are these test scripts?&lt;/h2&gt;
+&lt;p&gt;You may have noticed:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;test: build
+./test/basics.test.sh
+./test/ephemeral.test.sh
+./test/persistent.test.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;What&amp;rsquo;s going on here?&lt;/p&gt;
+&lt;p&gt;My Docker image is just a wrapper around &lt;a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html"&gt;Amazon&amp;rsquo;s Local DynamoDB tool&lt;/a&gt;. I don&amp;rsquo;t really need to test that tool. But what I wanted to test was the capabilities which lie at the &lt;em&gt;intersection&lt;/em&gt; between &amp;rsquo;native&amp;rsquo; Docker and &amp;rsquo;native&amp;rsquo; DynamoDB.&lt;/p&gt;
+&lt;p&gt;For example, I know Docker supports volume mapping. I know DynamoDB supports using a data directory, to allow persistent between runs. I want to test I can combine Docker volume mapping and the DynamoDB data directory features. I know Docker images should default to being ephemeral, I want to test this holds true by default for my image.&lt;/p&gt;
+&lt;p&gt;Testing Docker is a little hard - I want to test that I can run containers, start, stop, check state before and after and so on. This is essentially an integration test, it can be tricky to make it truly isolated and deterministic.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve given it my best go with these scripts. Here&amp;rsquo;s an example for the &amp;rsquo;ephemeral&amp;rsquo; test, where I&amp;rsquo;m trying to assert that if I run a container, create a table, stop the container and run a new one, I no longer have the table. Here&amp;rsquo;s the test:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Bomb if anything fails.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;set -e
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Kill any running dynamodb containers.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;Cleaning up old containers...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker ps -a | grep dwmkerr/dynamodb | awk &lt;span style="color:#e6db74"&gt;&amp;#39;{print $1}&amp;#39;&lt;/span&gt; | xargs docker rm -f &lt;span style="color:#f92672"&gt;||&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Run the container.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;Checking we can run the container...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;docker run -d -p 8000:8000 dwmkerr/dynamodb&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sleep &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Create a table.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws dynamodb --endpoint-url http://localhost:8000 --region us-east-1 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; create-table &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --table-name Supervillains &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --attribute-definitions AttributeName&lt;span style="color:#f92672"&gt;=&lt;/span&gt;name,AttributeType&lt;span style="color:#f92672"&gt;=&lt;/span&gt;S &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --key-schema AttributeName&lt;span style="color:#f92672"&gt;=&lt;/span&gt;name,KeyType&lt;span style="color:#f92672"&gt;=&lt;/span&gt;HASH &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --provisioned-throughput ReadCapacityUnits&lt;span style="color:#f92672"&gt;=&lt;/span&gt;1,WriteCapacityUnits&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Clean up the container. On CircleCI the FS is BTRFS, so this might fail...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;Stopping and restarting...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker stop $ID &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; docker rm $ID &lt;span style="color:#f92672"&gt;||&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;docker run -d -p 8000:8000 dwmkerr/dynamodb&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sleep &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# List the tables - there shouldn&amp;#39;t be any!&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;COUNT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;aws dynamodb --endpoint-url http://localhost:8000 --region us-east-1 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; list-tables &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | jq &lt;span style="color:#e6db74"&gt;&amp;#39;.TableNames | length&amp;#39;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt; $COUNT -ne &lt;span style="color:#e6db74"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;Expected to find no tables, found &lt;/span&gt;$COUNT&lt;span style="color:#e6db74"&gt;...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exit &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It&amp;rsquo;s a bit dirty - it removes containers from the host, changes things and so on. But it works.&lt;/p&gt;
+&lt;p&gt;I did experiment with running these tests &lt;em&gt;in a container&lt;/em&gt;, which has the benefit of giving you a clean host to start with, which you can throw away after each test.&lt;/p&gt;
+&lt;p&gt;I had to give up after a little while due to time constraints, but will probably revisit this process. The benefits of running these integration tests in a container is that we get a degree of isolation from the host.&lt;/p&gt;
+&lt;p&gt;If anyone is interested, my attempts so far are on this &lt;a href="https://github.com/dwmkerr/docker-dynamodb/pull/2"&gt;RFC Pull Request&lt;/a&gt;. Feel free to jump in!&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Run Amazon DynamoDB locally with Docker</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/run-amazon-dynamodb-locally-with-docker/</link><pubDate>Thu, 27 Oct 2016 08:06:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-52/run-amazon-dynamodb-locally-with-docker/</guid><description>&lt;p&gt;&lt;strong&gt;tl;dr:&lt;/strong&gt; Run DynamoDB locally using Docker:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker run -d -p 8000:8000 dwmkerr/dynamodb
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Try it out by opening the shell, &lt;a href="http://localhost:8000/shell"&gt;localhost:8000/shell&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/banner.jpg" alt="DynamoDB Shell"&gt;&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s all there is to it!&lt;/p&gt;
+&lt;h2 id="dynamodb"&gt;DynamoDB&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html"&gt;Amazon DynamoDB&lt;/a&gt; is a NoSQL database-as-a-service, which provides a flexible and convenient repository for your services.&lt;/p&gt;
+&lt;p&gt;Building applications which use DynamoDB is straightforward, there are APIs and clients for many languages and platforms.&lt;/p&gt;
+&lt;p&gt;One common requirement is to be able to run a local version of DynamoDB, for testing and development purposes. To do this, you need to:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Hit the &lt;a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html"&gt;DynamoDB Local&lt;/a&gt; documentation page&lt;/li&gt;
+&lt;li&gt;Download an archive&lt;/li&gt;
+&lt;li&gt;Extract it to a sensible location&lt;/li&gt;
+&lt;li&gt;Run the extracted JAR, perhaps passing in some options&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This can be a little cumbersome if you regularly use DynamoDB, so here&amp;rsquo;s a easier way:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -p 8000:8000 dwmkerr/dynamodb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;dwmkerr/dynamodb&lt;/code&gt; image runs the JAR in a container, exposing the database on port 8000 by default.&lt;/p&gt;
+&lt;p&gt;You can see the &lt;a href="dockeri.co/image/dwmkerr/dynamodb"&gt;image on the Docker Hub&lt;/a&gt; and the source code at &lt;a href="https://github.com/dwmkerr/docker-dynamodb"&gt;github.com/dwmkerr/docker-dynamodb&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="customising-dynamodb"&gt;Customising DynamoDB&lt;/h2&gt;
+&lt;p&gt;You can pass any of &lt;a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html"&gt;the documented commandline flags to DynamoDB&lt;/a&gt;. There are instructions on the GitHub page. Here&amp;rsquo;s an example of how you can pass in a data directory, which allows DynamoDB data to be persisted after restarting a container (the image is ephemeral by default, as per &lt;a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/"&gt;Dockerfile best practices&lt;/a&gt;).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d -p 8000:8000 -v /tmp/data:/data/ dwmkerr/dynamodb -dbPath /data/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Running DynamoDB in a container gives an extra degree of flexibility and can speed up your workflow too!&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>
