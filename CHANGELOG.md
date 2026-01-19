@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.5...v0.2.5) (2026-01-19)
+
+
+### chore
+
+* release 0.2.5 ([bf6467c](https://github.com/dwmkerr/dwmkerr.com/commit/bf6467cc24ce2f1f8402371499b98338656ac8a4))
+
 ## [0.2.5](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.4...v0.2.5) (2026-01-19)
 
 
