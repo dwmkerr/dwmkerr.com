@@ -13,7 +13,7 @@ tags:
 - "agentic-ai"
 ---
 
-In this article I demonstrate a pattern by which [Anthropic Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) could be used to exfiltrate sensitive credentials, leak secrets and perform remote code execution. This attack is viable in its current form, and a [demonstration repo](https://github.com/dwmkerr/ai26?tab=readme-ov-file#the-anthropic-skill-supply-chain-attack) has been developed. However, a development I believe is likely to occur over 2026 - skill dependency management - could make an attack of this nature far more damaging.
+In this article I demonstrate a pattern by which [Anthropic Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) could be used to exfiltrate sensitive credentials, leak secrets and perform remote code execution - [disclaimer](#disclaimer). This attack is viable in its current form, and a [demonstration repo](https://github.com/dwmkerr/ai26?tab=readme-ov-file#the-anthropic-skill-supply-chain-attack) has been developed. However, a development I believe is likely to occur over 2026 - skill dependency management - could make an attack of this nature far more damaging.
 
 This is the first part of a series "AI26" - my predictions (or speculation) on changes in technology and engineering we might see 2026.
 
@@ -24,6 +24,8 @@ A brief screenshot of the result of my demonstration attack. An attempt to conve
 _Caption: Some screenshots of the 'PDF to Markdown' skill firing, leading to exposure of sensitive data_
 
 If you are familiar with skills, immediately get what 'Skill Dependency Management' implies, then feel free to skip to '[Demonstrating the Attack](#demonstrating-the-attack)'.
+
+
 
 ## The Skillsplosion
 
@@ -185,7 +187,20 @@ These models are always improving and becoming more defensive, but hackers are c
 
 - [New Skills, New Threats: Exfiltrating Data from Claude](https://idanhabler.medium.com/new-skills-new-threats-exfiltrating-data-from-claude-e9112aeac11b)
 
----
+### Disclaimer
+
+This article represents personal research and exploration conducted in my own time. The views expressed are entirely my own and are not affiliated with, endorsed by, or representative of my employer or any organisation I am associated with.
+
+This article and associate repo contains code that demonstrates supply chain attacks capable of exfiltrating sensitive data (API keys, credentials) from your environment. For educational and authorized security research purposes only.
+
+By accessing or executing the associated code, you acknowledge:
+- You understand the risks involved
+- You accept full responsibility for any consequences
+- You will only use this in environments you own or have explicit authorization to test
+- The author provides this code "AS IS" without warranty of any kind
+- The author is not liable for any damages, data loss, or credential exposure
+
+Do not run this code in production environments or with real credentials.
 
 [^1]: Early on in my work with LLMs I experimented with something similar. [The AI Developer Guide](https://github.com/dwmkerr/ai-developer-guide) is an index of patterns for software engineering. The LLM is then instructed to use a `fetch_guide` tool to progressively load more detailed content.
 [^2]: Skills will inevitably still run into the same challenge as MCP servers - as users add more and more skills LLMs will struggle to know which ones to use.
