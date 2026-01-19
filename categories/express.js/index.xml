@@ -1,92 +1,92 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Express.js on dwmkerr.com</title><link>https://dwmkerr.com/categories/express.js/</link><description>Recent content in Express.js on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 24 Mar 2015 14:45:02 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/express.js/index.xml" rel="self" type="application/rss+xml"/><item><title>Manipulating JSON Web Tokens (JWTs)</title><link>https://dwmkerr.com/modifying-a-jwt-in-a-node-application/</link><pubDate>Tue, 24 Mar 2015 14:45:02 +0000</pubDate><guid>https://dwmkerr.com/modifying-a-jwt-in-a-node-application/</guid><description>&lt;p>I&amp;rsquo;ve been writing a couple of web services lately that use &lt;a href="https://auth0.com/">Auth0&lt;/a> for identity management. It&amp;rsquo;s a great platform that makes working with different identity providers a breeze.&lt;/p>
-&lt;p>One thing that I couldn&amp;rsquo;t work out how to do at first was to quickly build a new JWT&lt;sup>&lt;a href="#fn1" id="ref1">1&lt;/a>&lt;/sup> from an existing token. I wanted to take my current token, add some more data to it and return it to the user. So here&amp;rsquo;s a &amp;lsquo;why&amp;rsquo; and &amp;lsquo;how&amp;rsquo;.&lt;/p>
-&lt;h2 id="why">Why?&lt;/h2>
-&lt;p>Why would you want to do this? A use case would be when you want to associate your a session with some data. For example, imagine a library gateway which offers access to a whole bunch of University libraries. First we authenticate. Then we ask for all of the libraries in the system. Then we ask for authorisation to use a specific library. We could put the library name in the token and pass it for every call onwards.&lt;/p>
-&lt;p>It might look like this:&lt;/p>
-&lt;h4 id="1-authenticate">1. Authenticate&lt;/h4>
-&lt;p>First, we authenticate, perhaps with a username and password.&lt;/p>
-&lt;pre tabindex="0">&lt;code>POST libraries.com/api/authenticate
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Express.js on dwmkerr.com</title><link>https://dwmkerr.com/categories/express.js/</link><description>Recent content in Express.js on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 24 Mar 2015 14:45:02 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/express.js/index.xml" rel="self" type="application/rss+xml"/><item><title>Manipulating JSON Web Tokens (JWTs)</title><link>https://dwmkerr.com/modifying-a-jwt-in-a-node-application/</link><pubDate>Tue, 24 Mar 2015 14:45:02 +0000</pubDate><guid>https://dwmkerr.com/modifying-a-jwt-in-a-node-application/</guid><description>&lt;p&gt;I&amp;rsquo;ve been writing a couple of web services lately that use &lt;a href="https://auth0.com/"&gt;Auth0&lt;/a&gt; for identity management. It&amp;rsquo;s a great platform that makes working with different identity providers a breeze.&lt;/p&gt;
+&lt;p&gt;One thing that I couldn&amp;rsquo;t work out how to do at first was to quickly build a new JWT&lt;sup&gt;&lt;a href="#fn1" id="ref1"&gt;1&lt;/a&gt;&lt;/sup&gt; from an existing token. I wanted to take my current token, add some more data to it and return it to the user. So here&amp;rsquo;s a &amp;lsquo;why&amp;rsquo; and &amp;lsquo;how&amp;rsquo;.&lt;/p&gt;
+&lt;h2 id="why"&gt;Why?&lt;/h2&gt;
+&lt;p&gt;Why would you want to do this? A use case would be when you want to associate your a session with some data. For example, imagine a library gateway which offers access to a whole bunch of University libraries. First we authenticate. Then we ask for all of the libraries in the system. Then we ask for authorisation to use a specific library. We could put the library name in the token and pass it for every call onwards.&lt;/p&gt;
+&lt;p&gt;It might look like this:&lt;/p&gt;
+&lt;h4 id="1-authenticate"&gt;1. Authenticate&lt;/h4&gt;
+&lt;p&gt;First, we authenticate, perhaps with a username and password.&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;POST libraries.com/api/authenticate
 {&amp;#34;usename&amp;#34;:&amp;#34;calculon&amp;#34;,&amp;#34;password&amp;#34;:&amp;#34;dramatic...pause&amp;#34;}
-&lt;/code>&lt;/pre>&lt;p>Then we can return a JWT if all is well:&lt;/p>
-&lt;pre tabindex="0">&lt;code>{&amp;#34;jwt&amp;#34;:&amp;#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYWxjdWxvbiJ9.VWkAafAMCxazY7uBlPTJoQwCBdUIy3T1d-C4TfxhAZQ&amp;#34;}
-&lt;/code>&lt;/pre>&lt;h4 id="2-work-with-the-service">2. Work with the Service&lt;/h4>
-&lt;p>We can put this JWT in an &lt;code>Authorization&lt;/code> header and start asking for protected resources:&lt;/p>
-&lt;pre tabindex="0">&lt;code>GET libraries.com/api/libraries
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then we can return a JWT if all is well:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;{&amp;#34;jwt&amp;#34;:&amp;#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYWxjdWxvbiJ9.VWkAafAMCxazY7uBlPTJoQwCBdUIy3T1d-C4TfxhAZQ&amp;#34;}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="2-work-with-the-service"&gt;2. Work with the Service&lt;/h4&gt;
+&lt;p&gt;We can put this JWT in an &lt;code&gt;Authorization&lt;/code&gt; header and start asking for protected resources:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;GET libraries.com/api/libraries
 Authorization: Bearer eyJhb...AZQ
-&lt;/code>&lt;/pre>&lt;p>giving us:&lt;/p>
-&lt;pre tabindex="0">&lt;code>[
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;giving us:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;[
 {&amp;#34;name&amp;#34;: &amp;#34;Mars University Libary&amp;#34;, &amp;#34;slug&amp;#34;:&amp;#34;mul&amp;#34;},
 {&amp;#34;name&amp;#34;: &amp;#34;Coney Island State Library&amp;#34;, &amp;#34;slug&amp;#34;:&amp;#34;cis&amp;#34;}
 ]
-&lt;/code>&lt;/pre>&lt;p>Two libraries we can choose from. Now I want to present this choice to a user, but once they&amp;rsquo;ve made their choice I don&amp;rsquo;t want to change the libary again. I want to work with only one library in a session.&lt;/p>
-&lt;h4 id="3-add-data-to-the-token">3. Add Data to the Token&lt;/h4>
-&lt;p>A nice thing we can do here is just create &lt;em>another&lt;/em> authentication method, which attempts to see if we are authorised to use the given library:&lt;/p>
-&lt;pre tabindex="0">&lt;code>POST libraries.com/api/libraries/mul/authorise
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Two libraries we can choose from. Now I want to present this choice to a user, but once they&amp;rsquo;ve made their choice I don&amp;rsquo;t want to change the libary again. I want to work with only one library in a session.&lt;/p&gt;
+&lt;h4 id="3-add-data-to-the-token"&gt;3. Add Data to the Token&lt;/h4&gt;
+&lt;p&gt;A nice thing we can do here is just create &lt;em&gt;another&lt;/em&gt; authentication method, which attempts to see if we are authorised to use the given library:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;POST libraries.com/api/libraries/mul/authorise
 Authorization: Bearer eyJhb...AZQ
-&lt;/code>&lt;/pre>&lt;p>If the token is valid, we can check to see if the user is allowed to use this library. If so, we can return a &lt;em>new&lt;/em> token, which is associated with a &lt;em>specific&lt;/em> library:&lt;/p>
-&lt;pre tabindex="0">&lt;code>HTTP/1.1 200 OK
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If the token is valid, we can check to see if the user is allowed to use this library. If so, we can return a &lt;em&gt;new&lt;/em&gt; token, which is associated with a &lt;em&gt;specific&lt;/em&gt; library:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;HTTP/1.1 200 OK
 {&amp;#34;jwt&amp;#34;: &amp;#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYWxjdWxvbiIsImxpYnJhcnkiOiJtdWwifQ.NM2pqRMkIp65u9unZnGIoyxK6v2A18730lPwSMrK93Q&amp;#34;}
-&lt;/code>&lt;/pre>&lt;p>This is a new token. Paste it into &lt;a href="https://jwt.io">jwt.io&lt;/a>, you&amp;rsquo;ll see there&amp;rsquo;s a library code in the payload.&lt;/p>
-&lt;h4 id="4-work-with-the-service">4. Work with the service&lt;/h4>
-&lt;p>Now I can call APIs like:&lt;/p>
-&lt;pre tabindex="0">&lt;code>GET libaries.com/api/books
-&lt;/code>&lt;/pre>&lt;p>And my server can check the library in my token. If I have one, I return books from the given library, otherwise I return a 401.&lt;/p>
-&lt;h4 id="is-this-useful">Is this useful?&lt;/h4>
-&lt;p>This specific example might not appeal, but you may well find as you write more complex services you want to at times add data to your token.&lt;/p>
-&lt;p>The case above also shows how you can associate a session with a set of resources (in this case, a single library). This is useful if we know we&amp;rsquo;ll only work with a subset of resources. I want to choose a library once and work with that only. If you need to work with multiple libraries, it wouldn&amp;rsquo;t make sense.&lt;/p>
-&lt;h2 id="how">How?&lt;/h2>
-&lt;p>If we are using Auth0, then we almost certainly have our token generated for us. The helper library &lt;a href="https://github.com/auth0/express-jwt">express-jwt&lt;/a> will certainly let us make sure the token is valid, and put the payload of data on the &lt;code>request.user&lt;/code> object, but how can we create a new token &lt;em>from the existing one&lt;/em>?&lt;/p>
-&lt;p>It turns out it&amp;rsquo;s really pretty easy, as we would expect as we are using open standards. Here&amp;rsquo;s the code:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">jwt&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;jsonwebtoken&amp;#39;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">extendToken&lt;/span>(&lt;span style="color:#a6e22e">secret&lt;/span>, &lt;span style="color:#a6e22e">payload&lt;/span>, &lt;span style="color:#a6e22e">extend&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// Clone and extend the payload.
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">body&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">JSON&lt;/span>.&lt;span style="color:#a6e22e">parse&lt;/span>(&lt;span style="color:#a6e22e">JSON&lt;/span>.&lt;span style="color:#a6e22e">stringify&lt;/span>(&lt;span style="color:#a6e22e">payload&lt;/span>));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">prop&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#a6e22e">extend&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#a6e22e">extend&lt;/span>.&lt;span style="color:#a6e22e">hasOwnProperty&lt;/span>(&lt;span style="color:#a6e22e">prop&lt;/span>)) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">body&lt;/span>[&lt;span style="color:#a6e22e">prop&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">extend&lt;/span>[&lt;span style="color:#a6e22e">prop&lt;/span>];
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// Sign the new token with our secret.
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">jwt&lt;/span>.&lt;span style="color:#a6e22e">sign&lt;/span>(&lt;span style="color:#a6e22e">JSON&lt;/span>.&lt;span style="color:#a6e22e">stringify&lt;/span>(&lt;span style="color:#a6e22e">body&lt;/span>), &lt;span style="color:#a6e22e">secret&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We have a function which takes a secret, the payload of an existing token, an object containing data to extend and that&amp;rsquo;s it. Here&amp;rsquo;s how you could use it:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">expressJwt&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;express-jwt&amp;#39;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">mySecret&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Buffer&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;walkinonsunshine&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;base64&amp;#39;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// Middleware for protecting routes...
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">requireAuth&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">expressJwt&lt;/span>({&lt;span style="color:#a6e22e">secret&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">mySecret&lt;/span>});
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">post&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;/api/libraries/:lib/authorise&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">requireAuth&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">req&lt;/span>, &lt;span style="color:#a6e22e">res&lt;/span>, &lt;span style="color:#a6e22e">next&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// get the library, check the user has access...
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">lib&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">req&lt;/span>.&lt;span style="color:#a6e22e">params&lt;/span>.&lt;span style="color:#a6e22e">lib&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">checkLib&lt;/span>(&lt;span style="color:#a6e22e">req&lt;/span>.&lt;span style="color:#a6e22e">user&lt;/span>.&lt;span style="color:#a6e22e">sub&lt;/span>, &lt;span style="color:#a6e22e">lib&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">err&lt;/span>, &lt;span style="color:#a6e22e">ok&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">err&lt;/span>) &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">next&lt;/span>(&lt;span style="color:#a6e22e">err&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#f92672">!&lt;/span>&lt;span style="color:#a6e22e">ok&lt;/span>) &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">res&lt;/span>.&lt;span style="color:#a6e22e">status&lt;/span>(&lt;span style="color:#ae81ff">401&lt;/span>).&lt;span style="color:#a6e22e">send&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Access Denied.&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">res&lt;/span>.&lt;span style="color:#a6e22e">status&lt;/span>(&lt;span style="color:#ae81ff">200&lt;/span>).&lt;span style="color:#a6e22e">send&lt;/span>({&lt;span style="color:#a6e22e">jwt&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">extendToken&lt;/span>(&lt;span style="color:#a6e22e">mySecret&lt;/span>, &lt;span style="color:#a6e22e">req&lt;/span>.&lt;span style="color:#a6e22e">user&lt;/span>, {&lt;span style="color:#a6e22e">library&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">lib&lt;/span>})});
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We&amp;rsquo;ve extended the original token with some new data, resigned it and passed it back to the user. Future requests will automatically have the &lt;code>req.user.lib&lt;/code> field set (as the entire token payload is put by default on the &lt;code>req.user&lt;/code> object with the express-js middleware.&lt;/p>
-&lt;p>Hopefully that&amp;rsquo;ll be of some use if you ever need to extend the payload of a JWT token in a Node app.&lt;/p>
-&lt;hr>
-&lt;p>&lt;sup id="fn1">1. Json Web Token, read more at &lt;a href="http://jwt.io/">jwt.io&lt;/a>. &lt;a href="#ref1">↩&lt;/a>&lt;/sup>&lt;/p></description><category>CodeProject</category></item><item><title>Node.js and Express - Strange Http Status Codes</title><link>https://dwmkerr.com/node-js-and-express-strange-http-status-codes/</link><pubDate>Tue, 16 Jul 2013 16:23:43 +0000</pubDate><guid>https://dwmkerr.com/node-js-and-express-strange-http-status-codes/</guid><description>&lt;h3>In a Nutshell&lt;/h3>
-Sending a response in Express with a call like &lt;em>res.send(status, body)&lt;/em> will send &lt;em>body&lt;/em> as the status code if it is numeric - ignoring &lt;em>status&lt;/em>. This is due to a fudge for backwards compatibility.
-&lt;h3>The Details&lt;/h3>
-&lt;span style="line-height: 1.714285714; font-size: 1rem;">&lt;strong>&lt;/strong>As part of a project I'm working on, I'm writing a service using &lt;/span>&lt;a style="line-height: 1.714285714; font-size: 1rem;" title="node.js" href="http://nodejs.org/" target="_blank">node.js&lt;/a>&lt;span style="line-height: 1.714285714; font-size: 1rem;"> and &lt;/span>&lt;a style="line-height: 1.714285714; font-size: 1rem;" title="Express" href="http://expressjs.com/" target="_blank">Express&lt;/a>&lt;span style="line-height: 1.714285714; font-size: 1rem;">. This service exposes some entities in a MongoDB database through a REST API. Typically I hit this API through client-side Javascript, but in some places I want to hit the same API from some C# code - and I don't want to have to create classes for everything. I've got a funky library for this which I'll be publishing soon, but it helped me find a problem.&lt;/span>
-&lt;p>Testing the C# code showed me something that was a bit odd - GETs and POSTSs were working fine, but PUTs and DELETEs were showing an HTTP Status code of &amp;lsquo;1&amp;rsquo; (which isn&amp;rsquo;t a valid code). Here&amp;rsquo;s the what I was seeing:&lt;/p>
-&lt;p>&lt;a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/requests.png">&lt;img src="images/requests.png" alt="requests" width="600" />&lt;/a>&lt;/p>
-&lt;p>Checking the node server showed the same thing - DELETEs were returning status 1.&lt;/p>
-&lt;p>&lt;a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/console.png">&lt;img src="images/console.png" alt="console" width="600" />&lt;/a>&lt;/p>
-&lt;p>The server code is very lightweight so it&amp;rsquo;s quick to see what&amp;rsquo;s going on:&lt;/p>
-&lt;p>[code lang=&amp;ldquo;js&amp;rdquo;]exports.deleteUser = function(request, response) {&lt;/p>
-&lt;pre>&lt;code>// Get the id.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is a new token. Paste it into &lt;a href="https://jwt.io"&gt;jwt.io&lt;/a&gt;, you&amp;rsquo;ll see there&amp;rsquo;s a library code in the payload.&lt;/p&gt;
+&lt;h4 id="4-work-with-the-service"&gt;4. Work with the service&lt;/h4&gt;
+&lt;p&gt;Now I can call APIs like:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;GET libaries.com/api/books
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And my server can check the library in my token. If I have one, I return books from the given library, otherwise I return a 401.&lt;/p&gt;
+&lt;h4 id="is-this-useful"&gt;Is this useful?&lt;/h4&gt;
+&lt;p&gt;This specific example might not appeal, but you may well find as you write more complex services you want to at times add data to your token.&lt;/p&gt;
+&lt;p&gt;The case above also shows how you can associate a session with a set of resources (in this case, a single library). This is useful if we know we&amp;rsquo;ll only work with a subset of resources. I want to choose a library once and work with that only. If you need to work with multiple libraries, it wouldn&amp;rsquo;t make sense.&lt;/p&gt;
+&lt;h2 id="how"&gt;How?&lt;/h2&gt;
+&lt;p&gt;If we are using Auth0, then we almost certainly have our token generated for us. The helper library &lt;a href="https://github.com/auth0/express-jwt"&gt;express-jwt&lt;/a&gt; will certainly let us make sure the token is valid, and put the payload of data on the &lt;code&gt;request.user&lt;/code&gt; object, but how can we create a new token &lt;em&gt;from the existing one&lt;/em&gt;?&lt;/p&gt;
+&lt;p&gt;It turns out it&amp;rsquo;s really pretty easy, as we would expect as we are using open standards. Here&amp;rsquo;s the code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;jwt&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;jsonwebtoken&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;extendToken&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;secret&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;payload&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;extend&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Clone and extend the payload.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;body&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;JSON&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;parse&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;JSON&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;stringify&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;payload&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;prop&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;in&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;extend&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;extend&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;hasOwnProperty&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;prop&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;body&lt;/span&gt;[&lt;span style="color:#a6e22e"&gt;prop&lt;/span&gt;] &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;extend&lt;/span&gt;[&lt;span style="color:#a6e22e"&gt;prop&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Sign the new token with our secret.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;jwt&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;sign&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;JSON&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;stringify&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;body&lt;/span&gt;), &lt;span style="color:#a6e22e"&gt;secret&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We have a function which takes a secret, the payload of an existing token, an object containing data to extend and that&amp;rsquo;s it. Here&amp;rsquo;s how you could use it:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;expressJwt&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;express-jwt&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;mySecret&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Buffer&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;walkinonsunshine&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;base64&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Middleware for protecting routes...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;requireAuth&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;expressJwt&lt;/span&gt;({&lt;span style="color:#a6e22e"&gt;secret&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;mySecret&lt;/span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;post&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;/api/libraries/:lib/authorise&amp;#39;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;requireAuth&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;req&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;res&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// get the library, check the user has access...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;lib&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;req&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;params&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;lib&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;checkLib&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;req&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;sub&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;lib&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;ok&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;ok&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;res&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;status&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;401&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;send&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Access Denied.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;res&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;status&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;send&lt;/span&gt;({&lt;span style="color:#a6e22e"&gt;jwt&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;extendToken&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;mySecret&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;req&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;, {&lt;span style="color:#a6e22e"&gt;library&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;lib&lt;/span&gt;})});
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We&amp;rsquo;ve extended the original token with some new data, resigned it and passed it back to the user. Future requests will automatically have the &lt;code&gt;req.user.lib&lt;/code&gt; field set (as the entire token payload is put by default on the &lt;code&gt;req.user&lt;/code&gt; object with the express-js middleware.&lt;/p&gt;
+&lt;p&gt;Hopefully that&amp;rsquo;ll be of some use if you ever need to extend the payload of a JWT token in a Node app.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;sup id="fn1"&gt;1. Json Web Token, read more at &lt;a href="http://jwt.io/"&gt;jwt.io&lt;/a&gt;. &lt;a href="#ref1"&gt;↩&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Node.js and Express - Strange Http Status Codes</title><link>https://dwmkerr.com/node-js-and-express-strange-http-status-codes/</link><pubDate>Tue, 16 Jul 2013 16:23:43 +0000</pubDate><guid>https://dwmkerr.com/node-js-and-express-strange-http-status-codes/</guid><description>&lt;h3&gt;In a Nutshell&lt;/h3&gt;
+Sending a response in Express with a call like &lt;em&gt;res.send(status, body)&lt;/em&gt; will send &lt;em&gt;body&lt;/em&gt; as the status code if it is numeric - ignoring &lt;em&gt;status&lt;/em&gt;. This is due to a fudge for backwards compatibility.
+&lt;h3&gt;The Details&lt;/h3&gt;
+&lt;span style="line-height: 1.714285714; font-size: 1rem;"&gt;&lt;strong&gt;&lt;/strong&gt;As part of a project I'm working on, I'm writing a service using &lt;/span&gt;&lt;a style="line-height: 1.714285714; font-size: 1rem;" title="node.js" href="http://nodejs.org/" target="_blank"&gt;node.js&lt;/a&gt;&lt;span style="line-height: 1.714285714; font-size: 1rem;"&gt; and &lt;/span&gt;&lt;a style="line-height: 1.714285714; font-size: 1rem;" title="Express" href="http://expressjs.com/" target="_blank"&gt;Express&lt;/a&gt;&lt;span style="line-height: 1.714285714; font-size: 1rem;"&gt;. This service exposes some entities in a MongoDB database through a REST API. Typically I hit this API through client-side Javascript, but in some places I want to hit the same API from some C# code - and I don't want to have to create classes for everything. I've got a funky library for this which I'll be publishing soon, but it helped me find a problem.&lt;/span&gt;
+&lt;p&gt;Testing the C# code showed me something that was a bit odd - GETs and POSTSs were working fine, but PUTs and DELETEs were showing an HTTP Status code of &amp;lsquo;1&amp;rsquo; (which isn&amp;rsquo;t a valid code). Here&amp;rsquo;s the what I was seeing:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/requests.png"&gt;&lt;img src="images/requests.png" alt="requests" width="600" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Checking the node server showed the same thing - DELETEs were returning status 1.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/console.png"&gt;&lt;img src="images/console.png" alt="console" width="600" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The server code is very lightweight so it&amp;rsquo;s quick to see what&amp;rsquo;s going on:&lt;/p&gt;
+&lt;p&gt;[code lang=&amp;ldquo;js&amp;rdquo;]exports.deleteUser = function(request, response) {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// Get the id.
 var id = request.params.id;
 // Log the user id.
 console.log('Deleting user: ' + id);
@@ -102,24 +102,24 @@ response.send(result);
 }
 });
 });
-&lt;/code>&lt;/pre>
-&lt;p>}[/code]&lt;/p>
-&lt;p>The function is called successfully, so we hit &amp;lsquo;response.send&amp;rsquo;. This looks like the problem - the result object is simply the number one, checking the &lt;a title="Express API Documentation" href="http://expressjs.com/api.html" target="_blank">Express Api Documentation&lt;/a> for send shows some examples like this:&lt;/p>
-&lt;pre>&lt;code>res.send(new Buffer('whoop'));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}[/code]&lt;/p&gt;
+&lt;p&gt;The function is called successfully, so we hit &amp;lsquo;response.send&amp;rsquo;. This looks like the problem - the result object is simply the number one, checking the &lt;a title="Express API Documentation" href="http://expressjs.com/api.html" target="_blank"&gt;Express Api Documentation&lt;/a&gt; for send shows some examples like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;res.send(new Buffer('whoop'));
 res.send({ some: 'json' });
 res.send('some html');
 res.send(404, 'Sorry, we cannot find that!');
 res.send(500, { error: 'something blew up' });
-res.send(200);&lt;/code>&lt;/pre>
-&lt;p>So just like the final example, we&amp;rsquo;re sending the code 1, which is not valid. What surprised me was what happened when I changed the send call to the below:&lt;/p>
-&lt;p>[code lang=&amp;ldquo;js&amp;rdquo;]response.send(200, result)[/code]&lt;/p>
-&lt;p>I was &lt;em>still &lt;/em>getting the code 1 returned. It turns out that this is a kind of undocumented oddity of Express - if you pass a numeric code and &lt;b>the second argument is also numeric&lt;/b> it sends the&lt;b> second argument as the status&lt;/b>.&lt;/p>
-&lt;p>In response.js of Express we find:&lt;/p>
-&lt;p>[code lang=&amp;ldquo;js&amp;rdquo;]res.send = function(body){
+res.send(200);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So just like the final example, we&amp;rsquo;re sending the code 1, which is not valid. What surprised me was what happened when I changed the send call to the below:&lt;/p&gt;
+&lt;p&gt;[code lang=&amp;ldquo;js&amp;rdquo;]response.send(200, result)[/code]&lt;/p&gt;
+&lt;p&gt;I was &lt;em&gt;still &lt;/em&gt;getting the code 1 returned. It turns out that this is a kind of undocumented oddity of Express - if you pass a numeric code and &lt;b&gt;the second argument is also numeric&lt;/b&gt; it sends the&lt;b&gt; second argument as the status&lt;/b&gt;.&lt;/p&gt;
+&lt;p&gt;In response.js of Express we find:&lt;/p&gt;
+&lt;p&gt;[code lang=&amp;ldquo;js&amp;rdquo;]res.send = function(body){
 var req = this.req;
 var head = &amp;lsquo;HEAD&amp;rsquo; == req.method;
-var len;&lt;/p>
-&lt;p>// allow status / body
+var len;&lt;/p&gt;
+&lt;p&gt;// allow status / body
 if (2 == arguments.length) {
 // res.send(body, status) backwards compat
 if (&amp;rsquo;number&amp;rsquo; != typeof body &amp;amp;&amp;amp; &amp;rsquo;number&amp;rsquo; == typeof arguments[1]) {
@@ -128,6 +128,6 @@ this.statusCode = arguments[1];
 this.statusCode = body;
 body = arguments[1];
 }
-}[/code]&lt;/p>
-&lt;p>So it seems the Express used to support a call like res.send({body}, 200) - and checks for a numeric second argument for backwards compatibility.&lt;/p>
-&lt;p>The workaround - don&amp;rsquo;t send numbers as any part of the response, unless it&amp;rsquo;s most definitely the status code - if you want to return the number of documents deleted, format it as json first, otherwise Express will get confused and mess with your status codes.&lt;/p></description><category>CodeProject</category></item></channel></rss>
+}[/code]&lt;/p&gt;
+&lt;p&gt;So it seems the Express used to support a call like res.send({body}, 200) - and checks for a numeric second argument for backwards compatibility.&lt;/p&gt;
+&lt;p&gt;The workaround - don&amp;rsquo;t send numbers as any part of the response, unless it&amp;rsquo;s most definitely the status code - if you want to return the number of documents deleted, format it as json first, otherwise Express will get confused and mess with your status codes.&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>

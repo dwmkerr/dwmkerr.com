@@ -1,117 +1,117 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on dwmkerr.com</title><link>https://dwmkerr.com/categories/git/</link><description>Recent content in Git on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Wed, 10 Oct 2018 09:17:26 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/git/index.xml" rel="self" type="application/rss+xml"/><item><title>A portable and magic-free way to open Pull Requests from the Command Line</title><link>https://dwmkerr.com/a-portable-and-magic-free-way-to-open-pull-requests-from-the-command-line/</link><pubDate>Wed, 10 Oct 2018 09:17:26 +0000</pubDate><guid>https://dwmkerr.com/a-portable-and-magic-free-way-to-open-pull-requests-from-the-command-line/</guid><description>&lt;p>This little bash snippet will let you open a GitHub or GitLab pull request from the command line on most Unix-like systems (OSX, Ubuntu, etc), without using any magic libraries, ZSH tricks or other dependencies.&lt;/p>
-&lt;p>&lt;strong>tl;dr&lt;/strong> download the &lt;a href="https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d">&lt;code>gpr.sh&lt;/code>&lt;/a> gist.&lt;/p>
-&lt;p>&lt;img src="images/gpr.png" alt="gpr">&lt;/p>
-&lt;p>Here&amp;rsquo;s how it looks in action OSX:&lt;/p>
-&lt;p>&lt;img src="images/gpr.gif" alt="gpr">&lt;/p>
-&lt;p>And Ubuntu:&lt;/p>
-&lt;p>&lt;img src="images/gpr-ubuntu.gif" alt="gpr-ubuntu">&lt;/p>
-&lt;p>The script is available as the &lt;a href="https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d">&lt;code>gpr.sh&lt;/code>&lt;/a> gist. You can also find it in my &lt;a href="https://github.com/dwmkerr/dotfiles">dotfiles&lt;/a>, in the &lt;a href="https://github.com/dwmkerr/dotfiles/blob/master/profile/git.sh">git.sh&lt;/a> file.&lt;/p>
-&lt;h2 id="the-script">The Script&lt;/h2>
-&lt;p>Here&amp;rsquo;s the script in its entirety:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Colour constants for nicer output.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>GREEN&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0;32m&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RESET&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0m&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Push the current branch to origin, set upstream, open the PR page if possible.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gpr&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Get the current branch name, or use &amp;#39;HEAD&amp;#39; if we cannot get it.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>git symbolic-ref -q HEAD&lt;span style="color:#66d9ef">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch##refs/heads/&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#66d9ef">:-&lt;/span>HEAD&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Pushing take a little while, so let the user know we&amp;#39;re working.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Opening pull request for &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}${&lt;/span>branch&lt;span style="color:#e6db74">}${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Push to origin, grabbing the output but then echoing it back.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> push_output&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>git push origin -u &lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#e6db74">}&lt;/span> 2&amp;gt;&amp;amp;1&lt;span style="color:#e6db74">`&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># If there&amp;#39;s anything which starts with http, it&amp;#39;s a good guess it&amp;#39;ll be a&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># link to GitHub/GitLab/Whatever. So open it.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> link&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span> | grep -o &lt;span style="color:#e6db74">&amp;#39;http.*&amp;#39;&lt;/span> | sed -e &lt;span style="color:#e6db74">&amp;#39;s/[[:space:]]*$//&amp;#39;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Opening: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}${&lt;/span>link&lt;span style="color:#e6db74">}${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> python -mwebbrowser &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="how-it-works">How It Works&lt;/h2>
-&lt;p>Blow-by-blow, let&amp;rsquo;s take a look.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Colour constants for nicer output.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>GREEN&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0;32m&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RESET&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;\033[0m&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>To make colouring console output easier, we create strings with the escape code required to set the &amp;lsquo;green&amp;rsquo; colour, and reset the text colour.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gpr&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Get the current branch name, or use &amp;#39;HEAD&amp;#39; if we cannot get it.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>git symbolic-ref -q HEAD&lt;span style="color:#66d9ef">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch##refs/heads/&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> branch&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#66d9ef">:-&lt;/span>HEAD&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we define the &lt;code>gpr&lt;/code> (Git Pull Request) function. We&amp;rsquo;ll need to push the current branch, so we need to get the current branch name. There&amp;rsquo;s plenty of discussion on how this works on &lt;a href="https://stackoverflow.com/questions/6245570/how-to-get-the-current-branch-name-in-git">Stack Overflow: How to get the current branch name in Git&lt;/a>. Essentially we just get the symbolic name for the head of our current branch, which will be something like this:&lt;/p>
-&lt;pre tabindex="0">&lt;code>refs/heads/my-new-branch
-&lt;/code>&lt;/pre>&lt;p>We then use &lt;a href="https://www.tldp.org/LDP/abs/html/string-manipulation.html">Bash substring removal&lt;/a> to rip out the &lt;code>ref/heads/&lt;/code> part. If we have no branch (for example, we are detached) we just use &lt;code>HEAD&lt;/code> a the branch name.&lt;/p>
-&lt;p>Next we have this:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Pushing take a little while, so let the user know we&amp;#39;re working.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Opening pull request for &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}${&lt;/span>branch&lt;span style="color:#e6db74">}${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># Push to origin, grabbing the output but then echoing it back.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> push_output&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>git push origin -u &lt;span style="color:#e6db74">${&lt;/span>branch&lt;span style="color:#e6db74">}&lt;/span> 2&amp;gt;&amp;amp;1&lt;span style="color:#e6db74">`&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We&amp;rsquo;ve previously defined some strings which include the escape codes to colour terminal output. Now we just show the user the branch we&amp;rsquo;re going to push, push it and then store all of the output in the &lt;code>push_output&lt;/code> variable.&lt;/p>
-&lt;p>The &lt;code>2&amp;gt;&amp;amp;1&lt;/code> idiom is a common one. This simply makes sure we put all &lt;code>stderr&lt;/code> output (which is always file descriptor 2) into &lt;code>stdout&lt;/code> (which is always file descriptor 1). This means whether the program writes output to &lt;code>stdout&lt;/code> or &lt;code>stderr&lt;/code>, we capture it. There&amp;rsquo;s a nice write-up on this in the blog post &amp;lsquo;&lt;a href="https://www.brianstorti.com/understanding-shell-script-idiom-redirect/">Understanding Shell Script&amp;rsquo;s idiom: 2&amp;gt;&amp;amp;1
-&lt;/a>&amp;rsquo;.&lt;/p>
-&lt;p>The output from Git push will be dependent on the Git server being used. For GitHub it&amp;rsquo;ll look like this:&lt;/p>
-&lt;pre tabindex="0">&lt;code>remote:
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on dwmkerr.com</title><link>https://dwmkerr.com/categories/git/</link><description>Recent content in Git on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Wed, 10 Oct 2018 09:17:26 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/categories/git/index.xml" rel="self" type="application/rss+xml"/><item><title>A portable and magic-free way to open Pull Requests from the Command Line</title><link>https://dwmkerr.com/a-portable-and-magic-free-way-to-open-pull-requests-from-the-command-line/</link><pubDate>Wed, 10 Oct 2018 09:17:26 +0000</pubDate><guid>https://dwmkerr.com/a-portable-and-magic-free-way-to-open-pull-requests-from-the-command-line/</guid><description>&lt;p&gt;This little bash snippet will let you open a GitHub or GitLab pull request from the command line on most Unix-like systems (OSX, Ubuntu, etc), without using any magic libraries, ZSH tricks or other dependencies.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt; download the &lt;a href="https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d"&gt;&lt;code&gt;gpr.sh&lt;/code&gt;&lt;/a&gt; gist.&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/gpr.png" alt="gpr"&gt;&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s how it looks in action OSX:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/gpr.gif" alt="gpr"&gt;&lt;/p&gt;
+&lt;p&gt;And Ubuntu:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/gpr-ubuntu.gif" alt="gpr-ubuntu"&gt;&lt;/p&gt;
+&lt;p&gt;The script is available as the &lt;a href="https://gist.github.com/dwmkerr/bae3fdca2d7208ec5d0008911d79b47d"&gt;&lt;code&gt;gpr.sh&lt;/code&gt;&lt;/a&gt; gist. You can also find it in my &lt;a href="https://github.com/dwmkerr/dotfiles"&gt;dotfiles&lt;/a&gt;, in the &lt;a href="https://github.com/dwmkerr/dotfiles/blob/master/profile/git.sh"&gt;git.sh&lt;/a&gt; file.&lt;/p&gt;
+&lt;h2 id="the-script"&gt;The Script&lt;/h2&gt;
+&lt;p&gt;Here&amp;rsquo;s the script in its entirety:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Colour constants for nicer output.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;GREEN&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;\033[0;32m&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;RESET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;\033[0m&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Push the current branch to origin, set upstream, open the PR page if possible.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gpr&lt;span style="color:#f92672"&gt;()&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Get the current branch name, or use &amp;#39;HEAD&amp;#39; if we cannot get it.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; branch&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git symbolic-ref -q HEAD&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; branch&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;branch##refs/heads/&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; branch&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;branch&lt;span style="color:#66d9ef"&gt;:-&lt;/span&gt;HEAD&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Pushing take a little while, so let the user know we&amp;#39;re working.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;Opening pull request for &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;GREEN&lt;span style="color:#e6db74"&gt;}${&lt;/span&gt;branch&lt;span style="color:#e6db74"&gt;}${&lt;/span&gt;RESET&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Push to origin, grabbing the output but then echoing it back.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; push_output&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git push origin -u &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;branch&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; 2&amp;gt;&amp;amp;1&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;push_output&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# If there&amp;#39;s anything which starts with http, it&amp;#39;s a good guess it&amp;#39;ll be a&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# link to GitHub/GitLab/Whatever. So open it.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; link&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;push_output&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; | grep -o &lt;span style="color:#e6db74"&gt;&amp;#39;http.*&amp;#39;&lt;/span&gt; | sed -e &lt;span style="color:#e6db74"&gt;&amp;#39;s/[[:space:]]*$//&amp;#39;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt; &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;link&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;Opening: &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;GREEN&lt;span style="color:#e6db74"&gt;}${&lt;/span&gt;link&lt;span style="color:#e6db74"&gt;}${&lt;/span&gt;RESET&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; python -mwebbrowser &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;link&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="how-it-works"&gt;How It Works&lt;/h2&gt;
+&lt;p&gt;Blow-by-blow, let&amp;rsquo;s take a look.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Colour constants for nicer output.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;GREEN&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;\033[0;32m&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;RESET&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;\033[0m&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To make colouring console output easier, we create strings with the escape code required to set the &amp;lsquo;green&amp;rsquo; colour, and reset the text colour.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gpr&lt;span style="color:#f92672"&gt;()&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Get the current branch name, or use &amp;#39;HEAD&amp;#39; if we cannot get it.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; branch&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git symbolic-ref -q HEAD&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; branch&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;branch##refs/heads/&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; branch&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;branch&lt;span style="color:#66d9ef"&gt;:-&lt;/span&gt;HEAD&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now we define the &lt;code&gt;gpr&lt;/code&gt; (Git Pull Request) function. We&amp;rsquo;ll need to push the current branch, so we need to get the current branch name. There&amp;rsquo;s plenty of discussion on how this works on &lt;a href="https://stackoverflow.com/questions/6245570/how-to-get-the-current-branch-name-in-git"&gt;Stack Overflow: How to get the current branch name in Git&lt;/a&gt;. Essentially we just get the symbolic name for the head of our current branch, which will be something like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;refs/heads/my-new-branch
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We then use &lt;a href="https://www.tldp.org/LDP/abs/html/string-manipulation.html"&gt;Bash substring removal&lt;/a&gt; to rip out the &lt;code&gt;ref/heads/&lt;/code&gt; part. If we have no branch (for example, we are detached) we just use &lt;code&gt;HEAD&lt;/code&gt; a the branch name.&lt;/p&gt;
+&lt;p&gt;Next we have this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Pushing take a little while, so let the user know we&amp;#39;re working.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;Opening pull request for &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;GREEN&lt;span style="color:#e6db74"&gt;}${&lt;/span&gt;branch&lt;span style="color:#e6db74"&gt;}${&lt;/span&gt;RESET&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Push to origin, grabbing the output but then echoing it back.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; push_output&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;git push origin -u &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;branch&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; 2&amp;gt;&amp;amp;1&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;push_output&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We&amp;rsquo;ve previously defined some strings which include the escape codes to colour terminal output. Now we just show the user the branch we&amp;rsquo;re going to push, push it and then store all of the output in the &lt;code&gt;push_output&lt;/code&gt; variable.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;2&amp;gt;&amp;amp;1&lt;/code&gt; idiom is a common one. This simply makes sure we put all &lt;code&gt;stderr&lt;/code&gt; output (which is always file descriptor 2) into &lt;code&gt;stdout&lt;/code&gt; (which is always file descriptor 1). This means whether the program writes output to &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt;, we capture it. There&amp;rsquo;s a nice write-up on this in the blog post &amp;lsquo;&lt;a href="https://www.brianstorti.com/understanding-shell-script-idiom-redirect/"&gt;Understanding Shell Script&amp;rsquo;s idiom: 2&amp;gt;&amp;amp;1
+&lt;/a&gt;&amp;rsquo;.&lt;/p&gt;
+&lt;p&gt;The output from Git push will be dependent on the Git server being used. For GitHub it&amp;rsquo;ll look like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;remote:
 remote: Create a pull request for &amp;#39;feat/doc-cleanup&amp;#39; on GitHub by visiting:
 remote: https://github.com/dwmkerr/dotfiles/pull/new/feat/doc-cleanup
 remote:
 To github.com:dwmkerr/dotfiles
 * [new branch] feat/doc-cleanup -&amp;gt; feat/doc-cleanup
 Branch feat/doc-cleanup set up to track remote branch feat/doc-cleanup from origin.
-&lt;/code>&lt;/pre>&lt;p>Now all we want to do is see if there is any text which starts with &lt;code>http&lt;/code> and if there is, then open it. Here&amp;rsquo;s how we do that:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># If there&amp;#39;s anything which starts with http, it&amp;#39;s a good guess it&amp;#39;ll be a&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># link to GitHub/GitLab/Whatever. So open it.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> link&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>echo &lt;span style="color:#e6db74">${&lt;/span>push_output&lt;span style="color:#e6db74">}&lt;/span> | grep -o &lt;span style="color:#e6db74">&amp;#39;http.*&amp;#39;&lt;/span> | sed -e &lt;span style="color:#e6db74">&amp;#39;s/[[:space:]]*$//&amp;#39;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Opening: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>GREEN&lt;span style="color:#e6db74">}${&lt;/span>link&lt;span style="color:#e6db74">}${&lt;/span>RESET&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">...&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> python -mwebbrowser &lt;span style="color:#e6db74">${&lt;/span>link&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This uses &lt;code>grep&lt;/code> to rip out everything from &lt;code>http&lt;/code> onwards, and the &lt;code>sed&lt;/code> to remove any trailing whitespace. If we have found a link, we use &lt;code>python&lt;/code> to open it (which is a fairly safe cross-platform solution).&lt;/p>
-&lt;p>That&amp;rsquo;s it! When you have a branch ready which you want to push and create a pull request from, just run:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gpr
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And the branch will be pushed to &lt;code>origin&lt;/code>, and if there is a Pull Request webpage, it&amp;rsquo;ll be opened.&lt;/p>
-&lt;h2 id="prior-art">Prior Art&lt;/h2>
-&lt;p>My colleague Tobias recently shared a nice trick we worked out to open a GitLab merge request - which also now works for GitHub:&lt;/p>
-&lt;blockquote class="twitter-tweet" data-lang="en">&lt;p lang="en" dir="ltr">git push and directly open PR in Chrome - works for &lt;a href="https://twitter.com/github?ref_src=twsrc%5Etfw">@github&lt;/a> &amp;amp; &lt;a href="https://twitter.com/gitlab?ref_src=twsrc%5Etfw">@gitlab&lt;/a> 🚀&lt;br>&lt;br>Here is how to set it up 👉 &lt;a href="https://t.co/YfNTmdwTFt">https://t.co/YfNTmdwTFt&lt;/a> &lt;a href="https://twitter.com/hashtag/github?src=hash&amp;amp;ref_src=twsrc%5Etfw">#github&lt;/a> &lt;a href="https://twitter.com/hashtag/gitlab?src=hash&amp;amp;ref_src=twsrc%5Etfw">#gitlab&lt;/a> &lt;a href="https://t.co/ISE9kVZmw1">pic.twitter.com/ISE9kVZmw1&lt;/a>&lt;/p>&amp;mdash; Tobias Büschel (@TobiasBueschel) &lt;a href="https://twitter.com/TobiasBueschel/status/1042452158430502915?ref_src=twsrc%5Etfw">September 19, 2018&lt;/a>&lt;/blockquote>
-&lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
-&lt;p>I wanted to be able to use the same trick in Ubuntu and other Linux distros, but realised it relied on &lt;a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh&lt;/a> and assumed OSX with Chrome as the browser, so tweaked it to the above. Thanks Tobi!&lt;/p></description><category>CodeProject</category></item><item><title>Better Specifications</title><link>https://dwmkerr.com/better-specifications/</link><pubDate>Mon, 05 May 2014 14:58:43 +0000</pubDate><guid>https://dwmkerr.com/better-specifications/</guid><description>&lt;p>Specifications are absolutely key to the success of a project.&lt;/p>
-&lt;p>Unless you have a good definition of what your project is &lt;em>supposed to be&lt;/em>, there&amp;rsquo;s no way you can deliver it. A specification is the contract between you and the client, the basis for technical designs, quality assurance test plans, operational readiness, and much more.&lt;/p>
-&lt;p>I&amp;rsquo;m not going to talk about how different teams do specs, what works and what doesn&amp;rsquo;t work. I&amp;rsquo;m going to make the statement that &lt;strong>the better that specifications are handled, understood and controlled, the better for everyone&lt;/strong> - Project Managers, developers, testers, operational teams and customers.&lt;/p>
-&lt;p>If there&amp;rsquo;s anyone who&amp;rsquo;s on the fence about whether specifications are important or not, &lt;a href="http://www.joelonsoftware.com/articles/fog0000000036.html">Joel Spolsky&amp;rsquo;s series on Painless Specifications&lt;/a> is a must read, he makes the point exceedingly well and I&amp;rsquo;d definitely recommend reading the articles.&lt;/p>
-&lt;p>I&amp;rsquo;m going to describe an approach to functional specifications that I think has a lot going for it. To developers it should look very familiar and (hopefully) appealing. To non-developers, the approach may not be so familiar, but the potential benefits should speak for themselves.&lt;/p>
-&lt;h3 id="specs-right-now">Specs Right Now&lt;/h3>
-&lt;p>OK - the introductions have been made. So how do we represent specs at the moment? Here are some common ways.&lt;/p>
-&lt;ol>
-&lt;li>&lt;strong>Text files&lt;/strong>. Specs are text? Well, sometimes. They might also be images, sometimes diagrams help too. But text can work.&lt;/li>
-&lt;li>&lt;strong>Word documents&lt;/strong>. A little like the above, but with the facility to use tables and images and so on.&lt;/li>
-&lt;li>&lt;strong>Web Pages&lt;/strong>. Perhaps more common nowadays, specs can be written on online systems like Sharepoint (just documents really, but with better multi-user support), Google Docs or Bug Tracking/Wiki type systems.&lt;/li>
-&lt;li>&lt;strong>BDD Tools&lt;/strong>. Whether using tools or not, BDD specs are files that state functionality in a more strongly defined format.&lt;/li>
-&lt;li>&lt;strong>Tests&lt;/strong>. Kind of similar to the above - depending on what you&amp;rsquo;re writing or the tech expertise of team members, some teams opt for the bulk of their specs in the form of tests.&lt;/li>
-&lt;/ol>
-&lt;p>All of these systems have pros and cons. Some have many more cons, and some balance out better on different types of projects.&lt;/p>
-&lt;h2 id="a-better-way">A Better Way&lt;/h2>
-&lt;p>So here&amp;rsquo;s a suggestion of a better way.&lt;/p>
-&lt;blockquote>
-&lt;p>&lt;strong>Specs are markdown files in a repository. That&amp;rsquo;s it.&lt;/strong>&lt;/p>
-&lt;/blockquote>
-&lt;p>Now I&amp;rsquo;m going to show you why this is a good idea.&lt;/p>
-&lt;h3 id="specs-are-text-ish">Specs are text. Ish.&lt;/h3>
-&lt;p>Pure plain text is a bit hard for specs - it can be helpful to have bullet points, headings and so on. But word processing tools are not always the best answer - you&amp;rsquo;re tied to a specific tool, and unless you&amp;rsquo;re working with people who all know how styles, track changes or the specifics of the tool work, you can spend more time messing around with formatting than you&amp;rsquo;d like.&lt;/p>
-&lt;p>Try comparing and rationalising two versions of a complex document that have gone out of sync, it&amp;rsquo;s a nightmare.&lt;/p>
-&lt;p>Here&amp;rsquo;s a snippet of a markdown spec:&lt;/p>
-&lt;pre tabindex="0">&lt;code>Overview
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now all we want to do is see if there is any text which starts with &lt;code&gt;http&lt;/code&gt; and if there is, then open it. Here&amp;rsquo;s how we do that:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# If there&amp;#39;s anything which starts with http, it&amp;#39;s a good guess it&amp;#39;ll be a&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# link to GitHub/GitLab/Whatever. So open it.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; link&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;push_output&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; | grep -o &lt;span style="color:#e6db74"&gt;&amp;#39;http.*&amp;#39;&lt;/span&gt; | sed -e &lt;span style="color:#e6db74"&gt;&amp;#39;s/[[:space:]]*$//&amp;#39;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt; &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;link&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;Opening: &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;GREEN&lt;span style="color:#e6db74"&gt;}${&lt;/span&gt;link&lt;span style="color:#e6db74"&gt;}${&lt;/span&gt;RESET&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; python -mwebbrowser &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;link&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This uses &lt;code&gt;grep&lt;/code&gt; to rip out everything from &lt;code&gt;http&lt;/code&gt; onwards, and the &lt;code&gt;sed&lt;/code&gt; to remove any trailing whitespace. If we have found a link, we use &lt;code&gt;python&lt;/code&gt; to open it (which is a fairly safe cross-platform solution).&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s it! When you have a branch ready which you want to push and create a pull request from, just run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gpr
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And the branch will be pushed to &lt;code&gt;origin&lt;/code&gt;, and if there is a Pull Request webpage, it&amp;rsquo;ll be opened.&lt;/p&gt;
+&lt;h2 id="prior-art"&gt;Prior Art&lt;/h2&gt;
+&lt;p&gt;My colleague Tobias recently shared a nice trick we worked out to open a GitLab merge request - which also now works for GitHub:&lt;/p&gt;
+&lt;blockquote class="twitter-tweet" data-lang="en"&gt;&lt;p lang="en" dir="ltr"&gt;git push and directly open PR in Chrome - works for &lt;a href="https://twitter.com/github?ref_src=twsrc%5Etfw"&gt;@github&lt;/a&gt; &amp;amp; &lt;a href="https://twitter.com/gitlab?ref_src=twsrc%5Etfw"&gt;@gitlab&lt;/a&gt; 🚀&lt;br&gt;&lt;br&gt;Here is how to set it up 👉 &lt;a href="https://t.co/YfNTmdwTFt"&gt;https://t.co/YfNTmdwTFt&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/github?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#github&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/gitlab?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#gitlab&lt;/a&gt; &lt;a href="https://t.co/ISE9kVZmw1"&gt;pic.twitter.com/ISE9kVZmw1&lt;/a&gt;&lt;/p&gt;&amp;mdash; Tobias Büschel (@TobiasBueschel) &lt;a href="https://twitter.com/TobiasBueschel/status/1042452158430502915?ref_src=twsrc%5Etfw"&gt;September 19, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;I wanted to be able to use the same trick in Ubuntu and other Linux distros, but realised it relied on &lt;a href="https://github.com/robbyrussell/oh-my-zsh"&gt;oh-my-zsh&lt;/a&gt; and assumed OSX with Chrome as the browser, so tweaked it to the above. Thanks Tobi!&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Better Specifications</title><link>https://dwmkerr.com/better-specifications/</link><pubDate>Mon, 05 May 2014 14:58:43 +0000</pubDate><guid>https://dwmkerr.com/better-specifications/</guid><description>&lt;p&gt;Specifications are absolutely key to the success of a project.&lt;/p&gt;
+&lt;p&gt;Unless you have a good definition of what your project is &lt;em&gt;supposed to be&lt;/em&gt;, there&amp;rsquo;s no way you can deliver it. A specification is the contract between you and the client, the basis for technical designs, quality assurance test plans, operational readiness, and much more.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m not going to talk about how different teams do specs, what works and what doesn&amp;rsquo;t work. I&amp;rsquo;m going to make the statement that &lt;strong&gt;the better that specifications are handled, understood and controlled, the better for everyone&lt;/strong&gt; - Project Managers, developers, testers, operational teams and customers.&lt;/p&gt;
+&lt;p&gt;If there&amp;rsquo;s anyone who&amp;rsquo;s on the fence about whether specifications are important or not, &lt;a href="http://www.joelonsoftware.com/articles/fog0000000036.html"&gt;Joel Spolsky&amp;rsquo;s series on Painless Specifications&lt;/a&gt; is a must read, he makes the point exceedingly well and I&amp;rsquo;d definitely recommend reading the articles.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m going to describe an approach to functional specifications that I think has a lot going for it. To developers it should look very familiar and (hopefully) appealing. To non-developers, the approach may not be so familiar, but the potential benefits should speak for themselves.&lt;/p&gt;
+&lt;h3 id="specs-right-now"&gt;Specs Right Now&lt;/h3&gt;
+&lt;p&gt;OK - the introductions have been made. So how do we represent specs at the moment? Here are some common ways.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Text files&lt;/strong&gt;. Specs are text? Well, sometimes. They might also be images, sometimes diagrams help too. But text can work.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Word documents&lt;/strong&gt;. A little like the above, but with the facility to use tables and images and so on.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Web Pages&lt;/strong&gt;. Perhaps more common nowadays, specs can be written on online systems like Sharepoint (just documents really, but with better multi-user support), Google Docs or Bug Tracking/Wiki type systems.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;BDD Tools&lt;/strong&gt;. Whether using tools or not, BDD specs are files that state functionality in a more strongly defined format.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tests&lt;/strong&gt;. Kind of similar to the above - depending on what you&amp;rsquo;re writing or the tech expertise of team members, some teams opt for the bulk of their specs in the form of tests.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;All of these systems have pros and cons. Some have many more cons, and some balance out better on different types of projects.&lt;/p&gt;
+&lt;h2 id="a-better-way"&gt;A Better Way&lt;/h2&gt;
+&lt;p&gt;So here&amp;rsquo;s a suggestion of a better way.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Specs are markdown files in a repository. That&amp;rsquo;s it.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Now I&amp;rsquo;m going to show you why this is a good idea.&lt;/p&gt;
+&lt;h3 id="specs-are-text-ish"&gt;Specs are text. Ish.&lt;/h3&gt;
+&lt;p&gt;Pure plain text is a bit hard for specs - it can be helpful to have bullet points, headings and so on. But word processing tools are not always the best answer - you&amp;rsquo;re tied to a specific tool, and unless you&amp;rsquo;re working with people who all know how styles, track changes or the specifics of the tool work, you can spend more time messing around with formatting than you&amp;rsquo;d like.&lt;/p&gt;
+&lt;p&gt;Try comparing and rationalising two versions of a complex document that have gone out of sync, it&amp;rsquo;s a nightmare.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s a snippet of a markdown spec:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Overview
 --------
 This spec is for the login screen of the application. The overall design of
 the screen is in the file &amp;#39;mockup.png&amp;#39;.
@@ -122,71 +122,71 @@ The Controls
 * The tooltip for the username box is &amp;#39;Enter Username&amp;#39;.
 * The password box accepts any characters and is limited to 120 characters.
 * The tooltip for the password box is &amp;#39;Enter password&amp;#39;.
-&lt;/code>&lt;/pre>&lt;p>It&amp;rsquo;s readable in it&amp;rsquo;s raw form. This is how it looks on GitHub:&lt;/p>
-&lt;p>&lt;img src="images/LoginScreenSpec.png" alt="Login Screen Spec">&lt;/p>
-&lt;p>See the real thing at &lt;a href="https://github.com/dwmkerr/better-specs/blob/master/login/login.md">github.com/dwmkerr/better-specs/blob/master/login/login.md&lt;/a>.&lt;/p>
-&lt;p>(These specs are just made up ones for this article).&lt;/p>
-&lt;p>The formatting is readable even in plain text mode, but many modern day tools understand how to show markdown in a slightly nicer way (I&amp;rsquo;m writing this post in markdown - &lt;a href="https://ghost.org/">Ghost&lt;/a> uses markdown for blog posts). You can print it and understand it, email it to recipients in plain text mode, and importantly there&amp;rsquo;s no fiddling with formatting.&lt;/p>
-&lt;p>If you haven&amp;rsquo;t used markdown before, give it a try on &lt;a href="https://stackedit.io/">StackEdit&lt;/a>, it&amp;rsquo;s an online markdown editor - you can have a play with it.&lt;/p>
-&lt;h3 id="specs-are-version-controlled">Specs are Version Controlled&lt;/h3>
-&lt;p>Specs need to be version controlled. You need to be able to see a history of a spec, who changed it, when they changed it and what the change was.&lt;/p>
-&lt;p>Even more useful - you should be able to diff specs - what changed between two versions? This is hard to do with programs like word, with version control systems like git, it&amp;rsquo;s a piece of cake. Take a look:&lt;/p>
-&lt;p>&lt;img src="images/LoginScreenDiff.png" alt="">&lt;/p>
-&lt;p>We can see easily who changed this spec and when, we can compare revisions.&lt;/p>
-&lt;p>This not just a powerful feature - it&amp;rsquo;s a required one. Developers and testers can see what has been added, removed or modified. So can project managers.&lt;/p>
-&lt;p>This is a diff that developers will understand - the red and green make it clear for non-devs too. Modern systems like GitHub can take it further:&lt;/p>
-&lt;p>&lt;img src="images/LoginNiceDiff.png" alt="">&lt;/p>
-&lt;p>Pretty clear what&amp;rsquo;s going on.&lt;/p>
-&lt;h3 id="pull-requests">Pull Requests&lt;/h3>
-&lt;p>Let&amp;rsquo;s take the version control aspect further. A spec should have one owner, one person who can press the button and say &amp;lsquo;yes, this is in&amp;rsquo;. There needs to be one owner, because a change to a spec is like a change to a contract - it could represent hours of developer time, cost increases, release date issues and more. There&amp;rsquo;s impact, there are consequences.&lt;/p>
-&lt;p>So using services like GitHub or Bitbucket can help here. Anyone can make changes to a spec, but a single approver has to review those changes and decide whether to bring them in.&lt;/p>
-&lt;p>&lt;img src="images/LockoutLogic.png" alt="">&lt;/p>
-&lt;p>&lt;a href="https://github.com/dwmkerr/better-specs/pull/1/files?short_path=d645d03#diff-d645d03c7459b43c1e030eeb13d1245b">See this pull request on GitHub&lt;/a>&lt;/p>
-&lt;p>Pull requests support comments, discussions, diffs and all sorts of useful things. No one can get something into the spec until the approver has OK&amp;rsquo;d it.&lt;/p>
-&lt;p>It also gives the approver a single point where they can action the changes, perhaps raising a task for a developer to work on the changes.&lt;/p>
-&lt;p>That pull request can also be &lt;em>linked to&lt;/em> later - in the bug tracking or feature management system, an issue to implement the changes in the pull request can be made - and the implementer always has a link to the &lt;em>exact&lt;/em> change.&lt;/p>
-&lt;blockquote>
-&lt;p>Don&amp;rsquo;t put the change to a spec in a work item. A work item &lt;em>refers&lt;/em> to a change in the spec.&lt;/p>
-&lt;/blockquote>
-&lt;p>This is very useful. In the pull request shown (which you can &lt;a href="https://github.com/dwmkerr/better-specs/pull/1/files?short_path=d645d03#diff-d645d03c7459b43c1e030eeb13d1245b">see here&lt;/a>) has one innocuous extra line (which we see in green) stating that the user is locked out after three failed password attempts. This isn&amp;rsquo;t in the spec, not until we accept the pull request. And in this case instead we can comment to the person who raised it:&lt;/p>
-&lt;p>&lt;img src="images/LoginPullReqComments.png" alt="">&lt;/p>
-&lt;p>I had to make a contrived example and fake a discussion between myself and myself, but I think seeing how this looks helps make the point.&lt;/p>
-&lt;h3 id="branches">Branches&lt;/h3>
-&lt;p>Another great thing about keeping specs as plain text and using a version control system is that you can take advantage of branching. This means that different people can be working on proposed changes to specs or new features in their own isolated branches - the work they&amp;rsquo;re doing won&amp;rsquo;t be interfered with by others.&lt;/p>
-&lt;p>When the time comes to bring the proposal into the spec, again a pull request can be made and the coordinator can deal with any conflicts that may have arisen since the branch was made.&lt;/p>
-&lt;p>At the time the BA or whoever it might be is working on their specs, they still have full version control, a history and so on, but are not interfering with the &amp;lsquo;master&amp;rsquo; version of the specs that others in the project see.&lt;/p>
-&lt;h3 id="what-about-rich-media">What About Rich Media?&lt;/h3>
-&lt;p>Keep your rich media. Keep images, tables and diagrams - just check them in alongside the spec and link to them from the spec. You still get version control, pull requests and a history. Depending on the media you might even get a nice diff representation - check out this commit:&lt;/p>
-&lt;p>&lt;img src="images/LoginImageDiff.png" alt="">&lt;/p>
-&lt;p>&lt;a href="https://github.com/dwmkerr/better-specs/commit/8a1224812db2ae4909dfb5a30f8483b1ca96ed18?diff-0=0-100">See the actual commit here&lt;/a>&lt;/p>
-&lt;p>You can see the image before, after or even use the slider to see what has changed. The rich media is &lt;em>supporting&lt;/em> media - it&amp;rsquo;s still the spec that&amp;rsquo;s boss.&lt;/p>
-&lt;p>Don&amp;rsquo;t throw away your powerpoint presentations, visio files or anything else, but make the spec king and these files support it. Got a big table of information? Do it in excel or google sheets, that&amp;rsquo;s the right tool for the job - but version control it with the spec.&lt;/p>
-&lt;h3 id="persuading-others">Persuading Others&lt;/h3>
-&lt;p>The hard thing about this approach might be persuading those who are not used to it to use it.&lt;/p>
-&lt;p>To developers, I imagine this approach has immediate appeal. We know that an email chain of timestamped word documents or powerpoint presentations is a nightmare to maintain as it evolves, and that versin control systems are critical to managing shared work.&lt;/p>
-&lt;p>To business people who are not used to version control or markdown, it might seem like a nerdy, inefficient way of doing things. But the points above are quite compelling. If you have strong arguments for or against, comment and I&amp;rsquo;ll update the article.&lt;/p>
-&lt;h3 id="useful-resources">Useful Resources&lt;/h3>
-&lt;p>It&amp;rsquo;s worth pulling together some useful further reading.&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="http://www.joelonsoftware.com/articles/fog0000000036.html">Joel Spolsky&amp;rsquo;s series on Painless Specifications&lt;/a> - A well written series on why specs are so important.&lt;/li>
-&lt;li>&lt;a href="http://daringfireball.net/projects/markdown/">Markdown&lt;/a> - The official homepage&lt;/li>
-&lt;li>&lt;a href="https://stackedit.io/">StackEdit&lt;/a> - Have a play writing markdown and see it rendered.&lt;/li>
-&lt;/ul>
-&lt;h2 id="final-thoughts">Final Thoughts&lt;/h2>
-&lt;p>I&amp;rsquo;ve never used this approach in a team - I am writing specs for a side project like this at the moment, but this is a one-man project (for now).&lt;/p>
-&lt;p>Have you tried this approach? Any success stories or experiences of it failing? I&amp;rsquo;d love to know, so comment if you&amp;rsquo;ve got some experience on this one.&lt;/p>
-&lt;p>P.S. - This page was written with markdown!&lt;/p></description><category>CodeProject</category></item><item><title>Recursive read lock acquisitions not allowed in this mode</title><link>https://dwmkerr.com/recursive-read-lock-acquisitions-not-allowed-in-this-mode/</link><pubDate>Wed, 10 Jul 2013 02:17:09 +0000</pubDate><guid>https://dwmkerr.com/recursive-read-lock-acquisitions-not-allowed-in-this-mode/</guid><description>&lt;p>If you are using the following combination of tools:&lt;/p>
-&lt;ul>
-&lt;li>&lt;span style="line-height: 14px;">Visual Studio 2012&lt;/span>&lt;/li>
-&lt;li>Visual Studio Tools for Git&lt;/li>
-&lt;li>Nuget&lt;/li>
-&lt;/ul>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It&amp;rsquo;s readable in it&amp;rsquo;s raw form. This is how it looks on GitHub:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/LoginScreenSpec.png" alt="Login Screen Spec"&gt;&lt;/p&gt;
+&lt;p&gt;See the real thing at &lt;a href="https://github.com/dwmkerr/better-specs/blob/master/login/login.md"&gt;github.com/dwmkerr/better-specs/blob/master/login/login.md&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;(These specs are just made up ones for this article).&lt;/p&gt;
+&lt;p&gt;The formatting is readable even in plain text mode, but many modern day tools understand how to show markdown in a slightly nicer way (I&amp;rsquo;m writing this post in markdown - &lt;a href="https://ghost.org/"&gt;Ghost&lt;/a&gt; uses markdown for blog posts). You can print it and understand it, email it to recipients in plain text mode, and importantly there&amp;rsquo;s no fiddling with formatting.&lt;/p&gt;
+&lt;p&gt;If you haven&amp;rsquo;t used markdown before, give it a try on &lt;a href="https://stackedit.io/"&gt;StackEdit&lt;/a&gt;, it&amp;rsquo;s an online markdown editor - you can have a play with it.&lt;/p&gt;
+&lt;h3 id="specs-are-version-controlled"&gt;Specs are Version Controlled&lt;/h3&gt;
+&lt;p&gt;Specs need to be version controlled. You need to be able to see a history of a spec, who changed it, when they changed it and what the change was.&lt;/p&gt;
+&lt;p&gt;Even more useful - you should be able to diff specs - what changed between two versions? This is hard to do with programs like word, with version control systems like git, it&amp;rsquo;s a piece of cake. Take a look:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/LoginScreenDiff.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;We can see easily who changed this spec and when, we can compare revisions.&lt;/p&gt;
+&lt;p&gt;This not just a powerful feature - it&amp;rsquo;s a required one. Developers and testers can see what has been added, removed or modified. So can project managers.&lt;/p&gt;
+&lt;p&gt;This is a diff that developers will understand - the red and green make it clear for non-devs too. Modern systems like GitHub can take it further:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/LoginNiceDiff.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;Pretty clear what&amp;rsquo;s going on.&lt;/p&gt;
+&lt;h3 id="pull-requests"&gt;Pull Requests&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s take the version control aspect further. A spec should have one owner, one person who can press the button and say &amp;lsquo;yes, this is in&amp;rsquo;. There needs to be one owner, because a change to a spec is like a change to a contract - it could represent hours of developer time, cost increases, release date issues and more. There&amp;rsquo;s impact, there are consequences.&lt;/p&gt;
+&lt;p&gt;So using services like GitHub or Bitbucket can help here. Anyone can make changes to a spec, but a single approver has to review those changes and decide whether to bring them in.&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/LockoutLogic.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/better-specs/pull/1/files?short_path=d645d03#diff-d645d03c7459b43c1e030eeb13d1245b"&gt;See this pull request on GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Pull requests support comments, discussions, diffs and all sorts of useful things. No one can get something into the spec until the approver has OK&amp;rsquo;d it.&lt;/p&gt;
+&lt;p&gt;It also gives the approver a single point where they can action the changes, perhaps raising a task for a developer to work on the changes.&lt;/p&gt;
+&lt;p&gt;That pull request can also be &lt;em&gt;linked to&lt;/em&gt; later - in the bug tracking or feature management system, an issue to implement the changes in the pull request can be made - and the implementer always has a link to the &lt;em&gt;exact&lt;/em&gt; change.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Don&amp;rsquo;t put the change to a spec in a work item. A work item &lt;em&gt;refers&lt;/em&gt; to a change in the spec.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This is very useful. In the pull request shown (which you can &lt;a href="https://github.com/dwmkerr/better-specs/pull/1/files?short_path=d645d03#diff-d645d03c7459b43c1e030eeb13d1245b"&gt;see here&lt;/a&gt;) has one innocuous extra line (which we see in green) stating that the user is locked out after three failed password attempts. This isn&amp;rsquo;t in the spec, not until we accept the pull request. And in this case instead we can comment to the person who raised it:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/LoginPullReqComments.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;I had to make a contrived example and fake a discussion between myself and myself, but I think seeing how this looks helps make the point.&lt;/p&gt;
+&lt;h3 id="branches"&gt;Branches&lt;/h3&gt;
+&lt;p&gt;Another great thing about keeping specs as plain text and using a version control system is that you can take advantage of branching. This means that different people can be working on proposed changes to specs or new features in their own isolated branches - the work they&amp;rsquo;re doing won&amp;rsquo;t be interfered with by others.&lt;/p&gt;
+&lt;p&gt;When the time comes to bring the proposal into the spec, again a pull request can be made and the coordinator can deal with any conflicts that may have arisen since the branch was made.&lt;/p&gt;
+&lt;p&gt;At the time the BA or whoever it might be is working on their specs, they still have full version control, a history and so on, but are not interfering with the &amp;lsquo;master&amp;rsquo; version of the specs that others in the project see.&lt;/p&gt;
+&lt;h3 id="what-about-rich-media"&gt;What About Rich Media?&lt;/h3&gt;
+&lt;p&gt;Keep your rich media. Keep images, tables and diagrams - just check them in alongside the spec and link to them from the spec. You still get version control, pull requests and a history. Depending on the media you might even get a nice diff representation - check out this commit:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/LoginImageDiff.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/better-specs/commit/8a1224812db2ae4909dfb5a30f8483b1ca96ed18?diff-0=0-100"&gt;See the actual commit here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can see the image before, after or even use the slider to see what has changed. The rich media is &lt;em&gt;supporting&lt;/em&gt; media - it&amp;rsquo;s still the spec that&amp;rsquo;s boss.&lt;/p&gt;
+&lt;p&gt;Don&amp;rsquo;t throw away your powerpoint presentations, visio files or anything else, but make the spec king and these files support it. Got a big table of information? Do it in excel or google sheets, that&amp;rsquo;s the right tool for the job - but version control it with the spec.&lt;/p&gt;
+&lt;h3 id="persuading-others"&gt;Persuading Others&lt;/h3&gt;
+&lt;p&gt;The hard thing about this approach might be persuading those who are not used to it to use it.&lt;/p&gt;
+&lt;p&gt;To developers, I imagine this approach has immediate appeal. We know that an email chain of timestamped word documents or powerpoint presentations is a nightmare to maintain as it evolves, and that versin control systems are critical to managing shared work.&lt;/p&gt;
+&lt;p&gt;To business people who are not used to version control or markdown, it might seem like a nerdy, inefficient way of doing things. But the points above are quite compelling. If you have strong arguments for or against, comment and I&amp;rsquo;ll update the article.&lt;/p&gt;
+&lt;h3 id="useful-resources"&gt;Useful Resources&lt;/h3&gt;
+&lt;p&gt;It&amp;rsquo;s worth pulling together some useful further reading.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.joelonsoftware.com/articles/fog0000000036.html"&gt;Joel Spolsky&amp;rsquo;s series on Painless Specifications&lt;/a&gt; - A well written series on why specs are so important.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://daringfireball.net/projects/markdown/"&gt;Markdown&lt;/a&gt; - The official homepage&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://stackedit.io/"&gt;StackEdit&lt;/a&gt; - Have a play writing markdown and see it rendered.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="final-thoughts"&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve never used this approach in a team - I am writing specs for a side project like this at the moment, but this is a one-man project (for now).&lt;/p&gt;
+&lt;p&gt;Have you tried this approach? Any success stories or experiences of it failing? I&amp;rsquo;d love to know, so comment if you&amp;rsquo;ve got some experience on this one.&lt;/p&gt;
+&lt;p&gt;P.S. - This page was written with markdown!&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Recursive read lock acquisitions not allowed in this mode</title><link>https://dwmkerr.com/recursive-read-lock-acquisitions-not-allowed-in-this-mode/</link><pubDate>Wed, 10 Jul 2013 02:17:09 +0000</pubDate><guid>https://dwmkerr.com/recursive-read-lock-acquisitions-not-allowed-in-this-mode/</guid><description>&lt;p&gt;If you are using the following combination of tools:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span style="line-height: 14px;"&gt;Visual Studio 2012&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Visual Studio Tools for Git&lt;/li&gt;
+&lt;li&gt;Nuget&lt;/li&gt;
+&lt;/ul&gt;
 Then you may encounter some weird problems when trying to update Nuget packages. For me, updates regularly fail with:
-&lt;p>&lt;strong>Recursive read lock acquisitions not allowed in this mode.&lt;/strong>&lt;/p>
-&lt;p>I&amp;rsquo;m lost on the root cause of this, but it does seem that the project I&amp;rsquo;m working on has files set to read-only by something regularly, perhaps Visual Studio is trying to make Git more TFS-y by locking things all over the place. Whatever the cause, I&amp;rsquo;ve found that the following usually helps:&lt;/p>
-&lt;ol>
-&lt;li>&lt;span style="line-height: 14px;">Don't use Update-Package - use Install-Package instead.&lt;/span>&lt;/li>
-&lt;li>Make sure the solution has all of its files read+write, not read only.&lt;/li>
-&lt;li>Open the team explorer and go to 'Commits' - making sure that the Git tools have loaded various components.&lt;/li>
-&lt;/ol>
-&lt;span style="line-height: 20px;">This combination of tricks seems to solve the problem. If anyone has any other ideas or suggestions, just comment.&lt;/span></description><category>CodeProject</category></item></channel></rss>
+&lt;p&gt;&lt;strong&gt;Recursive read lock acquisitions not allowed in this mode.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m lost on the root cause of this, but it does seem that the project I&amp;rsquo;m working on has files set to read-only by something regularly, perhaps Visual Studio is trying to make Git more TFS-y by locking things all over the place. Whatever the cause, I&amp;rsquo;ve found that the following usually helps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span style="line-height: 14px;"&gt;Don't use Update-Package - use Install-Package instead.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Make sure the solution has all of its files read+write, not read only.&lt;/li&gt;
+&lt;li&gt;Open the team explorer and go to 'Commits' - making sure that the Git tools have loaded various components.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;span style="line-height: 20px;"&gt;This combination of tricks seems to solve the problem. If anyone has any other ideas or suggestions, just comment.&lt;/span&gt;</description><category>CodeProject</category></item></channel></rss>

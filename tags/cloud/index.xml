@@ -1,99 +1,99 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cloud on dwmkerr.com</title><link>https://dwmkerr.com/tags/cloud/</link><description>Recent content in cloud on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 23 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/cloud/index.xml" rel="self" type="application/rss+xml"/><item><title>Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework</title><link>https://dwmkerr.com/building-least-privilege-permissions-aws/</link><pubDate>Fri, 23 Apr 2021 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/building-least-privilege-permissions-aws/</guid><description>&lt;p>In this article I&amp;rsquo;m going to give a brief overview of some techniques to build &amp;rsquo;least privilege&amp;rsquo; roles in AWS. This assumes a basic knowledge of AWS and Identity and Access Management. It uses the (at time of writing) &lt;a href="https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/">newly announced features in the AWS IAM Access Analyser&lt;/a>&lt;/p>
-&lt;p>I&amp;rsquo;ll be demoing the techniques using a project built on &lt;a href="https://www.serverless.com/">The Serverless Framework&lt;/a> but you don&amp;rsquo;t need to know anything about how this framework works to follow the article - it is just used to demonstrate the concepts. You should be able to apply these techniques to almost any process which accesses or manages AWS resources.&lt;/p>
-&lt;p>Let&amp;rsquo;s get into it!&lt;/p>
-&lt;hr>
-&lt;h2 id="updates-to-the-aws-iam-access-analyser">Updates to the AWS IAM Access Analyser&lt;/h2>
-&lt;p>AWS recently announced some new features to the IAM Access Analyser, which are designed to help build &amp;rsquo;least privilege&amp;rsquo; policies for your AWS solutions. As I have been deploying a number of solutions based on &lt;a href="https://www.serverless.com/">The Serverless Application Framework&lt;/a> I thought this would be a great time to try out these new features.&lt;/p>
-&lt;p>The Serverless Application Framework is a useful framework if you want to rapidly create serverless applications. You can rapidly create lambda functions, deploy to AWS, test locally, debug and so on.&lt;/p>
-&lt;h2 id="our-use-case---a-serverless-framework-deployment-process">Our Use Case - A Serverless Framework Deployment Process&lt;/h2>
-&lt;p>When you use the Serverless Framework, a common pattern for deployment is to let the framework itself deploy resources.&lt;/p>
-&lt;p>A deploy command would look like this:&lt;/p>
-&lt;pre tabindex="0">&lt;code>serverless deploy --stack uat
-&lt;/code>&lt;/pre>&lt;p>Under the hood, this will do a few things:&lt;/p>
-&lt;ol>
-&lt;li>Create a CloudFormation template which defines an application stack&lt;/li>
-&lt;li>Upload the template to an S3 bucket on a specified AWS account&lt;/li>
-&lt;li>Deploy the stack&lt;/li>
-&lt;/ol>
-&lt;p>Now what is deployed is very dependent on what you decide to use in your application, but common resources would be things like:&lt;/p>
-&lt;ul>
-&lt;li>CloudFormation Stacks&lt;/li>
-&lt;li>Lambda Functions&lt;/li>
-&lt;li>API Gateway resources&lt;/li>
-&lt;li>DynamoDB tables&lt;/li>
-&lt;li>SQS Queues&lt;/li>
-&lt;li>&amp;hellip;and many more!&lt;/li>
-&lt;/ul>
-&lt;p>This raises some interesting questions - how should we secure this provisioning process?&lt;/p>
-&lt;h2 id="fundamental-principles---isolation-and-least-privilege">Fundamental Principles - Isolation and Least-Privilege&lt;/h2>
-&lt;p>There are two fundamental principles&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> which make sense to consider when thinking about how to integrate the Serverless Framework into your stack:&lt;/p>
-&lt;ol>
-&lt;li>&lt;strong>Isolation of Resources&lt;/strong>: Can we make sure that the stack resources are logically isolated from &lt;em>other&lt;/em> resources we are managing? This can reduce the impact of incidents - if the stack is compromised, it should only compromise specific resources, not all resources in your estate&lt;/li>
-&lt;li>&lt;strong>Least Privilege&lt;/strong>: Can we make sure that when the &lt;code>serverless&lt;/code> binary deploys resources, it has the least permissions required to do its work, again reducing the impact of a potential incident&lt;/li>
-&lt;/ol>
-&lt;p>Isolation of resources can be handled in a number of ways - my preferred approach is to create separate AWS accounts for each application (and in fact, each environment, such as &amp;lsquo;dev&amp;rsquo;, &amp;rsquo;test&amp;rsquo; and so on). This is not something I will discuss in this article. What I would like to focus on is the second point - least privilege.&lt;/p>
-&lt;h2 id="least-privilege-in-aws">Least Privilege in AWS&lt;/h2>
-&lt;p>We don&amp;rsquo;t quite know what the Serverless Framework does when it provisions resources. I don&amp;rsquo;t mean this in a bad way. We &lt;em>could&lt;/em> investigate and read in detail exactly what happens, but part of the benefit of the framework is that it takes care of this for you&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>. In the early stages of a project this is probably a great time saver - in the later stages it represents a potential vulnerability.&lt;/p>
-&lt;p>We understand that it creates a CloudFormation stack, but some of the details are not necessarily readily discoverable from the documentation.&lt;/p>
-&lt;p>If we wanted to create a policy which represents the permissions which the Serverless we could try a few approaches:&lt;/p>
-&lt;ul>
-&lt;li>Give the process full access to an environment, with wide permissions to create any resources&lt;/li>
-&lt;li>Give the process limited access to an environment, run the provisioning process, see the permissions issues which arise, then iteratively add more permissions&lt;/li>
-&lt;/ul>
-&lt;p>You might think that the first instinct of a security team might be that a &amp;lsquo;full access&amp;rsquo; approach is fundamentally wrong. But great security experts balance risk, agility, cost all the time. They don&amp;rsquo;t want to stop experimentation - just make sure that it is done in a safe way.&lt;/p>
-&lt;p>The first approach is perfectly fine in low sensitivity environments. If you want to move fast and try out the technology, you could lose valuable time trying to get the permissions just right. If you have a solid approach to &lt;em>isolation&lt;/em>, then you should be able to run your proof of concepts in an isolated sandbox environment, which has no access to sensitive resources.&lt;/p>
-&lt;p>You can also add Billing Alerts, or even automate the &lt;em>destruction&lt;/em> of resources at a certain point, so that you automatically &amp;lsquo;clean up&amp;rsquo;. This is great security practice - provide teams with a way to experiment &lt;em>safely&lt;/em>. Give teams full access to their own self-serve sandbox environments, with automated guardrails to mitigate the risk of incidents&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>.&lt;/p>
-&lt;h2 id="beyond-the-sandbox">Beyond the Sandbox&lt;/h2>
-&lt;p>The &amp;lsquo;sandbox environment&amp;rsquo; approach &lt;em>can&lt;/em> be valid. But there will likely come a stage when this is no longer appropriate.&lt;/p>
-&lt;p>When you want to deploy into an environment which has other resources, sensitive data, is accessible to the public, runs production workloads and so on. There will likely come a point where you cannot fully isolate your application - at this stage we should be looking at improving our security.&lt;/p>
-&lt;p>Specifically, at this point we really should try to make sure that we limit the permissions of the process which runs the &lt;code>serverless deploy&lt;/code> command.&lt;/p>
-&lt;p>Limiting the permissions has the benefit of reducing the &amp;lsquo;blast radius&amp;rsquo; of an attack. If the process is compromised it can do fewer things. It also has the benefit of &lt;em>increasing transparency&lt;/em> - we will explicitly document &lt;em>what we expect the process to do&lt;/em>. This is highly useful when performing security checks.&lt;/p>
-&lt;h2 id="the-challenges-of-limiting-permissions">The Challenges of Limiting Permissions&lt;/h2>
-&lt;p>The process of working out the specific permissions required for a process can be challenging. It might involve looking through lots of documentation, trying to build a policy, seeing if the process works, adding permissions, changing permissions and so on.&lt;/p>
-&lt;p>Just this month AWS released some updates to the IAM Access Manager, adding some features to help build &amp;rsquo;least permission&amp;rsquo; policies:&lt;/p>
-&lt;p>&lt;a href="https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/">https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/&lt;/a>&lt;/p>
-&lt;p>These features immediately caught my eye as I&amp;rsquo;m very interesting in security practices. We&amp;rsquo;re going to take a look at these features in detail for the rest of the article and see how we can use them to improve the security of a process like our &amp;lsquo;serverless deployment&amp;rsquo;.&lt;/p>
-&lt;h2 id="using-the-iam-access-analyser-to-build-fine-grained-policies">Using the IAM Access Analyser to Build Fine-Grained Policies&lt;/h2>
-&lt;p>The process for generating fine grained policies with the IAM Access Analyser is quite simple:&lt;/p>
-&lt;ol>
-&lt;li>Ensure you are using CloudTrail to track access to resources&lt;/li>
-&lt;li>Create an Access Analyser&lt;/li>
-&lt;li>Run the process you want to create fine-grained permissions for, initially with wide permissions&lt;/li>
-&lt;li>Use the Access Analyser to generate a policy based on the events in CloudTrail&lt;/li>
-&lt;li>Refine the policy&lt;/li>
-&lt;li>Document, document, document&lt;/li>
-&lt;/ol>
-&lt;p>I&amp;rsquo;m going to demonstrate this end-to-end with a &amp;lsquo;serverless framework deployment&amp;rsquo; process. Please keep an eye out for an article I&amp;rsquo;ll be writing soon on how to build a REST application with the Serverless Framework - for now don&amp;rsquo;t worry about the application itself too much, this could be any kind of deployment or operational process we&amp;rsquo;re running.&lt;/p>
-&lt;h3 id="step-1-enable-cloudtrail">Step 1: Enable CloudTrail&lt;/h3>
-&lt;p>We need to enable CloudTrail so that we have a log of API calls which Access Advisor can analyse.&lt;/p>
-&lt;p>&lt;strong>Warning&lt;/strong>: if you trying these features out please be aware that they may fall outside of the &lt;a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;amp;all-free-tier.sort-order=asc&amp;amp;awsf.Free%20Tier%20Types=*all&amp;amp;awsf.Free%20Tier%20Categories=*all">AWS Free Tier&lt;/a> and so may incur a cost. Please be aware of this if you are testing these features.&lt;/p>
-&lt;p>Open the CloudTrail portal and ensure that you have a trail setup which logs API calls. Once this is setup you should see something like this:&lt;/p>
-&lt;img src="./images/cloudtrail.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/cloudtrail.png" class="img-zoomable">
-&lt;p>You can use the code below as an example of how to create a trail:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>aws cloudtrail create-trail &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --name management-events &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --s3-bucket-name cloudtrail-account123-management-events-bucket &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --is-multi-region-trail
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note that if you don&amp;rsquo;t use the &lt;code>--is-multi-region-trail&lt;/code> flag then the trail is created for the current region only.&lt;/p>
-&lt;p>You can read more about this command on the &lt;a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail-by-using-the-aws-cli-create-trail.html">Using create-trail&lt;/a> documentation page.&lt;/p>
-&lt;h3 id="step-2-create-the-access-analyser">Step 2: Create the Access Analyser&lt;/h3>
-&lt;p>You should be able to find the Access Analyser tool in the IAM page:&lt;/p>
-&lt;img src="./images/access-analyser.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/access-analyser.png" class="img-zoomable">
-&lt;p>You can now choose to create an analyser. Some things to note:&lt;/p>
-&lt;ul>
-&lt;li>Analysers are region specific - if you have many regions, you need many analysers&lt;/li>
-&lt;li>You can provide a name, not surprising, but it might be useful to be highly descriptive here&lt;/li>
-&lt;li>You have an option to specify the &amp;lsquo;zone of trust&amp;rsquo; - this might be an account or an entire organisation&lt;/li>
-&lt;/ul>
-&lt;p>Choose &amp;lsquo;Create Analyser&amp;rsquo; to create the access analyser.&lt;/p>
-&lt;p>You&amp;rsquo;ll shortly see the created access analyser and likely some &amp;lsquo;findings&amp;rsquo; as well:&lt;/p>
-&lt;img src="./images/access-analyser-created.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/access-analyser-created.png" class="img-zoomable">
-&lt;p>&amp;lsquo;Findings&amp;rsquo; are the descriptions of the policies that grant access to a resource to a principal which is &lt;em>outside of your zone of trust&lt;/em>. This is a quite complex topic, there are more details on the &lt;a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-findings.html">Access Analyser findings&lt;/a> documentation. But we are essentially seeing that my policies are set up in a which is exposing my resources to principals outside of the defined zone of trust - these findings are entirely correct, as I have set up &lt;a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">Cross Account Access&lt;/a> in this environment.&lt;/p>
-&lt;p>Feel free to read more about findings - these findings can potentially be very useful for a security team to be aware. For now we&amp;rsquo;ll leave these findings alone and move onto the next step in creating fine grained policies, which is to run the process we want to secure.&lt;/p>
-&lt;h3 id="step-3-run-your-process">Step 3: Run your process&lt;/h3>
-&lt;p>Now you should run the process you want to create fine grained permissions for. To save rework, try and make sure you run &lt;em>all&lt;/em> part of the process which will be needed. For example, my Serverless Framework policy should cover creation of the stack, updating of the stack as well as deleting.&lt;/p>
-&lt;p>To exercise this, I just need to run the following commands from my local project:&lt;/p>
-&lt;pre tabindex="0">&lt;code># This command deploys a new stack...
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloud on dwmkerr.com</title><link>https://dwmkerr.com/tags/cloud/</link><description>Recent content in Cloud on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 23 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/tags/cloud/index.xml" rel="self" type="application/rss+xml"/><item><title>Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework</title><link>https://dwmkerr.com/building-least-privilege-permissions-aws/</link><pubDate>Fri, 23 Apr 2021 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/building-least-privilege-permissions-aws/</guid><description>&lt;p&gt;In this article I&amp;rsquo;m going to give a brief overview of some techniques to build &amp;rsquo;least privilege&amp;rsquo; roles in AWS. This assumes a basic knowledge of AWS and Identity and Access Management. It uses the (at time of writing) &lt;a href="https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/"&gt;newly announced features in the AWS IAM Access Analyser&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ll be demoing the techniques using a project built on &lt;a href="https://www.serverless.com/"&gt;The Serverless Framework&lt;/a&gt; but you don&amp;rsquo;t need to know anything about how this framework works to follow the article - it is just used to demonstrate the concepts. You should be able to apply these techniques to almost any process which accesses or manages AWS resources.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s get into it!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="updates-to-the-aws-iam-access-analyser"&gt;Updates to the AWS IAM Access Analyser&lt;/h2&gt;
+&lt;p&gt;AWS recently announced some new features to the IAM Access Analyser, which are designed to help build &amp;rsquo;least privilege&amp;rsquo; policies for your AWS solutions. As I have been deploying a number of solutions based on &lt;a href="https://www.serverless.com/"&gt;The Serverless Application Framework&lt;/a&gt; I thought this would be a great time to try out these new features.&lt;/p&gt;
+&lt;p&gt;The Serverless Application Framework is a useful framework if you want to rapidly create serverless applications. You can rapidly create lambda functions, deploy to AWS, test locally, debug and so on.&lt;/p&gt;
+&lt;h2 id="our-use-case---a-serverless-framework-deployment-process"&gt;Our Use Case - A Serverless Framework Deployment Process&lt;/h2&gt;
+&lt;p&gt;When you use the Serverless Framework, a common pattern for deployment is to let the framework itself deploy resources.&lt;/p&gt;
+&lt;p&gt;A deploy command would look like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;serverless deploy --stack uat
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Under the hood, this will do a few things:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a CloudFormation template which defines an application stack&lt;/li&gt;
+&lt;li&gt;Upload the template to an S3 bucket on a specified AWS account&lt;/li&gt;
+&lt;li&gt;Deploy the stack&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now what is deployed is very dependent on what you decide to use in your application, but common resources would be things like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CloudFormation Stacks&lt;/li&gt;
+&lt;li&gt;Lambda Functions&lt;/li&gt;
+&lt;li&gt;API Gateway resources&lt;/li&gt;
+&lt;li&gt;DynamoDB tables&lt;/li&gt;
+&lt;li&gt;SQS Queues&lt;/li&gt;
+&lt;li&gt;&amp;hellip;and many more!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This raises some interesting questions - how should we secure this provisioning process?&lt;/p&gt;
+&lt;h2 id="fundamental-principles---isolation-and-least-privilege"&gt;Fundamental Principles - Isolation and Least-Privilege&lt;/h2&gt;
+&lt;p&gt;There are two fundamental principles&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt; which make sense to consider when thinking about how to integrate the Serverless Framework into your stack:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Isolation of Resources&lt;/strong&gt;: Can we make sure that the stack resources are logically isolated from &lt;em&gt;other&lt;/em&gt; resources we are managing? This can reduce the impact of incidents - if the stack is compromised, it should only compromise specific resources, not all resources in your estate&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Least Privilege&lt;/strong&gt;: Can we make sure that when the &lt;code&gt;serverless&lt;/code&gt; binary deploys resources, it has the least permissions required to do its work, again reducing the impact of a potential incident&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Isolation of resources can be handled in a number of ways - my preferred approach is to create separate AWS accounts for each application (and in fact, each environment, such as &amp;lsquo;dev&amp;rsquo;, &amp;rsquo;test&amp;rsquo; and so on). This is not something I will discuss in this article. What I would like to focus on is the second point - least privilege.&lt;/p&gt;
+&lt;h2 id="least-privilege-in-aws"&gt;Least Privilege in AWS&lt;/h2&gt;
+&lt;p&gt;We don&amp;rsquo;t quite know what the Serverless Framework does when it provisions resources. I don&amp;rsquo;t mean this in a bad way. We &lt;em&gt;could&lt;/em&gt; investigate and read in detail exactly what happens, but part of the benefit of the framework is that it takes care of this for you&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;. In the early stages of a project this is probably a great time saver - in the later stages it represents a potential vulnerability.&lt;/p&gt;
+&lt;p&gt;We understand that it creates a CloudFormation stack, but some of the details are not necessarily readily discoverable from the documentation.&lt;/p&gt;
+&lt;p&gt;If we wanted to create a policy which represents the permissions which the Serverless we could try a few approaches:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Give the process full access to an environment, with wide permissions to create any resources&lt;/li&gt;
+&lt;li&gt;Give the process limited access to an environment, run the provisioning process, see the permissions issues which arise, then iteratively add more permissions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You might think that the first instinct of a security team might be that a &amp;lsquo;full access&amp;rsquo; approach is fundamentally wrong. But great security experts balance risk, agility, cost all the time. They don&amp;rsquo;t want to stop experimentation - just make sure that it is done in a safe way.&lt;/p&gt;
+&lt;p&gt;The first approach is perfectly fine in low sensitivity environments. If you want to move fast and try out the technology, you could lose valuable time trying to get the permissions just right. If you have a solid approach to &lt;em&gt;isolation&lt;/em&gt;, then you should be able to run your proof of concepts in an isolated sandbox environment, which has no access to sensitive resources.&lt;/p&gt;
+&lt;p&gt;You can also add Billing Alerts, or even automate the &lt;em&gt;destruction&lt;/em&gt; of resources at a certain point, so that you automatically &amp;lsquo;clean up&amp;rsquo;. This is great security practice - provide teams with a way to experiment &lt;em&gt;safely&lt;/em&gt;. Give teams full access to their own self-serve sandbox environments, with automated guardrails to mitigate the risk of incidents&lt;sup id="fnref1:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;h2 id="beyond-the-sandbox"&gt;Beyond the Sandbox&lt;/h2&gt;
+&lt;p&gt;The &amp;lsquo;sandbox environment&amp;rsquo; approach &lt;em&gt;can&lt;/em&gt; be valid. But there will likely come a stage when this is no longer appropriate.&lt;/p&gt;
+&lt;p&gt;When you want to deploy into an environment which has other resources, sensitive data, is accessible to the public, runs production workloads and so on. There will likely come a point where you cannot fully isolate your application - at this stage we should be looking at improving our security.&lt;/p&gt;
+&lt;p&gt;Specifically, at this point we really should try to make sure that we limit the permissions of the process which runs the &lt;code&gt;serverless deploy&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;Limiting the permissions has the benefit of reducing the &amp;lsquo;blast radius&amp;rsquo; of an attack. If the process is compromised it can do fewer things. It also has the benefit of &lt;em&gt;increasing transparency&lt;/em&gt; - we will explicitly document &lt;em&gt;what we expect the process to do&lt;/em&gt;. This is highly useful when performing security checks.&lt;/p&gt;
+&lt;h2 id="the-challenges-of-limiting-permissions"&gt;The Challenges of Limiting Permissions&lt;/h2&gt;
+&lt;p&gt;The process of working out the specific permissions required for a process can be challenging. It might involve looking through lots of documentation, trying to build a policy, seeing if the process works, adding permissions, changing permissions and so on.&lt;/p&gt;
+&lt;p&gt;Just this month AWS released some updates to the IAM Access Manager, adding some features to help build &amp;rsquo;least permission&amp;rsquo; policies:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/"&gt;https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;These features immediately caught my eye as I&amp;rsquo;m very interesting in security practices. We&amp;rsquo;re going to take a look at these features in detail for the rest of the article and see how we can use them to improve the security of a process like our &amp;lsquo;serverless deployment&amp;rsquo;.&lt;/p&gt;
+&lt;h2 id="using-the-iam-access-analyser-to-build-fine-grained-policies"&gt;Using the IAM Access Analyser to Build Fine-Grained Policies&lt;/h2&gt;
+&lt;p&gt;The process for generating fine grained policies with the IAM Access Analyser is quite simple:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Ensure you are using CloudTrail to track access to resources&lt;/li&gt;
+&lt;li&gt;Create an Access Analyser&lt;/li&gt;
+&lt;li&gt;Run the process you want to create fine-grained permissions for, initially with wide permissions&lt;/li&gt;
+&lt;li&gt;Use the Access Analyser to generate a policy based on the events in CloudTrail&lt;/li&gt;
+&lt;li&gt;Refine the policy&lt;/li&gt;
+&lt;li&gt;Document, document, document&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I&amp;rsquo;m going to demonstrate this end-to-end with a &amp;lsquo;serverless framework deployment&amp;rsquo; process. Please keep an eye out for an article I&amp;rsquo;ll be writing soon on how to build a REST application with the Serverless Framework - for now don&amp;rsquo;t worry about the application itself too much, this could be any kind of deployment or operational process we&amp;rsquo;re running.&lt;/p&gt;
+&lt;h3 id="step-1-enable-cloudtrail"&gt;Step 1: Enable CloudTrail&lt;/h3&gt;
+&lt;p&gt;We need to enable CloudTrail so that we have a log of API calls which Access Advisor can analyse.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Warning&lt;/strong&gt;: if you trying these features out please be aware that they may fall outside of the &lt;a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;amp;all-free-tier.sort-order=asc&amp;amp;awsf.Free%20Tier%20Types=*all&amp;amp;awsf.Free%20Tier%20Categories=*all"&gt;AWS Free Tier&lt;/a&gt; and so may incur a cost. Please be aware of this if you are testing these features.&lt;/p&gt;
+&lt;p&gt;Open the CloudTrail portal and ensure that you have a trail setup which logs API calls. Once this is setup you should see something like this:&lt;/p&gt;
+&lt;img src="./images/cloudtrail.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/cloudtrail.png" class="img-zoomable"&gt;
+&lt;p&gt;You can use the code below as an example of how to create a trail:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws cloudtrail create-trail &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name management-events &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --s3-bucket-name cloudtrail-account123-management-events-bucket &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --is-multi-region-trail
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that if you don&amp;rsquo;t use the &lt;code&gt;--is-multi-region-trail&lt;/code&gt; flag then the trail is created for the current region only.&lt;/p&gt;
+&lt;p&gt;You can read more about this command on the &lt;a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail-by-using-the-aws-cli-create-trail.html"&gt;Using create-trail&lt;/a&gt; documentation page.&lt;/p&gt;
+&lt;h3 id="step-2-create-the-access-analyser"&gt;Step 2: Create the Access Analyser&lt;/h3&gt;
+&lt;p&gt;You should be able to find the Access Analyser tool in the IAM page:&lt;/p&gt;
+&lt;img src="./images/access-analyser.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/access-analyser.png" class="img-zoomable"&gt;
+&lt;p&gt;You can now choose to create an analyser. Some things to note:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Analysers are region specific - if you have many regions, you need many analysers&lt;/li&gt;
+&lt;li&gt;You can provide a name, not surprising, but it might be useful to be highly descriptive here&lt;/li&gt;
+&lt;li&gt;You have an option to specify the &amp;lsquo;zone of trust&amp;rsquo; - this might be an account or an entire organisation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Choose &amp;lsquo;Create Analyser&amp;rsquo; to create the access analyser.&lt;/p&gt;
+&lt;p&gt;You&amp;rsquo;ll shortly see the created access analyser and likely some &amp;lsquo;findings&amp;rsquo; as well:&lt;/p&gt;
+&lt;img src="./images/access-analyser-created.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/access-analyser-created.png" class="img-zoomable"&gt;
+&lt;p&gt;&amp;lsquo;Findings&amp;rsquo; are the descriptions of the policies that grant access to a resource to a principal which is &lt;em&gt;outside of your zone of trust&lt;/em&gt;. This is a quite complex topic, there are more details on the &lt;a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-findings.html"&gt;Access Analyser findings&lt;/a&gt; documentation. But we are essentially seeing that my policies are set up in a which is exposing my resources to principals outside of the defined zone of trust - these findings are entirely correct, as I have set up &lt;a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html"&gt;Cross Account Access&lt;/a&gt; in this environment.&lt;/p&gt;
+&lt;p&gt;Feel free to read more about findings - these findings can potentially be very useful for a security team to be aware. For now we&amp;rsquo;ll leave these findings alone and move onto the next step in creating fine grained policies, which is to run the process we want to secure.&lt;/p&gt;
+&lt;h3 id="step-3-run-your-process"&gt;Step 3: Run your process&lt;/h3&gt;
+&lt;p&gt;Now you should run the process you want to create fine grained permissions for. To save rework, try and make sure you run &lt;em&gt;all&lt;/em&gt; part of the process which will be needed. For example, my Serverless Framework policy should cover creation of the stack, updating of the stack as well as deleting.&lt;/p&gt;
+&lt;p&gt;To exercise this, I just need to run the following commands from my local project:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# This command deploys a new stack...
 serverless --stage dev deploy
 # This command makes a change to a file, allowing us to update the stack...
 echo &amp;#34;// testing a change to the stack...&amp;#34; &amp;gt;&amp;gt;&amp;gt; lambda_functions/my_function.js
@@ -101,29 +101,29 @@ serverless --stage dev deploy # this will update the stack
 # This command deletes the stack, we then reset the changes to the file.
 serverless --stage dev remove # this will destroy the stack
 git checkout lambda_functions/my_function.js
-&lt;/code>&lt;/pre>&lt;p>At this point you can run any process your want to secure. As CloudTrail is enable, API calls will be recorded.&lt;/p>
-&lt;h3 id="step-4-create-a-policy-based-on-access-advisor">Step 4: Create a Policy based on Access Advisor&lt;/h3>
-&lt;p>Now we get to the interesting part. Open the Roles view in AWS, select the role which is used when running your process and choose &amp;lsquo;Generate Policy&amp;rsquo;. Here&amp;rsquo;s how this will look in the portal:&lt;/p>
-&lt;img src="./images/generate-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/generate-policy.png" class="img-zoomable">
-&lt;p>Note that this screenshot shows &lt;em>exactly why&lt;/em> fine grained permissions are so important. I have run the Serverless Framework deployment from my local machine using the &amp;lsquo;Cross Account Administrator&amp;rsquo; role. This is an extremely high-privilege role which is used when I administer AWS accounts which are part of my organisation. This is &lt;em>not&lt;/em> an appropriate role for the Serverless Framework binary to assume outside of a sandbox or proof of concept context. However - remember at this stage we want to use a high-privilege role so that the process runs to completion, so that we can see the permissions needed and then create a more refined role.&lt;/p>
-&lt;p>When you choose to generate a policy, you&amp;rsquo;ll have the option of specifying which trail to use and which region. You can also choose a date range for events to analyse. It will be a lot easier to build an appropriate policy if you make this window as short as possible - so try and run the entire process you want to create a policy for and then immediately generate the policy.&lt;/p>
-&lt;p>It can take a few minutes to generate the policy. When it is complete, you&amp;rsquo;ll see the option to view the generated policy:&lt;/p>
-&lt;img src="./images/view-generated-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/view-generated-policy.png" class="img-zoomable">
-&lt;p>Opening it up, you&amp;rsquo;ll see the services and actions used, as well as options to add more actions:&lt;/p>
-&lt;img src="./images/generated-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/generated-policy.png" class="img-zoomable">
-&lt;p>When you move to the next screen you&amp;rsquo;ll get the option to customise the permissions:&lt;/p>
-&lt;img src="./images/customise-permissions.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/customise-permissions.png" class="img-zoomable">
-&lt;p>At this stage I would suggest copying the policy, saving it to a local file and then moving onto the next step - refining the policy.&lt;/p>
-&lt;h3 id="step-5-refine-the-policy">Step 5: Refine the Policy&lt;/h3>
-&lt;p>The generated policy will likely not be suitable for use yet. It might to too specific - limiting access to the specific resources which were used. You will also have services and actions listed for &lt;em>any&lt;/em> calls which have been made using the role - which might also include calls used for &lt;em>other&lt;/em> processes than just the one you tested earlier. For example, my policy has some permissions to list analyzers. That is &lt;em>not&lt;/em> needed by serverless - that has been included because I was using the same cross-account administrator role to create the analyzer earlier on, and this has been picked up.&lt;/p>
-&lt;p>This also highlights the importance of using separate roles for separate processes - if you use a small number of roles to do a lot of different things, it can be very hard to understand why certain actions were taken. Again, for a quick test it might be OK to use the same role that you access the portal with, but it is good to get into the habit of quickly creating roles for specific purposes.&lt;/p>
-&lt;p>This is where I would suggest going through the policy in detail and using it as a template for the &amp;lsquo;final&amp;rsquo; policy. This is what we&amp;rsquo;ll discus in the final step.&lt;/p>
-&lt;h3 id="step-6-document-document-document">Step 6: Document, Document, Document&lt;/h3>
-&lt;p>The final policy we create should be clearly documented. It is really important to explain &lt;em>why&lt;/em> certain permissions are needed. If people cannot reason about why a policy is set up in a specific way, then it will be very hard for them to maintain it over time or decide whether the permissions are appropriate or not.&lt;/p>
-&lt;p>Even more so than with &amp;rsquo;normal&amp;rsquo; code, code which relates to security has to be comprehensible by others (or yourself when you come back to it). If you cannot understand why a policy grants a certain permission, then when you review the policy you don&amp;rsquo;t know whether the remove the permissions or leave them in (this is an example of &lt;a href="https://github.com/dwmkerr/hacker-laws#chestertons-fence">Chesterton&amp;rsquo;s Fence&lt;/a>.&lt;/p>
-&lt;p>Whether you document this policy by saving it in a file, adding comments and checking it into source control, or turning it into a re-usable Terraform module, or using Pulimi to define the policy, or some other solution, is not too important. What &lt;em>is&lt;/em> important is documenting the policy and making this documentation transparent to others - and ideally making sure that others can maintain it over time.&lt;/p>
-&lt;p>As an example, this is how I might define the S3 permissions in a Terraform file:&lt;/p>
-&lt;pre tabindex="0">&lt;code># This statement allows the creation and management of buckets, which are used
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;At this point you can run any process your want to secure. As CloudTrail is enable, API calls will be recorded.&lt;/p&gt;
+&lt;h3 id="step-4-create-a-policy-based-on-access-advisor"&gt;Step 4: Create a Policy based on Access Advisor&lt;/h3&gt;
+&lt;p&gt;Now we get to the interesting part. Open the Roles view in AWS, select the role which is used when running your process and choose &amp;lsquo;Generate Policy&amp;rsquo;. Here&amp;rsquo;s how this will look in the portal:&lt;/p&gt;
+&lt;img src="./images/generate-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/generate-policy.png" class="img-zoomable"&gt;
+&lt;p&gt;Note that this screenshot shows &lt;em&gt;exactly why&lt;/em&gt; fine grained permissions are so important. I have run the Serverless Framework deployment from my local machine using the &amp;lsquo;Cross Account Administrator&amp;rsquo; role. This is an extremely high-privilege role which is used when I administer AWS accounts which are part of my organisation. This is &lt;em&gt;not&lt;/em&gt; an appropriate role for the Serverless Framework binary to assume outside of a sandbox or proof of concept context. However - remember at this stage we want to use a high-privilege role so that the process runs to completion, so that we can see the permissions needed and then create a more refined role.&lt;/p&gt;
+&lt;p&gt;When you choose to generate a policy, you&amp;rsquo;ll have the option of specifying which trail to use and which region. You can also choose a date range for events to analyse. It will be a lot easier to build an appropriate policy if you make this window as short as possible - so try and run the entire process you want to create a policy for and then immediately generate the policy.&lt;/p&gt;
+&lt;p&gt;It can take a few minutes to generate the policy. When it is complete, you&amp;rsquo;ll see the option to view the generated policy:&lt;/p&gt;
+&lt;img src="./images/view-generated-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/view-generated-policy.png" class="img-zoomable"&gt;
+&lt;p&gt;Opening it up, you&amp;rsquo;ll see the services and actions used, as well as options to add more actions:&lt;/p&gt;
+&lt;img src="./images/generated-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/generated-policy.png" class="img-zoomable"&gt;
+&lt;p&gt;When you move to the next screen you&amp;rsquo;ll get the option to customise the permissions:&lt;/p&gt;
+&lt;img src="./images/customise-permissions.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/customise-permissions.png" class="img-zoomable"&gt;
+&lt;p&gt;At this stage I would suggest copying the policy, saving it to a local file and then moving onto the next step - refining the policy.&lt;/p&gt;
+&lt;h3 id="step-5-refine-the-policy"&gt;Step 5: Refine the Policy&lt;/h3&gt;
+&lt;p&gt;The generated policy will likely not be suitable for use yet. It might to too specific - limiting access to the specific resources which were used. You will also have services and actions listed for &lt;em&gt;any&lt;/em&gt; calls which have been made using the role - which might also include calls used for &lt;em&gt;other&lt;/em&gt; processes than just the one you tested earlier. For example, my policy has some permissions to list analyzers. That is &lt;em&gt;not&lt;/em&gt; needed by serverless - that has been included because I was using the same cross-account administrator role to create the analyzer earlier on, and this has been picked up.&lt;/p&gt;
+&lt;p&gt;This also highlights the importance of using separate roles for separate processes - if you use a small number of roles to do a lot of different things, it can be very hard to understand why certain actions were taken. Again, for a quick test it might be OK to use the same role that you access the portal with, but it is good to get into the habit of quickly creating roles for specific purposes.&lt;/p&gt;
+&lt;p&gt;This is where I would suggest going through the policy in detail and using it as a template for the &amp;lsquo;final&amp;rsquo; policy. This is what we&amp;rsquo;ll discus in the final step.&lt;/p&gt;
+&lt;h3 id="step-6-document-document-document"&gt;Step 6: Document, Document, Document&lt;/h3&gt;
+&lt;p&gt;The final policy we create should be clearly documented. It is really important to explain &lt;em&gt;why&lt;/em&gt; certain permissions are needed. If people cannot reason about why a policy is set up in a specific way, then it will be very hard for them to maintain it over time or decide whether the permissions are appropriate or not.&lt;/p&gt;
+&lt;p&gt;Even more so than with &amp;rsquo;normal&amp;rsquo; code, code which relates to security has to be comprehensible by others (or yourself when you come back to it). If you cannot understand why a policy grants a certain permission, then when you review the policy you don&amp;rsquo;t know whether the remove the permissions or leave them in (this is an example of &lt;a href="https://github.com/dwmkerr/hacker-laws#chestertons-fence"&gt;Chesterton&amp;rsquo;s Fence&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Whether you document this policy by saving it in a file, adding comments and checking it into source control, or turning it into a re-usable Terraform module, or using Pulimi to define the policy, or some other solution, is not too important. What &lt;em&gt;is&lt;/em&gt; important is documenting the policy and making this documentation transparent to others - and ideally making sure that others can maintain it over time.&lt;/p&gt;
+&lt;p&gt;As an example, this is how I might define the S3 permissions in a Terraform file:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# This statement allows the creation and management of buckets, which are used
 # by serverless for CloudFormation files. Because the bucket name is
 # non-deterministic we have to allow the creation of _any_ bucket.
 statement {
@@ -151,21 +151,21 @@ resources = [
 &amp;#34;arn:aws:s3:::*&amp;#34;
 ]
 }
-&lt;/code>&lt;/pre>&lt;p>I&amp;rsquo;m being very explicit with my comments, giving the statement id a meaningful value and creating separate statements for &lt;em>each service&lt;/em>.&lt;/p>
-&lt;p>How you structure your policies will depend on the tools you use and your own preferred processes but the principle will remain the same - document carefully!&lt;/p>
-&lt;h2 id="thats-it">That&amp;rsquo;s It!&lt;/h2>
-&lt;p>The IAM Access Advisor is a powerful feature and should be of interest to anyone managing sensitive environments in the cloud.&lt;/p>
-&lt;p>It is not limited to creating fine grained permissions - it can also help identify &lt;em>external access&lt;/em> to resources. This means it can be used to identify when resources such as S3 buckets are accessed via processes such as Cross-Account access.&lt;/p>
-&lt;p>There are a lot of exciting features here and it will be interesting to see how the Access Advisor works over time!&lt;/p>
-&lt;p>As usual, please do share any comments, suggestions or observations!&lt;/p>
-&lt;section class="footnotes" role="doc-endnotes">
-&lt;hr>
-&lt;ol>
-&lt;li id="fn:1" role="doc-endnote">
-&lt;p>Of course this is only a tiny part of the world of security best practices. To learn more I highly recommend &lt;a href="https://github.com/veeral-patel/how-to-secure-anything">Veeral Patel&amp;rsquo;s amazing &amp;lsquo;How to secure anything&amp;rsquo; project&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li id="fn:2" role="doc-endnote">
-&lt;p>The exact permissions required are documented at &lt;a href="https://serverless-stack.com/chapters/customize-the-serverless-iam-policy.html">https://serverless-stack.com/chapters/customize-the-serverless-iam-policy.html&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;/section></description><category>CodeProject</category></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I&amp;rsquo;m being very explicit with my comments, giving the statement id a meaningful value and creating separate statements for &lt;em&gt;each service&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;How you structure your policies will depend on the tools you use and your own preferred processes but the principle will remain the same - document carefully!&lt;/p&gt;
+&lt;h2 id="thats-it"&gt;That&amp;rsquo;s It!&lt;/h2&gt;
+&lt;p&gt;The IAM Access Advisor is a powerful feature and should be of interest to anyone managing sensitive environments in the cloud.&lt;/p&gt;
+&lt;p&gt;It is not limited to creating fine grained permissions - it can also help identify &lt;em&gt;external access&lt;/em&gt; to resources. This means it can be used to identify when resources such as S3 buckets are accessed via processes such as Cross-Account access.&lt;/p&gt;
+&lt;p&gt;There are a lot of exciting features here and it will be interesting to see how the Access Advisor works over time!&lt;/p&gt;
+&lt;p&gt;As usual, please do share any comments, suggestions or observations!&lt;/p&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Of course this is only a tiny part of the world of security best practices. To learn more I highly recommend &lt;a href="https://github.com/veeral-patel/how-to-secure-anything"&gt;Veeral Patel&amp;rsquo;s amazing &amp;lsquo;How to secure anything&amp;rsquo; project&lt;/a&gt;&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;The exact permissions required are documented at &lt;a href="https://serverless-stack.com/chapters/customize-the-serverless-iam-policy.html"&gt;https://serverless-stack.com/chapters/customize-the-serverless-iam-policy.html&lt;/a&gt;&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item></channel></rss>
