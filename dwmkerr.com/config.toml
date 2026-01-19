@@ -14,6 +14,8 @@ googleAnalytics = "G-XNRSGLYJRM"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    [markup.goldmark.extensions]
+      footnote = true
 
 [params]
   paginate = 10
