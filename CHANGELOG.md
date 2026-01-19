@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.1...v0.2.2) (2026-01-19)
+
+
+### Bug Fixes
+
+* update Hugo version in release workflow to latest ([6de2804](https://github.com/dwmkerr/dwmkerr.com/commit/6de28048710001eb1b4f15a319f94f9a0c5c8616))
+
 ## [0.2.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.0...v0.2.1) (2026-01-19)
 
 
