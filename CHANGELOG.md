@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.3...v0.2.0) (2026-01-19)
+
+
+### Features
+
+* refresh blog design and fix Hugo compatibility ([#47](https://github.com/dwmkerr/dwmkerr.com/issues/47)) ([f867fa7](https://github.com/dwmkerr/dwmkerr.com/commit/f867fa73634a22a30e9c64cadbdde0e39a7cb684))
+
+
+### Bug Fixes
+
+* add some references to chatgpt article ([71f1b44](https://github.com/dwmkerr/dwmkerr.com/commit/71f1b447b8978c8d5cd60193c75da9d2a9279cce))
+* update release workflow ([#50](https://github.com/dwmkerr/dwmkerr.com/issues/50)) ([41cc13c](https://github.com/dwmkerr/dwmkerr.com/commit/41cc13c0be91b554311529c8a595c8902baf38e7))
+
 ## [0.1.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.1.2...v0.1.3) (2023-07-05)
 
 
