@@ -1,0 +1,15 @@
+<article class="c-article p-list-article">
+  <header>
+    <h2 class="c-title c-article__title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+    {{ $years := div (sub now.Unix .Date.Unix) 31536000 }}
+    {{ if ge $years 1 }}
+    <p class="c-article-age">More than {{ $years }} years old</p>
+    {{ end }}
+  </header>
+  <div class="c-article__summary">
+    {{ .Summary | plainify | truncate 150 }}
+  </div>
+  {{ if .Truncated }}
+  <a href="{{ .Permalink }}" class="c-article__btn p-list-article__btn">Read more</a>
+  {{ end }}
+</article>

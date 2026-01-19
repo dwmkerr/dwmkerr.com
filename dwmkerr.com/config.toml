@@ -3,7 +3,6 @@ languageCode = "en-uk"
 Title = "dwmkerr.com"
 # Copyright notice. This is displayer in the footer.
 copyright = "Copright &copy; Dave Kerr"
-custom_css = "/static/css/custom.css"
 theme = "hugo_theme_pickles"
 
 # Use our Google Analytics G4A tag. The 'G-' at the beginning lets Hugo know
@@ -15,15 +14,16 @@ googleAnalytics = "G-XNRSGLYJRM"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    [markup.goldmark.extensions]
+      footnote = true
 
 [params]
   paginate = 10
   # Social accounts. Link to these accounts are displayed in the header and
   # footer
-  twitter = "dwmkerr"
   github = "dwmkerr"
-  npm = "dwmkerr"
   linkedin = "dwmkerr"
+  bookurl = "https://amzn.to/4ho0F91"
   # Disqus shortname
   disqus = "dwmkerr"
   author = "Dave Kerr"
@@ -32,10 +32,11 @@ googleAnalytics = "G-XNRSGLYJRM"
   # contact = "mailto:dwmkerr@gmail.com"
   bio = "Climber, Coder, Technology Consultant. Views expressed are my own."
   # Short subtitle/tagline. This is displayed in the header.
-  subtitle = "Articles on the craft of software development. No ads, no sponsored content."
+  subtitle = "Articles on the craft of software development."
   # Logo image. This is displayed ogp image.
   logo = "/path/to/logo"
   favicon = "/images/favicon.ico"
+  custom_css = ["/css/custom.css"]
 
 [[menu.main]]
     name = "Blog"
