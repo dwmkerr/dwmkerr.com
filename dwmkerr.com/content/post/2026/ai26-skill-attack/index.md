@@ -13,7 +13,9 @@ tags:
 - "agentic-ai"
 ---
 
-In this article I demonstrate a pattern by which [Anthropic Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) could be used to exfiltrate sensitive credentials, leak secrets and perform remote code execution - [disclaimer](#disclaimer). This attack is viable in its current form, and a [demonstration repo](https://github.com/dwmkerr/ai26?tab=readme-ov-file#the-anthropic-skill-supply-chain-attack) has been developed. However, a development I believe is likely to occur over 2026 - skill dependency management - could make an attack of this nature far more damaging.
+In this article I demonstrate a pattern by which [Anthropic Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) could be used to exfiltrate sensitive credentials, leak secrets and perform remote code execution. This attack is viable in its current form, there is a demo in my [`ai26`](https://github.com/dwmkerr/ai26?tab=readme-ov-file#the-anthropic-skill-supply-chain-attack) repo.
+
+A development I believe is likely to occur over 2026 - **skill dependency management** - could make an attack of this nature far more damaging. Please see the [disclaimer](#disclaimer) before running samples.
 
 This is the first part of a series "AI26" - my predictions (or speculation) on changes in technology and engineering we might see 2026.
 
@@ -21,23 +23,23 @@ A brief screenshot of the result of my demonstration attack. An attempt to conve
 
 ![Screenshot of key exfiltration](images/demo-keys-leaked.png)
 
-_Caption: Some screenshots of the 'PDF to Markdown' skill firing, leading to exposure of sensitive data_
+_Screenshot of the 'PDF to Markdown' skill firing, leading to exposure of sensitive data such as API keys and AWS credentials_
 
 If you are familiar with skills, immediately get what 'Skill Dependency Management' implies, then feel free to skip to '[Demonstrating the Attack](#demonstrating-the-attack)'.
 
 ## The Skillsplosion
 
-Athropic Skills launched in [October 2025](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) and have rapidly transformed how many - particular software engineers - are using LLMs. Skills are simply text files, which can be instructions, reference documents, or scripts, that are used to give LLMs context on how to complete a task.
+Athropic Skills launched in [October 2025](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) and have rapidly transformed how many - particularly software engineers - are using LLMs. Skills are simply text files, which can be instructions, reference documents, or scripts, that are used to give LLMs context on how to complete a task.
 
-There is little that is novel about the approach - skills essentially represent well-considered context engineering. The high level 'description' of a skill is read by the LLM on startup. This description is typically short, and describes when the skill should be used. A short description avoid polluting context with too much data. At the level of the system prompt the LLM is instructed to load the rest of the skill on-demand if needed.
+There is little that is novel about the approach - skills essentially represent well-considered context engineering. The high level 'description' of a skill is read by the LLM on startup. This description is typically short, and describes when the skill should be used. A short description avoids polluting context with too much information. At the level of the system prompt the LLM is instructed to load the rest of the skill on-demand if needed.
 
 Skills enable progressive disclosure (or 'lazy-loading') of context. Skills are well suited to defining context in a hierarchical fashion - from high-level at the top to greater levels of detail as the LLM requests more context.
 
-The pattern of progressive disclosure is not new. Programmatic context engineering supports this pattern, with frameworks such as [DSPy](https://dspy.ai/) enable programmatic control over what context is provided when. It is also entirely possible to engineer MCP servers in this way - rather than exposing many tools on startup, an 'index' tool or similar is created that provides the LLM with high-level details, and instructs a 'fetch' or similar tool to be used to retrieve more details when needed. This pattern is extremely powerful - tools like [Context7](https://context7.com/) use this technique incredibly well to provide on-demand context for tens of thousands of software libraries, without bloating context on startup[^1].
+The pattern of progressive disclosure is not new. Programmatic context engineering supports this pattern, with frameworks such as [DSPy](https://dspy.ai/) enable programmatic control over what context is provided when. It is also entirely possible to engineer MCP servers in this way - rather than exposing many tools on startup, an 'index' tool or similar is created that provides the LLM with high-level details, and instructs a 'fetch' or similar tool to be used to retrieve more details when needed. This pattern is extremely powerful - tools like [Context7](https://context7.com/) use this technique to provide on-demand context for tens of thousands of software libraries, without bloating context on startup[^1].
 
-Progressive disclosure is actually coming to MCP too. A known MCP challenge is servers that have a large number of tools that are documented in an extremely verbose way (verbose documentation is generally needed to give the LLM a good change to know when the tools should be used). This creates context blowup on startup. The open-source project [`mcp-cli`](https://github.com/philschmid/mcp-cli?tab=readme-ov-file#why-mcp--cli) also enables this pattern (search the README for "on-demand loading"). Claude code also does this now via the [Tool search tool](https://www.anthropic.com/engineering/advanced-tool-use). This can greatly reduce the number of tokens used on startup (likely at the code of precision and tool matching)[^2].
+Progressive disclosure is actually coming to MCP too. A known MCP challenge is servers that have a large number of tools that are documented in an extremely verbose way (verbose documentation is generally needed to give the LLM a good change to know when the tools should be used). This creates context blowup on startup. Claude code can avoid this via the [Tool search tool](https://www.anthropic.com/engineering/advanced-tool-use). This can greatly reduce the number of tokens used on startup (likely at the cost of precision and tool matching)[^2]. The open-source project [`mcp-cli`](https://github.com/philschmid/mcp-cli?tab=readme-ov-file#why-mcp--cli) also enables this pattern (search the README for "on-demand loading"). 
 
-Skills make progressive disclosure this technique _incredibly easy_. Simple text files with descriptions, content, and folders that contain more details. Coding agents like Claude Code can load skills from a user's personal configuration, from a project, or from any remote repository. This means skills can be developed and shared easily.
+Skills, however make this progressive disclosure technique _incredibly easy_. Simple text files with descriptions, content, and folders that contain more details. Coding agents like Claude Code can load skills from a user's personal configuration, from a project, or from any remote repository. This means skills can be developed and shared easily.
 
 ## Where Skills Shine
 
@@ -45,7 +47,7 @@ Well-designed skills represent well-designed information architecture.
 
 Ideally, skills are _orthogonal_ - a Python development skill should not 'overlap' with a TypeScript development skill. Changing one skill should not affect another. If they do, LLMs will get confused as they do with poorly architected or overlapping MCP tools. Skills should also be hierarchical - information is structured in a 'top down' approach, high level initially with additional layers of detail, samples or references, as needed.
 
-Building skills means codifying and organising knowledge. This knowledge ends up as text in a repository - which makes it incredibly accessible to _other_ users (AI or not). Even if the format, specification, or use of skills changes over time, the knowledge has been structured, this knowledge can be used later on. So far so good. For some of the best real-world examples, check [Agent-Skills-for-Context-Engineering](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering), [Awesome Claude Skills](https://github.com/travisvn/awesome-claude-skills), [Superpowers](https://github.com/obra/superpowers).
+Building skills means codifying and organising knowledge. This knowledge ends up as text in a repository - which makes it incredibly accessible to _other_ users (AI or not). Even if the format, specification, or use of skills changes over time, the knowledge has been structured, this knowledge can be used later on. So far so good. For some of the best real-world examples, check [Agent-Skills-for-Context-Engineering](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering), [Awesome Claude Skills](https://github.com/travisvn/awesome-claude-skills) and [Superpowers](https://github.com/obra/superpowers).
 
 ## Speculation: Skill Dependencies
 
@@ -63,7 +65,7 @@ The "Read File" tool now depends on the "PDF to Markdown" tool. Now we need depe
 - Updates - if a new version comes out, should we grab it? Will that break anything?
 - And loads more
 
-Welcome to [dependency hell](https://en.wikipedia.org/wiki/Dependency_hell)
+Welcome to [dependency hell](https://en.wikipedia.org/wiki/Dependency_hell).
 
 At the time of writing, skills are in still young. But as people develop more complex or specialised skills, the need will arise here - how can I use the capabilities of existing skills as building blocks - so that I don't have to recreate the wheel?
 
