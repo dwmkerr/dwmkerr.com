@@ -10,29 +10,28 @@ on:
 jobs:
   release-please:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - uses: googleapis/release-please-action@v4
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
-          package-name: dwmkerr.com
           # We include 'docs' in the changelog types, this means document
-          # changes will be in the CHANGELOG and also that docs changes will
+          # changes will be in the changelog and also that docs changes will
           # trigger a patch release. This is essential as we basically are
           # primarily docs project.
           changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"docs","section":"Documentation","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false}]'
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: true
         if: ${{ steps.release.outputs.release_created }}
 
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: '0.93.0'
           # extended: true
@@ -44,9 +43,9 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./dwmkerr.com/public
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_branch: gh-pages
+          publish_dir: ./dwmkerr.com/public
         if: ${{ steps.release.outputs.release_created }}
