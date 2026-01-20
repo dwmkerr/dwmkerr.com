@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.5](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.5...v0.2.5) (2026-01-20)
+
+
+### chore
+
+* release 0.2.5 ([bf6467c](https://github.com/dwmkerr/dwmkerr.com/commit/bf6467cc24ce2f1f8402371499b98338656ac8a4))
+
+
+### Features
+
+* note on sandboxes ([#59](https://github.com/dwmkerr/dwmkerr.com/issues/59)) ([30d3f6a](https://github.com/dwmkerr/dwmkerr.com/commit/30d3f6ab1f16475e4ee794a6ee890c762facbe80))
+
 ## [0.2.5](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.5...v0.2.5) (2026-01-19)
 
 
