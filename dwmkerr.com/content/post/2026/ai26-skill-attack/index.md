@@ -185,6 +185,12 @@ My first version of the backend that saved environment variables returned a clea
 
 These models are always improving and becoming more defensive, but hackers are clever and put a lot of effort into these kind of attacks - its always an ongoing arms race. I do not want to suggest Anthropic or Claude Code are insecure - Anthropic do and extremely good job of protecting against malicious behaviour - this attack relies more on human bias. But it was surprisingly easy to leak keys this way.
 
+### Sandboxing
+
+A more robust defense is sandboxing - isolating skill execution in a restricted environment without access to host credentials or files. Claude Code offers `--sandbox` which runs commands in a container with no access to your environment variables. Other projects like the one I work on, [Ark](https://github.com/mckinsey/agents-at-scale-ark) also orchestrate agent operations in containers.
+
+However, the intrinsic challenges remain. The operations you run in a sandbox will have permissions, credentials and so on. If you clone a private repository in a sandbox, then you have access to it. If you run a skill in a sandbox, or trigger a skill that has a transient dependency on a compromised skill, then the contents of the sandbox are still compromised. Sandboxes will protect the host machine (and are always good practice), but the contents of the sandbox themselves are still vulnerable. For any non-trivial workload in a sandbox that accesses and kind of sensitive resource, the risks are still present. The very fact that sandboxes give a (justified) perception of increased safety may make it more likely to make you less inclined to consider the risk of compromised skills (or slash commands, etc).
+
 ### Further Reading
 
 - [New Skills, New Threats: Exfiltrating Data from Claude](https://idanhabler.medium.com/new-skills-new-threats-exfiltrating-data-from-claude-e9112aeac11b)
