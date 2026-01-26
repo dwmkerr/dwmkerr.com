@@ -1,0 +1,59 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Slack on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-61/categories/slack/</link><description>Recent content in Slack on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 18 Nov 2016 01:25:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-61/categories/slack/index.xml" rel="self" type="application/rss+xml"/><item><title>Using Slack for Server Development</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-61/using-slack-for-server-development/</link><pubDate>Fri, 18 Nov 2016 01:25:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-61/using-slack-for-server-development/</guid><description>&lt;p&gt;I recently found a surprisingly helpful approach for server-side development which uses Slack in a creative way.&lt;/p&gt;
+&lt;h2 id="the-problem"&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;The scenario can be roughly simplified to this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/0-problem.png" alt="Planned Architecture"&gt;&lt;/p&gt;
+&lt;p&gt;We are building a mobile app and application server. This will take data from a user, transform it and then pass it to the enterprise system processing.&lt;/p&gt;
+&lt;p&gt;The problem is that the enterprise system doesn&amp;rsquo;t exist yet!&lt;/p&gt;
+&lt;p&gt;Now this is not too much of a challenge, the first thing we did was build a simple mock of the enterprise system in Node.js, so that we can at least talk to &lt;em&gt;something&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/0-problem-2.png" alt="The Mock System"&gt;&lt;/p&gt;
+&lt;p&gt;So now we have the question - is our application server transforming the data correctly?&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s say that in our example we bring in three pieces of data from the UI - a first name, middle name and last name.&lt;/p&gt;
+&lt;p&gt;Our enterprise system, in this case we&amp;rsquo;ll say it is a CRM system, only accepts a first name and last name. So in our app server, we are going to concatenate the middle name and last name.&lt;/p&gt;
+&lt;p&gt;Our testers want to make sure that the enterprise system will receive the right data - but at the moment it is only a mock, we cannot log in a check the middle and last names have been combined properly. What to do?&lt;/p&gt;
+&lt;h2 id="slack-to-the-rescue"&gt;Slack to the Rescue!&lt;/h2&gt;
+&lt;p&gt;It&amp;rsquo;s a trivial change to our mock server to send the received messages to Slack:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/1-slack.png" alt="Slack Diagram"&gt;&lt;/p&gt;
+&lt;p&gt;Now our testers can input data in the mobile app and then watch a slack channel to see the data our application server will actually send to the enterprise system. They can verify the logic has been implemented correctly.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s how it might look - in the image below I am running my mock enterprise server, which has Swagger UI to show the mocked APIs and allow me to call them:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/4-swagger.png" alt="Swagger UI"&gt;&lt;/p&gt;
+&lt;p&gt;The message is received on the server, sent to slack and we can check the result:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/5-slack.png" alt="Slack"&gt;&lt;/p&gt;
+&lt;p&gt;Now this is obviously a trivial and contrived example, but Slack offers a lot of capabilities. Imagine you have a server which watermarks images, you could send an image file to render to the screen. There are a whole bunch of ways you can extend this use case.&lt;/p&gt;
+&lt;p&gt;In the early stages of a project, where they may be many mocked systems, being able to see what they are doing can be really useful.&lt;/p&gt;
+&lt;h2 id="setting-it-up"&gt;Setting it up&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve created a super-simple demo setup here:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/slack-backend"&gt;github.com/dwmkerr/slack-backend&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s how you go about it.&lt;/p&gt;
+&lt;p&gt;Step 1: Set up a webhook on slack&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/1-menu.png" alt="Menu"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/1-incoming-webhook.png" alt="Webhook"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/3-hook.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;Step 2: Use the HTTP APIs from Slack, or a client from your platform of choice to send the message:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Create the Slack webhook based on our config.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;slack&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Slack&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;slack&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;setWebhook&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;https://hooks.slack.com/services/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&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Every time we&amp;#39;re about to handle a request, tell our friend Slack.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;server&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;ext&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;onPreHandler&amp;#39;&lt;/span&gt;, (&lt;span style="color:#a6e22e"&gt;request&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;reply&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Never bother logging any requests to swagger UI.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;request&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;path&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;match&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;/\/swaggerui\//&lt;/span&gt;) &lt;span style="color:#f92672"&gt;||&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;request&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;path&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;match&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;/\/swagger.json/&lt;/span&gt;) &lt;span style="color:#f92672"&gt;||&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;request&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;path&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;match&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;/\/$/&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;reply&lt;/span&gt;.&lt;span style="color:#66d9ef"&gt;continue&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Send the Slack message.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;slack&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;webhook&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;`Request *&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;request&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;id&lt;/span&gt;&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;*
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;\`\`\`&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;request&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;method&lt;/span&gt;&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt; &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;request&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;path&lt;/span&gt;&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;JSON&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;stringify&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;request&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;payload&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;)&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;\`\`\``&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;reply&lt;/span&gt;.&lt;span style="color:#66d9ef"&gt;continue&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This approach was quick and easy to implement, hopefully others will find it useful!&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>
