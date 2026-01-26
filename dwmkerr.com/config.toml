@@ -44,14 +44,9 @@ googleAnalytics = "G-XNRSGLYJRM"
     weight = 1
 
 [[menu.main]]
-    name = "Speaking"
-    url = "/page/speaking/"
-    weight = 2
-
-[[menu.main]]
     name = "About"
     url = "/page/about/"
-    weight = 3
+    weight = 2
 
 [Permalinks]
     post = "/:slug"
