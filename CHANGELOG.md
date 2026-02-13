@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.5](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.5...v0.2.5) (2026-02-13)
+
+
+### chore
+
+* release 0.2.5 ([bf6467c](https://github.com/dwmkerr/dwmkerr.com/commit/bf6467cc24ce2f1f8402371499b98338656ac8a4))
+
+
+### Features
+
+* add agentic orchestration protocols blog post ([#63](https://github.com/dwmkerr/dwmkerr.com/issues/63)) ([21326ed](https://github.com/dwmkerr/dwmkerr.com/commit/21326ed4692b26caa046e47204e5d4aa29a70c77))
+* note on sandboxes ([#59](https://github.com/dwmkerr/dwmkerr.com/issues/59)) ([30d3f6a](https://github.com/dwmkerr/dwmkerr.com/commit/30d3f6ab1f16475e4ee794a6ee890c762facbe80))
+* update personal page with latest bio, projects, and profile image ([#61](https://github.com/dwmkerr/dwmkerr.com/issues/61)) ([4827704](https://github.com/dwmkerr/dwmkerr.com/commit/48277046b2ea2962cfea4666a8cdd563b21db65d)), closes [#49](https://github.com/dwmkerr/dwmkerr.com/issues/49)
+
 ## [0.2.5](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.5...v0.2.5) (2026-01-26)
 
 
