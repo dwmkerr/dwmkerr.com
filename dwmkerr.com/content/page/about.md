@@ -25,7 +25,8 @@ My journey started with C and C++, writing device drivers, then moved through .N
 - [Effective Shell](https://github.com/dwmkerr/effective-shell) – Text and samples for my Effective Shell book
 - [terminal-ai](https://github.com/dwmkerr/terminal-ai) – Unopinionated AI for the Shell. A lightweight AI CLI for scripts, pipelines, and automation, with a universal client for MCP, A2A, and other AI protocols.
 - [dotfiles](https://github.com/dwmkerr/dotfiles) – My personal setup: Vim, Tmux, Shells
-- [claude-toolkit](https://github.com/dwmkerr/claude-toolkit) – Claude Code plugins toolkit for various engineering tasks.
+- [claude-toolkit](https://github.com/dwmkerr/claude-toolkit) – Claude Code plugins toolkit for various engineering tasks
+- [claude-code-agent](https://github.com/dwmkerr/claude-code-agent) – Run Claude Code as an isolated and containerized A2A agent
 - [SharpShell](https://github.com/dwmkerr/sharpshell) – Create Windows Shell Extensions using .NET
 - [SharpGL](https://github.com/dwmkerr/sharpgl) – Use OpenGL in .NET applications
 
