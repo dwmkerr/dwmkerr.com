@@ -24,8 +24,8 @@ googleAnalytics = "G-XNRSGLYJRM"
   github = "dwmkerr"
   linkedin = "dwmkerr"
   bookurl = "https://amzn.to/4ho0F91"
-  # Disqus shortname
-  disqus = "dwmkerr"
+  # Disqus shortname (disabled - shows ads on free tier)
+  # disqus = "dwmkerr"
   author = "Dave Kerr"
   authorwebsite = "dwmkerr.com"
   avatar = "/images/avatar.jpeg"

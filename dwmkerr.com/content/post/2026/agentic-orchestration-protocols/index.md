@@ -14,7 +14,11 @@ tags:
 - "agentic-ai"
 ---
 
-In this article I'm going to demonstrate some of the most popular protocols and frameworks that are being used for agentic software development. I call these 'protocols' - normally its a set of scripts, skills, tools, subagents, or whatever, that are used to build software following a certain methodology. Using a protocol for software development is _vastly_ more efficient than prompting or iterating by hand. Almost all of these patterns anchor around putting "intent" into a file, and then from that building a specification, then a plan, then getting the agents to execute on it. Some of these protocols are quick and easy to try out, some are more complex and opinionated.
+In this article I'm going to show some popular agentic development workflows in action.
+
+I've referred to these as 'protocols' - some kind of combination of tools, subagents, scripts, skills and commands that enable you to follow a workflow or apply a particular methodology. Using a protocol for software development will generally give more predictable results, (greatly) increase velocity and help you put time and effort into the right place - which is typically good planning rather than iterating on code.
+
+Almost all of these patterns anchor around clarifying the user's "intent", then documenting that in the repo. From this a specification and then plan is built, reviewed, and the agents then work on the implementation. Some of these protocols are quick and easy to try out, some are more complex and opinionated.
 
 I'll update this article periodically with a real-world demonstration of some of the popular protocols that are out there. But to get started, we'll take a look at **Superpowers**.
 
