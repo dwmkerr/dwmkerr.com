@@ -70,7 +70,7 @@
 &lt;p&gt;Open the CloudTrail portal and ensure that you have a trail setup which logs API calls. Once this is setup you should see something like this:&lt;/p&gt;
 &lt;img src="./images/cloudtrail.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/cloudtrail.png" class="img-zoomable"&gt;
 &lt;p&gt;You can use the code below as an example of how to create a trail:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws cloudtrail create-trail &lt;span style="color:#ae81ff"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws cloudtrail create-trail &lt;span style="color:#ae81ff"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name management-events &lt;span style="color:#ae81ff"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --s3-bucket-name cloudtrail-account123-management-events-bucket &lt;span style="color:#ae81ff"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --is-multi-region-trail

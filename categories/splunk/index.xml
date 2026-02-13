@@ -14,7 +14,7 @@ git pull origin recipes/splunk
 &lt;p&gt;Before you continue, &lt;font color="red"&gt;&lt;strong&gt;be aware&lt;/strong&gt;&lt;/font&gt;: the machines on AWS we&amp;rsquo;ll create are going to run to about $250 per month:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/aws-cost.png" alt="AWS Cost Calculator"&gt;&lt;/p&gt;
 &lt;p&gt;Once you are logged in with the AWS CLI just run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make infrastructure
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make infrastructure
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You&amp;rsquo;ll be asked to specify a region:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/region.png" alt="Specify Region"&gt;&lt;/p&gt;
 &lt;p&gt;Any &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions"&gt;AWS region&lt;/a&gt; will work fine, use &lt;code&gt;us-east-1&lt;/code&gt; if you are not sure.&lt;/p&gt;
@@ -26,25 +26,25 @@ git pull origin recipes/splunk
 &lt;p&gt;&lt;img src="images/aws.png" alt="AWS"&gt;&lt;/p&gt;
 &lt;h2 id="installing-openshift"&gt;Installing OpenShift&lt;/h2&gt;
 &lt;p&gt;Installing OpenShift is easy:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make openshift
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make openshift
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command will take quite some time to run (sometimes up to 30 minutes). Once it is complete you&amp;rsquo;ll see a message like this:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/openshift-complete.png" alt="OpenShift Installation Complete"&gt;&lt;/p&gt;
 &lt;p&gt;You can now open the OpenShift console. Use the public address of the master node (which you can get with &lt;code&gt;$(terraform output master-url)&lt;/code&gt;), or just run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make browse-openshift
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make browse-openshift
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The default username and password is &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;123&lt;/code&gt;. You&amp;rsquo;ll see we have a clean installation and are ready to create our first project:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/welcome-to-openshift.png" alt="Welcome to OpenShift"&gt;&lt;/p&gt;
 &lt;p&gt;Close the console for now.&lt;/p&gt;
 &lt;h2 id="installing-splunk"&gt;Installing Splunk&lt;/h2&gt;
 &lt;p&gt;You&amp;rsquo;ve probably figured out the pattern by now&amp;hellip;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make splunk
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make splunk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once this command is complete, you can open the Splunk console with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make browse-splunk
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make browse-splunk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Again the username and password is &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;123&lt;/code&gt;. You can change the password on login, or leave it:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/splunk-home.png" alt="Splunk Login"&gt;&lt;/p&gt;
 &lt;p&gt;You can close the Splunk console now, we&amp;rsquo;ll come back to it shortly.&lt;/p&gt;
 &lt;h2 id="demoing-splunk-and-openshift"&gt;Demoing Splunk and OpenShift&lt;/h2&gt;
 &lt;p&gt;To see Splunk and OpenShift in action, it helps to have some kind of processing going on in the cluster. You can create a very basic sample project which will spin up two nodes which just write a counter every second as a way to get something running:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make sample
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make sample
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will create a simple &amp;lsquo;counter&amp;rsquo; service:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/counter-service.png" alt="Screenshot: The counter service"&gt;&lt;/p&gt;
 &lt;p&gt;We can see the logs in OpenShift:&lt;/p&gt;
@@ -67,7 +67,7 @@ git pull origin recipes/splunk
 &lt;p&gt;When running on Kubernetes, things are little different. On machines with &lt;code&gt;systemd&lt;/code&gt;, the log driver for the docker engine is set to &lt;code&gt;journald&lt;/code&gt; (see &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/logging/"&gt;Kubernetes - Logging Architecture&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It &lt;em&gt;is&lt;/em&gt; possible to forward &lt;code&gt;journald&lt;/code&gt; to Splunk, but only by streaming it to a file and then forwarding the file. Given that we need to use a file as an intermediate, it seems easier just to change the driver back to &lt;code&gt;json-file&lt;/code&gt; and forward that.&lt;/p&gt;
 &lt;p&gt;So first, we configure the docker engine to use &lt;code&gt;json-file&lt;/code&gt; (see &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/blob/recipes/splunk/scripts/postinstall-master.sh"&gt;this file&lt;/a&gt;):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -i &lt;span style="color:#e6db74"&gt;&amp;#39;/OPTIONS=.*/c\OPTIONS=&amp;#34;--selinux-enabled --insecure-registry 172.30.0.0/16 --log-driver=json-file --log-opt max-size=1M --log-opt max-file=3&amp;#34;&amp;#39;&lt;/span&gt; /etc/sysconfig/docker
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -i &lt;span style="color:#e6db74"&gt;&amp;#39;/OPTIONS=.*/c\OPTIONS=&amp;#34;--selinux-enabled --insecure-registry 172.30.0.0/16 --log-driver=json-file --log-opt max-size=1M --log-opt max-file=3&amp;#34;&amp;#39;&lt;/span&gt; /etc/sysconfig/docker
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here we just change the options to default to the &lt;code&gt;json-file&lt;/code&gt; driver, with a max file size of 1MB (and maximum of three files, so we don&amp;rsquo;t chew all the space on the host).&lt;/p&gt;
 &lt;p&gt;Now the cool thing about Kubernetes is that it creates symlinks to the log files, which have much more descriptive names:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/logging-k8s.png" alt="Symlink diagram"&gt;&lt;/p&gt;

@@ -29,7 +29,7 @@
 &lt;p&gt;&lt;img src="images/1-incoming-webhook.png" alt="Webhook"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/3-hook.png" alt=""&gt;&lt;/p&gt;
 &lt;p&gt;Step 2: Use the HTTP APIs from Slack, or a client from your platform of choice to send the message:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Create the Slack webhook based on our config.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;slack&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Slack&lt;/span&gt;();
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;slack&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;setWebhook&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;https://hooks.slack.com/services/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&amp;#34;&lt;/span&gt;);

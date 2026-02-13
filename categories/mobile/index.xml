@@ -97,7 +97,7 @@ commands:
 &lt;h2 id="tip-2---control-version-numbers-with-a-touch-command"&gt;Tip 2 - Control Version Numbers with a &amp;lsquo;Touch&amp;rsquo; command&lt;/h2&gt;
 &lt;p&gt;iOS and Android apps have both a &lt;em&gt;version number&lt;/em&gt; and a &lt;em&gt;build number&lt;/em&gt;. We might have other files in our project with version numbers too (such as a &lt;code&gt;package.json&lt;/code&gt; file).&lt;/p&gt;
 &lt;p&gt;It can be very useful to have a way of keeping these version numbers in sync. Again, we can use a makefile recipe:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make touch
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make touch
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command will vary in implementation depending on your platform. For example, this would be all that is needed for a Cordova based project:&lt;/p&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;# The version in package.json is the &amp;#39;master&amp;#39; version.
 VERSION ?= $(shell cat package.json | jq --raw-output .version)
@@ -152,7 +152,7 @@ app-icon generate -i icon.png
 &lt;p&gt;There are references to each sample and the associated code in the &lt;code&gt;README.md&lt;/code&gt; at:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/dwmkerr/beautifully-simple-app-ci"&gt;github.com/dwmkerr/beautifully-simple-app-ci&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;As a quick example, the Pure Native App runs this code prior to each build:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;BUILD_NUM&lt;span style="color:#f92672"&gt;=&lt;/span&gt;BUDDYBUILD_BUILD_NUMBER make label
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;BUILD_NUM&lt;span style="color:#f92672"&gt;=&lt;/span&gt;BUDDYBUILD_BUILD_NUMBER make label
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This app uses BuddyBuild as a build system, meaning we can just drop this line in the &lt;a href="./buddybuild_postclone.sh"&gt;&lt;code&gt;buddybuild_postclone.sh&lt;/code&gt;&lt;/a&gt; script. You can see the labeled icons directly in the BuddyBuild UI:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/12-buddybuild-icons.png" alt="BuddyBuild Icons"&gt;&lt;/p&gt;
 &lt;p&gt;The Android build is currently having some issues due to fonts being accessible by the labelling tool (which uses ImageMagick under the hood), with any luck this issue will be fixed soon. This seems to be an issue with the BuddyBuild ImageMagick installation rather than the labelling code itself, which is running fine on all of the other builds!&lt;/p&gt;

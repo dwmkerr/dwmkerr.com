@@ -40,7 +40,7 @@
 &lt;p&gt;The extension is available on GitHub at:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/dwmkerr/chatgpt-diagrams-extension"&gt;https://github.com/dwmkerr/chatgpt-diagrams-extension&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Just clone, then run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm install
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm install
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm start
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Open chrome at: &lt;code&gt;chrome://extensions&lt;/code&gt;, choose &amp;ldquo;Load Unpacked&amp;rdquo; and select the &lt;code&gt;./dist&lt;/code&gt; folder from your local copy of the &lt;code&gt;chatgpt-diagrams-extension&lt;/code&gt; repository. Everything else you need to know should be on the &lt;a href="https://github.com/dwmkerr/chatgpt-diagrams-extension"&gt;README&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="further-reading"&gt;Further Reading&lt;/h2&gt;

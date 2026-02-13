@@ -141,7 +141,7 @@ create_before_destroy = true
 &lt;h3 id="installing-consul-and-accessing-the-admin-interface"&gt;Installing Consul and Accessing the Admin Interface&lt;/h3&gt;
 &lt;p&gt;To set up our instances we use a &amp;lsquo;userdata&amp;rsquo; script&amp;rsquo; A userdata runs once when an instance is created. We can create a script in our repository, and reference it in our Terraform files.&lt;/p&gt;
 &lt;p&gt;We add a new file called &lt;code&gt;consul-node.sh&lt;/code&gt; to a &lt;code&gt;files&lt;/code&gt; folder. This script installs Docker and runs Consul:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;yum install -y docker
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;yum install -y docker
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;usermod -a -G docker ec2-user
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;service docker start
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -232,7 +232,7 @@ consul agent -server -ui \
 &lt;p&gt;There are a couple of things we need to do to get this right. First, update the userdata script to provide the IPs of other nodes when we&amp;rsquo;re starting up, then update the &lt;strong&gt;role&lt;/strong&gt; of our nodes so that they have permissions to use the APIs we&amp;rsquo;re going to call.&lt;/p&gt;
 &lt;h3 id="getting-the-cluster-ips"&gt;Getting the Cluster IPs&lt;/h3&gt;
 &lt;p&gt;This is actually fairly straightforward. We update our userdata script to the below:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# A few variables we will refer to later...&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# A few variables we will refer to later...&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ASG_NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;consul-asg
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;REGION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ap-southeast-1
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;EXPECTED_SIZE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;
