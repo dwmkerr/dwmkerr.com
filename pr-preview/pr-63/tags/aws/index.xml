@@ -1,0 +1,959 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AWS on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/tags/aws/</link><description>Recent content in AWS on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Fri, 23 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/tags/aws/index.xml" rel="self" type="application/rss+xml"/><item><title>Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/building-least-privilege-permissions-aws/</link><pubDate>Fri, 23 Apr 2021 00:00:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/building-least-privilege-permissions-aws/</guid><description>&lt;p&gt;In this article I&amp;rsquo;m going to give a brief overview of some techniques to build &amp;rsquo;least privilege&amp;rsquo; roles in AWS. This assumes a basic knowledge of AWS and Identity and Access Management. It uses the (at time of writing) &lt;a href="https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/"&gt;newly announced features in the AWS IAM Access Analyser&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ll be demoing the techniques using a project built on &lt;a href="https://www.serverless.com/"&gt;The Serverless Framework&lt;/a&gt; but you don&amp;rsquo;t need to know anything about how this framework works to follow the article - it is just used to demonstrate the concepts. You should be able to apply these techniques to almost any process which accesses or manages AWS resources.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s get into it!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="updates-to-the-aws-iam-access-analyser"&gt;Updates to the AWS IAM Access Analyser&lt;/h2&gt;
+&lt;p&gt;AWS recently announced some new features to the IAM Access Analyser, which are designed to help build &amp;rsquo;least privilege&amp;rsquo; policies for your AWS solutions. As I have been deploying a number of solutions based on &lt;a href="https://www.serverless.com/"&gt;The Serverless Application Framework&lt;/a&gt; I thought this would be a great time to try out these new features.&lt;/p&gt;
+&lt;p&gt;The Serverless Application Framework is a useful framework if you want to rapidly create serverless applications. You can rapidly create lambda functions, deploy to AWS, test locally, debug and so on.&lt;/p&gt;
+&lt;h2 id="our-use-case---a-serverless-framework-deployment-process"&gt;Our Use Case - A Serverless Framework Deployment Process&lt;/h2&gt;
+&lt;p&gt;When you use the Serverless Framework, a common pattern for deployment is to let the framework itself deploy resources.&lt;/p&gt;
+&lt;p&gt;A deploy command would look like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;serverless deploy --stack uat
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Under the hood, this will do a few things:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a CloudFormation template which defines an application stack&lt;/li&gt;
+&lt;li&gt;Upload the template to an S3 bucket on a specified AWS account&lt;/li&gt;
+&lt;li&gt;Deploy the stack&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now what is deployed is very dependent on what you decide to use in your application, but common resources would be things like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CloudFormation Stacks&lt;/li&gt;
+&lt;li&gt;Lambda Functions&lt;/li&gt;
+&lt;li&gt;API Gateway resources&lt;/li&gt;
+&lt;li&gt;DynamoDB tables&lt;/li&gt;
+&lt;li&gt;SQS Queues&lt;/li&gt;
+&lt;li&gt;&amp;hellip;and many more!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This raises some interesting questions - how should we secure this provisioning process?&lt;/p&gt;
+&lt;h2 id="fundamental-principles---isolation-and-least-privilege"&gt;Fundamental Principles - Isolation and Least-Privilege&lt;/h2&gt;
+&lt;p&gt;There are two fundamental principles&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt; which make sense to consider when thinking about how to integrate the Serverless Framework into your stack:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Isolation of Resources&lt;/strong&gt;: Can we make sure that the stack resources are logically isolated from &lt;em&gt;other&lt;/em&gt; resources we are managing? This can reduce the impact of incidents - if the stack is compromised, it should only compromise specific resources, not all resources in your estate&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Least Privilege&lt;/strong&gt;: Can we make sure that when the &lt;code&gt;serverless&lt;/code&gt; binary deploys resources, it has the least permissions required to do its work, again reducing the impact of a potential incident&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Isolation of resources can be handled in a number of ways - my preferred approach is to create separate AWS accounts for each application (and in fact, each environment, such as &amp;lsquo;dev&amp;rsquo;, &amp;rsquo;test&amp;rsquo; and so on). This is not something I will discuss in this article. What I would like to focus on is the second point - least privilege.&lt;/p&gt;
+&lt;h2 id="least-privilege-in-aws"&gt;Least Privilege in AWS&lt;/h2&gt;
+&lt;p&gt;We don&amp;rsquo;t quite know what the Serverless Framework does when it provisions resources. I don&amp;rsquo;t mean this in a bad way. We &lt;em&gt;could&lt;/em&gt; investigate and read in detail exactly what happens, but part of the benefit of the framework is that it takes care of this for you&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;. In the early stages of a project this is probably a great time saver - in the later stages it represents a potential vulnerability.&lt;/p&gt;
+&lt;p&gt;We understand that it creates a CloudFormation stack, but some of the details are not necessarily readily discoverable from the documentation.&lt;/p&gt;
+&lt;p&gt;If we wanted to create a policy which represents the permissions which the Serverless we could try a few approaches:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Give the process full access to an environment, with wide permissions to create any resources&lt;/li&gt;
+&lt;li&gt;Give the process limited access to an environment, run the provisioning process, see the permissions issues which arise, then iteratively add more permissions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You might think that the first instinct of a security team might be that a &amp;lsquo;full access&amp;rsquo; approach is fundamentally wrong. But great security experts balance risk, agility, cost all the time. They don&amp;rsquo;t want to stop experimentation - just make sure that it is done in a safe way.&lt;/p&gt;
+&lt;p&gt;The first approach is perfectly fine in low sensitivity environments. If you want to move fast and try out the technology, you could lose valuable time trying to get the permissions just right. If you have a solid approach to &lt;em&gt;isolation&lt;/em&gt;, then you should be able to run your proof of concepts in an isolated sandbox environment, which has no access to sensitive resources.&lt;/p&gt;
+&lt;p&gt;You can also add Billing Alerts, or even automate the &lt;em&gt;destruction&lt;/em&gt; of resources at a certain point, so that you automatically &amp;lsquo;clean up&amp;rsquo;. This is great security practice - provide teams with a way to experiment &lt;em&gt;safely&lt;/em&gt;. Give teams full access to their own self-serve sandbox environments, with automated guardrails to mitigate the risk of incidents&lt;sup id="fnref1:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;h2 id="beyond-the-sandbox"&gt;Beyond the Sandbox&lt;/h2&gt;
+&lt;p&gt;The &amp;lsquo;sandbox environment&amp;rsquo; approach &lt;em&gt;can&lt;/em&gt; be valid. But there will likely come a stage when this is no longer appropriate.&lt;/p&gt;
+&lt;p&gt;When you want to deploy into an environment which has other resources, sensitive data, is accessible to the public, runs production workloads and so on. There will likely come a point where you cannot fully isolate your application - at this stage we should be looking at improving our security.&lt;/p&gt;
+&lt;p&gt;Specifically, at this point we really should try to make sure that we limit the permissions of the process which runs the &lt;code&gt;serverless deploy&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;Limiting the permissions has the benefit of reducing the &amp;lsquo;blast radius&amp;rsquo; of an attack. If the process is compromised it can do fewer things. It also has the benefit of &lt;em&gt;increasing transparency&lt;/em&gt; - we will explicitly document &lt;em&gt;what we expect the process to do&lt;/em&gt;. This is highly useful when performing security checks.&lt;/p&gt;
+&lt;h2 id="the-challenges-of-limiting-permissions"&gt;The Challenges of Limiting Permissions&lt;/h2&gt;
+&lt;p&gt;The process of working out the specific permissions required for a process can be challenging. It might involve looking through lots of documentation, trying to build a policy, seeing if the process works, adding permissions, changing permissions and so on.&lt;/p&gt;
+&lt;p&gt;Just this month AWS released some updates to the IAM Access Manager, adding some features to help build &amp;rsquo;least permission&amp;rsquo; policies:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/"&gt;https://aws.amazon.com/about-aws/whats-new/2021/04/iam-access-analyzer-easier-implement-least-privilege-permissions-generating-iam-policies-access-activity/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;These features immediately caught my eye as I&amp;rsquo;m very interesting in security practices. We&amp;rsquo;re going to take a look at these features in detail for the rest of the article and see how we can use them to improve the security of a process like our &amp;lsquo;serverless deployment&amp;rsquo;.&lt;/p&gt;
+&lt;h2 id="using-the-iam-access-analyser-to-build-fine-grained-policies"&gt;Using the IAM Access Analyser to Build Fine-Grained Policies&lt;/h2&gt;
+&lt;p&gt;The process for generating fine grained policies with the IAM Access Analyser is quite simple:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Ensure you are using CloudTrail to track access to resources&lt;/li&gt;
+&lt;li&gt;Create an Access Analyser&lt;/li&gt;
+&lt;li&gt;Run the process you want to create fine-grained permissions for, initially with wide permissions&lt;/li&gt;
+&lt;li&gt;Use the Access Analyser to generate a policy based on the events in CloudTrail&lt;/li&gt;
+&lt;li&gt;Refine the policy&lt;/li&gt;
+&lt;li&gt;Document, document, document&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I&amp;rsquo;m going to demonstrate this end-to-end with a &amp;lsquo;serverless framework deployment&amp;rsquo; process. Please keep an eye out for an article I&amp;rsquo;ll be writing soon on how to build a REST application with the Serverless Framework - for now don&amp;rsquo;t worry about the application itself too much, this could be any kind of deployment or operational process we&amp;rsquo;re running.&lt;/p&gt;
+&lt;h3 id="step-1-enable-cloudtrail"&gt;Step 1: Enable CloudTrail&lt;/h3&gt;
+&lt;p&gt;We need to enable CloudTrail so that we have a log of API calls which Access Advisor can analyse.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Warning&lt;/strong&gt;: if you trying these features out please be aware that they may fall outside of the &lt;a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;amp;all-free-tier.sort-order=asc&amp;amp;awsf.Free%20Tier%20Types=*all&amp;amp;awsf.Free%20Tier%20Categories=*all"&gt;AWS Free Tier&lt;/a&gt; and so may incur a cost. Please be aware of this if you are testing these features.&lt;/p&gt;
+&lt;p&gt;Open the CloudTrail portal and ensure that you have a trail setup which logs API calls. Once this is setup you should see something like this:&lt;/p&gt;
+&lt;img src="./images/cloudtrail.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/cloudtrail.png" class="img-zoomable"&gt;
+&lt;p&gt;You can use the code below as an example of how to create a trail:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws cloudtrail create-trail &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name management-events &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --s3-bucket-name cloudtrail-account123-management-events-bucket &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --is-multi-region-trail
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that if you don&amp;rsquo;t use the &lt;code&gt;--is-multi-region-trail&lt;/code&gt; flag then the trail is created for the current region only.&lt;/p&gt;
+&lt;p&gt;You can read more about this command on the &lt;a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail-by-using-the-aws-cli-create-trail.html"&gt;Using create-trail&lt;/a&gt; documentation page.&lt;/p&gt;
+&lt;h3 id="step-2-create-the-access-analyser"&gt;Step 2: Create the Access Analyser&lt;/h3&gt;
+&lt;p&gt;You should be able to find the Access Analyser tool in the IAM page:&lt;/p&gt;
+&lt;img src="./images/access-analyser.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/access-analyser.png" class="img-zoomable"&gt;
+&lt;p&gt;You can now choose to create an analyser. Some things to note:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Analysers are region specific - if you have many regions, you need many analysers&lt;/li&gt;
+&lt;li&gt;You can provide a name, not surprising, but it might be useful to be highly descriptive here&lt;/li&gt;
+&lt;li&gt;You have an option to specify the &amp;lsquo;zone of trust&amp;rsquo; - this might be an account or an entire organisation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Choose &amp;lsquo;Create Analyser&amp;rsquo; to create the access analyser.&lt;/p&gt;
+&lt;p&gt;You&amp;rsquo;ll shortly see the created access analyser and likely some &amp;lsquo;findings&amp;rsquo; as well:&lt;/p&gt;
+&lt;img src="./images/access-analyser-created.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/access-analyser-created.png" class="img-zoomable"&gt;
+&lt;p&gt;&amp;lsquo;Findings&amp;rsquo; are the descriptions of the policies that grant access to a resource to a principal which is &lt;em&gt;outside of your zone of trust&lt;/em&gt;. This is a quite complex topic, there are more details on the &lt;a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-findings.html"&gt;Access Analyser findings&lt;/a&gt; documentation. But we are essentially seeing that my policies are set up in a which is exposing my resources to principals outside of the defined zone of trust - these findings are entirely correct, as I have set up &lt;a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html"&gt;Cross Account Access&lt;/a&gt; in this environment.&lt;/p&gt;
+&lt;p&gt;Feel free to read more about findings - these findings can potentially be very useful for a security team to be aware. For now we&amp;rsquo;ll leave these findings alone and move onto the next step in creating fine grained policies, which is to run the process we want to secure.&lt;/p&gt;
+&lt;h3 id="step-3-run-your-process"&gt;Step 3: Run your process&lt;/h3&gt;
+&lt;p&gt;Now you should run the process you want to create fine grained permissions for. To save rework, try and make sure you run &lt;em&gt;all&lt;/em&gt; part of the process which will be needed. For example, my Serverless Framework policy should cover creation of the stack, updating of the stack as well as deleting.&lt;/p&gt;
+&lt;p&gt;To exercise this, I just need to run the following commands from my local project:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# This command deploys a new stack...
+serverless --stage dev deploy
+# This command makes a change to a file, allowing us to update the stack...
+echo &amp;#34;// testing a change to the stack...&amp;#34; &amp;gt;&amp;gt;&amp;gt; lambda_functions/my_function.js
+serverless --stage dev deploy # this will update the stack
+# This command deletes the stack, we then reset the changes to the file.
+serverless --stage dev remove # this will destroy the stack
+git checkout lambda_functions/my_function.js
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;At this point you can run any process your want to secure. As CloudTrail is enable, API calls will be recorded.&lt;/p&gt;
+&lt;h3 id="step-4-create-a-policy-based-on-access-advisor"&gt;Step 4: Create a Policy based on Access Advisor&lt;/h3&gt;
+&lt;p&gt;Now we get to the interesting part. Open the Roles view in AWS, select the role which is used when running your process and choose &amp;lsquo;Generate Policy&amp;rsquo;. Here&amp;rsquo;s how this will look in the portal:&lt;/p&gt;
+&lt;img src="./images/generate-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/generate-policy.png" class="img-zoomable"&gt;
+&lt;p&gt;Note that this screenshot shows &lt;em&gt;exactly why&lt;/em&gt; fine grained permissions are so important. I have run the Serverless Framework deployment from my local machine using the &amp;lsquo;Cross Account Administrator&amp;rsquo; role. This is an extremely high-privilege role which is used when I administer AWS accounts which are part of my organisation. This is &lt;em&gt;not&lt;/em&gt; an appropriate role for the Serverless Framework binary to assume outside of a sandbox or proof of concept context. However - remember at this stage we want to use a high-privilege role so that the process runs to completion, so that we can see the permissions needed and then create a more refined role.&lt;/p&gt;
+&lt;p&gt;When you choose to generate a policy, you&amp;rsquo;ll have the option of specifying which trail to use and which region. You can also choose a date range for events to analyse. It will be a lot easier to build an appropriate policy if you make this window as short as possible - so try and run the entire process you want to create a policy for and then immediately generate the policy.&lt;/p&gt;
+&lt;p&gt;It can take a few minutes to generate the policy. When it is complete, you&amp;rsquo;ll see the option to view the generated policy:&lt;/p&gt;
+&lt;img src="./images/view-generated-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/view-generated-policy.png" class="img-zoomable"&gt;
+&lt;p&gt;Opening it up, you&amp;rsquo;ll see the services and actions used, as well as options to add more actions:&lt;/p&gt;
+&lt;img src="./images/generated-policy.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/generated-policy.png" class="img-zoomable"&gt;
+&lt;p&gt;When you move to the next screen you&amp;rsquo;ll get the option to customise the permissions:&lt;/p&gt;
+&lt;img src="./images/customise-permissions.png" alt="Building Least Privilege Policies with the AWS Policy Advisor - and a Demo with the Serverless Application Framework ./images/customise-permissions.png" class="img-zoomable"&gt;
+&lt;p&gt;At this stage I would suggest copying the policy, saving it to a local file and then moving onto the next step - refining the policy.&lt;/p&gt;
+&lt;h3 id="step-5-refine-the-policy"&gt;Step 5: Refine the Policy&lt;/h3&gt;
+&lt;p&gt;The generated policy will likely not be suitable for use yet. It might to too specific - limiting access to the specific resources which were used. You will also have services and actions listed for &lt;em&gt;any&lt;/em&gt; calls which have been made using the role - which might also include calls used for &lt;em&gt;other&lt;/em&gt; processes than just the one you tested earlier. For example, my policy has some permissions to list analyzers. That is &lt;em&gt;not&lt;/em&gt; needed by serverless - that has been included because I was using the same cross-account administrator role to create the analyzer earlier on, and this has been picked up.&lt;/p&gt;
+&lt;p&gt;This also highlights the importance of using separate roles for separate processes - if you use a small number of roles to do a lot of different things, it can be very hard to understand why certain actions were taken. Again, for a quick test it might be OK to use the same role that you access the portal with, but it is good to get into the habit of quickly creating roles for specific purposes.&lt;/p&gt;
+&lt;p&gt;This is where I would suggest going through the policy in detail and using it as a template for the &amp;lsquo;final&amp;rsquo; policy. This is what we&amp;rsquo;ll discus in the final step.&lt;/p&gt;
+&lt;h3 id="step-6-document-document-document"&gt;Step 6: Document, Document, Document&lt;/h3&gt;
+&lt;p&gt;The final policy we create should be clearly documented. It is really important to explain &lt;em&gt;why&lt;/em&gt; certain permissions are needed. If people cannot reason about why a policy is set up in a specific way, then it will be very hard for them to maintain it over time or decide whether the permissions are appropriate or not.&lt;/p&gt;
+&lt;p&gt;Even more so than with &amp;rsquo;normal&amp;rsquo; code, code which relates to security has to be comprehensible by others (or yourself when you come back to it). If you cannot understand why a policy grants a certain permission, then when you review the policy you don&amp;rsquo;t know whether the remove the permissions or leave them in (this is an example of &lt;a href="https://github.com/dwmkerr/hacker-laws#chestertons-fence"&gt;Chesterton&amp;rsquo;s Fence&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Whether you document this policy by saving it in a file, adding comments and checking it into source control, or turning it into a re-usable Terraform module, or using Pulimi to define the policy, or some other solution, is not too important. What &lt;em&gt;is&lt;/em&gt; important is documenting the policy and making this documentation transparent to others - and ideally making sure that others can maintain it over time.&lt;/p&gt;
+&lt;p&gt;As an example, this is how I might define the S3 permissions in a Terraform file:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# This statement allows the creation and management of buckets, which are used
+# by serverless for CloudFormation files. Because the bucket name is
+# non-deterministic we have to allow the creation of _any_ bucket.
+statement {
+sid = &amp;#34;ServerlessFrameworkS3&amp;#34;
+effect = &amp;#34;Allow&amp;#34;
+actions = [
+&amp;#34;s3:CreateBucket&amp;#34;,
+&amp;#34;s3:DeleteBucket&amp;#34;,
+&amp;#34;s3:DeleteBucketPolicy&amp;#34;,
+&amp;#34;s3:GetBucketAcl&amp;#34;,
+&amp;#34;s3:GetBucketPolicy&amp;#34;,
+&amp;#34;s3:GetBucketPolicyStatus&amp;#34;,
+&amp;#34;s3:GetBucketPublicAccessBlock&amp;#34;,
+&amp;#34;s3:GetEncryptionConfiguration&amp;#34;,
+&amp;#34;s3:GetObject&amp;#34;,
+&amp;#34;s3:ListBucket&amp;#34;,
+&amp;#34;s3:PutBucketPolicy&amp;#34;,
+&amp;#34;s3:PutBucketPublicAccessBlock&amp;#34;,
+&amp;#34;s3:PutBucketTagging&amp;#34;,
+&amp;#34;s3:PutEncryptionConfiguration&amp;#34;,
+&amp;#34;s3:PutObject&amp;#34;,
+&amp;#34;s3:SetBucketEncryption&amp;#34;,
+]
+resources = [
+&amp;#34;arn:aws:s3:::*&amp;#34;
+]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I&amp;rsquo;m being very explicit with my comments, giving the statement id a meaningful value and creating separate statements for &lt;em&gt;each service&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;How you structure your policies will depend on the tools you use and your own preferred processes but the principle will remain the same - document carefully!&lt;/p&gt;
+&lt;h2 id="thats-it"&gt;That&amp;rsquo;s It!&lt;/h2&gt;
+&lt;p&gt;The IAM Access Advisor is a powerful feature and should be of interest to anyone managing sensitive environments in the cloud.&lt;/p&gt;
+&lt;p&gt;It is not limited to creating fine grained permissions - it can also help identify &lt;em&gt;external access&lt;/em&gt; to resources. This means it can be used to identify when resources such as S3 buckets are accessed via processes such as Cross-Account access.&lt;/p&gt;
+&lt;p&gt;There are a lot of exciting features here and it will be interesting to see how the Access Advisor works over time!&lt;/p&gt;
+&lt;p&gt;As usual, please do share any comments, suggestions or observations!&lt;/p&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Of course this is only a tiny part of the world of security best practices. To learn more I highly recommend &lt;a href="https://github.com/veeral-patel/how-to-secure-anything"&gt;Veeral Patel&amp;rsquo;s amazing &amp;lsquo;How to secure anything&amp;rsquo; project&lt;/a&gt;&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;The exact permissions required are documented at &lt;a href="https://serverless-stack.com/chapters/customize-the-serverless-iam-policy.html"&gt;https://serverless-stack.com/chapters/customize-the-serverless-iam-policy.html&lt;/a&gt;&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item><item><title>Dynamic and Configurable Availability Zones in Terraform</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/dynamic-and-configurable-availability-zones-in-terraform/</link><pubDate>Tue, 11 Dec 2018 21:24:34 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/dynamic-and-configurable-availability-zones-in-terraform/</guid><description>&lt;p&gt;When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I&amp;rsquo;ve come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we&amp;rsquo;ll support.&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/screenshot-1.jpg" alt="screenshot"&gt;&lt;/p&gt;
+&lt;p&gt;To demonstrate, I&amp;rsquo;ve set up a module which deploys a cluster of web servers. My goal is to be able to configure the region, VPC CIDR block, subnets and subnet CIDR blocks as below:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;module &amp;#34;cluster&amp;#34; {
+source = &amp;#34;github.com/dwmkerr/terraform-aws-vpc&amp;#34;
+# Note how we can specify any number of availability zones here...
+region = &amp;#34;ap-northeast-2&amp;#34;
+vpc_cidr = &amp;#34;10.0.0.0/16&amp;#34;
+subnets = {
+ap-northeast-2a = &amp;#34;10.0.1.0/24&amp;#34;
+ap-northeast-2b = &amp;#34;10.0.2.0/24&amp;#34;
+ap-northeast-2c = &amp;#34;10.0.3.0/24&amp;#34;
+}
+# This just defines the number of web servers to deploy, and uses
+# adds my public key so I can SSH into the servers...
+web_server_count = &amp;#34;3&amp;#34;
+public_key_path = &amp;#34;~/.ssh/id_rsa.pub&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The example module is at &lt;a href="https://github.com/dwmkerr/terraform-aws-vpc"&gt;github.com/dwmkerr/terraform-aws-vpc&lt;/a&gt;. Let&amp;rsquo;s take a look at some of the key elements.&lt;/p&gt;
+&lt;h2 id="the-variables"&gt;The Variables&lt;/h2&gt;
+&lt;p&gt;We define the required variables very explicitly, with descriptions and a variable type to avoid confusion:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;variable &amp;#34;region&amp;#34; {
+description = &amp;#34;The region to deploy the VPC in, e.g: us-east-1.&amp;#34;
+type = &amp;#34;string&amp;#34;
+}
+variable &amp;#34;vpc_cidr&amp;#34; {
+description = &amp;#34;The CIDR block for the VPC, e.g: 10.0.0.0/16&amp;#34;
+type = &amp;#34;string&amp;#34;
+}
+variable &amp;#34;subnets&amp;#34; {
+description = &amp;#34;A map of availability zones to CIDR blocks, which will be set up as subnets.&amp;#34;
+type = &amp;#34;map&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="the-vpc"&gt;The VPC&lt;/h2&gt;
+&lt;p&gt;Now that we have defined the variables, we can set up the VPC:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;// Define the VPC.
+resource &amp;#34;aws_vpc&amp;#34; &amp;#34;cluster&amp;#34; {
+cidr_block = &amp;#34;${var.vpc_cidr}&amp;#34;
+enable_dns_hostnames = true
+}
+// An Internet Gateway for the VPC.
+resource &amp;#34;aws_internet_gateway&amp;#34; &amp;#34;cluster_gateway&amp;#34; {
+vpc_id = &amp;#34;${aws_vpc.cluster.id}&amp;#34;
+}
+// Create one public subnet per key in the subnet map.
+resource &amp;#34;aws_subnet&amp;#34; &amp;#34;public-subnet&amp;#34; {
+count = &amp;#34;${length(var.subnets)}&amp;#34;
+vpc_id = &amp;#34;${aws_vpc.cluster.id}&amp;#34;
+cidr_block = &amp;#34;${element(values(var.subnets), count.index)}&amp;#34;
+map_public_ip_on_launch = true
+depends_on = [&amp;#34;aws_internet_gateway.cluster_gateway&amp;#34;]
+availability_zone = &amp;#34;${element(keys(var.subnets), count.index)}&amp;#34;
+}
+// Create a route table allowing all addresses access to the IGW.
+resource &amp;#34;aws_route_table&amp;#34; &amp;#34;public&amp;#34; {
+vpc_id = &amp;#34;${aws_vpc.cluster.id}&amp;#34;
+route {
+cidr_block = &amp;#34;0.0.0.0/0&amp;#34;
+gateway_id = &amp;#34;${aws_internet_gateway.cluster_gateway.id}&amp;#34;
+}
+}
+// Now associate the route table with the public subnet - giving
+// all public subnet instances access to the internet.
+resource &amp;#34;aws_route_table_association&amp;#34; &amp;#34;public-subnet&amp;#34; {
+count = &amp;#34;${length(var.subnets)}&amp;#34;
+subnet_id = &amp;#34;${element(aws_subnet.public-subnet.*.id, count.index)}&amp;#34;
+route_table_id = &amp;#34;${aws_route_table.public.id}&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;There are a few things of interest here. First, we can easily build a variable number of subnets by using the &lt;code&gt;count&lt;/code&gt; field on the &lt;code&gt;aws_subnet&lt;/code&gt; resource:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;resource &amp;#34;aws_subnet&amp;#34; &amp;#34;public-subnet&amp;#34; {
+count = &amp;#34;${length(var.subnets)}&amp;#34;
+availability_zone = &amp;#34;${element(keys(var.subnets), count.index)}&amp;#34;
+cidr_block = &amp;#34;${element(values(var.subnets), count.index)}&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;By using the &lt;a href="https://www.terraform.io/docs/configuration/interpolation.html"&gt;Terraform Interpolation Syntax&lt;/a&gt;, and in particular the &lt;code&gt;count&lt;/code&gt;, &lt;code&gt;keys&lt;/code&gt;, &lt;code&gt;values&lt;/code&gt; and &lt;code&gt;element&lt;/code&gt; functions, we can grab the subnet name and CIDR block from the variables.&lt;/p&gt;
+&lt;h2 id="the-web-server-cluster"&gt;The Web Server Cluster&lt;/h2&gt;
+&lt;p&gt;A cluster of web servers behind a load balancer are created by the module, to demonstrate that it works. There is little of interest in the script except for how the subnets are referenced:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;resource &amp;#34;aws_autoscaling_group&amp;#34; &amp;#34;cluster_node&amp;#34; {
+name = &amp;#34;cluster_node&amp;#34;
+vpc_zone_identifier = [&amp;#34;${aws_subnet.public-subnet.*.id}&amp;#34;]
+launch_configuration = &amp;#34;${aws_launch_configuration.cluster_node.name}&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that we can specify the entire list of subnet ids by using the &lt;code&gt;*&lt;/code&gt; symbol in the resource path - &lt;code&gt;[&amp;quot;${aws_subnet.public-subnet.*.id}&amp;quot;]&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="thats-it"&gt;That&amp;rsquo;s It!&lt;/h2&gt;
+&lt;p&gt;That&amp;rsquo;s really all there is to it. I quite like this approach. I think it makes it very clear what is going on with the infrastructure, and is fairly manageable.&lt;/p&gt;
+&lt;p&gt;One question which may be raised is why I am not using the &lt;a href="https://www.terraform.io/docs/configuration/interpolation.html#cidrsubnet-iprange-newbits-netnum-"&gt;&lt;code&gt;cidrsubnet&lt;/code&gt;&lt;/a&gt; function to automatically calculate the CIDR blocks for the subnets. The reason is purely one of preference - I prefer to explicitly specify the CIDR blocks and use various patterns to set conventions. For example, if I see an IP address such as &lt;code&gt;10.0.3.121&lt;/code&gt; then it is in the third AZ of my public subnet, or &lt;code&gt;10.2.2.11&lt;/code&gt; is in the second AZ of my locked down data zone.&lt;/p&gt;
+&lt;p&gt;You can see a sample Terraform module which uses this pattern at: &lt;a href="https://github.com/dwmkerr/terraform-aws-vpc-example"&gt;github.com/dwmkerr/terraform-aws-vpc-example&lt;/a&gt;. This module also has a basic build pipeline and is published on the &lt;a href="https://registry.terraform.io/modules/dwmkerr/vpc-example"&gt;Terraform Registry&lt;/a&gt;. I&amp;rsquo;ll also be updating my &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift"&gt;AWS Openshift&lt;/a&gt; module to use this pattern.&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Integrating OpenShift and Splunk for Docker Container Logging</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/integrating-openshift-and-splunk-for-logging/</link><pubDate>Sun, 29 Oct 2017 07:15:04 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/integrating-openshift-and-splunk-for-logging/</guid><description>&lt;p&gt;In this article I&amp;rsquo;m going to show you how to set up OpenShift to integrate with Splunk for logging in a Docker container orchestration environment.&lt;/p&gt;
+&lt;p&gt;These techniques could easily be adapted for a standard Kubernetes installation as well!&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service-splunk.png" alt="Screenshot: Counter service splunk"&gt;&lt;/p&gt;
+&lt;p&gt;The techniques used in this article are based on the &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/logging"&gt;Kubernetes Logging Cluster Administration Guide&lt;/a&gt;. I also found Jason Poon&amp;rsquo;s article &lt;a href="http://jasonpoon.ca/2017/04/03/kubernetes-logging-with-splunk/"&gt;Kubernetes Logging with Splunk&lt;/a&gt; very helpful.&lt;/p&gt;
+&lt;p&gt;First, clone the &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift"&gt;Terraform AWS OpenShift&lt;/a&gt; repo:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;git clone git@github.com:dwmkerr/terraform-aws-openshift
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This repo can be used to create a vanilla OpenShift cluster. I&amp;rsquo;m adding &amp;lsquo;recipes&amp;rsquo; to the project, which will allow you to mix in more features (but still keep the main codebase clean). For now, let&amp;rsquo;s merge in the &amp;lsquo;splunk&amp;rsquo; recipe:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;cd terraform-aws-openshift
+git pull origin recipes/splunk
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Pulling this recipe in adds the extra config and scripts required to set up Splunk&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Now we&amp;rsquo;ve got the code, we can get started!&lt;/p&gt;
+&lt;h2 id="create-the-infrastructure"&gt;Create the Infrastructure&lt;/h2&gt;
+&lt;p&gt;To create the cluster, you&amp;rsquo;ll need to install the &lt;a href="https://aws.amazon.com/cli/"&gt;AWS CLI&lt;/a&gt; and log in, and install &lt;a href="https://www.terraform.io/downloads.html"&gt;Terraform&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Before you continue, &lt;font color="red"&gt;&lt;strong&gt;be aware&lt;/strong&gt;&lt;/font&gt;: the machines on AWS we&amp;rsquo;ll create are going to run to about $250 per month:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/aws-cost.png" alt="AWS Cost Calculator"&gt;&lt;/p&gt;
+&lt;p&gt;Once you are logged in with the AWS CLI just run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make infrastructure
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You&amp;rsquo;ll be asked to specify a region:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/region.png" alt="Specify Region"&gt;&lt;/p&gt;
+&lt;p&gt;Any &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions"&gt;AWS region&lt;/a&gt; will work fine, use &lt;code&gt;us-east-1&lt;/code&gt; if you are not sure.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;ll take about 5 minutes for Terraform to build the required infrastructure, which looks like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/splunk-architecture.png" alt="AWS Infrastructure"&gt;&lt;/p&gt;
+&lt;p&gt;Once it&amp;rsquo;s done you&amp;rsquo;ll see a message like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/apply-complete.png" alt="Apply Complete"&gt;&lt;/p&gt;
+&lt;p&gt;The infrastructure is ready! A few of the most useful parameters are shown as output variables. If you log into AWS you&amp;rsquo;ll see our new instances, as well as the VPC, network settings etc etc:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/aws.png" alt="AWS"&gt;&lt;/p&gt;
+&lt;h2 id="installing-openshift"&gt;Installing OpenShift&lt;/h2&gt;
+&lt;p&gt;Installing OpenShift is easy:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make openshift
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command will take quite some time to run (sometimes up to 30 minutes). Once it is complete you&amp;rsquo;ll see a message like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/openshift-complete.png" alt="OpenShift Installation Complete"&gt;&lt;/p&gt;
+&lt;p&gt;You can now open the OpenShift console. Use the public address of the master node (which you can get with &lt;code&gt;$(terraform output master-url)&lt;/code&gt;), or just run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make browse-openshift
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The default username and password is &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;123&lt;/code&gt;. You&amp;rsquo;ll see we have a clean installation and are ready to create our first project:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/welcome-to-openshift.png" alt="Welcome to OpenShift"&gt;&lt;/p&gt;
+&lt;p&gt;Close the console for now.&lt;/p&gt;
+&lt;h2 id="installing-splunk"&gt;Installing Splunk&lt;/h2&gt;
+&lt;p&gt;You&amp;rsquo;ve probably figured out the pattern by now&amp;hellip;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once this command is complete, you can open the Splunk console with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make browse-splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Again the username and password is &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;123&lt;/code&gt;. You can change the password on login, or leave it:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/splunk-home.png" alt="Splunk Login"&gt;&lt;/p&gt;
+&lt;p&gt;You can close the Splunk console now, we&amp;rsquo;ll come back to it shortly.&lt;/p&gt;
+&lt;h2 id="demoing-splunk-and-openshift"&gt;Demoing Splunk and OpenShift&lt;/h2&gt;
+&lt;p&gt;To see Splunk and OpenShift in action, it helps to have some kind of processing going on in the cluster. You can create a very basic sample project which will spin up two nodes which just write a counter every second as a way to get something running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make sample
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will create a simple &amp;lsquo;counter&amp;rsquo; service:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service.png" alt="Screenshot: The counter service"&gt;&lt;/p&gt;
+&lt;p&gt;We can see the logs in OpenShift:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service-logs.png" alt="Screenshot: The counter service logs"&gt;&lt;/p&gt;
+&lt;p&gt;Almost immediately you&amp;rsquo;ll be able to see the data in Splunk:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service-splunk-data-summary.png" alt="Screenshot: The Splunk data explorer"&gt;&lt;/p&gt;
+&lt;p&gt;And because of the way the log files are named, we can even rip out the namespace, pod, container and id:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/counter-service-splunk.png" alt="Screenshot: Counter service splunk"&gt;&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s it! You have OpenShift running, Splunk set up and automatically forwarding of all container logs. Enjoy!&lt;/p&gt;
+&lt;h2 id="how-it-works"&gt;How It Works&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve tried to keep the setup as simple as possible. Here&amp;rsquo;s how it works.&lt;/p&gt;
+&lt;h3 id="how-log-files-are-written"&gt;How Log Files Are Written&lt;/h3&gt;
+&lt;p&gt;The Docker Engine has a &lt;a href="https://docs.docker.com/engine/admin/logging/overview/"&gt;log driver&lt;/a&gt; which determines how container logs are handled&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;. It defaults to the &lt;code&gt;json-file&lt;/code&gt; driver, which means that logs are written as a json file to:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;/var/lib/docker/containers/{container-id}/{container-id}-json.log
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Or visually:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/logging-docker-1.png" alt="Diagram: How Docker writes log files"&gt;&lt;/p&gt;
+&lt;p&gt;Normally we wouldn&amp;rsquo;t touch this file, in theory it is supposed to be used internally&lt;sup id="fnref1:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt; and we would use &lt;code&gt;docker logs &amp;lt;container-id&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In theory, all we need to do is use a &lt;a href="http://docs.splunk.com/Documentation/Forwarder/7.0.0/Forwarder/Abouttheuniversalforwarder"&gt;Splunk Forwarder&lt;/a&gt; to send this file to our indexer. The only problem is that we only get the container ID from the file name, finding the right container ID for your container can be a pain. However, we are running on Kubernetes, which means the picture is a little different&amp;hellip;&lt;/p&gt;
+&lt;h3 id="how-log-files-are-written---on-kubernetes"&gt;How Log Files Are Written - on Kubernetes&lt;/h3&gt;
+&lt;p&gt;When running on Kubernetes, things are little different. On machines with &lt;code&gt;systemd&lt;/code&gt;, the log driver for the docker engine is set to &lt;code&gt;journald&lt;/code&gt; (see &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/logging/"&gt;Kubernetes - Logging Architecture&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It &lt;em&gt;is&lt;/em&gt; possible to forward &lt;code&gt;journald&lt;/code&gt; to Splunk, but only by streaming it to a file and then forwarding the file. Given that we need to use a file as an intermediate, it seems easier just to change the driver back to &lt;code&gt;json-file&lt;/code&gt; and forward that.&lt;/p&gt;
+&lt;p&gt;So first, we configure the docker engine to use &lt;code&gt;json-file&lt;/code&gt; (see &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/blob/recipes/splunk/scripts/postinstall-master.sh"&gt;this file&lt;/a&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -i &lt;span style="color:#e6db74"&gt;&amp;#39;/OPTIONS=.*/c\OPTIONS=&amp;#34;--selinux-enabled --insecure-registry 172.30.0.0/16 --log-driver=json-file --log-opt max-size=1M --log-opt max-file=3&amp;#34;&amp;#39;&lt;/span&gt; /etc/sysconfig/docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here we just change the options to default to the &lt;code&gt;json-file&lt;/code&gt; driver, with a max file size of 1MB (and maximum of three files, so we don&amp;rsquo;t chew all the space on the host).&lt;/p&gt;
+&lt;p&gt;Now the cool thing about Kubernetes is that it creates symlinks to the log files, which have much more descriptive names:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/logging-k8s.png" alt="Symlink diagram"&gt;&lt;/p&gt;
+&lt;p&gt;We still have the original container log, in the same location. But we also have a pod container log (which is a symlink to the container log) and another container log, which is a symlink to the pod container log.&lt;/p&gt;
+&lt;p&gt;This means we can read the container log, and extract some really useful information from the file name. The container log file name has the following format:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;/var/log/containers/{container-id}/{container-id}-json.log
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="how-log-files-are-read"&gt;How Log Files Are Read&lt;/h3&gt;
+&lt;p&gt;Now that we are writing the log files to a well defined location, reading them is straightforward. The diagram below shows how we use a splunk-forwarder to complete the picture:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/how-logs-are-read.png" alt="Diagram: How logs are read"&gt;&lt;/p&gt;
+&lt;p&gt;First, we create a DaemonSet, which ensures we run a specific pod on every node.&lt;/p&gt;
+&lt;p&gt;The DaemonSet runs with a new account which has the &amp;lsquo;any id&amp;rsquo; privilege, allowing it to run as root. We then mount the log folders into the container (which are owned by root, which is why our container needs these extra permissions to read the files).&lt;/p&gt;
+&lt;p&gt;The pod contains a splunk-forwarder container, which is configured to monitor the &lt;code&gt;/var/log/containers&lt;/code&gt; folder. It also monitors the docker socket, allowing us to see docker events. The forwarder is also configured with the IP address of the Splunk Indexer.&lt;/p&gt;
+&lt;h2 id="footnotes"&gt;Footnotes&lt;/h2&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;As a reference, you can also see the recipe pull request to see what changes from a &amp;lsquo;vanilla&amp;rsquo; installation to add Splunk: &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/pull/16"&gt;Splunk Recipe Pull Request&lt;/a&gt;&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;It is useful to check the documentation on logging drivers for Docker. See &lt;a href="https://docs.docker.com/engine/admin/logging/overview/#supported-logging-drivers"&gt;Configure Logging Drivers&lt;/a&gt; and &lt;a href="https://docs.docker.com/engine/extend/plugins_logging/"&gt;Docker Log Driver Plugins&lt;/a&gt;. It is possible to create custom log drivers. However, at the time of writing only the journald and json-file log drivers will work with the integrated logging view in OpenShift.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item><item><title>Get up and running with OpenShift on AWS</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/get-up-and-running-with-openshift-on-aws/</link><pubDate>Thu, 02 Feb 2017 07:47:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/get-up-and-running-with-openshift-on-aws/</guid><description>&lt;p&gt;&lt;a href="https://www.openshift.com/"&gt;OpenShift&lt;/a&gt; is Red Hat&amp;rsquo;s platform-as-a-service offering for hosting and scaling applications. It&amp;rsquo;s built on top of Google&amp;rsquo;s popular &lt;a href="https://kubernetes.io/"&gt;Kubernetes&lt;/a&gt; system.&lt;/p&gt;
+&lt;p&gt;Getting up and running with OpenShift Online is straightforward, as it is a cloud hosted solution. Setting up your own cluster is a little more complex, but in this article I&amp;rsquo;ll show you how to make it fairly painless.&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/welcome.png" alt="OpenShift Login"&gt;&lt;/p&gt;
+&lt;p&gt;The repo for this project is at: &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift"&gt;github.com/dwmkerr/terraform-aws-openshift&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="creating-the-infrastructure"&gt;Creating the Infrastructure&lt;/h2&gt;
+&lt;p&gt;OpenShift has some fairly specific requirements about what hardware it runs on&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;. There&amp;rsquo;s also DNS to set up, as well as internet access and so on.&lt;/p&gt;
+&lt;p&gt;All in all, for a bare-bones setup, you&amp;rsquo;ll need something like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/network-diagram-2.png" alt="Network Diagram"&gt;&lt;/p&gt;
+&lt;p&gt;Which is (deep breath):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A network&lt;/li&gt;
+&lt;li&gt;A public subnet, with internet access via a gateway&lt;/li&gt;
+&lt;li&gt;A master host, which will run the OpenShift master&lt;/li&gt;
+&lt;li&gt;A pair of node hosts, which will run additional OpenShift nodes&lt;/li&gt;
+&lt;li&gt;A hosted zone, which allows us to configure DNS&lt;/li&gt;
+&lt;li&gt;A bastion, which allows us to SSH onto hosts, without directly exposing them&lt;/li&gt;
+&lt;li&gt;Some kind of basic log aggregation, which I&amp;rsquo;m using CloudWatch for&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is not a production grade setup, which requires redundant masters and so on, but it provides the basics.&lt;/p&gt;
+&lt;p&gt;Rather than setting this infrastructure up by hand, this is all scripted with &lt;a href="https://www.terraform.io/"&gt;Terraform&lt;/a&gt;. To set up the infrastructure, clone the &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift"&gt;github.com/dwmkerr/terraform-aws-openshift&lt;/a&gt; repo:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ git clone git@github.com:dwmkerr/terraform-aws-openshift
+...
+Resolving deltas: 100% (37/37), done.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then use the terraform CLI&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt; to create the infrastructure:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ cd terraform-aws-openshift/
+$ terraform get &amp;amp;&amp;amp; terraform apply
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You&amp;rsquo;ll be asked for a region, to deploy the network into, here I&amp;rsquo;m using &lt;code&gt;us-west-1&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/Screenshot-at-Feb-02-21-16-44.png" alt="Enter Region"&gt;&lt;/p&gt;
+&lt;p&gt;After a few minutes the infrastructure will be set up:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/output.png" alt="Terraform complete"&gt;&lt;/p&gt;
+&lt;p&gt;A quick glance at the AWS console shows the new hosts we&amp;rsquo;ve set up:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/aws.png" alt="AWS Console"&gt;&lt;/p&gt;
+&lt;p&gt;The next step is to install OpenShift.&lt;/p&gt;
+&lt;h2 id="installing-openshift"&gt;Installing OpenShift&lt;/h2&gt;
+&lt;p&gt;There are a few different ways to install OpenShift, but the one we&amp;rsquo;ll use is called the &amp;lsquo;advanced installation&lt;sup id="fnref:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;&amp;rsquo;. This essentially involves:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Creating an &amp;lsquo;inventory&amp;rsquo;, which specifies the hosts OpenShift will be installed on and the installation options&lt;/li&gt;
+&lt;li&gt;Downloading the advanced installation code&lt;/li&gt;
+&lt;li&gt;Running the advanced installation Ansible Playbook&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To create the inventory, we just run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed &lt;span style="color:#e6db74"&gt;&amp;#34;s/\${aws_instance.master.public_ip}/&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;terraform output master-public_ip&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/&amp;#34;&lt;/span&gt; inventory.template.cfg &amp;gt; inventory.cfg
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This takes our &amp;lsquo;inventory template&lt;sup id="fnref:4"&gt;&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref"&gt;4&lt;/a&gt;&lt;/sup&gt;&amp;rsquo; and populates it with the public IP of our master node, which is recorded in a Terraform output variable.&lt;/p&gt;
+&lt;p&gt;We can then copy the inventory to the bastion:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ssh-add ~/.ssh/id_rsa
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;scp ./inventory.cfg ec2-user@&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;terraform output bastion-public_dns&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;:~
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can again use the Terraform output variables, this time to get the bastion IP. Finally, we pipe our install script to the bastion host:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat install-from-bastion.sh | ssh -A ec2-user@&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;terraform output bastion-public_dns&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There&amp;rsquo;s a &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/issues/1"&gt;bug&lt;/a&gt; which means you might see &lt;code&gt;ansible-playbook: command not found&lt;/code&gt;, if so, just run the script again. The install script clones the installation scripts and runs them, using the inventory we&amp;rsquo;ve provided:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/ansible.png" alt="Ansible Output"&gt;&lt;/p&gt;
+&lt;p&gt;This&amp;rsquo;ll probably take about 10 minutes to run. And that&amp;rsquo;s it, OpenShift is installed:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;open &lt;span style="color:#e6db74"&gt;&amp;#34;https://&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;terraform output master-public_dns&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;:8443&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Hit &amp;lsquo;advanced&amp;rsquo; and continue, as we&amp;rsquo;re using a self-signed certificate most browsers will complain:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/console1.png" alt="Invalid Certificate"&gt;&lt;/p&gt;
+&lt;p&gt;Enter any username and password (the system is configured to allow anyone to access it by default) and you&amp;rsquo;ll be presented with the OpenShift console:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/console2.png" alt="OpenShift console"&gt;&lt;/p&gt;
+&lt;p&gt;As the setup requires three t2.large instances, which are not available on the free plan, you might want to clean up when you are done with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;terraform destroy
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="wrapping-up"&gt;Wrapping Up&lt;/h2&gt;
+&lt;p&gt;Hopefully you&amp;rsquo;ve found this useful, there are more details and references on the README of the github repo:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/terraform-aws-openshift"&gt;https://github.com/dwmkerr/terraform-aws-openshift&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Comments and feedback are always welcome!&lt;/p&gt;
+&lt;hr&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;See &lt;a href="https://docs.openshift.org/latest/install_config/install/prerequisites.html#system-requirements"&gt;https://docs.openshift.org/latest/install_config/install/prerequisites.html#system-requirements&lt;/a&gt;&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;Use &amp;lsquo;brew install terraform&amp;rsquo;, full instructions in the &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift"&gt;README.md&lt;/a&gt;&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;See &lt;a href="https://docs.openshift.org/latest/install_config/install/advanced_install.html"&gt;https://docs.openshift.org/latest/install_config/install/advanced_install.html&lt;/a&gt;&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:4"&gt;
+&lt;p&gt;See &lt;a href="https://github.com/dwmkerr/terraform-aws-openshift/blob/master/inventory.template.cfg"&gt;https://github.com/dwmkerr/terraform-aws-openshift/blob/master/inventory.template.cfg&lt;/a&gt;&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item><item><title>Creating a Resilient Consul Cluster for Docker Microservice Discovery with Terraform and AWS</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/creating-a-resilient-consul-cluster-for-docker-microservice-discovery-with-terraform-and-aws/</link><pubDate>Mon, 09 Jan 2017 07:10:40 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/creating-a-resilient-consul-cluster-for-docker-microservice-discovery-with-terraform-and-aws/</guid><description>&lt;p&gt;In this article I&amp;rsquo;m going to show you how to create a resilient Consul cluster, using Terraform and AWS. We can use this cluster for microservice discovery and management. No prior knowledge of the technologies or patterns is required!&lt;/p&gt;
+&lt;p&gt;The final code is at &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster"&gt;github.com/dwmkerr/terraform-consul-cluster&lt;/a&gt;. Note that it has evolved somewhat since the time of writing, see the Appendices at the end of the article for details.&lt;/p&gt;
+&lt;h2 id="consul-terraform--aws"&gt;Consul, Terraform &amp;amp; AWS&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.consul.io/"&gt;Consul&lt;/a&gt; is a technology which enables &lt;em&gt;Service Discovery&lt;/em&gt;&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;, a pattern which allows services to locate each other via a central authority.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.terraform.io/"&gt;Terraform&lt;/a&gt; is a technology which allows us to script the provisioning of infrastructure and systems. This allows us to practice the &lt;em&gt;Infrastructure as Code&lt;/em&gt; pattern. The rigour of code control (versioning, history, user access control, diffs, pull requests etc) can be applied to our systems.&lt;/p&gt;
+&lt;p&gt;And why &lt;a href="https://aws.amazon.com/"&gt;AWS&lt;/a&gt;? We need to create many servers and build a network to see this system in action. We can simulate parts of this locally with tools such as &lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt;, but we can use the arguably most popular&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt; IaaS platfom for this job at essentially zero cost, and learn some valuable skills which are readily applicable to other projects at the same time.&lt;/p&gt;
+&lt;p&gt;A lot of what we will learn is not really AWS specific - and the Infrastructure as Code pattern which Terraform helps us apply allows us to apply these techniques easily with other providers.&lt;/p&gt;
+&lt;h2 id="the-goal"&gt;The Goal&lt;/h2&gt;
+&lt;p&gt;The goal is to create a system like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-0-goal.png" alt="Overall System Diagram"&gt;&lt;/p&gt;
+&lt;p&gt;In a nutshell:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We have a set of homogenous Consul nodes&lt;/li&gt;
+&lt;li&gt;The nodes form a cluster and automatically elect a leader&lt;/li&gt;
+&lt;li&gt;The nodes span more than one availability zone, meaning the system is redundant and can survive the failure of an entire availability zone (i.e. data centre)&lt;/li&gt;
+&lt;li&gt;The Consul UI is available to view via a gateway&lt;/li&gt;
+&lt;li&gt;We have two example microservices which register themselves on the cluster, so we can actually see some registered services in the console&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As a quick caveat, in reality this setup would typically live in a private subnet, not directly accessible to the outside work except via public facing load balancers. This adds a bit more complexity to the Terraform setup but not much value to the walk-though. A network diagram of how it might look is below, I invite interested readers to try and move to this model as a great exercise to cement the concepts!&lt;/p&gt;
+&lt;h2 id="step-1---creating-our-network"&gt;Step 1 - Creating our Network&lt;/h2&gt;
+&lt;p&gt;The first logical step is to create the network itself. This means:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The network (in AWS terminology, this is a &lt;em&gt;VPC&lt;/em&gt; or &lt;em&gt;Virtual Private Cloud&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;The &amp;lsquo;public&amp;rsquo; subnet, which defines our IP ranges for hosts&lt;/li&gt;
+&lt;li&gt;The internet gateway, which provides an entry/exit point for traffic from/to the internet&lt;/li&gt;
+&lt;li&gt;The firewall rules, which define what traffic can come in and out of the network&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All together, that&amp;rsquo;s this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-1-network.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;Our solution will be made more resilient by ensuring we host our Consul nodes across multiple &lt;em&gt;availability zones&lt;/em&gt;&lt;sup id="fnref:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;Creating a VPC and building a subnet is fairly trivial if you have done some network setup before or spent much time working with AWS, if not, you may be a little lost already. There&amp;rsquo;s a good course on Udemy&lt;sup id="fnref:4"&gt;&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref"&gt;4&lt;/a&gt;&lt;/sup&gt; which will take you through the process of setting up a VPC which I recommend if you are interested in this, as it is quite hands on. It&amp;rsquo;ll also show you how to build a more &amp;lsquo;realistic&amp;rsquo; network, which also contains a private subnet and NAT, but that&amp;rsquo;s beyond the scope of this write-up. Instead, I&amp;rsquo;ll take you through the big parts.&lt;/p&gt;
+&lt;h3 id="the-network"&gt;The Network&lt;/h3&gt;
+&lt;p&gt;We&amp;rsquo;re using AWS, we need to create a VPC. A VPC is a Virtual Private Cloud. The key thing is that it is &lt;em&gt;isolated&lt;/em&gt;. Things you create in this network will be able to talk to each other if you let them, but cannot communicate with the outside world, unless you specifically create the parts needed for them to do so.&lt;/p&gt;
+&lt;p&gt;A private network is probably something you regularly use if you work in a company&lt;sup id="fnref:5"&gt;&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref"&gt;5&lt;/a&gt;&lt;/sup&gt;. Most companies have their own internal network - when you use a computer on that network it can talk to other company computers (such as the company mail server). When you are off that network, you might not be able to access your company email (unless it is publicly available, like gmail, or over a VPN [and by accessing a VPN, you are actually &lt;em&gt;joining&lt;/em&gt; the network again, albeit remotely]).&lt;/p&gt;
+&lt;p&gt;Perhaps the most immediately obvious part of a VPC is that &lt;em&gt;you control the IP addresses&lt;/em&gt;. You specify the &lt;em&gt;range&lt;/em&gt; of IP addresses which are available to give to machines on the network. When a machine joins, it is given an IP in that range. I&amp;rsquo;m not going to go into too much detail here, if you are interested let me know and I&amp;rsquo;ll write up an article on VPCs in detail!&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-3-vpc.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s how I&amp;rsquo;d suggest scripting AWS infrastructure with Terraform if you haven&amp;rsquo;t done this before.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Use the AWS console to create what you want&lt;/li&gt;
+&lt;li&gt;Search the Terraform documentation for the entity you want to create (e.g. &lt;a href="https://www.terraform.io/docs/providers/aws/r/vpc.html"&gt;VPC&lt;/a&gt;), &lt;em&gt;script&lt;/em&gt; the component and &lt;em&gt;apply&lt;/em&gt; the provisioning&lt;/li&gt;
+&lt;li&gt;Compare the hand-made VPC to the script-made VPC, if the two are the same, you are done&lt;/li&gt;
+&lt;li&gt;If the two are different, check the documentation and try again&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ensure you have an AWS account, and note your Secret Key and Access Key. We&amp;rsquo;ll need these to remotely control it. Here&amp;rsquo;s the terraform script to create a VPC:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;// Setup the core provider information.
+provider &amp;#34;aws&amp;#34; {
+access_key = &amp;#34;${var.access_key}&amp;#34;
+secret_key = &amp;#34;${var.secret_key}&amp;#34;
+region = &amp;#34;${var.region}&amp;#34;
+}
+// Define the VPC.
+resource &amp;#34;aws_vpc&amp;#34; &amp;#34;consul-cluster&amp;#34; {
+cidr_block = &amp;#34;10.0.0.0/16&amp;#34; // i.e. 10.0.0.0 to 10.0.255.255
+enable_dns_hostnames = true
+tags {
+Name = &amp;#34;Consul Cluster VPC&amp;#34;
+Project = &amp;#34;consul-cluster&amp;#34;
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This script uses &lt;a href="https://www.terraform.io/docs/configuration/variables.html"&gt;Terraform Variables&lt;/a&gt;, such as &lt;code&gt;var.access_key&lt;/code&gt;, which we keep in a &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster/blob/master/variables.tf"&gt;variables.tf&lt;/a&gt; file. Terraform will use the default values defined in the file if they are present, or ask the user to supply them. Let&amp;rsquo;s build the network:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;terraform apply
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After supplying the values for the variables, Terraform will provision the network, using the AWS SDK internally.&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-2-terraform-apply.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;You&amp;rsquo;ll see lots of info about what it is creating, then a success message.&lt;/p&gt;
+&lt;h3 id="the-public-subnet"&gt;The Public Subnet&lt;/h3&gt;
+&lt;p&gt;You don&amp;rsquo;t put hosts directly into a VPC, they need to go into a structure called a &amp;lsquo;subnet&amp;rsquo;, which is a &lt;em&gt;part&lt;/em&gt; of a VPC. Subnets get their own subset of the VPC&amp;rsquo;s available IP addresses, which you specify.&lt;/p&gt;
+&lt;p&gt;Subnets are used to build &lt;em&gt;zones&lt;/em&gt; in a network. Why would you need this? Typically it is to manage security. You might have a &amp;lsquo;public zone&amp;rsquo; in which all hosts can be accessed from the internet, and a &amp;lsquo;private zone&amp;rsquo; which is inaccessible directly (and therefore a better location for hosts with sensitive data). You might have an &amp;lsquo;operator&amp;rsquo; zone, which only sysadmins can access, but they can use to get diagnostic information.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s a common subnet layout for multi-tiered applications:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-4-subnets.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;The defining characteristics of zones is that they are used to create &lt;em&gt;boundaries&lt;/em&gt; to isolate hosts. These boundaries are normally secured by firewalls, traversed via gateways or NATs etc. We&amp;rsquo;re going to create two public subnets, one in each of the availability zones&lt;sup id="fnref1:5"&gt;&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref"&gt;5&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;// Create a public subnet for each AZ.
+resource &amp;#34;aws_subnet&amp;#34; &amp;#34;public-a&amp;#34; {
+vpc_id = &amp;#34;${aws_vpc.consul-cluster.id}&amp;#34;
+cidr_block = &amp;#34;10.0.1.0/24&amp;#34; // i.e. 10.0.1.0 to 10.0.1.255
+availability_zone = &amp;#34;ap-southeast-1a&amp;#34;
+map_public_ip_on_launch = true
+}
+resource &amp;#34;aws_subnet&amp;#34; &amp;#34;public-b&amp;#34; {
+vpc_id = &amp;#34;${aws_vpc.consul-cluster.id}&amp;#34;
+cidr_block = &amp;#34;10.0.2.0/24&amp;#34; // i.e. 10.0.2.0 to 10.0.1.255
+availability_zone = &amp;#34;ap-southeast-1b&amp;#34;
+map_public_ip_on_launch = true
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;With Terraform, resources can depend on each other. In this case, the subnets need to reference the ID of the VPC we want to place them in (so we use &lt;code&gt;aws_vpc.consul-cluster.id&lt;/code&gt;).&lt;/p&gt;
+&lt;h3 id="the-internet-gateway-route-tables-and-security-groups"&gt;The Internet Gateway, Route Tables and Security Groups&lt;/h3&gt;
+&lt;p&gt;The final parts of the network you can see in the &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster/blob/master/network.tf"&gt;./infrastructure/network.tf&lt;/a&gt; script. These are the Internet Gateway, Route Table and Security Group resources. Essentially they are for controlling access between hosts and the internet. AWS have a &lt;a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Scenario1.html"&gt;good guide&lt;/a&gt; if you are not familiar with these resources; they don&amp;rsquo;t add much to the article so I&amp;rsquo;ll leave you to explore on your own.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s it for the network, we now have the following structure:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-1-network-1.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;If you want to see the code as it stands now, check the &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster/tree/step-1"&gt;Step 1&lt;/a&gt; branch. Now we need to look at creating the hosts to install Consul on.&lt;/p&gt;
+&lt;h2 id="step-2---creating-the-consul-hosts"&gt;Step 2 - Creating the Consul Hosts&lt;/h2&gt;
+&lt;p&gt;The Consul documentation recommends running in a cluster or 3 or 5 nodes&lt;sup id="fnref:6"&gt;&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref"&gt;6&lt;/a&gt;&lt;/sup&gt;. We want to set up a system which is self-healing - if we lose a node, we want to create a new one.&lt;/p&gt;
+&lt;p&gt;Enter &lt;a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroup.html"&gt;Auto-Scaling Groups&lt;/a&gt;. Auto-scaling groups allow us to define a template for an instance, and ask AWS to make sure there are always a certain number of these instances. If we lose an instance, a new one will be created to keep the group at the correct size&lt;sup id="fnref:7"&gt;&lt;a href="#fn:7" class="footnote-ref" role="doc-noteref"&gt;7&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;So we now need to create:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A &amp;lsquo;Launch Configuration&amp;rsquo; which determines what instances our Auto-scaling Group creates&lt;/li&gt;
+&lt;li&gt;A &amp;lsquo;user data script&amp;rsquo; which runs on newly created instances, which must install and start Consul&lt;/li&gt;
+&lt;li&gt;An Auto-scaling group, configured to run five instances across the two public subnets&lt;/li&gt;
+&lt;li&gt;A load balancer, configured to pass incoming requests for the Consul Admin console to the nodes&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Or visually:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-5-cluster-basic-2.png" alt="Basic Cluster Diagram"&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s get to it.&lt;/p&gt;
+&lt;h3 id="the-launch-configuration--auto-scaling-group"&gt;The Launch Configuration &amp;amp; Auto-scaling Group&lt;/h3&gt;
+&lt;p&gt;The Launch Configuration will define the characteristics of our instances and the auto-scaling group determines the size of our cluster:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;// Launch configuration for the consul cluster auto-scaling group.
+resource &amp;#34;aws_launch_configuration&amp;#34; &amp;#34;consul-cluster-lc&amp;#34; {
+name_prefix = &amp;#34;consul-node-&amp;#34;
+image_id = &amp;#34;${lookup(var.ami_ecs_optimised, var.region)}&amp;#34;
+instance_type = &amp;#34;t2.micro&amp;#34;
+security_groups = [&amp;#34;${aws_security_group.consul-cluster-vpc.id}&amp;#34;]
+lifecycle {
+create_before_destroy = true
+}
+}
+// Auto-scaling group for our cluster.
+resource &amp;#34;aws_autoscaling_group&amp;#34; &amp;#34;consul-cluster-asg&amp;#34; {
+name = &amp;#34;consul-asg&amp;#34;
+launch_configuration = &amp;#34;${aws_launch_configuration.consul-cluster-lc.name}&amp;#34;
+min_size = 5
+max_size = 5
+vpc_zone_identifier = [
+&amp;#34;${aws_subnet.public-a.id}&amp;#34;,
+&amp;#34;${aws_subnet.public-b.id}&amp;#34;
+]
+lifecycle {
+create_before_destroy = true
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A few key things to note:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;I have omitted the &lt;code&gt;tag&lt;/code&gt; properties in the scripts for brevity&lt;/li&gt;
+&lt;li&gt;The &amp;lsquo;image&amp;rsquo; for the launch configuration is looked up based on the region we&amp;rsquo;ve specified - we&amp;rsquo;re a basic linux image&lt;sup id="fnref:8"&gt;&lt;a href="#fn:8" class="footnote-ref" role="doc-noteref"&gt;8&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;We are using micro instances, which are free-tier eligible&lt;/li&gt;
+&lt;li&gt;The auto-scaling group spans both availability zones.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Once we run &lt;code&gt;terraform apply&lt;/code&gt;, we&amp;rsquo;ll see our auto-scaling group, which references the new launch configuration and works over multiple availability zones:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-6-lc-asg.png" alt="Auto scaling group and launch configuration"&gt;&lt;/p&gt;
+&lt;p&gt;We can also see the new instances:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-7-instances.png" alt="Instances"&gt;&lt;/p&gt;
+&lt;p&gt;These instances don&amp;rsquo;t do much yet though, we&amp;rsquo;ve not installed Docker or Consul.&lt;/p&gt;
+&lt;h3 id="installing-consul-and-accessing-the-admin-interface"&gt;Installing Consul and Accessing the Admin Interface&lt;/h3&gt;
+&lt;p&gt;To set up our instances we use a &amp;lsquo;userdata&amp;rsquo; script&amp;rsquo; A userdata runs once when an instance is created. We can create a script in our repository, and reference it in our Terraform files.&lt;/p&gt;
+&lt;p&gt;We add a new file called &lt;code&gt;consul-node.sh&lt;/code&gt; to a &lt;code&gt;files&lt;/code&gt; folder. This script installs Docker and runs Consul:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;yum install -y docker
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;usermod -a -G docker ec2-user
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;service docker start
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Get my IP address.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;IP&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;curl http://169.254.169.254/latest/meta-data/local-ipv4&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;Instance IP is: &lt;/span&gt;$IP&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Start the Consul server.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d --net&lt;span style="color:#f92672"&gt;=&lt;/span&gt;host &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;consul &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; consul agent -server -ui &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -bind&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$IP&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -client&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;0.0.0.0&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -bootstrap-expect&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;1&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here&amp;rsquo;s a breakdown of what we&amp;rsquo;re doing:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install Docker. These scripts run as root, so we add the ec2-user to the Docker group, meaning when we log in later on via SSH, we can run Docker&lt;/li&gt;
+&lt;li&gt;Get our IP address. AWS provide a magic address (169.254.169.254) which lets you query data about your instance, see &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html"&gt;Instance Metadata &amp;amp; User Metadata&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Run the Consul docker image in server mode, with the UI enabled, expecting only one instance&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;The actual scripts contains more!&lt;/strong&gt; Getting userdata scripts right, testing and debugging them is tricky. See how I do it in detail in &lt;a href="#Appendix-1-Logging"&gt;Appendix 1: Logging&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Now we need to tell Terraform to include this script as part of the instance metadata. Here&amp;rsquo;s how we do that:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;resource &amp;#34;aws_launch_configuration&amp;#34; &amp;#34;consul-cluster-lc&amp;#34; {
+/// ...add the line below....
+user_data = &amp;#34;${file(&amp;#34;files/consul-node.sh&amp;#34;)}&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When Consul is running with the &lt;code&gt;-ui&lt;/code&gt; option, it provides an admin UI. You can try it by running Consul locally with &lt;code&gt;docker run -p8500:8500 consul&lt;/code&gt; and navigating to http://localhost:8500/ui.&lt;/p&gt;
+&lt;p&gt;We can install a load balancer in front of our auto-scaling group, to automatically forward incoming traffic to a host. Here&amp;rsquo;s the config:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;resource &amp;#34;aws_elb&amp;#34; &amp;#34;consul-lb&amp;#34; {
+name = &amp;#34;consul-lb-a&amp;#34;
+security_groups = [
+&amp;#34;${aws_security_group.consul-cluster-vpc.id}&amp;#34;,
+&amp;#34;${aws_security_group.web.id}&amp;#34;
+]
+subnets = [
+&amp;#34;${aws_subnet.public-a.id}&amp;#34;,
+&amp;#34;${aws_subnet.public-b.id}&amp;#34;
+]
+listener {
+instance_port = 8500
+instance_protocol = &amp;#34;http&amp;#34;
+lb_port = 80
+lb_protocol = &amp;#34;http&amp;#34;
+}
+health_check {
+healthy_threshold = 2
+unhealthy_threshold = 2
+timeout = 3
+target = &amp;#34;HTTP:8500/ui/&amp;#34;
+interval = 30
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Blow-by-blow:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a load balancer, with the same security groups as the rest of the VPC, but also a security group which allows web access&lt;/li&gt;
+&lt;li&gt;Point to two subnets first subnet&lt;/li&gt;
+&lt;li&gt;Forward HTTP 8500 traffic&lt;/li&gt;
+&lt;li&gt;Configure a healthcheck&lt;sup id="fnref:9"&gt;&lt;a href="#fn:9" class="footnote-ref" role="doc-noteref"&gt;9&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The final change we make is to add an &lt;code&gt;outputs.tf&lt;/code&gt; file, which lists all of the properties Terraform knows about which we want to save. All it includes is:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;output &amp;#34;consul-dns&amp;#34; {
+value = &amp;#34;${aws_elb.consul-lb.dns_name}&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When we finally run &lt;code&gt;terraform apply&lt;/code&gt;, we see the public DNS of our load balancer:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-8-cluster-dns.png" alt="Screenshot showing &amp;rsquo;terraform apply&amp;rsquo; output, indicating our newly generated ELB&amp;rsquo;s public DNS"&gt;&lt;/p&gt;
+&lt;p&gt;And running in a browser on port 8500 we see the Consul admin interface:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-9-admin-ui.png" alt="Screenshot showing the Consul admin interface"&gt;&lt;/p&gt;
+&lt;p&gt;Every time we refresh we will likely see a different node. We&amp;rsquo;ve actually created five clusters each of one node - what we now need to do is connect them all together into a single cluster of five nodes.&lt;/p&gt;
+&lt;p&gt;If you want to see the code as it stands now, check the &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster/tree/step-2"&gt;Step 2&lt;/a&gt; branch.&lt;/p&gt;
+&lt;h2 id="step-3---creating-the-cluster"&gt;Step 3 - Creating the Cluster&lt;/h2&gt;
+&lt;p&gt;Creating the cluster is now not too much of a challenge. We will update the userdata script to tell the consul process we are expecting 5 nodes (via the &lt;a href="https://www.consul.io/docs/agent/options.html#_bootstrap_expect"&gt;&lt;code&gt;bootstrap-expect&lt;/code&gt;&lt;/a&gt; flag.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s the updated script:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# Get my IP address.
+IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+echo &amp;#34;Instance IP is: $IP&amp;#34;
+# Start the Consul server.
+docker run -d --net=host \
+--name=consul \
+consul agent -server -ui \
+-bind=&amp;#34;$IP&amp;#34; \
+-client=&amp;#34;0.0.0.0&amp;#34; \
+-bootstrap-expect=&amp;#34;5&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The problem is &lt;strong&gt;this won&amp;rsquo;t work&lt;/strong&gt;&amp;hellip; We need to tell each node the address of &lt;em&gt;another&lt;/em&gt; server in the cluster. For example, if we start five nodes, we should tell nodes 2-5 the address of node 1, so that the nodes can discover each other.&lt;/p&gt;
+&lt;p&gt;The challenge is how do we get the IP of node 1? The IP addresses are determined by the network, we don&amp;rsquo;t preset them so cannot hard code them. Also, we can expect nodes to occasionally die and get recreated, so the IP addresses of nodes will in fact change over time.&lt;/p&gt;
+&lt;h3 id="getting-the-ip-addresses-of-nodes-in-the-cluster"&gt;Getting the IP addresses of nodes in the cluster&lt;/h3&gt;
+&lt;p&gt;There&amp;rsquo;s a nice trick we can use here. We can ask AWS to give us the IP addresses of each host in the auto-scaling group. If we tell each node the addresses of the &lt;em&gt;other nodes&lt;/em&gt;, then they will elect a leader themselves&lt;sup id="fnref:10"&gt;&lt;a href="#fn:10" class="footnote-ref" role="doc-noteref"&gt;10&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-12-choose-leader-1.png" alt="Diagram showing how we decide on a leader IP"&gt;&lt;/p&gt;
+&lt;p&gt;There are a couple of things we need to do to get this right. First, update the userdata script to provide the IPs of other nodes when we&amp;rsquo;re starting up, then update the &lt;strong&gt;role&lt;/strong&gt; of our nodes so that they have permissions to use the APIs we&amp;rsquo;re going to call.&lt;/p&gt;
+&lt;h3 id="getting-the-cluster-ips"&gt;Getting the Cluster IPs&lt;/h3&gt;
+&lt;p&gt;This is actually fairly straightforward. We update our userdata script to the below:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# A few variables we will refer to later...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ASG_NAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;consul-asg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;REGION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ap-southeast-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;EXPECTED_SIZE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Return the id of each instance in the cluster.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; cluster-instance-ids &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# Grab every line which contains &amp;#39;InstanceId&amp;#39;, cut on double quotes and grab the ID:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# &amp;#34;InstanceId&amp;#34;: &amp;#34;i-example123&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;#....^..........^..^.....#4.....^...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; aws --region&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$REGION&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; autoscaling describe-auto-scaling-groups &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --auto-scaling-group-name $ASG_NAME &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | grep InstanceId &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | cut -d &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#34;&amp;#39;&lt;/span&gt; -f4
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Return the private IP of each instance in the cluster.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; cluster-ips &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; id in &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;cluster-instance-ids&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; aws --region&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$REGION&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; ec2 describe-instances &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --query&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Reservations[].Instances[].[PrivateIpAddress]&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --output&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;text&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --instance-ids&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$id&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Wait until we have as many cluster instances as we are expecting.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;while&lt;/span&gt; COUNT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;cluster-instance-ids | wc -l&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$COUNT&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; -lt &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$EXPECTED_SIZE&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$COUNT&lt;span style="color:#e6db74"&gt; instances in the cluster, waiting for &lt;/span&gt;$EXPECTED_SIZE&lt;span style="color:#e6db74"&gt; instances to warm up...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sleep &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Get my IP address, all IPs in the cluster, then just the &amp;#39;other&amp;#39; IPs...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;IP&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;curl http://169.254.169.254/latest/meta-data/local-ipv4&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mapfile -t ALL_IPS &amp;lt; &amp;lt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;cluster-ips&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;OTHER_IPS&lt;span style="color:#f92672"&gt;=(&lt;/span&gt; &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;ALL_IPS[@]/&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;IP&lt;span style="color:#e6db74"&gt;}}&lt;/span&gt;/&lt;span style="color:#f92672"&gt;}&lt;/span&gt; &lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;Instance IP is: &lt;/span&gt;$IP&lt;span style="color:#e6db74"&gt;, Cluster IPs are: &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;CLUSTER_IPS[@]&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;, Other IPs are: &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;OTHER_IPS[@]&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Start the Consul server.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d --net&lt;span style="color:#f92672"&gt;=&lt;/span&gt;host &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;consul &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; consul agent -server -ui &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -bind&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$IP&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -retry-join&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;OTHER_IPS[0]&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; -retry-join&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;OTHER_IPS[1]&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -retry-join&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;OTHER_IPS[2]&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; -retry-join&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;OTHER_IPS[3]&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -bootstrap-expect&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$EXPECTED_SIZE&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Right, here&amp;rsquo;s what&amp;rsquo;s going on:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We create a few variables we&amp;rsquo;ll use repeatedly&lt;/li&gt;
+&lt;li&gt;We create a &lt;code&gt;cluster-instance-ids&lt;/code&gt; function which returns the ID of each instance in the auto-scaling group&lt;/li&gt;
+&lt;li&gt;We create a &lt;code&gt;cluster-ips&lt;/code&gt; function which returns the private IP address of each instance in the cluster.&lt;/li&gt;
+&lt;li&gt;We wait until the auto-scaling group has our expected number of instances (it can take a while for them all to be created)&lt;/li&gt;
+&lt;li&gt;We get the 5 IP addresses&lt;/li&gt;
+&lt;li&gt;We remove our IP from the array, leaving us with the IPs of the &lt;em&gt;other&lt;/em&gt; nodes&lt;/li&gt;
+&lt;li&gt;We start the Consul agent in server mode, expecting 5 nodes and offering the IP of each other agent&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The problem is, if we try to run the script we will fail, because calling the AWS APIs requires some permissions we don&amp;rsquo;t have. Let&amp;rsquo;s fix that.&lt;/p&gt;
+&lt;h3 id="creating-a-role-for-our-nodes"&gt;Creating a Role for our nodes&lt;/h3&gt;
+&lt;p&gt;Our nodes now have a few special requirements. They need to be able to query the details of an auto-scaling group and get the IP of an instance&lt;sup id="fnref:11"&gt;&lt;a href="#fn:11" class="footnote-ref" role="doc-noteref"&gt;11&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;We will need to create a policy which describes the permissions we need, create a role, attach the policy to the role and then ensure our instances are assigned the correct role. This is &lt;code&gt;consul-node-role.tf&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;// This policy allows an instance to discover a consul cluster leader.
+resource &amp;#34;aws_iam_policy&amp;#34; &amp;#34;leader-discovery&amp;#34; {
+name = &amp;#34;consul-node-leader-discovery&amp;#34;
+path = &amp;#34;/&amp;#34;
+policy = &amp;lt;&amp;lt;EOF
+{
+&amp;#34;Version&amp;#34;: &amp;#34;2012-10-17&amp;#34;,
+&amp;#34;Statement&amp;#34;: [
+{
+&amp;#34;Sid&amp;#34;: &amp;#34;Stmt1468377974000&amp;#34;,
+&amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;,
+&amp;#34;Action&amp;#34;: [
+&amp;#34;autoscaling:DescribeAutoScalingInstances&amp;#34;,
+&amp;#34;autoscaling:DescribeAutoScalingGroups&amp;#34;,
+&amp;#34;ec2:DescribeInstances&amp;#34;
+],
+&amp;#34;Resource&amp;#34;: [
+&amp;#34;*&amp;#34;
+]
+}
+]
+}
+EOF
+}
+// Create a role which consul instances will assume.
+// This role has a policy saying it can be assumed by ec2
+// instances.
+resource &amp;#34;aws_iam_role&amp;#34; &amp;#34;consul-instance-role&amp;#34; {
+name = &amp;#34;consul-instance-role&amp;#34;
+assume_role_policy = &amp;lt;&amp;lt;EOF
+{
+&amp;#34;Version&amp;#34;: &amp;#34;2012-10-17&amp;#34;,
+&amp;#34;Statement&amp;#34;: [
+{
+&amp;#34;Action&amp;#34;: &amp;#34;sts:AssumeRole&amp;#34;,
+&amp;#34;Principal&amp;#34;: {
+&amp;#34;Service&amp;#34;: &amp;#34;ec2.amazonaws.com&amp;#34;
+},
+&amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;,
+&amp;#34;Sid&amp;#34;: &amp;#34;&amp;#34;
+}
+]
+}
+EOF
+}
+// Attach the policy to the role.
+resource &amp;#34;aws_iam_policy_attachment&amp;#34; &amp;#34;consul-instance-leader-discovery&amp;#34; {
+name = &amp;#34;consul-instance-leader-discovery&amp;#34;
+roles = [&amp;#34;${aws_iam_role.consul-instance-role.name}&amp;#34;]
+policy_arn = &amp;#34;${aws_iam_policy.leader-discovery.arn}&amp;#34;
+}
+// Create a instance profile for the role.
+resource &amp;#34;aws_iam_instance_profile&amp;#34; &amp;#34;consul-instance-profile&amp;#34; {
+name = &amp;#34;consul-instance-profile&amp;#34;
+roles = [&amp;#34;${aws_iam_role.consul-instance-role.name}&amp;#34;]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Terraform is a little verbose here! Finally, we update our launch configuration to ensure that the instances assume this role.&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;resource &amp;#34;aws_launch_configuration&amp;#34; &amp;#34;consul-cluster-lc&amp;#34; {
+// Add this line!!
+iam_instance_profile = &amp;#34;${aws_iam_instance_profile.consul-instance-profile.id}&amp;#34;
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Let&amp;rsquo;s create the cluster again, with &lt;code&gt;terraform apply&lt;/code&gt;. When we log into the UI we should now see a cluster containing all five nodes:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-13-cluster.png" alt="Screenshot of the Consul UI, showing that the Consul server is running on five nodes in the Datacenter"&gt;&lt;/p&gt;
+&lt;p&gt;This code is all in the &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster/tree/step-3"&gt;Step 3&lt;/a&gt; branch.&lt;/p&gt;
+&lt;p&gt;If you are familiar with Consul, this may be all you need. If not, you might be interested in seeing how we actually create a new instance to host a service, register it with Consul and query its address.&lt;/p&gt;
+&lt;h2 id="step-4---adding-a-microservice"&gt;Step 4 - Adding a Microservice&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve created a docker image for as simple a microservice as you can get. It returns a quote from Futurama&amp;rsquo;s Zapp Brannigan. The image is tagged as &lt;code&gt;dwmkerr/zapp-service&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;On a new EC2 instance, running in either subnet, with the same roles as the Consul nodes, we run the following commands:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# Install Docker
+sudo su
+yum update -y
+yum install -y docker
+service docker start
+# Get my IP and the IP of any node in the server cluster.
+IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+NODE_ID=$(aws --region=&amp;#34;ap-southeast-1&amp;#34; autoscaling describe-auto-scaling-groups --auto-scaling-group-name &amp;#34;consul-asg&amp;#34; \
+| grep InstanceId \
+| cut -d &amp;#39;&amp;#34;&amp;#39; -f4 \
+| head -1)
+NODE_IP=$(aws --region=&amp;#34;ap-southeast-1&amp;#34; ec2 describe-instances \
+--query=&amp;#34;Reservations[].Instances[].[PrivateIpAddress]&amp;#34; \
+--output=&amp;#34;text&amp;#34; \
+--instance-ids=&amp;#34;$NODE_ID&amp;#34;)
+# Run the consul agent.
+docker run -d --net=host \
+consul agent \
+-bind=&amp;#34;$IP&amp;#34; \
+-join=$NODE_IP
+# Run registrator - any Docker images will then be auto registered.
+docker run -d \
+--name=registrator \
+--net=host \
+--volume=/var/run/docker.sock:/tmp/docker.sock \
+gliderlabs/registrator:latest \
+consul://localhost:8500
+# Run the example microservice - registrator will take care of letting consul know.
+docker run -d -p 5000:5000 dwmkerr/zapp-service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;What&amp;rsquo;s going on here?&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We grab our own IP address and the IP address of the first instance we find in the server cluster, using the same tricks as before&lt;/li&gt;
+&lt;li&gt;We run the Consul agent - telling it the IP to use to join the cluster&lt;/li&gt;
+&lt;li&gt;We run &lt;a href="https://github.com/gliderlabs/registrator"&gt;Registrator&lt;/a&gt;, a handy utility which will automatically register any new services we run to Consul&lt;/li&gt;
+&lt;li&gt;We run a goofy sample microservice (which registrator will register for us)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now we can check the Consul UI:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-15-sample-service.png" alt="The Consul UI showing a new service"&gt;&lt;/p&gt;
+&lt;p&gt;And there we have it. Our new node joins the cluster (as a client), we can register a new service with Consul.&lt;/p&gt;
+&lt;p&gt;We can call this service from any node in the subnet, seeing output like the below:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-x-zapp.png" alt="Screenshot of the Zapp service"&gt;&lt;/p&gt;
+&lt;p&gt;In this example, I used a DNS SRV query to ask where the &lt;code&gt;zapp-service&lt;/code&gt; is, was told it was at &lt;code&gt;10.0.2.158&lt;/code&gt; on port &lt;code&gt;5000&lt;/code&gt;, then called the service, receiving a response. I can discover any service using this method, from any node. As services are added, removed, moved etc, I can ask Consul for accurate information on where to find them.&lt;/p&gt;
+&lt;p&gt;Check the &lt;a href=""&gt;Step 4&lt;/a&gt; branch to see the code in its current state.&lt;/p&gt;
+&lt;h2 id="step-5---spanner-throwing"&gt;Step 5 - Spanner Throwing&lt;/h2&gt;
+&lt;p&gt;We can now try to throw some spanners in the works, to see how resilient the system is.&lt;/p&gt;
+&lt;p&gt;According to the &lt;a href="https://www.consul.io/docs/internals/consensus.html#deployment-table"&gt;Deployment Table&lt;/a&gt; from the Consul documentation, a cluster of five nodes means we have a quorum of three nodes (i.e. a minimum of three nodes are needed for a working system). This means we can tolerate the failure of two nodes.&lt;/p&gt;
+&lt;p&gt;The easiest way to test this is to simply manually kill two nodes:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-16-terminate.png" alt="Screenshot showing two AWS instances being terminated"&gt;&lt;/p&gt;
+&lt;p&gt;If we pick two random nodes, as above, and terminate them, we see the cluster determines that we have two failed nodes but will still function (if one was the leader, a new leader will be automatically elected):&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-17-node-failure.png" alt="Screenshot showing the cluster highlighting two failed nodes"&gt;&lt;/p&gt;
+&lt;p&gt;What&amp;rsquo;s nice about this setup is that no manual action is needed to recover. Our load balancer will notice the nodes are unhealthy and stop forwarding traffic. Our auto-scaling group will see the nodes have terminated and create two new ones, which will join the cluster in the same way as the original nodes. Once they join, the load balancer will find them healthy and bring them back into rotation.&lt;/p&gt;
+&lt;p&gt;We can see from the load balancer monitoring that it notices we have unhealthy nodes and also notices when new ones come into service:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-18-recovery-1.png" alt="Screenshot showing the load balancer monitoring"&gt;&lt;/p&gt;
+&lt;p&gt;A quick check of the admin dashboard shows we now have a recovered system, with five healthy nodes:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-18b-recovered.png" alt="Screenshot showing recovered system"&gt;&lt;/p&gt;
+&lt;p&gt;The nodes which were terminated are still listed as failing. After 72 hours Consul will stop trying to periodically reconnect to these nodes and completely remove them&lt;sup id="fnref:12"&gt;&lt;a href="#fn:12" class="footnote-ref" role="doc-noteref"&gt;12&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;h2 id="wrapping-up"&gt;Wrapping Up&lt;/h2&gt;
+&lt;p&gt;Hopefully this should provide a good starting point to think about building your own resilient and robust systems for services like Consul.&lt;/p&gt;
+&lt;p&gt;Interesting areas to look into to extend the project would be:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Setting up alerts so that if we lose more than one node, we are informed&lt;/li&gt;
+&lt;li&gt;Automating resilience tests by programatically bringing down servers and monitoring how long it takes the system to return to five nodes&lt;/li&gt;
+&lt;li&gt;Instead of using a userdata script to set up a node, bake it into a new custom AMI with &lt;a href="https://www.packer.io/"&gt;Packer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Adding alerts for if we lose three of more nodes, which always requires manual intervention (see &lt;a href="https://www.consul.io/docs/guides/outage.html"&gt;Outage Recovery&lt;/a&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;As always, any questions or comments are welcome! All code is available at &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster"&gt;github.com/dwmkerr/terraform-consul-cluster&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="appendix-1-logging"&gt;Appendix 1: Logging&lt;/h2&gt;
+&lt;p&gt;Small typos or mistakes in the userdata script are almost impossible to effectively diagnose. The scripts were actually built in the following way:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Draft a script on my local machine which configures script logging and CloudWatch&lt;sup id="fnref:13"&gt;&lt;a href="#fn:13" class="footnote-ref" role="doc-noteref"&gt;13&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;Spin up a new EC2 instance manually&lt;/li&gt;
+&lt;li&gt;SSH onto the instance, and run the script line by line until I&amp;rsquo;m sure it&amp;rsquo;s right&lt;/li&gt;
+&lt;li&gt;Ensure the logs are forwarded to CloudWatch, then add the more complex features and repeatedly test&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I&amp;rsquo;ve included CloudWatch logging in the code. In this write-up I&amp;rsquo;ve omitted this code as it is purely for diagnostics and doesn&amp;rsquo;t contribute to the main topic. The setup is in the &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster/blob/master/files/consul-node.sh"&gt;&lt;code&gt;consul-node.sh&lt;/code&gt;&lt;/a&gt; and &lt;a href="%60https://github.com/dwmkerr/terraform-consul-cluster/blob/master/consul-node-role.tf"&gt;&lt;code&gt;consul-node-role.tf&lt;/code&gt;&lt;/a&gt; files.&lt;/p&gt;
+&lt;p&gt;If you want more details, let me know, or just check the code. I would heartily recommend setting up logging like this for all but the most straightforward projects:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/img-19-cloudwatch-1.png" alt="Screenshot showing logs"&gt;&lt;/p&gt;
+&lt;p&gt;Being able to diagnose issues like this is vital when working with distributed systems which may be generating many log files.&lt;/p&gt;
+&lt;h2 id="appendix-2-modularisaton"&gt;Appendix 2: Modularisaton&lt;/h2&gt;
+&lt;p&gt;I got some a great PR from &lt;a href="https://github.com/arehmandev"&gt;arehmandev&lt;/a&gt; which modularises the code. This makes it more reusable and cleans up the structure significantly. If you want to see the before/after, check the original PR at &lt;a href="https://github.com/dwmkerr/terraform-consul-cluster/pull/4"&gt;https://github.com/dwmkerr/terraform-consul-cluster/pull/4&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Footnotes&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Further Reading&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://www.consul.io/docs/internals/consensus.html"&gt;Consul - Consensus Protocol&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://sitano.github.io/2015/10/06/abt-consul-outage/"&gt;What you have to know about Consul and how to beat the outage problem&lt;/a&gt;, John Koepi&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;This kind of pattern is critical in the world of microservices, where many small services will be running on a cluster. Services may die, due to errors or failing hosts, and be recreated on new hosts. Their IPs and ports may be ephemeral.It is essential that the system as a whole has a registry of where each service lives and how to access it. Such a registry must be &lt;em&gt;resilient&lt;/em&gt;, as it is an essential part of the system.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;Most popular is a fairly loose term. Well ranked by Gartner and anecdotally with the largest infrastructure footprint. &lt;a href="https://www.gartner.com/doc/reprints?id=1-2G2O5FC&amp;amp;ct=150519&amp;amp;st=sb"&gt;https://www.gartner.com/doc/reprints?id=1-2G2O5FC&amp;amp;ct=150519&amp;amp;st=sb&lt;/a&gt;&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;This is AWS parlance again. An availabilty zone is an isolated datacenter. Theoretically, spreading nodes across AZs will increase resilience as it is less likely to have catastrophic failures or outages across multiple zones.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:4"&gt;
+&lt;p&gt;I don&amp;rsquo;t get money from Udemy or anyone else for writing anything on this blog. All opinions are purely my own and influenced by my own experience, not sponsorship. Your milage may vary (yada yada) but I found the course quite good: &lt;a href="https://www.udemy.com/aws-certified-solutions-architect-associate/"&gt;https://www.udemy.com/aws-certified-solutions-architect-associate/&lt;/a&gt;.&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:5"&gt;
+&lt;p&gt;For more expert readers that may sound horribly patronising, I don&amp;rsquo;t mean it to be. For many less experienced technologists the basics of networking might be more unfamiliar!&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:5" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:6"&gt;
+&lt;p&gt;See &lt;a href="https://www.consul.io/docs/internals/consensus.html"&gt;https://www.consul.io/docs/internals/consensus.html&lt;/a&gt;.&amp;#160;&lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:7"&gt;
+&lt;p&gt;A common pattern is to actually make the group size dynamic, responding to events. For example, we could have a group of servers which increases in size if the average CPU load of the hosts stays above 80% for five minutes, and scales down if it goes below 10% for ten minutes. This is more common for app and web servers and not needed for our system.&amp;#160;&lt;a href="#fnref:7" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:8"&gt;
+&lt;p&gt;Specifically, the current latest &lt;a href="https://aws.amazon.com/amazon-linux-ami/"&gt;Amazon Linux AMI&lt;/a&gt;.&amp;#160;&lt;a href="#fnref:8" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:9"&gt;
+&lt;p&gt;Check the admin UI every 30 seconds, more than 3 seconds indicates a timeout and failure. Two failures in a row means an unhealthy host, which will be destroyed, two successes in a row for a new host means healthy, which means it will receive traffic.&amp;#160;&lt;a href="#fnref:9" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:10"&gt;
+&lt;p&gt;This is a fairly sophisticated topic in itself, see &lt;a href="https://www.consul.io/docs/internals/consensus.html"&gt;Consul - Consensus Protocol&lt;/a&gt; for details.&amp;#160;&lt;a href="#fnref:10" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:11"&gt;
+&lt;p&gt;In fact, we actually have more permissions required, because in the &amp;lsquo;real&amp;rsquo; code we also have logs forwarded to CloudWatch.&amp;#160;&lt;a href="#fnref:11" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:12"&gt;
+&lt;p&gt;These nodes can be removed manually, see &lt;a href="https://www.consul.io/docs/commands/force-leave.html"&gt;Consul Force Leave&lt;/a&gt;.&amp;#160;&lt;a href="#fnref:12" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:13"&gt;
+&lt;p&gt;Amazon&amp;rsquo;s service for managing and aggregating logs&amp;#160;&lt;a href="#fnref:13" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item><item><title>Run Amazon DynamoDB locally with Docker</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/run-amazon-dynamodb-locally-with-docker/</link><pubDate>Thu, 27 Oct 2016 08:06:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/run-amazon-dynamodb-locally-with-docker/</guid><description>&lt;p&gt;&lt;strong&gt;tl;dr:&lt;/strong&gt; Run DynamoDB locally using Docker:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker run -d -p 8000:8000 dwmkerr/dynamodb
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Try it out by opening the shell, &lt;a href="http://localhost:8000/shell"&gt;localhost:8000/shell&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/banner.jpg" alt="DynamoDB Shell"&gt;&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s all there is to it!&lt;/p&gt;
+&lt;h2 id="dynamodb"&gt;DynamoDB&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html"&gt;Amazon DynamoDB&lt;/a&gt; is a NoSQL database-as-a-service, which provides a flexible and convenient repository for your services.&lt;/p&gt;
+&lt;p&gt;Building applications which use DynamoDB is straightforward, there are APIs and clients for many languages and platforms.&lt;/p&gt;
+&lt;p&gt;One common requirement is to be able to run a local version of DynamoDB, for testing and development purposes. To do this, you need to:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Hit the &lt;a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html"&gt;DynamoDB Local&lt;/a&gt; documentation page&lt;/li&gt;
+&lt;li&gt;Download an archive&lt;/li&gt;
+&lt;li&gt;Extract it to a sensible location&lt;/li&gt;
+&lt;li&gt;Run the extracted JAR, perhaps passing in some options&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This can be a little cumbersome if you regularly use DynamoDB, so here&amp;rsquo;s a easier way:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -p 8000:8000 dwmkerr/dynamodb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;dwmkerr/dynamodb&lt;/code&gt; image runs the JAR in a container, exposing the database on port 8000 by default.&lt;/p&gt;
+&lt;p&gt;You can see the &lt;a href="dockeri.co/image/dwmkerr/dynamodb"&gt;image on the Docker Hub&lt;/a&gt; and the source code at &lt;a href="https://github.com/dwmkerr/docker-dynamodb"&gt;github.com/dwmkerr/docker-dynamodb&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="customising-dynamodb"&gt;Customising DynamoDB&lt;/h2&gt;
+&lt;p&gt;You can pass any of &lt;a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html"&gt;the documented commandline flags to DynamoDB&lt;/a&gt;. There are instructions on the GitHub page. Here&amp;rsquo;s an example of how you can pass in a data directory, which allows DynamoDB data to be persisted after restarting a container (the image is ephemeral by default, as per &lt;a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/"&gt;Dockerfile best practices&lt;/a&gt;).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d -p 8000:8000 -v /tmp/data:/data/ dwmkerr/dynamodb -dbPath /data/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Running DynamoDB in a container gives an extra degree of flexibility and can speed up your workflow too!&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Failures Connecting from Elastic Beanstalk servers to MongoDB on EC?</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/failures-connecting-from-elastic-beanstalk-servers-to-mongodb-on-ec/</link><pubDate>Mon, 16 Mar 2015 10:34:04 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/failures-connecting-from-elastic-beanstalk-servers-to-mongodb-on-ec/</guid><description>&lt;p&gt;tl;dr?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Check your mongodb.conf &lt;code&gt;bind_ip&lt;/code&gt; settings to make sure that you&amp;rsquo;re not allowing connections only from localhost.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This may just end up being the first part of a wider troubleshooting guide, but this is one I&amp;rsquo;ve spent a few hours fixing, after assuming I was making terrible mistakes with my security groups.&lt;/p&gt;
+&lt;p&gt;If you find you cannot connect to your MongoDB server from an EB app server (or anything for that matter), before you spend ages checking your Elastic IP, VPC and Security Group config, don&amp;rsquo;t forget that you may have simply used &lt;code&gt;bind_ip&lt;/code&gt; in your config file.&lt;/p&gt;
+&lt;p&gt;Check for:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;bind_ip = 127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Comment it out or remove it and restart:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;service mongod restart
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Don&amp;rsquo;t forget to make sure your firewall is still set up correctly - only allow connections from IPs or even better other security groups you trust.&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>

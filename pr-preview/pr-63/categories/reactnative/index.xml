@@ -1,0 +1,229 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ReactNative on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/categories/reactnative/</link><description>Recent content in ReactNative on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 03 Apr 2017 11:14:58 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/categories/reactnative/index.xml" rel="self" type="application/rss+xml"/><item><title>Tips and Tricks for Beautifully Simple Mobile App CI</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/tips-and-tricks-for-beautifully-simple-mobile-app-ci/</link><pubDate>Mon, 03 Apr 2017 11:14:58 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/tips-and-tricks-for-beautifully-simple-mobile-app-ci/</guid><description>&lt;p&gt;In this article I&amp;rsquo;m going to demonstrate some simple tips and tricks which will help you build and maintain beautifully simple mobile build pipelines. These techniques can be applied to different mobile app technologies and integrated into almost any build system:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/0-sample-index.png" alt="Sample App Index"&gt;&lt;/p&gt;
+&lt;p&gt;Each tip is demonstrated in the sample apps in the &lt;a href="https://github.com/dwmkerr/beautifully-simple-app-ci"&gt;dwmkerr/beautifully-simple-app-ci&lt;/a&gt; repo.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="#TheChallengesOfMobileAppCI"&gt;The Challenges of Mobile App CI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#Tip1EmbraceMakefilesForConsistency"&gt;Tip 1 - Embrace Makefiles for Consistency&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#Tip2ControlVersionNumbersWithATouchCommand"&gt;Tip 2 - Control Version Numbers with a &amp;lsquo;Touch&amp;rsquo; Command&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#tip3controlappiconswithalabelcommand"&gt;Tip 3 - Control App Icons with a &amp;lsquo;Label&amp;rsquo; Command&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#Tip4SupportConfigurableAppIds"&gt;Tip 4 - Support Configurable App Ids&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#Tip5DocumentDocumentDocument"&gt;Tip 5 - Document, Document, Document&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#/conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="the-challenges-of-mobile-app-ci"&gt;The Challenges of Mobile App CI&lt;/h2&gt;
+&lt;p&gt;Conceptually, a mobile app CI pipeline is pretty simple:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/1-basic-ci.png" alt="Basic CI Pipeline"&gt;&lt;/p&gt;
+&lt;p&gt;We take our code, perform some kind of validation (such as testing, linting, whatever), generate our artifacts and then deploy them to some devices.&lt;/p&gt;
+&lt;p&gt;Often though there&amp;rsquo;s a bit more to it than that:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/2-basic-not-basic-1.png" alt="Basic CI is not Basic"&gt;&lt;/p&gt;
+&lt;p&gt;Our source code has some metadata associated with it at the point in time you create your binaries, such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The SHA, which uniquely identifies your exact location in the source history.&lt;/li&gt;
+&lt;li&gt;The branch, which may have some &lt;em&gt;semantic&lt;/em&gt; meaning for your project, for example &lt;code&gt;master&lt;/code&gt; meaning &amp;lsquo;production&amp;rsquo; or &lt;code&gt;alpha&lt;/code&gt; meaning your current unstable public build.&lt;/li&gt;
+&lt;li&gt;A tag, which may represent something like a semver, or may have more project-specific meaning.&lt;/li&gt;
+&lt;li&gt;A version, which might be in something like a &lt;code&gt;package.json&lt;/code&gt; or embedded in your project files for iOS or Android.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When we build we have to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Think about how we test and validate&lt;/li&gt;
+&lt;li&gt;Think about how we sign&lt;/li&gt;
+&lt;li&gt;Handle package names and bundle ids, which can cause headaches if you are going to install multiple &lt;em&gt;versions&lt;/em&gt; of an app (e.g. dev and UAT builds)&lt;/li&gt;
+&lt;li&gt;Consider build numbers and version number&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So even the &amp;lsquo;basic&amp;rsquo; CI isn&amp;rsquo;t all that basic. The rest of this article is a set of tips and techniques which I have found useful when developing mobile apps.&lt;/p&gt;
+&lt;h2 id="tip-1---embrace-makefiles-for-consistency"&gt;Tip 1 - Embrace Makefiles for Consistency&lt;/h2&gt;
+&lt;p&gt;There are a raft of platform and framework specific tools and interfaces we will have to use in mobile projects. XCode, Gradle, NPM, framework specific CLIs, tools such as Fastlane, etc etc.&lt;/p&gt;
+&lt;p&gt;If you ensure that your main &amp;rsquo;entrypoint&amp;rsquo; to key operations is a recipe in a makefile, you can provide a degree of consistency to mobile projects. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;make build&lt;/code&gt; - Creates an IPA and APK, saving them to the &lt;code&gt;./artifacts&lt;/code&gt; folder.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;make test&lt;/code&gt; - Runs all test suites.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;make deploy&lt;/code&gt; - Deploys the binaries.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A &lt;code&gt;makefile&lt;/code&gt; for such commands might look like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;test:
+# Run all the tests.
+npm test
+build:
+# Create the apk, copy to artifacts.
+cd android &amp;amp;&amp;amp; ./gradlew assembleRelease &amp;amp;&amp;amp; cd ..
+cp -f ./android/app/build/outputs/apk/myapp.apk ./artifacts
+# Create the ipa, copy to artifacts.
+cd ./ios; fastlane gym --scheme &amp;#34;app&amp;#34; --codesigning_identity &amp;#34;$(CODE_SIGNING_IDENTITY)&amp;#34;; cd ../;
+cp -f ./ios/myapp.ipa ./artifacts
+deploy:
+# Push to TestFairy.
+curl https://app.testfairy.com/api/upload \
+-F api_key=&amp;#39;$(API_KEY)&amp;#39; \
+-F &amp;#34;file=@./artifacts/myapp.apk&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is a slightly shortened snippet, you can see a variety of working examples in the git repo:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/beautifully-simple-app-ci"&gt;github.com/dwmkerr/beautifully-simple-app-ci&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The first sample in the above repo demonstrates using makefiles to handle key commands for a React Native app. In the example, CircleCI is used to handle automatic builds on code changes, and the apps themselves are distributed automatically to testers&amp;rsquo; devices with TestFairy.&lt;/p&gt;
+&lt;p&gt;The nice feature is that the bulk of the logic is in the main repo source, in the &lt;code&gt;makefile&lt;/code&gt; - the CI tool simply orchestrates it. Developers can run &lt;em&gt;exactly&lt;/em&gt; the same commands on their local machine.&lt;/p&gt;
+&lt;p&gt;The &lt;a href="https://github.com/dwmkerr/beautifully-simple-app-ci/blob/master/1_react_native_app/README.md"&gt;&lt;code&gt;README.md&lt;/code&gt;&lt;/a&gt; immediately draws attention to the makefile commands:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/3-tip1-readme.png" alt="Screenshot of the README.md file"&gt;&lt;/p&gt;
+&lt;p&gt;The makefiles do most of the work, that makes setting up CircleCI almost trivial. Here&amp;rsquo;s a snippet of its config:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# Tell Circle where we keep our artifacts.
+general:
+artifacts:
+- ./artifacts
+# When we test, we build the android app and test it.
+test:
+override:
+- make build-android
+- make test
+# If there are any changes to the master branch, push a new version
+# of the app.
+deployment:
+master:
+branch: [master]
+commands:
+- make deploy-android
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Our commands are android specific at this stage as Circle don&amp;rsquo;t support iOS builds on their free plan&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;. Later samples which use other build systems demonstrate Android &lt;em&gt;and&lt;/em&gt; iOS.&lt;/p&gt;
+&lt;p&gt;The CI automatically tests and builds whenever we have new code commits:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/4-tip1-circle.png" alt="Screenshot of CircleCI and the artifacts"&gt;&lt;/p&gt;
+&lt;p&gt;Also, if a commit is made to the &lt;code&gt;master&lt;/code&gt; branch, our new app is automatically pushed to TestFairy, which can be configured to automatically update the test team:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/5-tip1-testfairy.png" alt="Screenshot of TestFairy"&gt;&lt;/p&gt;
+&lt;p&gt;Makefile syntax is close enough to shell scripting that simple operations are generally straightforward&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt; to implement. The approach is also perfectly valid for server side code and almost any project.&lt;/p&gt;
+&lt;p&gt;Teams with many projects can build consistent patterns and syntax for building. Take a look at the image below:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/Simple-Docker-Image-CI.png" alt="Docker Workflow"&gt;&lt;/p&gt;
+&lt;p&gt;This is from my article on &lt;a href="http://www.dwmkerr.com/simple-continuous-integration-for-docker-images/"&gt;Simple Continuous Integration for Docker Images&lt;/a&gt; - where exactly the same principles are applied.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In Summary&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Makefiles allow you to provide an entrypoint for common app CI tasks which is framework and toolkit agnostic&lt;/li&gt;
+&lt;li&gt;Being able to run the individual &lt;em&gt;steps&lt;/em&gt; of a CI build on a local machine makes it easier for developers to work with the pipeline&lt;/li&gt;
+&lt;li&gt;By having a CI platform only need to handle the orchestration of these simple steps, we are less tied to specific platforms and can reduce lock-in&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We&amp;rsquo;ll see more interesting makefile recipes as we get into the other tips.&lt;/p&gt;
+&lt;h2 id="tip-2---control-version-numbers-with-a-touch-command"&gt;Tip 2 - Control Version Numbers with a &amp;lsquo;Touch&amp;rsquo; command&lt;/h2&gt;
+&lt;p&gt;iOS and Android apps have both a &lt;em&gt;version number&lt;/em&gt; and a &lt;em&gt;build number&lt;/em&gt;. We might have other files in our project with version numbers too (such as a &lt;code&gt;package.json&lt;/code&gt; file).&lt;/p&gt;
+&lt;p&gt;It can be very useful to have a way of keeping these version numbers in sync. Again, we can use a makefile recipe:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;make touch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command will vary in implementation depending on your platform. For example, this would be all that is needed for a Cordova based project:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# The version in package.json is the &amp;#39;master&amp;#39; version.
+VERSION ?= $(shell cat package.json | jq --raw-output .version)
+BUILD_NUM ?= 0
+touch:
+$(info &amp;#34;Touching to version $(VERSION) and build number $(BUILD_NUM).&amp;#34;)
+sed -i &amp;#34;&amp;#34; -e &amp;#39;s/android-versionCode=\&amp;#34;[0-9]*\&amp;#34;/android-versionCode=\&amp;#34;$(BUILD_NUM)\&amp;#34;/g&amp;#39; ./config.xml
+sed -i &amp;#34;&amp;#34; -e &amp;#39;s/ios-CFBundleVersion=\&amp;#34;[0-9]*\&amp;#34;/ios-CFBundleVersion=\&amp;#34;$(BUILD_NUM)\&amp;#34;/g&amp;#39; ./config.xml
+sed -i &amp;#34;&amp;#34; -e &amp;#39;s/version=\&amp;#34;[.0-9a-zA-Z]*\&amp;#34;/version=\&amp;#34;$(VERSION)&amp;#34;/g&amp;#39; ./config.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Notice we don&amp;rsquo;t really need complex tools for a job like this, &lt;code&gt;sed[^3]&lt;/code&gt; is sufficient to quickly make changes to config files.&lt;/p&gt;
+&lt;p&gt;This works very nicely with build systems, many of which provide a build number as an environment variable. For example, we can add a build number with TravisCI like so:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;env:
+- BUILD_NUM=$TRAVIS_BUILD_NUMBER
+script:
+- make touch
+- make test
+- make build-android
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To go into more detail, we&amp;rsquo;ll look at the second sample in the git repo, which is a Cordova App. This sample will always set the build number in both apps and the build version to whatever is present in the &lt;code&gt;package.json&lt;/code&gt; file. That means you can do things like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ npm version minor # Bump the version
+v0.1.0
+$ BUILD_NUM=3 make build &amp;amp;&amp;amp; make deploy # Build and deploy the apps
+...
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And all of the version numbers and build numbers are updated and the apps are deployed. In this example project, they&amp;rsquo;re deployed to HockeyApp:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/6-hockey-app.png" alt="Screenshot of the newly versioned apps in HockeyApp"&gt;&lt;/p&gt;
+&lt;p&gt;This build runs on TravisCI, so only builds the Android version. You can clone the code and build the iOS version (and deploy it) using the makefile.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In Summary&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;There will come a point in your project development where you&amp;rsquo;ll need to handle version numbers, having a command to explicitly deal with this adds rigour to this process&lt;/li&gt;
+&lt;li&gt;Build numbers are just as important as version numbers during development, ensuring your CI build number is baked into your artifacts is critical for troubleshooting and control&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="tip-3---control-app-icons-with-a-label-command"&gt;Tip 3 - Control App Icons with a &amp;lsquo;Label&amp;rsquo; Command&lt;/h1&gt;
+&lt;p&gt;When you are working in a larger team, it can be very useful to label your app icon so that team members know exactly what version of the app they are using. This is often the case if you are working in a team where features or bugfixes are being deployed rapidly.&lt;/p&gt;
+&lt;p&gt;You might label your icons with build numbers, SHAs, branch names, versions, tags, or even something custom such as &amp;lsquo;QA&amp;rsquo; or &amp;lsquo;UAT&amp;rsquo; for different versions of your app. Here are a few examples:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/8-framed-labelled-icons.png" alt="Labelled Icons Screenshot"&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve found this to be very useful, so created a command-line tool called &amp;lsquo;&lt;a href="github.com/dwmkerr/app-icon"&gt;app-icon&lt;/a&gt;&amp;rsquo; to help with the task:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/app-icon"&gt;github.com/dwmkerr/app-icon&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This tool has a &lt;code&gt;label&lt;/code&gt; command to add a label, and a &lt;code&gt;generate&lt;/code&gt; command to generate icons of all different sizes. This means you can add recipes like this to your &lt;code&gt;makefile&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;VERSION ?= $(shell cat package.json | jq --raw-output .version)
+BUILD_NUM ?= 0 # This might come from Circle, Travis or Whatever...
+label:
+$(info Labeling icon with &amp;#39;$(VERSION)&amp;#39; and &amp;#39;$(BUILD_NUM)&amp;#39;...)
+app-icon label -i base-icon.png -o icon.png --top $(VERSION) --bottom $(BUILD_NUM)
+app-icon generate -i icon.png
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Each sample app labels its icon in a different way:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The &lt;a href="./1_react_native_app/"&gt;React Native App&lt;/a&gt; puts the short Git SHA on the bottom of the icon.&lt;/li&gt;
+&lt;li&gt;The &lt;a href="./2_ionic_app/"&gt;Ionic App&lt;/a&gt; puts the &lt;code&gt;package.json&lt;/code&gt; version at the top of the icon.&lt;/li&gt;
+&lt;li&gt;The &lt;a href="./3_native_app"&gt;Native App&lt;/a&gt; puts an environment label at the top of the icon, and the build number at the bottom.&lt;/li&gt;
+&lt;li&gt;The &lt;a href="./4_xamarinapp"&gt;Xamarin App&lt;/a&gt; includes the configurable app environment (this is detailed in the next tip) and build number&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;There are references to each sample and the associated code in the &lt;code&gt;README.md&lt;/code&gt; at:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/beautifully-simple-app-ci"&gt;github.com/dwmkerr/beautifully-simple-app-ci&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;As a quick example, the Pure Native App runs this code prior to each build:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;BUILD_NUM&lt;span style="color:#f92672"&gt;=&lt;/span&gt;BUDDYBUILD_BUILD_NUMBER make label
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This app uses BuddyBuild as a build system, meaning we can just drop this line in the &lt;a href="./buddybuild_postclone.sh"&gt;&lt;code&gt;buddybuild_postclone.sh&lt;/code&gt;&lt;/a&gt; script. You can see the labeled icons directly in the BuddyBuild UI:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/12-buddybuild-icons.png" alt="BuddyBuild Icons"&gt;&lt;/p&gt;
+&lt;p&gt;The Android build is currently having some issues due to fonts being accessible by the labelling tool (which uses ImageMagick under the hood), with any luck this issue will be fixed soon. This seems to be an issue with the BuddyBuild ImageMagick installation rather than the labelling code itself, which is running fine on all of the other builds!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In Summary&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A little bit of time invested in managing your app icon can potentially save many hours if you are rapidly iterating on apps&lt;/li&gt;
+&lt;li&gt;The &lt;a href="https://github.com/dwmkerr/app-icon"&gt;&lt;code&gt;app-icon&lt;/code&gt;&lt;/a&gt; tool can help you quickly label and generate icons&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="tip-4---support-configurable-app-ids"&gt;Tip 4 - Support Configurable App Ids&lt;/h1&gt;
+&lt;p&gt;Another trick I&amp;rsquo;ve found useful is to have a command which automatically updates your iOS Bundle ID or Android Application ID. This can be handy when you have multiple versions of an app (such as a QA build, dev build, UAT build or whatever).&lt;/p&gt;
+&lt;p&gt;If you have users who need to have different versions of your app on their phones then this is actually a necessary step (at least for iOS), as you cannot have multiple versions of an app with the same ID installed.&lt;/p&gt;
+&lt;p&gt;Often, I will aim to have a standard &amp;lsquo;base id&amp;rsquo;, such as:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;com.dwmkerr.myapp
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and then simply append whatever the &amp;lsquo;flavour&amp;rsquo; of my app is to the end of the id:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;com.dwmkerr.myapp_qa # The QA build...
+com.dwmkerr.myapp_uat # The UAT build...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The base id is then reserved for the master build, which is what goes into production.&lt;/p&gt;
+&lt;p&gt;Just like with all of the other tricks, I tend to use a recipe in the &lt;code&gt;makefile&lt;/code&gt; to do the heavy lifting, and then leave the build system to orchestrate the commands (we&amp;rsquo;ll see more of this later). Here&amp;rsquo;s how a recipe will typically look (this comes from the fourth sample, which is a Xamarin App):&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;ENV ?= production
+# Set the app id, with the &amp;#39;production&amp;#39; environment implying the unaltered &amp;#39;base&amp;#39; id.
+ifeq ($(ENV),production)
+APP_ID=com.dwmkerr.xamarinapp
+else
+APP_ID=com.dwmkerr.xamarinapp_$(ENV)
+endif
+name:
+$(info Naming app &amp;#39;$(APP_ID)&amp;#39;...)
+sed -i.bak &amp;#39;s/com.dwmkerr.xamarinapp.*&amp;lt;/$(APP_ID)&amp;lt;/&amp;#39; iOS/Info.plist
+sed -i.bak &amp;#39;s/com.dwmkerr.xamarinapp.*\&amp;#34;/$(APP_ID)\&amp;#34;/&amp;#39; Droid/Properties/AndroidManifest.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This small recipe can be very useful in combination with other techniques. Ensuring your build respects the &lt;code&gt;ENV&lt;/code&gt; variable (or whatever you name your &amp;lsquo;flavour&amp;rsquo;) means that you can have different configurations for different environments, build multiple versions of the app, each with a distinct app icon, and distribute them to your team.&lt;/p&gt;
+&lt;p&gt;In the screenshots below, you can see how the presence of the &lt;code&gt;ENV&lt;/code&gt; environment variable automatically updates the App ID (this is taken from the &lt;a href="./4_xamarinapp"&gt;Xamarin Sample&lt;/a&gt;, which orchestrates builds with Bitrise&lt;sup id="fnref1:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/9-bitrise.png" alt="The ENV Environment variable in Bitrise"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/10-bitrise-apps.png" alt="The built apps in Bitrise"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In Summary&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Configurable App Ids allow you to maintain isolated builds of your app for specific environments, even on the same physical device&lt;/li&gt;
+&lt;li&gt;This tip must be used with caution, some features (such as iOS push notifications) will not work if the bundle id is changed (it can also cause issues if your provisioning profile does not use a wildcard)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tip-5---document-document-document"&gt;Tip 5 - Document, Document, Document&lt;/h2&gt;
+&lt;p&gt;Even teams which are great at documenting complex application code can sometimes be a bit lax when it comes to documenting build related code.&lt;/p&gt;
+&lt;p&gt;Unfortunately, build related code will often need &lt;em&gt;more&lt;/em&gt; documentation than usual. Why is this?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It is often &lt;em&gt;complex&lt;/em&gt; (spend any time working with the XCode commandline or provisioning profiles and you&amp;rsquo;ll likely agree)&lt;/li&gt;
+&lt;li&gt;It is &lt;em&gt;rarely changed&lt;/em&gt; (often worked on heavily at the early stages of a project then not touched)&lt;/li&gt;
+&lt;li&gt;It is &lt;em&gt;critical&lt;/em&gt; (when it breaks, teams are often blocked)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When something goes wrong with a build process, or needs to be changed, it is a real pain when only one person knows how the code works. Be rigorous with this code, make sure it is documented and reviewed, and share the knowledge around your team. I tend to like to have a table of commands as a quick index in the README.md file, and then heavily comment the code itself:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/11-document.png" alt="TODO"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In Summary&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Be rigorous with documentation, when things go wrong with CI code then people are often blocked&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Most of these tips are fairly explicit, there are detailed examples in the sample project. Familiarity with these patterns and techniques can be useful, but perhaps the most valuable takeaway would be to embrace the following principles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Developers should be able to run all of the key CI steps on their local machine, to be able to understand, adapt and improve the process&lt;/li&gt;
+&lt;li&gt;When building more complex features, we should create small, simple units of work which can be composed into larger pipelines&lt;/li&gt;
+&lt;li&gt;Complexity, if needed, should be in in code - not in &amp;lsquo;black box&amp;rsquo; CI tools (such as esoteric features for specific CI providers or Jenkins plugins). For example, CircleCI offers a Git Short SHA environment variable - but you can grab a short SHA with &lt;code&gt;git log -1 --format=&amp;quot;%h&amp;quot;&lt;/code&gt;, and the second approach works anywhere&lt;/li&gt;
+&lt;li&gt;Use CI platforms to &lt;em&gt;orchestrate&lt;/em&gt; work, use makefiles and scripts to handle logic&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I hope this article has been useful, any thoughts or comments are always welcome!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Footnotes&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;I have successfully used this approach to build Android &lt;em&gt;and&lt;/em&gt; iOS from the same OSX build agent on their paid plan on a number of projects. The most straightforward way to do this is to have a single build run on OSX and create the Android app as well as the iOS app.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;Perhaps straightforward is an overstatement, but getting those who are familiar with shell scripting will have few difficulties. Those who are not will find a learning curve, but it is &lt;em&gt;very&lt;/em&gt; useful to at least get the basics of shell scripting learnt.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href="#fnref1:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item></channel></rss>

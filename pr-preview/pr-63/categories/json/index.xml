@@ -1,0 +1,55 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Json on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/categories/json/</link><description>Recent content in Json on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 16 Jul 2013 16:23:43 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/categories/json/index.xml" rel="self" type="application/rss+xml"/><item><title>Node.js and Express - Strange Http Status Codes</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/node-js-and-express-strange-http-status-codes/</link><pubDate>Tue, 16 Jul 2013 16:23:43 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-63/node-js-and-express-strange-http-status-codes/</guid><description>&lt;h3&gt;In a Nutshell&lt;/h3&gt;
+Sending a response in Express with a call like &lt;em&gt;res.send(status, body)&lt;/em&gt; will send &lt;em&gt;body&lt;/em&gt; as the status code if it is numeric - ignoring &lt;em&gt;status&lt;/em&gt;. This is due to a fudge for backwards compatibility.
+&lt;h3&gt;The Details&lt;/h3&gt;
+&lt;span style="line-height: 1.714285714; font-size: 1rem;"&gt;&lt;strong&gt;&lt;/strong&gt;As part of a project I'm working on, I'm writing a service using &lt;/span&gt;&lt;a style="line-height: 1.714285714; font-size: 1rem;" title="node.js" href="http://nodejs.org/" target="_blank"&gt;node.js&lt;/a&gt;&lt;span style="line-height: 1.714285714; font-size: 1rem;"&gt; and &lt;/span&gt;&lt;a style="line-height: 1.714285714; font-size: 1rem;" title="Express" href="http://expressjs.com/" target="_blank"&gt;Express&lt;/a&gt;&lt;span style="line-height: 1.714285714; font-size: 1rem;"&gt;. This service exposes some entities in a MongoDB database through a REST API. Typically I hit this API through client-side Javascript, but in some places I want to hit the same API from some C# code - and I don't want to have to create classes for everything. I've got a funky library for this which I'll be publishing soon, but it helped me find a problem.&lt;/span&gt;
+&lt;p&gt;Testing the C# code showed me something that was a bit odd - GETs and POSTSs were working fine, but PUTs and DELETEs were showing an HTTP Status code of &amp;lsquo;1&amp;rsquo; (which isn&amp;rsquo;t a valid code). Here&amp;rsquo;s the what I was seeing:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/requests.png"&gt;&lt;img src="images/requests.png" alt="requests" width="600" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Checking the node server showed the same thing - DELETEs were returning status 1.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.dwmkerr.com/wp-content/uploads/2013/07/console.png"&gt;&lt;img src="images/console.png" alt="console" width="600" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The server code is very lightweight so it&amp;rsquo;s quick to see what&amp;rsquo;s going on:&lt;/p&gt;
+&lt;p&gt;[code lang=&amp;ldquo;js&amp;rdquo;]exports.deleteUser = function(request, response) {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// Get the id.
+var id = request.params.id;
+// Log the user id.
+console.log('Deleting user: ' + id);
+// Get the users collection, delete the object.
+db.collection(collectionName, function(err, collection) {
+collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
+if (err) {
+console.log('Error deleting user: ' + err);
+response.send(400, {'error':'An error has occurred'});
+} else {
+console.log('' + result + ' document(s) deleted');
+response.send(result);
+}
+});
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}[/code]&lt;/p&gt;
+&lt;p&gt;The function is called successfully, so we hit &amp;lsquo;response.send&amp;rsquo;. This looks like the problem - the result object is simply the number one, checking the &lt;a title="Express API Documentation" href="http://expressjs.com/api.html" target="_blank"&gt;Express Api Documentation&lt;/a&gt; for send shows some examples like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;res.send(new Buffer('whoop'));
+res.send({ some: 'json' });
+res.send('some html');
+res.send(404, 'Sorry, we cannot find that!');
+res.send(500, { error: 'something blew up' });
+res.send(200);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So just like the final example, we&amp;rsquo;re sending the code 1, which is not valid. What surprised me was what happened when I changed the send call to the below:&lt;/p&gt;
+&lt;p&gt;[code lang=&amp;ldquo;js&amp;rdquo;]response.send(200, result)[/code]&lt;/p&gt;
+&lt;p&gt;I was &lt;em&gt;still &lt;/em&gt;getting the code 1 returned. It turns out that this is a kind of undocumented oddity of Express - if you pass a numeric code and &lt;b&gt;the second argument is also numeric&lt;/b&gt; it sends the&lt;b&gt; second argument as the status&lt;/b&gt;.&lt;/p&gt;
+&lt;p&gt;In response.js of Express we find:&lt;/p&gt;
+&lt;p&gt;[code lang=&amp;ldquo;js&amp;rdquo;]res.send = function(body){
+var req = this.req;
+var head = &amp;lsquo;HEAD&amp;rsquo; == req.method;
+var len;&lt;/p&gt;
+&lt;p&gt;// allow status / body
+if (2 == arguments.length) {
+// res.send(body, status) backwards compat
+if (&amp;rsquo;number&amp;rsquo; != typeof body &amp;amp;&amp;amp; &amp;rsquo;number&amp;rsquo; == typeof arguments[1]) {
+this.statusCode = arguments[1];
+} else {
+this.statusCode = body;
+body = arguments[1];
+}
+}[/code]&lt;/p&gt;
+&lt;p&gt;So it seems the Express used to support a call like res.send({body}, 200) - and checks for a numeric second argument for backwards compatibility.&lt;/p&gt;
+&lt;p&gt;The workaround - don&amp;rsquo;t send numbers as any part of the response, unless it&amp;rsquo;s most definitely the status code - if you want to return the number of documents deleted, format it as json first, otherwise Express will get confused and mess with your status codes.&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>
