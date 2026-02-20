@@ -68,3 +68,14 @@
   font-size: 1.4rem;
   line-height: 1.8;
 }
+
+.p-article__discussion {
+  margin: 2rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
+}
+
+.p-article__discussion a {
+  color: #ff6600;
+  font-weight: 500;
+}
