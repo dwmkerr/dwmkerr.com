@@ -1,0 +1,92 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Debugging on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/categories/debugging/</link><description>Recent content in Debugging on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><managingEditor>Dave Kerr</managingEditor><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Mon, 16 Apr 2012 07:55:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/categories/debugging/index.xml" rel="self" type="application/rss+xml"/><item><title>Could not load file or assembly 'System.Windows, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e' or one of its dependencies.</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/could-not-load-file-or-assembly-system-windows-version2-0-5-0-cultureneutral-publickeytoken7cec85d7bea7798e-or-one-of-its-dependencies/</link><pubDate>Mon, 16 Apr 2012 07:55:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/could-not-load-file-or-assembly-system-windows-version2-0-5-0-cultureneutral-publickeytoken7cec85d7bea7798e-or-one-of-its-dependencies/</guid><description>&lt;p&gt;Are you getting the error below when working with Silverlight projects?&lt;/p&gt;
+&lt;pre&gt;Could not load file or assembly 'System.Windows, Version=2.0.5.0, &lt;br /&gt;Culture=neutral, PublicKeyToken=7cec85d7bea7798e' or&lt;br /&gt; one of its dependencies.&lt;/pre&gt;
+&lt;p&gt;It's a bit of an odd one. The solution that works for me is to re-register System.Core and System.Windows in the GAC. Use the commands below.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;32 Bit System&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil" /i "C:\Program Files\Microsoft Silverlight\4.1.10111.0\System.Core.dll"&lt;br /&gt;"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil" /i "C:\Program Files\Microsoft Silverlight\4.1.10111.0\System.Windows.dll"&amp;nbsp;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;64 Bit System&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil" /i "C:\Program Files\Microsoft Silverlight\4.1.10111.0\System.Core.dll"&lt;br /&gt;"C:\Program Files&amp;nbsp;(x86)\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil" /i "C:\Program Files\Microsoft Silverlight\4.1.10111.0\System.Windows.dll"&amp;nbsp;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;So far I am yet to understand why this happens - if anyone can shed any light please comment!&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Debugger:: An unhandled non-continuable exception was thrown during process load</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/debugger-an-unhandled-non-continuable-exception-was-thrown-during-process-load/</link><pubDate>Wed, 08 Feb 2012 06:54:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/debugger-an-unhandled-non-continuable-exception-was-thrown-during-process-load/</guid><description>&lt;p&gt;The following exception can be a very tricky one to deal with:&lt;/p&gt;
+&lt;pre&gt;Debugger:: An unhandled non-continuable exception was thrown during process load&lt;/pre&gt;
+&lt;p&gt;here's some tips if you get it.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Are you linking to winmm.lib? If so avoid it - it can cause these problems.&lt;/li&gt;
+&lt;li&gt;Are you delay-loading the module? If not, try it - this can often resolve this issue if other modules like winmm.lib are interfering with the module that causes this exception.&lt;/li&gt;
+&lt;li&gt;Are you using C++/CLI for the excepting module? If so, try using #pragma pack around exported class definitions.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div&gt;If you haven't specified packing - do so. This is good practice anyway. I've used libraries that change the packing (which is very bad behaviour) before and this has caused all sorts of problems, so try and do the following:&lt;/div&gt;
+&lt;div&gt;
+&lt;pre class="brush: c-sharp;"&gt;// Push packing options, specify the packing.
+#pragma pack(push, 1)
+&lt;p&gt;// Exported class
+class MY_API MyClass
+{
+public:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// ...etc
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;};&lt;/pre&gt;&lt;/p&gt;
+&lt;pre class="brush: c-sharp;"&gt;// Restore packing options.
+#pragma pack(pop)&lt;/pre&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item><item><title>How to Debug a Visual Studio Extension</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/how-to-debug-a-visual-studio-extension/</link><pubDate>Mon, 28 Nov 2011 11:11:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/how-to-debug-a-visual-studio-extension/</guid><description>&lt;p&gt;Here are a few tips for debugging Visual Studio Extensions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Visual Studio 2008/2010&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;If you need to debug your Visual Studio extension, you may find that Visual Studio itself locks it. This is a real drag - to resolve this issue, add the following as a pre-build step:&lt;/p&gt;
+&lt;pre&gt;if exist "$(TargetPath).locked" del "$(TargetPath).locked"&lt;/pre&gt;
+&lt;pre&gt;if not exist "$(TargetPath).locked" if exist "$(TargetPath)" &lt;br /&gt;move "$(TargetPath)" "$(TargetPath).locked"&lt;/pre&gt;
+&lt;p&gt;This will ensure the locked file is moved out of the way first - very useful!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Visual Studio 2010&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Every time I do a clean checkout of one of my projects, it seems to lose the ability to be run in the Experimental mode of visual studio. Here's a quick tip - if you lose the ability to debug your visual studio extension, make sure you have the 'Debug' tab of your project set up as below:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/screenshot.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Specifically with the external program set as visual studio and the command line arguments as &lt;strong&gt;/rootsuffix exp&lt;/strong&gt;. This will run your extension in the Experimental Instance of Visual Studio.&lt;/p&gt;</description><category>CodeProject</category></item><item><title>Visual Studio Code Analysis - Buffer Overruns</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/visual-studio-code-analysis-buffer-overruns/</link><pubDate>Tue, 20 Sep 2011 13:55:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/visual-studio-code-analysis-buffer-overruns/</guid><description>&lt;p&gt;Today I was looking through some fairly old source code in a large solution, large in this case is ~300 projects and about 1 million lines of code. Parts of the code base are very old - at some stage a decision was made to disable warning C4996. The problem I came across is reduced to its most simple form below:&lt;/p&gt;
+&lt;pre class="brush: c-sharp;"&gt;// AnalysisExample.cpp : An example of how static analysis can help.
+//
+&lt;p&gt;#include &amp;ldquo;stdafx.h&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;int _tmain(int argc, _TCHAR* argv[])
+{
+// Create two buffers, one small, one large.
+TCHAR storageSmall[13];
+TCHAR storageLarge[128];&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// Get a pointer to a string literal.
+TCHAR* str = _T(&amp;quot;Here is a string that is too long.&amp;quot;);
+// Now do something very dangerous.
+::_tcscpy(storageLarge, str);
+::_tcscpy(storageSmall, storageLarge);
+return 0;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}&lt;/pre&gt;&lt;/p&gt;
+&lt;p&gt;Now in a sensible world with this warning enabled, we would get the following when compiling:&lt;/p&gt;
+&lt;pre&gt;analysisexample.cpp(14): warning C4996: 'wcscpy':
+This function or variable may be unsafe. Consider using
+wcscpy_s instead. To disable deprecation, use
+_CRT_SECURE_NO_WARNINGS. See online help for details.&lt;/pre&gt;
+&lt;pre&gt;analysisexample.cpp(15): warning C4996: 'wcscpy':
+This function or variable may be unsafe. Consider using
+wcscpy_s instead. To disable deprecation, use
+_CRT_SECURE_NO_WARNINGS. See online help for details.&lt;/pre&gt;
+&lt;p&gt;The warning is telling us that wcscpy (which is what _tcscpy translates to in a Unicode build) is unsafe, which indeed it is as it does no buffer checking. However, when you migrate a Visual Studio 2005 solution to 2008 or straight to 2010 then suddenly you'll get lots of warnings like this. If there are thousands of warnings and they're masking other more important ones then you can see why maybe you'd consider disabling them.&lt;/p&gt;
+&lt;p&gt;Why is this a bug?&lt;/p&gt;
+&lt;p&gt;In case you didn't see it, a string literal that is 34 characters long (68 bytes) is copied to a buffer 128 characters long. OK so far. Then we copy the 34 characters into a smaller 13 character buffer - this causes a buffer overrun on the stack. In reality what happens is variables used subsequently in the function get overwritten unexpectedly. Or don't. Generally the worst case is that nothing odd happens during testing, but then the code blows up on-site with the customer, typically on something business critical like a database server - something it's hard to debug on.&lt;/p&gt;
+&lt;p&gt;Visual Studio's Code Analysis tool is a life-saver. If you haven't used it before, get used to running it on &lt;em&gt;all&lt;/em&gt;&amp;nbsp;of your projects. Here's what happens when we run it (Analyze &amp;gt; Run Code Analysis On Solution):&lt;/p&gt;
+&lt;pre&gt;1&amp;gt;analysisexample.cpp(18): warning C6202:
+Buffer overrun for 'storageSmall', which is possibly
+stack allocated, in call to 'wcscpy': length '256'
+exceeds buffer size '26'&lt;/pre&gt;
+&lt;p&gt;Code analysis has shown us &lt;em&gt;exactly&lt;/em&gt;&amp;nbsp;the problem, even with the warning disabled.&lt;/p&gt;
+&lt;p&gt;So why is this important? Imagine we have the following four lines spread across four files:&lt;/p&gt;
+&lt;pre class="brush: c-sharp;"&gt;// Defined in Header1.h
+static const int LENGTH1 = 13;
+&lt;p&gt;// Defined in Header2.h
+static const int LENGTH2 = 128;&lt;/p&gt;
+&lt;p&gt;// Defined in Header3.h
+typedef TCHAR LineOne[LENGTH1];&lt;/p&gt;
+&lt;p&gt;// Defined in Header4.h
+typedef TCHAR LineTwo[LENGTH2];&lt;/pre&gt;&lt;/p&gt;
+&lt;p&gt;Our code could now look like this:&lt;/p&gt;
+&lt;pre class="brush: c-sharp;"&gt;// Create two buffers, one small, one large.
+LineOne storageSmall;
+LineTwo storageLarge;
+&lt;p&gt;// Get a pointer to a string literal.
+TCHAR* str = _T(&amp;ldquo;Here is a string that is too long.&amp;rdquo;);&lt;/p&gt;
+&lt;p&gt;// Now do something very dangerous.
+::_tcscpy(storageLarge, str);
+::_tcscpy(storageSmall, storageLarge);&lt;/pre&gt;&lt;/p&gt;
+&lt;p&gt;Suddenly things aren't looking quite so obviously wrong - now imagine the different lines that make up this bug are spread across more files - or even more projects. Static analysis takes only a few seconds to run, unfortunately it's only available in the more expensive versions of visual studio.&lt;/p&gt;
+&lt;p&gt;An even better solution - don't run the risk, use &lt;strong&gt;_tcscpy_s&lt;/strong&gt;&amp;nbsp;rather than &lt;strong&gt;_tcscpy &lt;/strong&gt;- it checks the buffer length without even requiring a single extra parameter in the example above.&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>

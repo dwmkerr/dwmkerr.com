@@ -1,0 +1,133 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Testing on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/tags/testing/</link><description>Recent content in Testing on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><managingEditor>Dave Kerr</managingEditor><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Sat, 05 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/tags/testing/index.xml" rel="self" type="application/rss+xml"/><item><title>Unit Testing the Windows Registry</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/unit-testing-the-windows-registry/</link><pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/unit-testing-the-windows-registry/</guid><description>&lt;p&gt;I&amp;rsquo;ve been updating some of my .NET projects recently (read more about this in &lt;a href="https://dwmkerr.com/modernising-dotnet-projects/"&gt;Modernising .NET projects for .NET Core and beyond!&lt;/a&gt;). In one of these projects I have to work with the &lt;a href="https://en.wikipedia.org/wiki/Windows_Registry"&gt;Windows Registry&lt;/a&gt; - which can be quite painful, particularly if you want to make your code unit test friendly.&lt;/p&gt;
+&lt;p&gt;In this article I&amp;rsquo;m going to introduce a simple approach to make testing the registry a little easier. If you are just interested in the code and not so much the story behind it, you can skip straight to the project at &lt;a href="https://github.com/dwmkerr/dotnet-windows-registry"&gt;github.com/dwmkerr/dotnet-windows-registry&lt;/a&gt;.&lt;/p&gt;
+&lt;!-- vim-markdown-toc GFM --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#why-bother-testing"&gt;Why Bother Testing?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#why-bother-testing-the-registry"&gt;Why Bother Testing the Registry?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#talk-is-cheap-show-me-the-code"&gt;Talk is cheap, show me the code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-registry-is-not-easily-testable"&gt;The Registry is not easily testable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-testable-registry"&gt;The Testable Registry&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#go-forth-and-test"&gt;Go forth and test&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- vim-markdown-toc --&gt;
+&lt;h1 id="why-bother-testing"&gt;Why Bother Testing?&lt;/h1&gt;
+&lt;p&gt;There is a wealth of material available on the subject of testing. The value different of different types of tests has been discussed at length and is a constant source of debate. If you are interested in reading about testing in more detail, I recommend &lt;a href="https://martinfowler.com/testing/"&gt;Martin Fowler&amp;rsquo;s Software Testing Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m not going to weigh in on the debate of the value of different tests. Instead, here are the specific issues I faced when working on my &lt;a href="https://github.com/dwmkerr/sharpshell"&gt;SharpShell&lt;/a&gt; project (which is where my registry testing project originated):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;This is an open source project with a number of users, who would be inconvenienced if things broke from one release to another&lt;/li&gt;
+&lt;li&gt;There are a number of scenarios in the project which involve extensive modification of the registry&lt;/li&gt;
+&lt;li&gt;Even very small mistakes in the way the registry is accessed can break the code&lt;/li&gt;
+&lt;li&gt;Manually testing these scenarios is &lt;em&gt;very&lt;/em&gt; time consuming&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&amp;hellip;and I have very limited time to work on this project&lt;/li&gt;
+&lt;li&gt;I want to encourage others to contribute, but have confidence their changes will not cause unexpected failures&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In &lt;em&gt;this&lt;/em&gt; project, being able to test the changes my code is going to make to the registry has been valuable. Whether it is for your own projects will depend on your own circumstances.&lt;/p&gt;
+&lt;h1 id="why-bother-testing-the-registry"&gt;Why Bother Testing the Registry?&lt;/h1&gt;
+&lt;p&gt;The Registry is essentially a database. A problematic database. It has a complex schema, which has evolved over time. The schema for certain features (such as Windows Shell Extensions) has changed considerably over the years. It is often messy - many programs will write to it and programs can overwrite values.&lt;/p&gt;
+&lt;p&gt;One thing I have discovered over my years maintaining the SharpShell project is that registry access is one of the most &lt;em&gt;brittle&lt;/em&gt; elements of the code. It is risky, it can have unexpected consequences.&lt;/p&gt;
+&lt;p&gt;There are a few things which should cause anyone working with the registry to seriously consider testing:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What do you do if the keys you are accessing have been modified by other programs?&lt;/li&gt;
+&lt;li&gt;What if your own programs have written incorrect data?&lt;/li&gt;
+&lt;li&gt;Is your code going to run on different versions of Windows, which might use the registry in different ways?&lt;/li&gt;
+&lt;li&gt;Registry access is &lt;em&gt;security sensitive&lt;/em&gt; - does your code run with the appropriate permissions to access what it needs to access?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The registry is a database, but it is not an ACID database, meaning you can quite easily end up writing data in an inconsistent format (for example, if your program crashes before it has written all of the data it needs to). It has very limited access control - there is no way to limit other privileged programs overwriting or corrupting your data.&lt;/p&gt;
+&lt;p&gt;Hopefully covers some of the reasons it is worth testing the registry. Now lets see some code.&lt;/p&gt;
+&lt;h1 id="talk-is-cheap-show-me-the-code"&gt;Talk is cheap, show me the code&lt;/h1&gt;
+&lt;p&gt;Here&amp;rsquo;s an example of what I want to be able to do:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-cs" data-lang="cs"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;[Test]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; Register_Server_Associations_Uses_Appropriate_Class_Id_For_Class_Of_Extension()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Pretty important test. Given we have a file extension in the registry, assert that we&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// register an extension with the appropriate ProgID.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Prime the registry with a progid for *.exe files.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; _registry.AddStructure(RegistryView.Registry64, &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt;.Join(Environment.NewLine,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34;HKEY_CLASSES_ROOT&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; .exe&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; (Default) = exefile&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; Content Type = application/x-msdownload&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; exefile&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; (Default) = Application&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Register a context menu with an *.exe association.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; clsid = &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Guid(&lt;span style="color:#e6db74"&gt;&amp;#34;00000000-1111-2222-3333-444444444444&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; serverType = ServerType.ShellContextMenu;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; serverName = &lt;span style="color:#e6db74"&gt;&amp;#34;TestContextMenu&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; associations = &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt;[] { &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; COMServerAssociationAttribute(AssociationType.ClassOfExtension, &lt;span style="color:#e6db74"&gt;&amp;#34;.exe&amp;#34;&lt;/span&gt;) };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; registrationType = RegistrationType.OS64Bit;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ServerRegistrationManager.RegisterServerAssociations(clsid, serverType, serverName, associations, registrationType);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Assert we have the new extention.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; print = _registry.Print(RegistryView.Registry64);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Assert.That(print, Is.EqualTo(&lt;span style="color:#66d9ef"&gt;string&lt;/span&gt;.Join(Environment.NewLine,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34;HKEY_CLASSES_ROOT&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; .exe&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; (Default) = exefile&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; Content Type = application/x-msdownload&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; exefile&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; (Default) = Application&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; ShellEx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; ContextMenuHandlers&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; TestContextMenu&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; (Default) = {00000000-1111-2222-3333-444444444444}&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This test looks a little complex, but the details don&amp;rsquo;t matter. What matters is the &lt;em&gt;flow&lt;/em&gt;, which is just:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Given&lt;/strong&gt; a particular existing structure in the registry&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;strong&gt;when&lt;/strong&gt; I call a certain API&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;strong&gt;then&lt;/strong&gt; I expect a certain set of changes to have been made&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Should be easy right? Unfortunately, it&amp;rsquo;s not as easy as this.&lt;/p&gt;
+&lt;h1 id="the-registry-is-not-easily-testable"&gt;The Registry is not easily testable&lt;/h1&gt;
+&lt;p&gt;The &lt;a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.registrykey"&gt;.NET Framework Registry classes&lt;/a&gt; are not written with testing in mind. This is not surprising - they are just wrappers around the &lt;a href="https://docs.microsoft.com/en-us/windows/win32/sysinfo/registry-functions"&gt;Win32 Registry APIs&lt;/a&gt;. These are APIs which have been around for a while, they have a very well-defined goal, which is to provide access to the registry. They were not written with unit testing in mind.&lt;/p&gt;
+&lt;p&gt;There are in general two approaches which can be taken to testing &lt;a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)"&gt;&lt;em&gt;side effects&lt;/em&gt;&lt;/a&gt;. Side effects are changes to state &lt;em&gt;outside&lt;/em&gt; of your function or code&amp;rsquo;s state - such as the file system, databases and so on. These approaches are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Test the System: We allow our tests to change the external system, making sure to prepare it in advance, read the changes, then clean up afterwards&lt;/li&gt;
+&lt;li&gt;Mocks the System: We make sure our code doesn&amp;rsquo;t touch the external system when it is testing, we test a mock only and assert that the mocked code makes the expected changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The first approach is arguably better - you are &lt;em&gt;really&lt;/em&gt; asserting that the expected changes have been made. But it is also complex - you have to clean up after yourself, you run the risk of your tests actually changing (or even breaking your system) and you make it harder to have other developers easily run the tests. Some systems can mitigate this - for example, with some databases you could test in the context of a transaction which you never commit. But the registry offers no such capabilities.&lt;/p&gt;
+&lt;p&gt;The second approach is more common and in general a little easier. It doesn&amp;rsquo;t cause side effects, but still allows us to at least ensure we are going to attempt to make the expected changes.&lt;/p&gt;
+&lt;p&gt;To mock a service under test in .NET, we generally need to be calling functions on an &lt;em&gt;interface&lt;/em&gt;. There are some ways around this (fakes, modified assemblies, etc) but they are problematic. However, the .NET Registry classes are not exposed as interfaces. This is not a failure of the framework, arguably adding interfaces without a specific need is an anti-pattern. But it does make mocking the registry hard.&lt;/p&gt;
+&lt;p&gt;The easiest way around this problem (at least in my opinion) is to wrap the registry access in an interface, then provide two implementations. One which uses the standard registry access methods, and one which mocks the changes to the registry in an isolated and testable fashion. In my SharpShell code this was the approach I took, and I have just extracted this code into its own library to help others who might want to use the same approach.&lt;/p&gt;
+&lt;h1 id="the-testable-registry"&gt;The Testable Registry&lt;/h1&gt;
+&lt;p&gt;The solution I&amp;rsquo;ve used is fairly simple. You can see the code at:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/dotnet-windows-registry"&gt;github.com/dwmkerr/dotnet-windows-registry&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Instead of making calls to &lt;code&gt;Regsitry&lt;/code&gt; or &lt;code&gt;RegistryKey&lt;/code&gt;, you make calls to &lt;code&gt;IRegsitry&lt;/code&gt; or &lt;code&gt;IRegsitryKey&lt;/code&gt;. Then use the appropriate implementation. There are examples in the project documentation, but here&amp;rsquo;s how it looks in a nutshell.&lt;/p&gt;
+&lt;p&gt;First, make sure the code you have which access the registry does it via the &lt;code&gt;IRegistry&lt;/code&gt; interface:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-cs" data-lang="cs"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Greeter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; Greeter(IRegistry _registry)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; _registry = registry;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; Greet(&lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; name, &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; greeting)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; var key = registry.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; var subkey = key.OpenSubKey(&lt;span style="color:#e6db74"&gt;&amp;#34;Greetings&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; subkey.SetValue(name, &lt;span style="color:#e6db74"&gt;$&amp;#34;{greeting}, {name}!&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; IRegsitry _registry;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now in your program, create your class and provide it with a &lt;code&gt;WindowsRegistry&lt;/code&gt; class:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-cs" data-lang="cs"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; greeter = &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Greeter(&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; WindowsRegistry());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;greeter.Greet(&lt;span style="color:#e6db74"&gt;&amp;#34;Billy&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;Howdy&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And you can test your code like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-cs" data-lang="cs"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; registry = &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; InMemoryRegistry();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; greeter = &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Greeter(registry);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; print = _registry.Print(RegistryView.Registry64);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Assert.That(print, Is.EqualTo(&lt;span style="color:#66d9ef"&gt;string&lt;/span&gt;.Join(Environment.NewLine,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34;HKEY_CURRENT_USER&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; Greetings&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;@&amp;#34; Billy = Howdy, Billy!&amp;#34;&lt;/span&gt;)));
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That&amp;rsquo;s the basics.&lt;/p&gt;
+&lt;h1 id="go-forth-and-test"&gt;Go forth and test&lt;/h1&gt;
+&lt;p&gt;There is a degree of inconvenience in having to use the interface rather than using the out-of-the-box implementation. This is a trade-off you will have to make to allow your code to be testable, and whether it is a worthwhile trade will depend on your project.&lt;/p&gt;
+&lt;p&gt;The pattern of not relying on concrete implementations and instead providing interfaces to classes is known as &lt;a href="https://en.wikipedia.org/wiki/Dependency_injection"&gt;Dependency Injection&lt;/a&gt;. There are technologies which attempt to assist with this pattern, known as Inversion of Control Containers - whether they make life easier to simply move complexity around (see &lt;a href="https://github.com/dwmkerr/hacker-laws#the-law-of-conservation-of-complexity-teslers-law"&gt;The Law of Conservation of Complexity&lt;/a&gt;). But if you are &lt;em&gt;already using&lt;/em&gt; an IoC container then adopting this library and pattern will be trivial.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s it - the code has been internal to the SharpShell project for years and I have only just extracted it into its own library. I&amp;rsquo;ll be using it in my &lt;a href="https://github.com/dwmkerr/dotnet-com-admin"&gt;ComAdmin&lt;/a&gt; project (which is also being extracted from SharpShell). Given that it is new it might change a bit, and I&amp;rsquo;d love any feedback:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/dotnet-windows-registry"&gt;https://github.com/dwmkerr/dotnet-windows-registry&lt;/a&gt;&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>

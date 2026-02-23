@@ -1,0 +1,622 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MySQL on dwmkerr.com</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/tags/mysql/</link><description>Recent content in MySQL on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><managingEditor>Dave Kerr</managingEditor><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 19 Apr 2016 08:54:39 +0000</lastBuildDate><atom:link href="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/tags/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>Learn Docker by building a Microservice</title><link>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/learn-docker-by-building-a-microservice/</link><pubDate>Tue, 19 Apr 2016 08:54:39 +0000</pubDate><guid>https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-68/learn-docker-by-building-a-microservice/</guid><description>&lt;p&gt;If you are looking to get your hands dirty and learn all about &lt;a href="https://docker.com"&gt;Docker&lt;/a&gt;, then look no further!&lt;/p&gt;
+&lt;p&gt;In this article I&amp;rsquo;m going to show you how Docker works, what all the fuss is about, and how Docker can help with a basic development task - building a microservice.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll use a simple Node.js service with a MySQL backend as an example, going from code running locally to containers running a microservice and database.&lt;/p&gt;
+&lt;p align="center"&gt;
+&lt;img src="images/Article.png" /&gt;
+&lt;/p&gt;
+&lt;p&gt;Once you&amp;rsquo;ve read the article, you can find the source code here:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/dwmkerr/node-docker-microservice"&gt;github.com/dwmkerr/node-docker-microservice&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="what-is-docker"&gt;What is Docker?&lt;/h2&gt;
+&lt;p&gt;At its heart, Docker is software which lets you create an &lt;em&gt;image&lt;/em&gt; (which is a lot like a template for a virtual machine) and then run instances of that image in a &lt;em&gt;container&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Docker maintains a vast repository of images, called the &lt;a href="https://hub.docker.com"&gt;Docker Hub&lt;/a&gt; which you can use as starting points or as free storage for your own images. You can install Docker, choose an image you&amp;rsquo;d like to use, then run an instance of it in a container.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re going to build images, create containers from images and more in this article.&lt;/p&gt;
+&lt;h3 id="install-docker"&gt;Install Docker&lt;/h3&gt;
+&lt;p&gt;To follow along and use this article, you&amp;rsquo;ll need Docker.&lt;/p&gt;
+&lt;p&gt;Check the installation guide for your platform, &lt;a href="https://docs.docker.com/engine/installation/"&gt;docs.docker.com/engine/installation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you are on Mac or Windows, consider using a Virtual Machine. I use Parallels on Mac OS X to run an Ubuntu machine for most development activities. Being able to take snapshots, break things and then revert back is very handy when experimenting.&lt;/p&gt;
+&lt;h3 id="try-it-out"&gt;Try It Out&lt;/h3&gt;
+&lt;p&gt;Enter this command:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker run -it ubuntu
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After a bit of spinning, you&amp;rsquo;ll see a prompt like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;root@719059da250d:/#
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Try out a few commands and then exit the container:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;root@719059da250d:/# lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description: Ubuntu 14.04.4 LTS
+Release: 14.04
+Codename: trusty
+root@719059da250d:/# exit
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This doesn&amp;rsquo;t look like much, but a lot has happened!&lt;/p&gt;
+&lt;p&gt;What you are seeing is the bash shell of an &lt;em&gt;isolated&lt;/em&gt; container running Ubuntu, on your machine. It&amp;rsquo;s yours to place with - you can install things on it, run software, whatever you want.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s a diagram and breakdown of what just happened (the digram is from the &lt;a href="https://docs.docker.com/v1.8/introduction/understanding-docker/"&gt;&amp;lsquo;Understanding the Architecture&amp;rsquo; Docker Documentation&lt;/a&gt;, which is great):&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/Flow.png" alt="Docker Run Flow"&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We issue a docker command:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;docker&lt;/code&gt;: run the docker client&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;run&lt;/code&gt;: the command to run a new container&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-it&lt;/code&gt;: option to give the container an interactive terminal&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ubuntu&lt;/code&gt;: the image to base the container on&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;The docker service running on the host (our machine) checks to see if we have a copy of the requested image locally- which there isn&amp;rsquo;t.&lt;/li&gt;
+&lt;li&gt;The docker service checks the public registry (the docker hub) to see if there&amp;rsquo;s an image named &lt;code&gt;ubuntu&lt;/code&gt; available- which there is.&lt;/li&gt;
+&lt;li&gt;The docker service downloads the image and stores it in its local cache of images (ready for next time).&lt;/li&gt;
+&lt;li&gt;The docker service creates a new container, based on the &lt;code&gt;ubuntu&lt;/code&gt; image.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Try any of these:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker run -it haskell
+docker run -it java
+docker run -it python
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We&amp;rsquo;re not going to use &lt;a href="https://xkcd.com/1312/"&gt;Haskell&lt;/a&gt; today, but you can see, running an environment is very easy.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s a snap to build images of our own, with our apps or services on them, databases, whatever we need. We can then run them on any machine with Docker installed - and the image will run in the same, predictable way. We can build our software &lt;em&gt;and the environment it runs on&lt;/em&gt; as code and deploy easily.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s look into a simple microservice as an example.&lt;/p&gt;
+&lt;h2 id="the-brief"&gt;The Brief&lt;/h2&gt;
+&lt;p&gt;We&amp;rsquo;re going to build a microservice which lets us manage a directory of email addresses to phone numbers, using Node.js and MySQL.&lt;/p&gt;
+&lt;h2 id="getting-started"&gt;Getting Started&lt;/h2&gt;
+&lt;p&gt;For doing local development we&amp;rsquo;ll need to install MySQL and create a test database for us to&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&amp;hellip;nope.&lt;/p&gt;
+&lt;p&gt;Creating a local database and running scripts on it is an easy start, but can get messy. Lots of uncontrolled stuff going on. It might work, we could even control it with some shell scripts checked in to our repo, but what if other developers already have MySQL installed? What if they have a database already with the creative name &amp;lsquo;users&amp;rsquo; which we want to create?&lt;/p&gt;
+&lt;h3 id="step-1-creating-a-test-database-server---in-docker"&gt;Step 1: Creating a Test Database Server - in Docker&lt;/h3&gt;
+&lt;p&gt;This is a great Docker use case. We might not want to run our production database in Docker (perhaps we&amp;rsquo;ll just use Amazon RDS for example), but we can spin up a clean MySQL database in no time as a Docker container for development - leaving our development machine clean and keeping everything we do controlled and repeatable.&lt;/p&gt;
+&lt;p&gt;Run the following command:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker run --name db -d -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 mysql:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This starts a MySQL instance running, allowing access through port 3306 using the root password 123.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;docker run&lt;/code&gt; tells the engine we want to run an image (the image comes at the end, &lt;a href="https://hub.docker.com/_/mysql/"&gt;mysql:vlatest&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--name db&lt;/code&gt; names this container &lt;code&gt;db&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-d&lt;/code&gt; (or &lt;code&gt;--detach&lt;/code&gt;) detach - i.e. run the container in the background.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-e MYSQL_ROOT_PASSWORD=123&lt;/code&gt; (or &lt;code&gt;--env&lt;/code&gt;) environment variables - tells docker we want to provide an environment variable. The variable following it is what the MySQL image checks for setting the default root password.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-p 3306:3306&lt;/code&gt; (or &lt;code&gt;--publish&lt;/code&gt; tells the engine that we want to map the port 3306 from inside the container to out port 3306.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The last part is really important - even though that&amp;rsquo;s the MySQL default port, if we don&amp;rsquo;t tell docker explicitly we want to map it, it will block access through that port (because containers are isolated until you tell them you want access).&lt;/p&gt;
+&lt;p&gt;The return value of this function is the &lt;em&gt;container id&lt;/em&gt;, a reference to the container which you can use to stop it, restart it, issue commands on it and so on. Let&amp;rsquo;s see which containers are running:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ docker ps
+CONTAINER ID IMAGE ... NAMES
+36e68b966fd0 mysql:latest ... db
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The key information is the container ID, image and name. Let&amp;rsquo;s connect to this image and see what&amp;rsquo;s there:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$ docker exec -it db /bin/bash
+root@36e68b966fd0:/# mysql -uroot -p123
+mysql&amp;gt; show databases;
++--------------------+
+| Database |
++--------------------+
+| information_schema |
++--------------------+
+1 rows in set (0.01 sec)
+mysql&amp;gt; exit
+Bye
+root@36e68b966fd0:/# exit
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is pretty clever too:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;docker exec -it db&lt;/code&gt; tells docker we want to execute a command on the container named &lt;code&gt;db&lt;/code&gt; (we could also use the id, or just the first few letters of the id). &lt;code&gt;-it&lt;/code&gt; ensures we have an interactive terminal.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mysql -uroot -p123&lt;/code&gt; the command we actually run as a process in the container, which in this case is just the mysql client.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We can create databases, tables, users, whatever we need.&lt;/p&gt;
+&lt;h3 id="wrapping-up-the-test-database"&gt;Wrapping up the Test Database&lt;/h3&gt;
+&lt;p&gt;Running MySQL inside a container has already introduced a few Docker tricks, but let&amp;rsquo;s pause here and move onto the service. For now, we&amp;rsquo;ll have create a &lt;code&gt;test-database&lt;/code&gt; folder with a script to start the database, stop the database and setup test data:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;test-database\setup.sql
+test-database\start.sh
+test-database\stop.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Start is simple:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/sh
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Run the MySQL container, with a database named &amp;#39;users&amp;#39; and credentials&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for a users-service user which can access it.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;Starting DB...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name db -d &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -e MYSQL_ROOT_PASSWORD&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;123&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -e MYSQL_DATABASE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;users -e MYSQL_USER&lt;span style="color:#f92672"&gt;=&lt;/span&gt;users_service -e MYSQL_PASSWORD&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;123&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -p 3306:3306 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mysql:latest
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Wait for the database service to start up.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;Waiting for DB to start up...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker exec db mysqladmin --silent --wait&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;30&lt;/span&gt; -uusers_service -p123 ping &lt;span style="color:#f92672"&gt;||&lt;/span&gt; exit &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Run the setup script.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;Setting up initial data...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker exec -i db mysql -uusers_service -p123 users &amp;lt; setup.sql
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This script runs the database image in a detached container (i.e. in the background), with a user set up to access a &lt;code&gt;users&lt;/code&gt; database, then waits for the database server to start up, then runs a &lt;code&gt;setup.sql&lt;/code&gt; script to set initial data.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;setup.sql&lt;/code&gt; is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;create&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;table&lt;/span&gt; directory (user_id INT &lt;span style="color:#66d9ef"&gt;NOT&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;NULL&lt;/span&gt; AUTO_INCREMENT &lt;span style="color:#66d9ef"&gt;PRIMARY&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;KEY&lt;/span&gt;, email TEXT, phone_number TEXT);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;insert&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;into&lt;/span&gt; directory (email, phone_number) &lt;span style="color:#66d9ef"&gt;values&lt;/span&gt; (&lt;span style="color:#e6db74"&gt;&amp;#39;homer@thesimpsons.com&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;+1 888 123 1111&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;insert&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;into&lt;/span&gt; directory (email, phone_number) &lt;span style="color:#66d9ef"&gt;values&lt;/span&gt; (&lt;span style="color:#e6db74"&gt;&amp;#39;marge@thesimpsons.com&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;+1 888 123 1112&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;insert&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;into&lt;/span&gt; directory (email, phone_number) &lt;span style="color:#66d9ef"&gt;values&lt;/span&gt; (&lt;span style="color:#e6db74"&gt;&amp;#39;maggie@thesimpsons.com&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;+1 888 123 1113&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;insert&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;into&lt;/span&gt; directory (email, phone_number) &lt;span style="color:#66d9ef"&gt;values&lt;/span&gt; (&lt;span style="color:#e6db74"&gt;&amp;#39;lisa@thesimpsons.com&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;+1 888 123 1114&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;insert&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;into&lt;/span&gt; directory (email, phone_number) &lt;span style="color:#66d9ef"&gt;values&lt;/span&gt; (&lt;span style="color:#e6db74"&gt;&amp;#39;bart@thesimpsons.com&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;+1 888 123 1115&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;stop.sh&lt;/code&gt; script will stop the container and remove it (containers are left around by docker by default so that they can be restared quickly, we don&amp;rsquo;t really need that feature for this example):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/sh
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Stop the db and remove the container.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker stop db &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; docker rm db
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We&amp;rsquo;re going to make this even more slick later on, simplifying this further. Check the code at this stage by looking at the &lt;a href="https://github.com/dwmkerr/node-docker-microservice/tree/step1"&gt;step1&lt;/a&gt; branch of the repo.&lt;/p&gt;
+&lt;h3 id="step-2-creating-a-microservice-in-nodejs"&gt;Step 2: Creating a Microservice in Node.js&lt;/h3&gt;
+&lt;p&gt;This article is really focused on learning Docker, so I&amp;rsquo;m not going to spend ages on the Node.js microservice. Instead, I&amp;rsquo;ll highlight the areas and takeaways.&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;test-database/ # contains the code seen in Step 1
+users-service/ # root of our node.js microservice
+- package.json # dependencies, metadata
+- index.js # main entrypoint of the app
+- api/ # our apis and api tests
+- config/ # config for the app
+- repository/ # abstraction over our db
+- server/ # server setup code
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Let&amp;rsquo;s take this apart bit by bit. The first section to look at is &lt;code&gt;repository&lt;/code&gt;. It can be useful to wrap your database access in some kind of class or abstraction, to allow to mock it for testing purposes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// repository.js
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;//
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Exposes a single function - &amp;#39;connect&amp;#39;, which returns
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// a connected repository. Call &amp;#39;disconnect&amp;#39; on this object when you&amp;#39;re done.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;use strict&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;mysql&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;mysql&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Class which holds an open connection to a repository
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// and exposes some simple functions for accessing data.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Repository&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;constructor&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;connection&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;connection&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;connection&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;getUsers&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Promise((&lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;reject&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;connection&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;query&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;SELECT email, phone_number FROM directory&amp;#39;&lt;/span&gt;, (&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;results&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;reject&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;An error occured getting the users: &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;results&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; []).&lt;span style="color:#a6e22e"&gt;map&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;phone_number&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;phone_number&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;getUserByEmail&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Promise((&lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;reject&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Fetch the customer.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;connection&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;query&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;SELECT email, phone_number FROM directory WHERE email = ?&amp;#39;&lt;/span&gt;, [&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;], (&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;results&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;reject&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;An error occured getting the user: &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;results&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;length&lt;/span&gt; &lt;span style="color:#f92672"&gt;===&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;undefined&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;results&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;phone_number&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;results&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;].&lt;span style="color:#a6e22e"&gt;phone_number&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;disconnect&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;connection&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;end&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// One and only exported function, returns a connected repo.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;module&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;exports&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;connect&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;connectionSettings&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Promise((&lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;reject&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;connectionSettings&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;host&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;A host must be specified.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;connectionSettings&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;A user must be specified.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;connectionSettings&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;password&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;A password must be specified.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;connectionSettings&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;A port must be specified.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Repository&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;mysql&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;createConnection&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;connectionSettings&lt;/span&gt;)));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There&amp;rsquo;s probably a lot of better ways to do this! But basically we can create a &lt;code&gt;Repository&lt;/code&gt; object like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;connect&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;host&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;127.0.0.1&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;database&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;users&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;users_service&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;password&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;123&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;3306&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}).&lt;span style="color:#a6e22e"&gt;then&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;repo&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;repo&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getUsers&lt;/span&gt;().&lt;span style="color:#a6e22e"&gt;then&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;users&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;users&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;repo&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getUserByEmail&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;homer@thesimpsons.com&amp;#39;&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;then&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// ...when you are done...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;repo&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;disconnect&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There&amp;rsquo;s also a set of unit tests in the &lt;code&gt;repository/repository.spec.js&lt;/code&gt; file. Now that we&amp;rsquo;ve got a repo, we can create a server. This is &lt;code&gt;server/server.js&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// server.js
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;express&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;express&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;morgan&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;morgan&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;module&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;exports&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;start&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;options&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Promise((&lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;reject&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Make sure we have a repository and port provided.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;options&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;A server must be started with a connected repository.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;options&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;A server must be started with a port.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Create the app, add some logging.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;app&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;express&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;use&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;morgan&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;dev&amp;#39;&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Add the APIs to the app.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;../api/users&amp;#39;&lt;/span&gt;)(&lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;options&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Start the app, creating a running server which we return.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;server&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;listen&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;options&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;, () =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;resolve&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;server&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This module exposes a &lt;code&gt;start&lt;/code&gt; function, which we can use like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;server&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;./server/server);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;server.start({port: 8080, repo: repository}).then((svr) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; // we&amp;#39;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;ve&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;got&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;a&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;running&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;http&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;server&lt;/span&gt; &lt;span style="color:#f92672"&gt;:&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Notice that &lt;code&gt;server.js&lt;/code&gt; uses &lt;code&gt;api/users/js&lt;/code&gt;? Here it is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// users.js
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;//
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Defines the users api. Add to a server by calling:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// require(&amp;#39;./users&amp;#39;)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;use strict&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Only export - adds the API to the app with the given options.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;module&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;exports&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;options&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;get&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;/users&amp;#39;&lt;/span&gt;, (&lt;span style="color:#a6e22e"&gt;req&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;res&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;options&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getUsers&lt;/span&gt;().&lt;span style="color:#a6e22e"&gt;then&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;users&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;res&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;status&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;send&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;users&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;map&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;) =&amp;gt; { &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;phoneNumber&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;phone_number&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;get&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;/search&amp;#39;&lt;/span&gt;, (&lt;span style="color:#a6e22e"&gt;req&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;res&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Get the email.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;email&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;req&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;query&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; Error(&lt;span style="color:#e6db74"&gt;&amp;#34;When searching for a user, the email must be specified, e.g: &amp;#39;/search?email=homer@thesimpsons.com&amp;#39;.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// Get the user from the repo.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;options&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getUserByEmail&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;then&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;(&lt;span style="color:#f92672"&gt;!&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;res&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;status&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;404&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;send&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;User not found.&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;res&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;status&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;send&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;email&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;phoneNumber&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;phone_number&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Both of these files have unit tests adjacent to the source.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll need config. Rather than using a specialised library, a simple file will do the trick - &lt;code&gt;config/config.js&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// config.js
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;//
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Simple application configuration. Extend as needed.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;module&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;exports&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;env&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;PORT&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;8123&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;db&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;host&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;env&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;DATABASE_HOST&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;127.0.0.1&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;database&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;users&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;users_service&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;password&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;123&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;3306&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can &lt;code&gt;require&lt;/code&gt; config as needed. Currently, most config is hard coded, but as you can see from &lt;code&gt;port&lt;/code&gt; it&amp;rsquo;s easy to add environment variables as an option.&lt;/p&gt;
+&lt;p&gt;Final step - stringing it together with an &lt;code&gt;index.js&lt;/code&gt; file which composes everything:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// index.js
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;//
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Entrypoint to the application. Opens a repository to the MySQL
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// server and starts the server.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;server&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;./server/server&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;./repository/repository&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;./config/config&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Lots of verbose logging when we&amp;#39;re starting up...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;--- Customer Service---&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Connecting to customer repository...&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Log unhandled exceptions.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;on&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;uncaughtException&amp;#39;&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;error&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;Unhandled Exception&amp;#39;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;on&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;unhandledRejection&amp;#39;&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;promise&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;error&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;Unhandled Rejection&amp;#39;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;connect&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;host&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;db&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;host&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;database&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;db&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;database&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;db&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;password&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;db&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;password&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;db&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}).&lt;span style="color:#a6e22e"&gt;then&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;repo&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Connected. Starting server...&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;server&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;start&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;repo&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}).&lt;span style="color:#a6e22e"&gt;then&lt;/span&gt;((&lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Server started successfully, running on port &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;port&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;app&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;on&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;close&amp;#39;&lt;/span&gt;, () =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;disconnect&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We have a little error handling and beyond that we&amp;rsquo;re just loading config, creating a repo and starting our server.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s the microservice. It allows us to get all users, or search a user:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;HTTP GET /users # gets all users
+HTTP GET /search?email=homer@thesimpons.com # searches by email
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you checkout the code, you&amp;rsquo;ll see that there&amp;rsquo;s a few commands available for you:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;cd ./users-service
+npm install # setup everything
+npm test # unit test - no need for a test database running
+npm start # run the server - you must have a test database running
+npm run debug # run the server in debug mode, opens a browser with the inspector
+npm run lint # check to see if the code is beautiful
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Asides from the code you&amp;rsquo;ve seen we have:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Node Inspector for debugging&lt;/li&gt;
+&lt;li&gt;Mocha/shoud/supertest for unit tests&lt;/li&gt;
+&lt;li&gt;ESLint for linting&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;That&amp;rsquo;s it!&lt;/p&gt;
+&lt;p&gt;Run the test database with:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;cd test-database/
+./start.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then the service with:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;cd ../users-service/
+npm start
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can point your browser to &lt;a href="http://localhost:8123/users"&gt;localhost:8123/users&lt;/a&gt; and see it in action. If you are using Docker Machine (i.e. you&amp;rsquo;re on Mac or Windows) then &lt;code&gt;localhost&lt;/code&gt; won&amp;rsquo;t work, you need the IP of the docker machine instead. You can use &lt;code&gt;docker-machine ip&lt;/code&gt; to get it.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ve whipped through building the service quickly. If you&amp;rsquo;d like to see this code before we continue, check the &lt;a href="https://github.com/dwmkerr/node-docker-microservice/tree/step2"&gt;step2&lt;/a&gt; branch.&lt;/p&gt;
+&lt;h1 id="step-3-dockerising-our-microservice"&gt;Step 3: Dockerising our Microservice&lt;/h1&gt;
+&lt;p&gt;OK now it gets fun!&lt;/p&gt;
+&lt;p&gt;So we have a microservice which we can run on a dev box, as long as it has a compatible version of Node.js installed. What we&amp;rsquo;d like to do is set up our service so that we can create a &lt;em&gt;Docker Image&lt;/em&gt; from it, allowing us to deploy our service anywhere which supports docker.&lt;/p&gt;
+&lt;p&gt;The way we do this is create a &lt;em&gt;Dockerfile&lt;/em&gt;. A Dockerfile is a recipe that tells the Docker engine how to build your image. We&amp;rsquo;ll create a simple Dockerfile in our &lt;code&gt;users-service&lt;/code&gt; directory and start to explore how we can adapt it to our needs.&lt;/p&gt;
+&lt;h2 id="creating-the-dockerfile"&gt;Creating the Dockerfile&lt;/h2&gt;
+&lt;p&gt;Create a new text file called &lt;code&gt;Dockerfile&lt;/code&gt; at &lt;code&gt;users-service/&lt;/code&gt; with the content below:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# Use Node v4 as the base image.
+FROM node:4
+# Run node
+CMD [&amp;#34;node&amp;#34;]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now run the commands below to build the image and run the a container from it:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker build -t node4 . # Builds a new image
+docker run -it node4 # Run a container with this image, interactive
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Let&amp;rsquo;s look at the build command first.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;docker build&lt;/code&gt; tell the engine we want to create a new image.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-t node4&lt;/code&gt; tag this image with the tag &lt;code&gt;node4&lt;/code&gt;. We can refer to this image by tag from now on.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.&lt;/code&gt; use the current directory to find the &lt;code&gt;Dockerfile&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;After some console output you&amp;rsquo;ll see we have a new image created. You can see all images on your system with &lt;code&gt;docker images&lt;/code&gt;. The next command should be fairly familiar from what we&amp;rsquo;ve done so far:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;docker run&lt;/code&gt; run a new container from an image.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-it&lt;/code&gt; use an interactive terminal.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;node4&lt;/code&gt; the tag of the image we want to use in the container.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When we run this image, we get a node repl, check the current version like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;version&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;v4.4.0&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;exit&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This is potentially different to the node version on your current machine.&lt;/p&gt;
+&lt;h2 id="examining-the-dockerfile"&gt;Examining the Dockerfile&lt;/h2&gt;
+&lt;p&gt;Looking at the dockerfile we can see quite easily what is going on:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;FROM node:4&lt;/code&gt; the first thing we specify in a Dockerfile is the base image. A quick google finds the &lt;a href="https://hub.docker.com/_/node/"&gt;node organisation page on the docker hub&lt;/a&gt; showing all of the available images. This is essentially bare bones ubuntu with node installed.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CMD [&amp;quot;node&amp;quot;]&lt;/code&gt; the &lt;code&gt;CMD&lt;/code&gt; command tells docker that this image should run the node executable. When the executable terminates, the container shuts down.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;With the addition of a few more commands, we can update our Dockerfile so that it runs our service:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;# Use Node v4 as the base image.
+FROM node:4
+# Add everything in the current directory to our image, in the &amp;#39;app&amp;#39; folder.
+ADD . /app
+# Install dependencies
+RUN cd /app; \
+npm install --production
+# Expose our server port.
+EXPOSE 8123
+# Run our app.
+CMD [&amp;#34;node&amp;#34;, &amp;#34;/app/index.js&amp;#34;]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The only addition here is that we use the &lt;code&gt;ADD&lt;/code&gt; command to copy everything&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt; in the current directory to a folder in the container called &lt;code&gt;app/&lt;/code&gt; . We then use &lt;code&gt;RUN&lt;/code&gt; to run a command in the image, which installs our modules. Finally, we &lt;code&gt;EXPOSE&lt;/code&gt; the server port, telling docker we intend to support inbound connections on &lt;code&gt;8123&lt;/code&gt;, then run our server code.&lt;/p&gt;
+&lt;p&gt;Ensure the test-database service is running, then build and run the image again:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker build -t users-service .
+docker run -it -p 8123:8123 users-service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you navigate to &lt;code&gt;localhost:8123/users&lt;/code&gt; in a browser you should see an error, checking the console shows our container is reporting some issues:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;--- Customer Service---
+Connecting to customer repository...
+Connected. Starting server...
+Server started successfully, running on port 8123.
+GET /users 500 23.958 ms - 582
+Error: An error occured getting the users: Error: connect ECONNREFUSED 127.0.0.1:3306
+at Query._callback (/app/repository/repository.js:21:25)
+at Query.Sequence.end (/app/node_modules/mysql/lib/protocol/sequences/Sequence.js:96:24)
+at /app/node_modules/mysql/lib/protocol/Protocol.js:399:18
+at Array.forEach (native)
+at /app/node_modules/mysql/lib/protocol/Protocol.js:398:13
+at nextTickCallbackWith0Args (node.js:420:9)
+at process._tickCallback (node.js:349:13)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Yikes! So the connection from our &lt;code&gt;users-service&lt;/code&gt; container to the &lt;code&gt;test-database&lt;/code&gt; container is being refused. We might try running &lt;code&gt;docker ps&lt;/code&gt; to see all containers running:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;CONTAINER ID IMAGE PORTS NAMES
+a97958850c66 users-service 0.0.0.0:8123-&amp;gt;8123/tcp kickass_perlman
+47f91343db01 mysql:latest 0.0.0.0:3306-&amp;gt;3306/tcp db
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;They&amp;rsquo;re both there, so what is going on?&lt;/p&gt;
+&lt;h2 id="linking-containers"&gt;Linking Containers&lt;/h2&gt;
+&lt;p&gt;The issue we&amp;rsquo;ve seen is actually to be expected. Docker containers are supposed to be isolated, so it wouldn&amp;rsquo;t make much sense if we could create connections between containers without us explicitly allowing it.&lt;/p&gt;
+&lt;p&gt;Yes, we can connect from our machine (the host) to a container, because we&amp;rsquo;ve opened ports for that (using the &lt;code&gt;-p 8123:8123&lt;/code&gt; argument for example). If we allowed containers to talk to each other in the same way, then two containers running on the same machine would be able to communicate, even if the developers didn&amp;rsquo;t intend it, and that&amp;rsquo;s a recipe for disaster, especially when we might have a cluster of machines whos job it is to run containers from different applications.&lt;/p&gt;
+&lt;p&gt;If we&amp;rsquo;re going to connect from one container to another, we need to &lt;em&gt;link&lt;/em&gt; them, which tells docker that we explicitly want to allow communication between the two. There are two ways of doing this, the first is the &amp;lsquo;old fasioned&amp;rsquo; but quite simple way, the second we&amp;rsquo;ll see a little later.&lt;/p&gt;
+&lt;h3 id="linking-containers-with-the-link-parameter"&gt;Linking Containers with the &amp;rsquo;link&amp;rsquo; parameter&lt;/h3&gt;
+&lt;p&gt;When we run a container, we can tell docker that we intend to connect to another container using the &lt;code&gt;link&lt;/code&gt; parameter. In our case, we can run our service correctly like this:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker run -it -p 8123:8123 --link db:db -e DATABASE_HOST=DB users-service
+&lt;/code&gt;&lt;/pre&gt;&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;docker run -it&lt;/code&gt; run a docker image in a container, with an interactive terminal.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-p 8123:8123&lt;/code&gt; map the host port 8123 to the container port 8123.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;link db:db&lt;/code&gt; link to the container named &lt;code&gt;db&lt;/code&gt; and refer to it as &lt;code&gt;db&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-e DATABASE_HOST=db&lt;/code&gt; set the &lt;code&gt;DATABASE_HOST&lt;/code&gt; environment variable to &lt;code&gt;db&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;users-service&lt;/code&gt; the name of the image to run in our container.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now when we go to &lt;code&gt;localhost:8123/users&lt;/code&gt; everything works.&lt;/p&gt;
+&lt;h4 id="how-it-works"&gt;How it works&lt;/h4&gt;
+&lt;p&gt;Remember our config file for the service? It allowed us to specify a database host with an environment variable:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// config.js
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;//
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Simple application configuration. Extend as needed.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;module&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;exports&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;env&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;PORT&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;8123&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;db&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;host&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;env&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;DATABASE_HOST&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;127.0.0.1&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;database&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;users&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;user&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;users_service&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;password&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;123&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;port&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;3306&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When we run the container, we set this environment variable to &lt;code&gt;DB&lt;/code&gt;, which means we&amp;rsquo;re connecting to a host called &lt;code&gt;DB&lt;/code&gt;. This is &lt;em&gt;automatically&lt;/em&gt; set up for us by the docker engine when we link to a container.&lt;/p&gt;
+&lt;p&gt;To see this in action, try running &lt;code&gt;docker ps&lt;/code&gt; to list all running containers. Look up the name of the container running the &lt;code&gt;users-service&lt;/code&gt;, which will be a random name such as &lt;code&gt;trusting_jang&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker ps
+CONTAINER ID IMAGE ... NAMES
+ac9449d3d552 users-service ... trusting_jang
+47f91343db01 mysql:latest ... db
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now we can look at the hosts available on our container:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker exec trusting_jang cat /etc/hosts
+127.0.0.1 localhost
+::1 localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.17.0.2 db 47f91343db01 # linking magic!!
+172.17.0.3 ac9449d3d552
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Remember how &lt;code&gt;docker exec&lt;/code&gt; works? Choose a container name and then whatever follows is the command you&amp;rsquo;ll execute on the container, in our case &lt;code&gt;cat /etc/hosts&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;OK the hosts file doesn&amp;rsquo;t have the &lt;code&gt;# linking magic!!&lt;/code&gt; comment, that&amp;rsquo;s so you can see - docker has added &lt;code&gt;db&lt;/code&gt; to our hosts file so we can refer to the linked container by hostname. This is one consequence of linking. Here&amp;rsquo;s the other:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker exec trusting_jang printenv | grep DB
+DB_PORT=tcp://172.17.0.2:3306
+DB_PORT_3306_TCP=tcp://172.17.0.2:3306
+DB_PORT_3306_TCP_ADDR=172.17.0.2
+DB_PORT_3306_TCP_PORT=3306
+DB_PORT_3306_TCP_PROTO=tcp
+DB_NAME=/trusting_jang/db
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;From this command we can also see that when docker links a container, it also provides a set of environment variables with some helpful information. We know the host, tcp port and container name.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s step 3 complete - we have a MySQL database running happily in a container, we have a node.js microservice which we can run locally or in a container of its own, and we know how to link them together.&lt;/p&gt;
+&lt;p&gt;You can check out how the code looks at this stage by going to the &lt;a href="https://github.com/dwmkerr/node-docker-microservice/tree/step3"&gt;step3&lt;/a&gt; branch.&lt;/p&gt;
+&lt;h1 id="step-4-integration-testing-the-environment"&gt;Step 4: Integration Testing the Environment&lt;/h1&gt;
+&lt;p&gt;We can now write an integration test which calls the actual server, running as a docker container, calling the containerised test database.&lt;/p&gt;
+&lt;p&gt;Writing the integration test can be done in whatever language or on whatever platform you want, within reason, but to keep things simple I&amp;rsquo;m using Node.js as we&amp;rsquo;ve already seen Mocha and Supertest in our project.&lt;/p&gt;
+&lt;p&gt;In a new folder, called &lt;code&gt;integration-tests&lt;/code&gt; we&amp;rsquo;ve got a single &lt;code&gt;index.js&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;supertest&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;supertest&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;should&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;should&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;describe&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;users-service&amp;#39;&lt;/span&gt;, () =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;api&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;supertest&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;http://localhost:8123&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;it&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;returns a 200 for a known user&amp;#39;&lt;/span&gt;, (&lt;span style="color:#a6e22e"&gt;done&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;api&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;get&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;/search?email=homer@thesimpsons.com&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;expect&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;done&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will check an API call and show the results of the test&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;As long as your &lt;code&gt;users-service&lt;/code&gt; and &lt;code&gt;test-database&lt;/code&gt; are running, the tests will pass. However, at this stage the services are getting a little harder to handle:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We have to use a shell script to start and stop the database&lt;/li&gt;
+&lt;li&gt;We have to remember a sequence of commands to start the users service against the database&lt;/li&gt;
+&lt;li&gt;We have to use node directly to run the integration tests&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now that we&amp;rsquo;re a little more familiar with Docker we can fix these issues.&lt;/p&gt;
+&lt;h3 id="simplifiying-the-test-database"&gt;Simplifiying the Test Database&lt;/h3&gt;
+&lt;p&gt;Currently we have the following files for the test database:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;/test-database/start.sh
+/test-database/stop.sh
+/test-database/setup.sql
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now that we&amp;rsquo;re more familar with Docker, we can improve on this. Looking into the &lt;a href="https://hub.docker.com/_/mysql/"&gt;mysql image documentation&lt;/a&gt; on Docker Hub there&amp;rsquo;s a note which tells us any &lt;code&gt;.sql&lt;/code&gt; or &lt;code&gt;.sh&lt;/code&gt; file added to the image&amp;rsquo;s &lt;code&gt;/docker-entrypoint-initdb.d&lt;/code&gt; folder will be executed when setting up the DB.&lt;/p&gt;
+&lt;p&gt;This means we can replace our &lt;code&gt;start.sh&lt;/code&gt; and &lt;code&gt;stop.sh&lt;/code&gt; scripts with a &lt;code&gt;Dockerfile&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;FROM mysql:5
+ENV MYSQL_ROOT_PASSWORD 123
+ENV MYSQL_DATABASE users
+ENV MYSQL_USER users_service
+ENV MYSQL_PASSWORD 123
+ADD setup.sql /docker-entrypoint-initdb.d
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now to run our test database it is just:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker build -t test-database .
+docker run --name db test-database
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="composing"&gt;Composing&lt;/h3&gt;
+&lt;p&gt;Building and running each container is still somewhat time consuming. We can take things a step further with the &lt;a href="https://docs.docker.com/compose/"&gt;Docker Compose&lt;/a&gt; tool.&lt;/p&gt;
+&lt;p&gt;Docker Compose lets you create a file which defines each container in your system, the relationships between them, and build or run them all.&lt;/p&gt;
+&lt;p&gt;First, &lt;a href="https://docs.docker.com/compose/install/"&gt;install Docker Compose&lt;/a&gt;. Now create a new file in the root of your project called &lt;code&gt;docker-compose.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;version: &amp;#39;2&amp;#39;
+services:
+users-service:
+build: ./users-service
+ports:
+- &amp;#34;8123:8123&amp;#34;
+depends_on:
+- db
+environment:
+- DATABASE_HOST=db
+db:
+build: ./test-database
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now check this out:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;docker-compose build
+docker-compose up
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Docker Compose has built all of the images needed for our application, created containers fromthem, run them in the correct order and started the whole stack!&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;docker-compose build&lt;/code&gt; command builds each image which is listed in the &lt;code&gt;docker-compose.yml&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;version: &amp;#39;2&amp;#39;
+services:
+users-service:
+build: ./users-service
+ports:
+- &amp;#34;8123:8123&amp;#34;
+depends_on:
+- db
+environment:
+- DATABASE_HOST=db
+db:
+build: ./test-database
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;build&lt;/code&gt; value for each of our services tells docker where to go to find the &lt;code&gt;Dockerfile&lt;/code&gt;. When we run &lt;code&gt;docker-compose up&lt;/code&gt;, docker starts all of our services. Notice from the &lt;code&gt;Dockerfile&lt;/code&gt; we can specify ports and dependencies. Actually, there&amp;rsquo;s a whole bunch of config we can change here.&lt;/p&gt;
+&lt;p&gt;In another terminal, run &lt;code&gt;docker compose down&lt;/code&gt; to gracefully shut down the containers.&lt;/p&gt;
+&lt;h1 id="winding-up"&gt;Winding Up&lt;/h1&gt;
+&lt;p&gt;We&amp;rsquo;ve seen a lot of docker in this article, but there&amp;rsquo;s a lot more to it. I hope this has shown some of the interesting and useful things that you can use docker for in your workflow.&lt;/p&gt;
+&lt;p&gt;As usual, questions and comments are welcomed! I&amp;rsquo;d also strongly recommend the document &lt;a href="https://docs.docker.com/engine/understanding-docker/"&gt;Understanding Docker&lt;/a&gt; to get a deeper understanding of how docker works.&lt;/p&gt;
+&lt;p&gt;You can see the final source code for the project built in this article at &lt;a href="https://github.com/dwmkerr/node-docker-microservice"&gt;github.com/dwmkerr/node-docker-microservice&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id="notes"&gt;Notes&lt;/h1&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Copying everything is actually a bad idea, because we will also copy the node_modules folder. Generally it is a better idea explicitly list the files or folders you want to copy, or use a .dockerignore file, which works just like the .gitignore file.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;If the server isn&amp;rsquo;t running, it will actually show a rather annoying exception, due to a bug in supertest, see &lt;a href="https://github.com/visionmedia/supertest/issues/314"&gt;github.com/visionmedia/supertest/issues/314&lt;/a&gt;.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item></channel></rss>
