@@ -17,23 +17,21 @@
   </div>
   {{ end }}
   {{ if eq (.Type | singularize) "post" }}
-  {{ if not (.Param "hideDate") }}
-  <div class="c-article-date">
-    <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
-      {{ .Date.Format "Jan 2, 2006" }}
-    </time>
+  {{ with $.Site.Params.substack }}
+  <div class="p-article__subscribe">
+    <a href="{{ absURL "page/subscribe" }}">Subscribe to get new posts by email</a>
   </div>
   {{ end }}
-  {{ end }}
-  {{ with .Params.discussion }}
+  {{ with $.Params.discussion }}
   <div class="p-article__discussion">
     <a href="{{ . }}" target="_blank" rel="noopener">Discuss on Hacker News / Reddit</a>
   </div>
   {{ end }}
-  {{ if eq (.Type | singularize) "post" }}
-  {{ with .Site.Params.substack }}
-  <div class="p-article__subscribe">
-    <a href="{{ absURL "page/subscribe" }}">Subscribe to get new posts by email</a>
+  {{ if not ($.Param "hideDate") }}
+  <div class="c-article-date">
+    <time datetime="{{ $.Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
+      {{ $.Date.Format "Jan 2, 2006" }}
+    </time>
   </div>
   {{ end }}
   {{ end }}

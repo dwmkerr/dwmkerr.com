@@ -73,11 +73,7 @@
   margin: 2rem 0;
   padding: 1rem 0;
   border-top: 1px solid #eee;
-}
-
-.p-article__subscribe a {
-  font-size: 1.6rem;
-  font-weight: 500;
+  font-size: inherit;
 }
 
 .p-article__discussion {
