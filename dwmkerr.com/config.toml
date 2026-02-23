@@ -26,6 +26,8 @@ googleAnalytics = "G-XNRSGLYJRM"
   bookurl = "https://amzn.to/4ho0F91"
   # Disqus shortname (disabled - shows ads on free tier)
   # disqus = "dwmkerr"
+  # Substack publication name (e.g. "dwmkerr" for dwmkerr.substack.com)
+  substack = "dwmkerr"
   author = "Dave Kerr"
   authorwebsite = "dwmkerr.com"
   avatar = "/images/avatar.jpeg"
@@ -47,6 +49,7 @@ googleAnalytics = "G-XNRSGLYJRM"
     name = "About"
     url = "/page/about/"
     weight = 2
+
 
 [Permalinks]
     post = "/:slug"
