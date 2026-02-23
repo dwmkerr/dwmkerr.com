@@ -30,21 +30,15 @@
     <a href="{{ . }}" target="_blank" rel="noopener">Discuss on Hacker News / Reddit</a>
   </div>
   {{ end }}
+  {{ if eq (.Type | singularize) "post" }}
   {{ with .Site.Params.substack }}
   <div class="p-article__subscribe">
     <a href="{{ absURL "page/subscribe" }}">Subscribe to get new posts by email</a>
   </div>
   {{ end }}
+  {{ end }}
   <footer>
     {{ if eq (.Type | singularize) "page" }}
-    <div>
-	    <div class="c-last-update">
-		    Last Update:
-		    <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
-			    {{ .Date.Format "Jan 2, 2006" }}
-		    </time>
-	    </div>
-    </div>
     {{ else }}
     {{ partial "comment_custom.html" . }}
     {{ with ($.Param "disqus") }}

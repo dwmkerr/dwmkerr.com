@@ -50,10 +50,6 @@ googleAnalytics = "G-XNRSGLYJRM"
     url = "/page/about/"
     weight = 2
 
-[[menu.main]]
-    name = "Subscribe"
-    url = "/page/subscribe/"
-    weight = 3
 
 [Permalinks]
     post = "/:slug"
