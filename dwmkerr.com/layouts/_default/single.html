@@ -32,8 +32,7 @@
   {{ end }}
   {{ with .Site.Params.substack }}
   <div class="p-article__subscribe">
-    <p>If you enjoyed this article, subscribe to get new posts by email.</p>
-    <iframe src="https://{{ . }}.substack.com/embed" frameborder="0" scrolling="no" class="p-article__subscribe-frame"></iframe>
+    <a href="https://{{ . }}.substack.com/" target="_blank" rel="noopener">Subscribe to get new posts by email</a>
   </div>
   {{ end }}
   <footer>
