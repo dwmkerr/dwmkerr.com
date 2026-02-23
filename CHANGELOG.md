@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.3.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.7...v0.3.0) (2026-02-23)
+
+
+### Features
+
+* add discussion link support for posts ([e6a87ee](https://github.com/dwmkerr/dwmkerr.com/commit/e6a87eef435c66abb3d69dbe5eb914651b326e82))
+* add Substack email subscribe form to posts ([#68](https://github.com/dwmkerr/dwmkerr.com/issues/68)) ([e167dda](https://github.com/dwmkerr/dwmkerr.com/commit/e167dda202291c73cb043d597dad751c069f4db9))
+
+
+### Documentation
+
+* document git hooks setup in CLAUDE.md ([d181e92](https://github.com/dwmkerr/dwmkerr.com/commit/d181e92128915e8f685cda4272a0c4db5119c083))
+
+
+### Bug Fixes
+
+* make discussion link text generic for HN or Reddit ([504bbca](https://github.com/dwmkerr/dwmkerr.com/commit/504bbca583e75770377e6906ef48fdb8d050f585))
+
 ## [0.2.7](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.5...v0.2.7) (2026-02-13)
 
 
