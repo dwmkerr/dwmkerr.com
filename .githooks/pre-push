@@ -1,0 +1,8 @@
+#!/bin/bash
+# Verify Hugo build before pushing
+cd dwmkerr.com && hugo --minify > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "ERROR: Hugo build failed. Fix errors before pushing."
+    cd dwmkerr.com && hugo --minify
+    exit 1
+fi
