@@ -69,6 +69,23 @@
   line-height: 1.8;
 }
 
+.p-article__subscribe {
+  margin: 2rem 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid #eee;
+}
+
+.p-article__subscribe p {
+  margin: 0 0 0.5rem 0;
+  color: #666;
+  font-size: 1.4rem;
+}
+
+.p-article__subscribe-frame {
+  width: 100%;
+  height: 150px;
+}
+
 .p-article__discussion {
   margin: 2rem 0;
   padding: 1rem 0;

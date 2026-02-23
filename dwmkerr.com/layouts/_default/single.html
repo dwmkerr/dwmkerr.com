@@ -30,6 +30,12 @@
     <a href="{{ . }}" target="_blank" rel="noopener">Discuss on Hacker News / Reddit</a>
   </div>
   {{ end }}
+  {{ with .Site.Params.substack }}
+  <div class="p-article__subscribe">
+    <p>If you enjoyed this article, subscribe to get new posts by email.</p>
+    <iframe src="https://{{ . }}.substack.com/embed" frameborder="0" scrolling="no" class="p-article__subscribe-frame"></iframe>
+  </div>
+  {{ end }}
   <footer>
     {{ if eq (.Type | singularize) "page" }}
     <div>
