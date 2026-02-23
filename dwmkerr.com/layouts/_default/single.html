@@ -32,7 +32,7 @@
   {{ end }}
   {{ with .Site.Params.substack }}
   <div class="p-article__subscribe">
-    <a href="https://{{ . }}.substack.com/" target="_blank" rel="noopener">Subscribe to get new posts by email</a>
+    <a href="{{ absURL "page/subscribe" }}">Subscribe to get new posts by email</a>
   </div>
   {{ end }}
   <footer>
