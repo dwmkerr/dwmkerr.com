@@ -213,6 +213,16 @@ claude plugin install superpowers@superpowers-marketplace
 claude "/superpowers:brainstorm I want to build an agentic SLDC protocol"
 ```
 
-Any thoughts or feedback welcome. I'll be doing a tour of OpenSpec next (or maybe Ralph, depending on time/feedback).
+## [OpenSpec](https://openspec.dev/)
+
+
+Notes: https://github.com/Fission-AI/OpenSpec/blob/main/docs/opsx.md the flow is important to show off
+
+Notes: no subagents, due to compatibility (example, edit skills?)
+
+The subagent-driven-development from Obra is actually something that keeps me coming back to it.
+
+
+Any thoughts or feedback welcome. Next might be Ralph.
 
 [^1]: I find worktrees really janky, mostly because you can't have the same branch open in multiple worktrees. In my flow I have my repos structured in folders like: `~/repos/github/org/project/[branchname]` and just do a full-fat checkout (and a tmux tab per branch). Its heavier on the filesystem but you have freedom to switch branches at will (and can open a tmux session with a tab for each branch you are working on with a single command).
