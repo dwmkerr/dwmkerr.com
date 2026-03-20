@@ -2,25 +2,26 @@
 author: Dave Kerr
 type: posts
 date: "2026-02-11"
-title: "Agentic Orchestration Protocols"
+title: "Agentic Engineering Protocols: Intro and Superpowers"
 description: "A review and summary of popular Agentic AI orchestration protocols for software development"
 slug: agentic-orchestration-protocols
 draft: false
 categories:
 - "ai"
-- "agentic-ai"
+- "agentic-engineering"
 tags:
 - "ai"
-- "agentic-ai"
+- "agentic-engineering"
+- "protocols"
 ---
 
-In this article I'm going to show some popular agentic development workflows in action.
+In this series I'm going to demonstrate and discuss methodologies and tools for "Agentic Engineering". Agentic engineering loosely refers to modern techniques for software engineering that are heavily focused around using agents as much as possible to accelerate work, improve resiliency, automate testing and so on. "Protocols" are what I've called some of the specific patterns and tools that are used, such as the Ralph Method, Superpowers, BMAD and Openspec.
 
-I've referred to these as 'protocols' - some kind of combination of tools, subagents, scripts, skills and commands that enable you to follow a workflow or apply a particular methodology. Using a protocol for software development will generally give more predictable results, (greatly) increase velocity and help you put time and effort into the right place - which is typically good planning rather than iterating on code.
+Almost all of these patterns anchor around clarifying the user's "intent", building a specification, breaking down into a task list, executing, testing (typically red/green) and performing additional evaluations such as agent assisted exploratory testing. Artifacts built along the way such as goals, specs and task lists are usually tracked in a repo as markdown files for later analysis. Some of these protocols are quick and easy to try out, some are more complex and opinionated.
 
-Almost all of these patterns anchor around clarifying the user's "intent", then documenting that in the repo. From this a specification and then plan is built, reviewed, and the agents then work on the implementation. Some of these protocols are quick and easy to try out, some are more complex and opinionated.
+I'll update this series periodically with a real-world demonstration of some of the popular protocols that are out there. But to get started, we'll take a look at **Superpowers**.
 
-I'll update this article periodically with a real-world demonstration of some of the popular protocols that are out there. But to get started, we'll take a look at **Superpowers**.
+Next in this series: [Agentic Engineering Protocols: The Ralph Wiggum Loop](/blog/ralph-wiggum-loop/)
 
 ## Obra Superpowers
 
@@ -213,16 +214,10 @@ claude plugin install superpowers@superpowers-marketplace
 claude "/superpowers:brainstorm I want to build an agentic SLDC protocol"
 ```
 
-## [OpenSpec](https://openspec.dev/)
+---
 
+Agentic Engineering Protocols series:
 
-Notes: https://github.com/Fission-AI/OpenSpec/blob/main/docs/opsx.md the flow is important to show off
-
-Notes: no subagents, due to compatibility (example, edit skills?)
-
-The subagent-driven-development from Obra is actually something that keeps me coming back to it.
-
-
-Any thoughts or feedback welcome. Next might be Ralph.
+- [Agentic Engineering Protocols: The Ralph Wiggum Loop](/blog/ralph-wiggum-loop/)
 
 [^1]: I find worktrees really janky, mostly because you can't have the same branch open in multiple worktrees. In my flow I have my repos structured in folders like: `~/repos/github/org/project/[branchname]` and just do a full-fat checkout (and a tmux tab per branch). Its heavier on the filesystem but you have freedom to switch branches at will (and can open a tmux session with a tab for each branch you are working on with a single command).
