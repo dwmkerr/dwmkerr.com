@@ -26,3 +26,10 @@ Currently configured:
 - `dwmkerr.com/` - Hugo site root
 - `dwmkerr.com/content/post/` - Blog posts
 - `dwmkerr.com/themes/hugo_theme_pickles/` - Site theme (submodule)
+
+## Shellwright Screenshots
+
+When using Shellwright MCP to capture terminal screenshots for blog posts:
+- Use the `one-dark` theme
+- Set PS1 to bright white `$` before capturing: `PS1=$'\033[1;37m$ \033[0m'`
+- Use macOS-style border with a descriptive title
