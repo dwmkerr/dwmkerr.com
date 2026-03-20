@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.3.0...v0.4.0) (2026-03-20)
+
+
+### Features
+
+* add Ralph Wiggum Loop blog post ([#69](https://github.com/dwmkerr/dwmkerr.com/issues/69)) ([4ec7e27](https://github.com/dwmkerr/dwmkerr.com/commit/4ec7e27d31382e4da57d79119830b0e419fbf40a))
+
 ## [0.3.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.2.7...v0.3.0) (2026-02-23)
 
 
