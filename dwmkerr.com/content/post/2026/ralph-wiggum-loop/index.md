@@ -5,7 +5,7 @@ date: "2026-03-04"
 title: "Agentic Engineering Protocols: The Ralph Wiggum Loop"
 description: "Using the Ralph Wiggum Loop for iterative cleanup tasks at scale"
 slug: ralph-wiggum-loop
-draft: true
+draft: false
 categories:
 - "ai"
 - "agentic-engineering"
@@ -17,7 +17,7 @@ tags:
 
 ## The Ralph Wiggum Loop
 
-Highly popular, whimsical and fun, the Ralph Wiggum Loop is one of the earliest and most simple agentic development patterns.
+The Ralph Wiggum Loop is one of the earliest and most simple agentic development patterns, a somewhat whimsical and silly approach to getting a coding agent to run continuously to solve a problem, with an extremely simple orchestration pattern. Ralph is not a pattern I'd really recommend for real-world problems but you'll see it around and hear about it and it's fun to explore and play with.
 
 The pattern is simply "run an agent in a loop, with a single prompt, until it thinks it's done". Very few instructions, almost no orchestration at all, often with no intermediate steps tracked, it can be surprisingly effective for certain types of task. [Ralph Wiggum](https://simpsons.fandom.com/wiki/Ralph_Wiggum) is a character from The Simpsons who is not particularly smart but kind of good natured and persistent.
 
@@ -29,7 +29,7 @@ This is part of the Agentic Engineering Protocols series:
 
 ### What It Is
 
-At its core, the Ralph protocol is:
+At its core, the Ralph protocol is an endless loop:
 
 ```bash
 # Loop until claude thinks it's done...
@@ -55,13 +55,13 @@ Increasingly complex tasks can be one-shot nowadays, context windows are huge, a
 
 ### Ralph Wiggum vs a Tedious Task
 
-My team had been wanting to move a large feature from our open source project [Ark](https://github.com/mckinsey/agents-at-scale-ark) (a Kubernetes based agentic toolkit). This means deleting a lot of code, eliminating tests, removing docs and cross references, screenshots, and so on. It's kind of tedious - remove stuff, test, rinse and repeat. Claude would probably one-shot it well given how [many integration tests and verifications we have as specs](https://github.com/mckinsey/agents-at-scale-ark/tree/main/tests). But I decided this was a good way to show off Ralph's style.
+My team had been wanting to move a large feature from our open source project [Ark](https://github.com/mckinsey/agents-at-scale-ark) (a Kubernetes based agentic toolkit) to our [marketplace](https://github.com/mckinsey/agents-at-scale-marketplace) of smaller modules. This means deleting a lot of code, eliminating tests, removing docs and cross references, screenshots, and so on. It's kind of tedious - remove stuff, test, rinse and repeat. Claude would probably one-shot it well given how [many integration tests and verifications we have as specs](https://github.com/mckinsey/agents-at-scale-ark/tree/main/tests). But I decided this was a good way to show off Ralph's style.
 
 When we're adding code, we try to be rigorous. Specs, red/green tests, docs, skills to follow architectural patterns and so on. Reasonably careful orchestration, and a good amount of discussion if needed. Eliminating code is more straightforward.
 
 ## Running the Loop
 
-We need to eliminate code from low-level operators, a CLI, two SDKs, docs, tests, deployments, pipelines, specs. This will be an awesome PR when done -stacks of lines deleted. It's going to be moved into our [marketplace](https://github.com/mckinsey/agents-at-scale-marketplace) as we're aiming for smaller and more targeted modules.
+We need to eliminate code from low-level operators, a CLI, two SDKs, docs, tests, deployments, pipelines, specs. We don't need to one shot it, we could quite easily ask the agent "remove a chunk, then stop and test" and then have it repeat this process.
 
 Here's the loop (slightly simplified, [ralph-loop.sh](./ralph-loop.sh) is the original):
 
