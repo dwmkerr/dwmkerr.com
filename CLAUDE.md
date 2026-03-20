@@ -30,6 +30,6 @@ Currently configured:
 ## Shellwright Screenshots
 
 When using Shellwright MCP to capture terminal screenshots for blog posts:
-- Use the `dwmkerr` theme
+- Use the `one-dark` theme
 - Set PS1 to bright white `$` before capturing: `PS1=$'\033[1;37m$ \033[0m'`
 - Use macOS-style border with a descriptive title
