@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.4.0...v0.4.1) (2026-06-10)
+
+
+### Documentation
+
+* add AI Native DevCon talk on bipolar disorder, dysregulation & AI ([#71](https://github.com/dwmkerr/dwmkerr.com/issues/71)) ([dc419cd](https://github.com/dwmkerr/dwmkerr.com/commit/dc419cd0a29dd3b842ac9c046fb0b90c78a41278))
+
 ## [0.4.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.3.0...v0.4.0) (2026-03-20)
 
 
