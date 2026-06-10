@@ -32,6 +32,7 @@ My journey started with C and C++, writing device drivers, then moved through .N
 
 #### Conference Presentations
 
+- [AI Native DevCon London: Bipolar Disorder, Dysregulation & AI](https://www.youtube.com/watch?v=ACL7_EsfIio) – 2026
 - [The Changelog: Laws for hackers to live by](https://changelog.com/podcast/403) – Podcast, 2020
 - [VoxxedDays Singapore: What does DevOps culture mean for engineers?](https://www.youtube.com/watch?v=oHhnq-3Q66U) – 2018
 - [DevOpsDays Jakarta: The Universe as Code](https://www.slideshare.net/DevOpsDaysJKT/the-universe-as-code-dave-kerr) – 2018
