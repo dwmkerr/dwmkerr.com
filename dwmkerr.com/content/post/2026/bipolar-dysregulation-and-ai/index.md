@@ -20,6 +20,8 @@ At AI Native DevCon London 2026 I gave a talk about bipolar disorder, what livin
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ACL7_EsfIio" frameborder="0" allowfullscreen></iframe>
 
+The [slides are here](/talks/bipolar-dysregulation-and-ai/).
+
 ## What the talk is about
 
 Managing bipolar disorder is largely about regulation. There are things that push your state around - sleep, rhythm, stress, people, substances - and the work is to spot the ones that destabilise you (dysregulators) and counterbalance them with the ones that steady you (regulators).

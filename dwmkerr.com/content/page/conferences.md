@@ -11,7 +11,7 @@ Conference talks, webinars and speaking engagements.
 
 | Event | Location | Topic | Links |
 |-------|----------|-------|-------|
-| [AI Native DevCon London 2026](https://tessl.io/devcon) | London, June 2026 | Bipolar Disorder, Dysregulation & AI | [Talk](https://www.youtube.com/watch?v=ACL7_EsfIio) · [Short](https://www.youtube.com/watch?v=u3yaHmlprJY) |
+| [AI Native DevCon London 2026](https://tessl.io/devcon) | London, June 2026 | Bipolar Disorder, Dysregulation & AI | [Talk](https://www.youtube.com/watch?v=ACL7_EsfIio) · [Short](https://www.youtube.com/watch?v=u3yaHmlprJY) · [Slides](/talks/bipolar-dysregulation-and-ai/) |
 | [NearForm ImpactTalks 2026](https://nearform.com/ai-native-engineering-session/) | Online, February 2026 | Copilot isn't a strategy – Agentic Engineering vs Agentic Software | [Recording](https://lnkd.in/dQiUqAsZ) |
 | [DevOpsDays Jakarta 2018](https://www.devopsdays.org/events/2018-jakarta/) | Jakarta, April 2018 | The Universe As Code | [SpeakerDeck](https://www.slideshare.net/DevOpsDaysJKT/the-universe-as-code-dave-kerr) |
 | [JPMC DevOps Event](https://www.devopsdays.org/events/2018-jakarta/) | Singapore, April 2018 | | |
