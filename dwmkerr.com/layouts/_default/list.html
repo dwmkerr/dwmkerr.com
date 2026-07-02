@@ -1,0 +1,19 @@
+{{ define "main" }}
+<section>
+  <h2 class="section-title">{{ if .IsSection }}writing{{ else }}{{ lower .Title }}{{ end }}</h2>
+  {{ range .Pages.GroupByDate "2006" }}
+  <h3 class="archive-year">{{ .Key }}</h3>
+  <ul class="plain dated">
+    {{ range .Pages }}
+    <li>
+      <span class="date">{{ .Date.Format "01-02" }}</span>
+      <span class="entry">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ with .Description }}<span class="desc crop">{{ . }}</span>{{ end }}
+      </span>
+    </li>
+    {{ end }}
+  </ul>
+  {{ end }}
+</section>
+{{ end }}

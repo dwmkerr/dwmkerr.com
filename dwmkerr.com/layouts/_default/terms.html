@@ -1,12 +1,10 @@
-{{ partial "header.html" . }}
-{{ $baseurl := .Site.BaseURL }}
+{{ define "main" }}
 <section>
-  <h2>{{ .Title }}</h2>
-  <ul>
-    {{ $data := .Data }}
-    {{ range $key, $value := .Data.Terms }}
-    <li><a href="{{ $baseurl }}/{{ $data.Plural }}/{{ $key | urlize }}">{{ $key }}</a> ({{ len $value }})</li>
+  <h2 class="section-title">{{ lower .Title }}</h2>
+  <ul class="tags">
+    {{ range .Pages.ByTitle }}
+    <li><a href="{{ .RelPermalink }}">{{ lower .Title }}</a></li>
     {{ end }}
   </ul>
 </section>
-{{ partial "footer.html" . }}
+{{ end }}

@@ -3,7 +3,6 @@ languageCode = "en-uk"
 Title = "dwmkerr.com"
 # Copyright notice. This is displayer in the footer.
 copyright = "Copright &copy; Dave Kerr"
-theme = "hugo_theme_pickles"
 
 # Use our Google Analytics G4A tag. The 'G-' at the beginning lets Hugo know
 # that this is G4A, rather than 'UA-'.
@@ -26,9 +25,9 @@ googleAnalytics = "G-XNRSGLYJRM"
   bookurl = "https://amzn.to/4ho0F91"
   # Disqus shortname (disabled - shows ads on free tier)
   # disqus = "dwmkerr"
-  # Substack publication name (e.g. "dwmkerr" for dwmkerr.substack.com)
-  substack = "dwmkerr"
+  substack = "https://dwmkerr.substack.com/"
   author = "Dave Kerr"
+  description = "Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."
   authorwebsite = "dwmkerr.com"
   avatar = "/images/avatar.jpeg"
   # contact = "mailto:dwmkerr@gmail.com"
