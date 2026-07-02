@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.4.1...v0.5.0) (2026-07-02)
+
+
+### Features
+
+* terminal-style site redesign with custom layouts ([#73](https://github.com/dwmkerr/dwmkerr.com/issues/73)) ([f3815ed](https://github.com/dwmkerr/dwmkerr.com/commit/f3815ed9abd954d25e8ffbe431f48b4b17c3865a))
+
 ## [0.4.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.4.0...v0.4.1) (2026-06-10)
 
 
