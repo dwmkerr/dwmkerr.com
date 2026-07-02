@@ -1,73 +1,24 @@
-{{ partial "header.html" . }}
-<article class="p-article">
+{{ define "main" }}
+<article>
   <header>
-    <h1>{{ .Title }}</h1>
+    <h1 class="post-title">{{ .Title }}</h1>
+    <p class="post-meta">
+      {{ if and .Date (not ($.Param "hideDate")) }}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+      {{ end }}
+      {{ range .Params.tags }}
+      · <a href="{{ absURL "tags" }}/{{ . | urlize }}">{{ . }}</a>
+      {{ end }}
+    </p>
   </header>
-  {{ with .Params.thumbnail }}
-    <img src="{{ . }}" alt="thumbnail" class="p-article__thumbnail">
-  {{ end }}
-  <section id="js-article" class="p-article__body">
+  <div class="post-content">
     {{ .Content }}
-  </section>
-  {{ if eq (.Type | singularize) "post" }}
-  <div class="c-tags">
-    {{ range .Params.tags }}
-    <a href="{{ absURL "tags"}}/{{ . | urlize }}" class="c-tag">{{ . }}</a>
-    {{ end }}
   </div>
-  {{ end }}
-  {{ if eq (.Type | singularize) "post" }}
-  {{ with $.Site.Params.substack }}
-  <div class="p-article__subscribe">
-    <a href="{{ absURL "page/subscribe" }}">Subscribe to get new posts by email</a>
-  </div>
-  {{ end }}
-  {{ with $.Params.discussion }}
-  <div class="p-article__discussion">
-    <a href="{{ . }}" target="_blank" rel="noopener">Discuss on Hacker News / Reddit</a>
-  </div>
-  {{ end }}
-  {{ if not ($.Param "hideDate") }}
-  <div class="c-article-date">
-    <time datetime="{{ $.Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
-      {{ $.Date.Format "Jan 2, 2006" }}
-    </time>
-  </div>
+  {{ if eq .Section "post" }}
+  <p class="subscribe">New posts by email, <a href="{{ .Site.Params.substack }}">subscribe on Substack</a>, or grab the <a href="{{ "index.xml" | absURL }}">RSS feed</a>.</p>
+  {{ with .Params.discussion }}
+  <p class="more-link"><a href="{{ . }}" target="_blank" rel="noopener">discuss →</a></p>
   {{ end }}
   {{ end }}
-  <footer>
-    {{ if eq (.Type | singularize) "page" }}
-    {{ else }}
-    {{ partial "comment_custom.html" . }}
-    {{ with ($.Param "disqus") }}
-    <div id="disqus_thread"></div>
-    <script>
-    var disqus_shortname = '{{ . }}';
-    (function() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    {{ end }}
-    <nav class="p-pagination c-pagination">
-      <div class="c-pagination__ctrl">
-        <div class="c-pagination__newer">
-          {{ if .NextInSection }}
-          <a href="{{ .NextInSection.Permalink }}">Newer</a>
-          {{ end }}
-        </div>
-        <div class="c-pagination__older">
-          {{ if .PrevInSection }}
-          <a href="{{ .PrevInSection.Permalink }}">Older</a>
-          {{ end }}
-        </div>
-      </div>
-    </nav>
-    {{ end }}
-    {{ partial "siteinfo.html" . }}
-  </footer>
 </article>
-{{ partial "footer.html" . }}
+{{ end }}

@@ -1,0 +1,17 @@
+# Pinned projects shown on the homepage. Keep to four.
+- name: ark
+  url: https://github.com/mckinsey/agents-at-scale-ark
+  stars: "400"
+  description: Agentic Runtime for Kubernetes, run agents at scale
+- name: claude-toolkit
+  url: https://github.com/dwmkerr/claude-toolkit
+  stars: "12"
+  description: Claude Code plugins for engineering tasks
+- name: hacker-laws
+  url: https://github.com/dwmkerr/hacker-laws
+  stars: 27k
+  description: Laws, theories and patterns for developers
+- name: shellwright
+  url: https://github.com/dwmkerr/shellwright
+  stars: "35"
+  description: Playwright for the shell, terminal recording and automation over MCP

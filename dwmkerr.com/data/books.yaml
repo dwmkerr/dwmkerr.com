@@ -1,0 +1,7 @@
+- title: Effective Shell
+  publisher: No Starch Press
+  year: "2025"
+  notes: Master the shell, from the basics through to advanced techniques.
+  # Amazon affiliate link, same as the 'bookurl' site param.
+  amazon: https://amzn.to/4ho0F91
+  online: https://effective-shell.com/
