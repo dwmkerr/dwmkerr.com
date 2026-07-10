@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.5.0...v0.6.0) (2026-07-10)
+
+
+### Features
+
+* Fable vs My Chemical Romance blog post ([#75](https://github.com/dwmkerr/dwmkerr.com/issues/75)) ([b198653](https://github.com/dwmkerr/dwmkerr.com/commit/b198653c460729127de95d462094999e982b3c9d))
+
 ## [0.5.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.4.1...v0.5.0) (2026-07-02)
 
 
