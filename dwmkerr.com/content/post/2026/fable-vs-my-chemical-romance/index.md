@@ -70,6 +70,22 @@ The output was 105 minutes of concert across ten files, plus a little web app to
 
 Is it impressive? I don't know, I don't do video editing / researching tasks. My 15 mins per day with Fable write-up coming soon showed me results I can comment on more realistically.
 
+## The hardest part: syncing footage to studio audio
+
+The bit that took the most work was using live concert footage as the visuals while playing the clean studio recording as the audio. A live band never plays at exactly the album tempo, so if you just mute the footage and drop the studio track underneath, the two drift apart. Within a minute the drummer is visibly hitting things you can't hear.
+
+Here is how the machine solved it for one song, House of Wolves, with pro-shot footage:
+
+[![Syncing live footage to the studio track: mel-spectrograms of the live and studio audio, with a chroma-CQT time-warp between them, footage chopped at camera cuts and retimed within an imperceptible speed clamp.](./images/sync-process.png)](./images/sync-process.png)
+
+It takes a mel-spectrogram (a picture of the sound) of both the live audio and the studio master, then computes a mapping between them with chroma-CQT dynamic time warping, which matches on harmonic content rather than the raw waveform. The footage is chopped at every camera cut and each shot is placed on the studio timeline at its matched position, sped up or slowed down by an amount small enough not to notice (clamped to 12%, red for faster, blue for slower). The clever bit is re-anchoring at every camera cut: the eye already accepts a jump at a cut, so drift can only build up within a single shot, never across the whole song. Here 129 cuts became 35 anchored chunks, and it reports the honest numbers for the result (93ms alignment error, 100% coverage, verdict GOOD).
+
+The other problem it had to solve itself: official music videos cut whole verses, so the footage is often shorter than the studio track. Rather than let the video run out, it holds the last frame with a slow zoom to bridge the gap, and re-joins the footage on the far side.
+
+[![When the footage runs short: gaps bridged by a slow-zoom hold on the last frame, re-joining the footage after the missing section.](./images/sync-process-2.png)](./images/sync-process-2.png)
+
+None of this was a technique I gave it. It researched the approach and built the tool itself, including working out the re-anchor-at-cuts and slow-zoom-hold tricks on its own. The diagrams here just visualise what it did, with the real numbers from the run.
+
 ## Interesting observations
 
 Left to itself, it never reached for another model. All of the video and audio sync work was done with tooling it wrote itself, and it stayed entirely inside its own capabilities. It only started looking at other models like Gemini for the video processing after I suggested that a different model might be better suited to that part of the job. On its own it did not seem to consider that reaching outside itself might be the better move, which felt like a notable blind spot for an open-ended task.
