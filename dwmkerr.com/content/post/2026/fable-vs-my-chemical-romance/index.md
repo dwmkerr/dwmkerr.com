@@ -5,7 +5,7 @@ date: "2026-07-10"
 title: "Fable vs My Chemical Romance"
 description: "Handing Fable a one-paragraph prompt and a few hours to build a home My Chemical Romance karaoke concert, and watching what it did unsupervised."
 slug: fable-vs-my-chemical-romance
-draft: true
+draft: false
 thumbnail: /fable-vs-my-chemical-romance/images/v30.png
 categories:
 - "ai"
@@ -34,8 +34,7 @@ Black Parade where they exist, live concert recordings otherwise. Build the
 machine to do this: use subagents, skills, create tools, create CLIs, run them,
 build all the machinery you need to solve, execute and verify this. You're in a
 git repo: make a scratch folder and commit as you go. Keep a task list and a
-journal of key events. Build and run the machine until it works. Personal use
-only, won't be shared.
+journal of key events. Build and run the machine until it works.
 ```
 
 And the prompt:
@@ -44,7 +43,7 @@ And the prompt:
 
 ## Tuning process
 
-A lot of guidance suggests 'define the goal, not the process' (see [Think with Google](https://business.google.com/aunz/think/ai-excellence/agentic-marketing-ai-strategy/) and [this piece by Tyler Folkman](https://tylerfolkman.substack.com/p/prompt-engineering-is-over-i-built)). Anthropic have also built modes like [ultracode](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) and [teams](https://code.claude.com/docs/en/agent-teams) where Claude will set up the appropriate teams for the work (or try to). However, I did suggest a few things:
+A lot of guidance suggests 'define the goal, not the process' (see [Think with Google](https://business.google.com/aunz/think/ai-excellence/agentic-marketing-ai-strategy/) and [this piece by Tyler Folkman](https://tylerfolkman.substack.com/p/prompt-engineering-is-over-i-built)). Anthropic have also built modes like [ultracode](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) and [teams](https://code.claude.com/docs/en/agent-teams) where Claude will set up the appropriate teams for the work (or try to). This is generally where I differ: for open-ended work I'm happy to define the goal and let the agent find the path, but for more complex, audited or sensitive processes, where predictability and explainability matter, building a framework for the operations is important. This was obviously not one of those cases, just a quick experiment. So I did suggest a few things:
 
 - Playwright for browser automation, to perform more complex searches and analysis
 - Sub-agents, to preserve context
