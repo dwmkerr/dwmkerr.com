@@ -1,0 +1,26 @@
+<!doctype html><html lang=en-uk><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Data Service Exception "Unauthorised" when connecting to Sharepoint OData</title><meta property="og:title" content='Data Service Exception "Unauthorised" when connecting to Sharepoint OData'><meta name=twitter:title content='Data Service Exception "Unauthorised" when connecting to Sharepoint OData'><meta name=description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta property="og:description" content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=twitter:description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=author content="Dave Kerr"><meta property="og:site_name" content="dwmkerr.com"><meta property="og:url" content="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/data-service-exception-unauthorised-when-connecting-to-sharepoint-odata/"><meta property="og:type" content="article"><meta name=twitter:card content="summary"><meta name=generator content="Hugo 0.164.0"><script async src="https://www.googletagmanager.com/gtag/js?id=G-XNRSGLYJRM"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XNRSGLYJRM")}</script><link rel=icon type=image/x-icon href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/images/favicon.ico><link rel=stylesheet href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/css/site.css></head><body><div class=page><div class=topbar><span class=path><a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/><span class=prompt>$</span> ~/dwmkerr</a></span><nav><a href=https://effective-shell.com/>effective shell</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>github</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>linkedin</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.substack.com/>subscribe</a></nav></div><article><header><h1 class=post-title>Data Service Exception "Unauthorised" when connecting to Sharepoint OData</h1><p class=post-meta><time datetime=2011-11-02>2011-11-02</time>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/tags/odata>ODATA</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/tags/sharepoint>Sharepoint</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/tags/wcf-data-services>WCF Data Services</a></p></header><div class=post-content><p>If you are struggling to fetch data from a Sharepoint OData service and getting an error as below:</p><pre> [DataServiceClientException: Unauthorized]
+   System.Data.Services.Client.QueryResult.Execute() +436914
+   System.Data.Services.Client.DataServiceRequest.Execute(DataServiceContext context, QueryComponents queryComponents) +133&nbsp;</pre><p>Then ensure you are setting the Credentials property of your Data Service Context, as below:</p><pre class="brush: c-sharp;">//  Create the data context.
+SharepointDataContext dc = new SharepointDataContext(new Uri("http://dksp/_vti_bin/listdata.svc"));
+<p>//  Provide default credentials, without this authorisation will fail!
+dc.Credentials = System.Net.CredentialCache.DefaultCredentials;</p>
+<p>//  Etc&hellip;
+var accounts = from a in dc.Accounts select a;</pre></p><p class="brush: c-sharp;">Just another issue you may come across when using Sharepoint OData services!</p></div><p class=subscribe>New posts by email, <a href=https://dwmkerr.substack.com/>subscribe on Substack</a>, or grab the <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/index.xml>RSS feed</a>.</p></article><footer class=site-footer><a href=https://dwmkerr.substack.com/>Subscribe</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/index.xml>RSS</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>GitHub</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>LinkedIn</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-75/page/about/>About</a>
+<span class=copyright>© Dave Kerr · dwmkerr.com</span></footer></div></body></html>
