@@ -18,7 +18,7 @@ I've been spending 15 minutes each morning with Fable - planning a days worth of
 
 However, on a drive back from a physiotherapy appointment, I was thinking "why not kick off a monster job" - the music on Spotify was My Chemical Romance who I'd [just seen at Anfield](https://www.theguardian.com/music/2026/jul/01/my-chemical-romance-review-anfield-stadium-liverpool-uk-tour). The concert was great so I decided the goal would be "make me a home version. singalong karaoke style lyrics on the screen. official videos where they exist, live footage otherwise". I'd also prompt a few tips around process but let it run. Downloading video, searching for lyrics and setlist, synchronising, non of them too hard but a lot of jobs to orchestrate and validate.
 
-This is *not* a good test of coding practices, which with my teams are far more goverened, grounded and constrained (**[TODO: link to agentic engineering]**) but a fun open ended exercise. (In fact, probably very little to learn here I just had a little time to kick off the job and was curious).
+This is *not* a good test of coding practices, which with my teams are far more goverened, grounded and constrained (see [Agentic Engineering Protocols](/agentic-orchestration-protocols/)) but a fun open ended exercise. (In fact, probably very little to learn here I just had a little time to kick off the job and was curious).
 
 Here is my mission:
 
