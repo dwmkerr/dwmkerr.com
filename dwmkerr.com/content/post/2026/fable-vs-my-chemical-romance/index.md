@@ -6,6 +6,7 @@ title: "Fable vs My Chemical Romance"
 description: "Handing Fable a one-paragraph prompt and a few hours to build a home My Chemical Romance karaoke concert, and watching what it did unsupervised."
 slug: fable-vs-my-chemical-romance
 draft: true
+thumbnail: /fable-vs-my-chemical-romance/images/v30.png
 categories:
 - "ai"
 tags:
@@ -14,15 +15,28 @@ tags:
 - "fable"
 ---
 
-I've been spending 15 minutes each morning with Fable - planning a days worth of development, discussing features and architecture, scheduling the work and kicking it off. End of day I spend 15 minutes reviewing and rinse and repeat. This is half a 'testing Fable' exercise, and half a 'get better at scheduling a days worth of work' exercise.
+I've been spending 15 minutes each morning with Fable - planning a days worth of development, discussing features and architecture, scheduling the work and kicking it off. End of day I spend 15 minutes reviewing and rinse and repeat. This is half a 'testing Fable' exercise, and half a 'get better at scheduling a days worth of work' exercise. However, on a drive back from a physiotherapy appointment, I was thinking why not kick off a monster job? That would just be fun.
 
-However, on a drive back from a physiotherapy appointment, I was thinking "why not kick off a monster job" - the music on Spotify was My Chemical Romance who I'd [just seen at Anfield](https://www.theguardian.com/music/2026/jul/01/my-chemical-romance-review-anfield-stadium-liverpool-uk-tour). The concert was great so I decided the goal would be "make me a home version. singalong karaoke style lyrics on the screen. official videos where they exist, live footage otherwise". I'd also prompt a few tips around process but let it run. Downloading video, searching for lyrics and setlist, synchronising, non of them too hard but a lot of jobs to orchestrate and validate.
+[![Fable vs My Chemical Romance](./images/v30.png)](./images/v30.png)
 
-This is *not* a good test of coding practices, which with my teams are far more goverened, grounded and constrained (see [Agentic Engineering Protocols](/agentic-orchestration-protocols/)) but a fun open ended exercise. (In fact, probably very little to learn here I just had a little time to kick off the job and was curious).
+At the time the music on Spotify was My Chemical Romance, who I'd [just seen at Anfield](https://www.theguardian.com/music/2026/jul/01/my-chemical-romance-review-anfield-stadium-liverpool-uk-tour). The concert was great so I decided the goal would be "make me a home version. singalong karaoke style lyrics on the screen. official videos where they exist, live footage otherwise". I'd also prompt a few tips around process but let it run.
 
-Here is my mission:
+This is not a good test of coding practices (with my teams that is a process of evolution as we work out how best to move towards [agentic engineering](/agentic-orchestration-protocols/)), just a fun open ended exercise.
 
-> Create a full concert-length video I can project on my TV: a home version of the My Chemical Romance gig I went to. Check YouTube and my Spotify playlist to find the setlist. Make 10 mini videos with some styles, karaoke sing-along lyrics running on them, cool visuals behind. Official music videos for songs like The Black Parade where they exist, live concert recordings otherwise. Build the machine to do this: use subagents, skills, create tools, create CLIs, run them, run other sessions, build all the machinery you need to solve, execute and verify this. You're in a git repo: make a scratch folder and commit as you go. Keep a task list and a journal of key events. Build and run the machine until it works. Personal use only, won't be shared.
+I created a `README.md` with the following mission:
+
+```text
+Create a full concert-length video I can project on my TV: a home version of the
+My Chemical Romance gig I went to. Check YouTube and my Spotify playlist to find
+the setlist. Make 10 mini videos with some styles, karaoke sing-along lyrics
+running on them, cool visuals behind. Official music videos for songs like The
+Black Parade where they exist, live concert recordings otherwise. Build the
+machine to do this: use subagents, skills, create tools, create CLIs, run them,
+build all the machinery you need to solve, execute and verify this. You're in a
+git repo: make a scratch folder and commit as you go. Keep a task list and a
+journal of key events. Build and run the machine until it works. Personal use
+only, won't be shared.
+```
 
 And the prompt:
 
@@ -30,45 +44,39 @@ And the prompt:
 
 ## Tuning process
 
-A lot of guidance suggests 'define the goal, not the process' (see X Y **[TODO: there are a few posts on this]**) Anthropic also have developed modes like ultracode and teams **[TODO: links]** where claude will setup the appropriate teams for the work (or try to). However, I did suggest a few things:
+A lot of guidance suggests 'define the goal, not the process' (see [Think with Google](https://business.google.com/aunz/think/ai-excellence/agentic-marketing-ai-strategy/) and [this piece by Tyler Folkman](https://tylerfolkman.substack.com/p/prompt-engineering-is-over-i-built)). Anthropic have also built modes like [ultracode](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) and [teams](https://code.claude.com/docs/en/agent-teams) where Claude will set up the appropriate teams for the work (or try to). However, I did suggest a few things:
 
-- Playwright
-- Subagents
-- Build tools
-- Build machines
-- Build verifications
-- Show me samples and plans that I will review
-- Run other sessions where it helps
-- Commit into a local repo as it goes
+- Playwright for browser automation, to perform more complex searches and analysis
+- Sub-agents, to preserve context
+- Building small, simple tools that can be composed together into larger systems
+- Building machines that use those tools
+- Building verifications and checkpoints
+- Creating a human-in-the-loop point where I can review samples and the execution plan
 
 Essentially; build yourself tools, build a machine to solve my problem, then run the machine and we'll tune the machine afterwards.
 
 ## The result
 
-About $500 worth of tokens and a few hours later (this used less than I expected, I thought I'd see more cost from image processing). To be clear on the money: this ran on my personal Max subscription, not anything work-related, and that $500 is the API-equivalent value of the tokens burned, not a bill. On a Max plan you pay the flat monthly fee, and Fable draws it down faster than Opus because it is priced at twice the rate.
+About $500 worth of tokens and many hours later (this used less than I expected, I thought I'd see more cost from image processing). To be clear on the money: this ran on my personal Max subscription, not anything work-related, and that $500 is the API-equivalent value of the tokens burned, not a bill. On a Max plan you pay the flat monthly fee, and Fable draws it down faster than Opus because it is priced at twice the rate.
 
 **[TODO: screenshot of my TV]**
 
-A few snippets from the show, also showing the playlist that was created.
-
-**[TODO: snippets from the show + the generated playlist]**
-
 ## How it ran
 
-- A 30-agent research sweep to find the real setlist. My Spotify playlist was wrong, so it cross-checked setlist.fm, NME and Kerrang! to reconstruct the actual Anfield night (30 June 2026) and pick a best source for each of the 29 programme items. This is why I normally setup Playwright **[TODO: link]** in advance with a more limited user account, so that the agent can do real web research if needed. It's expensive in tokens but vastly increases the options it has.
-- A download pipeline (yt-dlp, throttled, isolated cookie jar) pulling official music videos, live footage, and studio audio.
+Under the covers, after reviewing the execution plan and the session logs, this is roughly what happened.
+
+- A 30-agent research sweep to work out the real setlist and find a good source for each of the programme items. Playwright let it compare sources and do real research on the open web, which is expensive in tokens but vastly increases the options it has.
+- A pipeline to gather the source video and audio for each song.
 - A lyrics-to-karaoke compiler that turns synced LRC files into ASS subtitle karaoke, word-level where it could get the timing, line-level where it could not.
 - A renderer with three modes: official music video, live footage over studio audio, and a generated visualizer backdrop for the audio-only tracks.
-- An audio-video sync tool that aligns live crowd footage to the studio track using chroma and onset features, and an assembler that stitches everything into ten act-titled mini-films.
-- A verification pass (39 agents) checking every segment for resolution, duration, and lyric sync (**wow**)
+- An audio-video sync tool that aligns live footage to the studio track using chroma and onset features, and an assembler that stitches everything into ten act-titled mini-films.
+- A verification pass (39 agents) checking every segment for resolution, duration, and lyric sync. I rate this step highly; it mirrors the process I follow on many professional jobs.
 
 [![A 30-agent research workflow, one agent per song, hunting sources.](./images/02-research.png)](./images/02-research.png)
 
 The output was 105 minutes of concert across ten files, plus a little web app to swap backgrounds and lyric styles per song.
 
-**[TODO: some kind of summary]**
-
-Is it impressive? I don't know, I don't do video editing / researching tasks. My 15 mins per day with Fable write-up coming soon showed me results I can comment on more realistically.
+Is it impressive? I don't know, I don't do video editing / researching tasks. My 15 mins per day with Fable write-up coming soon showed me results I can comment on more realistically (a more complex software engineering project).
 
 ## The hardest part: syncing footage to studio audio
 
@@ -80,53 +88,18 @@ Here is how the machine solved it for one song, House of Wolves, with pro-shot f
 
 It takes a mel-spectrogram (a picture of the sound) of both the live audio and the studio master, then computes a mapping between them with chroma-CQT dynamic time warping, which matches on harmonic content rather than the raw waveform. The footage is chopped at every camera cut and each shot is placed on the studio timeline at its matched position, sped up or slowed down by an amount small enough not to notice (clamped to 12%, red for faster, blue for slower). The clever bit is re-anchoring at every camera cut: the eye already accepts a jump at a cut, so drift can only build up within a single shot, never across the whole song. Here 129 cuts became 35 anchored chunks, and it reports the honest numbers for the result (93ms alignment error, 100% coverage, verdict GOOD).
 
-The other problem it had to solve itself: official music videos cut whole verses, so the footage is often shorter than the studio track. Rather than let the video run out, it holds the last frame with a slow zoom to bridge the gap, and re-joins the footage on the far side.
-
-[![When the footage runs short: gaps bridged by a slow-zoom hold on the last frame, re-joining the footage after the missing section.](./images/sync-process-2.png)](./images/sync-process-2.png)
-
-None of this was a technique I gave it. It researched the approach and built the tool itself, including working out the re-anchor-at-cuts and slow-zoom-hold tricks on its own. The diagrams here just visualise what it did, with the real numbers from the run.
+None of this was a technique I gave it. It researched the approach and built the tool itself, including working out the re-anchor-at-cuts trick on its own. The diagram here just visualises what it did, with the real numbers from the run.
 
 ## Interesting observations
 
+For a job like this I only stepped in a handful of times. Probably the most meaningful suggestion I made was an idea: could it read the beat from the drummer's arms, the crowd head-banging and the stage lights flashing, and work out the rhythm that way? It went and tried.
+
 Left to itself, it never reached for another model. All of the video and audio sync work was done with tooling it wrote itself, and it stayed entirely inside its own capabilities. It only started looking at other models like Gemini for the video processing after I suggested that a different model might be better suited to that part of the job. On its own it did not seem to consider that reaching outside itself might be the better move, which felt like a notable blind spot for an open-ended task.
 
-Somewhere in the middle it also solved a genuine ops problem. YouTube rate-limited it (HTTP 429) after all that searching, Google rotated the session cookies underneath it, and it re-pulled fresh cookies from the live browser session to get itself unstuck. **These smart workarounds are going to be a real nightmare for site-owners** they spend a lot of time trying to block bot traffic (quite rightly) and the increase in capabilities of models to creatively work around them is really going to hit the wider industry hard (let alone sites that are blocked for more functional reasons, to avoid bot creation, for safety, etc).
-
-## What worked
-
-For a three-hour job I intervened four times, which is the number I actually care about.
-
-1. The setlist was wrong. It had trusted my Spotify playlist, so I told it to research the real gig first and show me a plan before downloading anything.
-2. Pilot feedback, after a first sample: studio audio only rather than muddy live sound, big Spotify-style karaoke, and use the live footage as muted visuals behind the studio track.
-3. A reference. I sent it a screen recording of Spotify's own lyric view so it could match the scroll and styling.
-4. An idea. Could it read the beat off the drummer's arms and the crowd headbanging to sync the footage? It tried, and I will come back to that.
-
-## What didn't
-
-The drummer-arms idea did not rescue the hard songs. It built the motion-sync feature, measured it properly (stage-light flicker turned out to be a better beat cue than whole-frame motion), and reported back that the failures were not a sync problem at all: the live performances drift more than 12% off the studio tempo, and no amount of clever alignment fixes that. Six songs never locked. It told me so instead of pretending, and left the raw footage in place rather than mangling it.
-
-There are fancam watermarks in some of the live clips. A couple of the "music videos" turned out to be static album-art uploads, because some of those songs never had a real video. So it shipped two editions: a best-effort one, and a clean one that swaps the ropey footage for generated visualizers.
-
-## The parts that made me laugh
-
-First, one of its own tool-building agents hit a content filter for being too morbid. It was echoing My Chemical Romance lyrics back in its output, and those are My Chemical Romance lyrics. It noticed, worked around it, and carried on.
-
-[![An agent hitting a content-filter failure, diagnosing that MCR lyrics are morbid, and routing around it.](./images/03-morbifd.png)](./images/03-morbifd.png)
-
-The exact failure, from the logs, was `API Error: 400 Output blocked by content filtering policy`. The orchestrator diagnosed it correctly ("almost certainly from echoing lyric lines, MCR lyrics are dark") and resumed the sub-agent with one rule: never print or quote lyric text, and when inspecting the subtitle output, grep for the karaoke tags only rather than the words. It carried on and never tripped the filter again.
-
-Second, and better: Fable's own safeguards flagged one of its messages and it fell back to Opus 4.8 mid-task. The model I was testing got too dark for itself, downgraded, and kept working, and I did not touch anything.
+The other thing that made me laugh: at one point Fable's own safeguards flagged one of its own messages and it fell back to Opus 4.8 mid-task, then carried on. Almost certainly the lyrical content again - My Chemical Romance lyrics are dark, and earlier one of its sub-agents had already tripped a content filter for echoing them back.
 
 [![Fable 5's safeguards flagging a message and switching to Opus 4.8.](./images/fableblocked.png)](./images/fableblocked.png)
 
-The notice itself is worth reading, because it is candid about how blunt the current safeguards are:
+I don't think I'll run this exercise again - it was a bit of fun on the side that I thought I'd share before I get into my wider Fable experiments. I've got a couple of other gigs coming up anyway: [Misery Index](https://www.seetickets.com/event/misery-index/rebellion/3632312), [Chelsea Wolfe](https://www.chelseawolfe.net/) and [Igorrr](https://igorrr.com/).
 
-> Fable 5's safeguards flagged this message. The safeguards are intentionally broad right now and may flag safe and routine coding, cybersecurity, or biology work. These measures let us bring you Mythos-level capabilities sooner, and we're working to refine them. Switched to Opus 4.8.
-
-I never saw which message set it off, only the fallback. So a model built to be more capable got quietly swapped for a safer one, mid-task, and kept going.
-
-## Learning, improvements for next time, what's coming next
-
-The obvious next-time improvement is to give it dedicated video models for the processing work, rather than leaving it to bodge sync out of chroma and onset features. That alone should make the concert synchronisation far better.
-
-Next up on the actual (non-home) gig list: [Misery Index at Rebellion, Manchester on 9 August](https://www.seetickets.com/event/misery-index/rebellion/3632312), then [Chelsea Wolfe and Igorrr at ArcTanGent](https://www.kerrang.com/arctangent-festival-2026-line-up-announcement-igorrr-perturbator-chat-pile-alcest-oathbreaker-svalbard) (Bristol, 19-22 August, where Igorrr headlines). Whether either of those gets the home-karaoke treatment is another question.
+If you want the real thing: [The Black Parade on Spotify](https://open.spotify.com/album/0FZK97MXMm5mUQ8mtudjuK) and [My Chemical Romance](https://www.mychemicalromance.com/). 🖤
