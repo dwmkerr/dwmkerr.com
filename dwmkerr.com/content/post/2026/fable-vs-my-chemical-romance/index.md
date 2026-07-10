@@ -59,7 +59,7 @@ Essentially; build yourself tools, build a machine to solve my problem, then run
 
 About $500 worth of tokens and many hours later (this used less than I expected, I thought I'd see more cost from image processing). To be clear on the money: this ran on my personal Max subscription, not anything work-related, and that $500 is the API-equivalent value of the tokens burned, not a bill. On a Max plan you pay the flat monthly fee, and Fable draws it down faster than Opus because it is priced at twice the rate.
 
-**[TODO: screenshot of my TV]**
+[![The finished concert playing on the living room TV: karaoke lyrics over blue-lit live footage.](./images/tv.jpg)](./images/tv.jpg)
 
 ## How it ran
 
