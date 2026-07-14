@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.6.0...v0.6.1) (2026-07-14)
+
+
+### Documentation
+
+* Fable MCR post - SOW reframe, session stats, nav order ([#77](https://github.com/dwmkerr/dwmkerr.com/issues/77)) ([5b645ca](https://github.com/dwmkerr/dwmkerr.com/commit/5b645ca2ae94be5dba7a04517502401173e98ecf))
+
 ## [0.6.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.5.0...v0.6.0) (2026-07-10)
 
 
