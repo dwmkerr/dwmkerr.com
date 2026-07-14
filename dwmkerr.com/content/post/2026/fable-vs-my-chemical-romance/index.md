@@ -17,6 +17,8 @@ tags:
 
 I've been spending 15 minutes each morning with Fable - planning a days worth of development, discussing features and architecture, scheduling the work and kicking it off. End of day I spend 15 minutes reviewing and rinse and repeat. This is half a 'testing Fable' exercise, and half a 'get better at scheduling a days worth of work' exercise. However, on a drive back from a physiotherapy appointment, I was thinking why not kick off a monster job? That would just be fun.
 
+*Update: this started as a bit of fun, but it turned out to be a hard enough long-horizon task that I have codified it into a Statement of Work I now use to test model and agent capability. The SOW and demo clips are at the end.*
+
 [![Fable vs My Chemical Romance](./images/v30.png)](./images/v30.png)
 
 At the time the music on Spotify was My Chemical Romance, who I'd [just seen at Anfield](https://www.theguardian.com/music/2026/jul/01/my-chemical-romance-review-anfield-stadium-liverpool-uk-tour). The concert was great so I decided the goal would be "make me a home version. singalong karaoke style lyrics on the screen. official videos where they exist, live footage otherwise". I'd also prompt a few tips around process but let it run.
@@ -102,3 +104,16 @@ The other thing that made me laugh: at one point Fable's own safeguards flagged 
 I don't think I'll run this exercise again - it was a bit of fun on the side that I thought I'd share before I get into my wider Fable experiments. I've got a couple of other gigs coming up anyway: [Misery Index](https://www.seetickets.com/event/misery-index/rebellion/3632312), [Chelsea Wolfe](https://www.chelseawolfe.net/) and [Igorrr](https://igorrr.com/).
 
 If you want the real thing: [The Black Parade on Spotify](https://open.spotify.com/album/0FZK97MXMm5mUQ8mtudjuK) and [My Chemical Romance](https://www.mychemicalromance.com/). 🖤
+
+## The SOW
+
+The hard part, syncing live footage to a studio track, is now a standalone brief I can hand to any model or agent. It runs at two levels: silent footage first, where it has to identify the song and align it from the picture alone, then the same footage with audio. Effort (tokens, tool calls, time) is measured but not scored. What is judged is whether the result actually plays and stays in sync.
+
+| | |
+|---|---|
+| The SOWs | [github.com/dwmkerr/agentic-engineering-sows](https://github.com/dwmkerr/agentic-engineering-sows) |
+| Level 1 input, silent | [watch](https://youtu.be/GJzgRycBfws) |
+| Level 2 input, with audio | [watch](https://youtu.be/UUgaolX67OM) |
+| Fable output | [watch](https://youtu.be/xi2YMHondsk) |
+
+For the record, the whole session, the original build plus days of tinkering, editing and this write-up, cost **$485.43** across three models: Fable 5 did the build ($322.65), Opus 4.8 covered the safeguard fall-backs and most of the later editing ($162.07), and a little Haiku for search ($0.70). Roughly 2.3m input and 1.7m output tokens, around 990 tool calls and 24 web searches, 80+ sub-agents spun up across ultracode workflows, 9h 25m of API time spread across about five days, and 7,246 lines of code added. Measured, not scored.

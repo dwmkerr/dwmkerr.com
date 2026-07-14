@@ -4,16 +4,6 @@
 </header>
 
 <section>
-  <h2 class="section-title">projects</h2>
-  <ul class="plain projects">
-    {{ range .Site.Data.projects }}
-    <li><span class="name"><a href="{{ .url }}">{{ .name }}</a></span> <span class="stars">{{ .stars }} ⭐</span><br><span class="desc">{{ .description }}</span></li>
-    {{ end }}
-  </ul>
-  <p class="more-link"><a href="https://github.com/dwmkerr">more projects →</a></p>
-</section>
-
-<section>
   <h2 class="section-title">books</h2>
   {{ range .Site.Data.books }}
   <div class="book">
@@ -39,6 +29,16 @@
     {{ end }}
   </ul>
   <p class="more-link"><a href="{{ "post/" | absURL }}">all posts →</a></p>
+</section>
+
+<section>
+  <h2 class="section-title">projects</h2>
+  <ul class="plain projects">
+    {{ range .Site.Data.projects }}
+    <li><span class="name"><a href="{{ .url }}">{{ .name }}</a></span> <span class="stars">{{ .stars }} ⭐</span><br><span class="desc">{{ .description }}</span></li>
+    {{ end }}
+  </ul>
+  <p class="more-link"><a href="https://github.com/dwmkerr">more projects →</a></p>
 </section>
 
 <section>
