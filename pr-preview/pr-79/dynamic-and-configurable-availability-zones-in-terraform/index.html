@@ -1,0 +1,103 @@
+<!doctype html><html lang=en-uk><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Dynamic and Configurable Availability Zones in Terraform</title><meta property="og:title" content="Dynamic and Configurable Availability Zones in Terraform"><meta name=twitter:title content="Dynamic and Configurable Availability Zones in Terraform"><meta name=description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta property="og:description" content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=twitter:description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=author content="Dave Kerr"><meta property="og:site_name" content="dwmkerr.com"><meta property="og:url" content="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/dynamic-and-configurable-availability-zones-in-terraform/"><meta property="og:type" content="article"><meta name=twitter:card content="summary"><meta name=generator content="Hugo 0.164.0"><script async src="https://www.googletagmanager.com/gtag/js?id=G-XNRSGLYJRM"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XNRSGLYJRM")}</script><link rel=icon type=image/x-icon href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/images/favicon.ico><link rel=stylesheet href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/css/site.css></head><body><div class=page><div class=topbar><span class=path><a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/><span class=prompt>$</span> ~/dwmkerr</a></span><nav><a href=https://effective-shell.com/>effective shell</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>github</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>linkedin</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.substack.com/>subscribe</a></nav></div><article><header><h1 class=post-title>Dynamic and Configurable Availability Zones in Terraform</h1><p class=post-meta><time datetime=2018-12-11>2018-12-11</time>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/tags/terraform>Terraform</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/tags/aws>AWS</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/tags/codeproject>CodeProject</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/tags/infrastructure>Infrastructure</a></p></header><div class=post-content><p>When building Terraform modules, it is a common requirement to want to allow the client to be able to choose which region resources are created in, and which availability zones are used.</p><p>I&rsquo;ve seen a few ways of doing this, none of which felt entirely satisfactory. After a bit of experimentation I&rsquo;ve come up with a solution which I think really works nicely. This solution avoids having to know in advance how many availability zones we&rsquo;ll support.</p><p><img src=images/screenshot-1.jpg alt=screenshot></p><p>To demonstrate, I&rsquo;ve set up a module which deploys a cluster of web servers. My goal is to be able to configure the region, VPC CIDR block, subnets and subnet CIDR blocks as below:</p><pre tabindex=0><code>module &#34;cluster&#34; {
+  source            = &#34;github.com/dwmkerr/terraform-aws-vpc&#34;
+
+  # Note how we can specify any number of availability zones here...
+  region            = &#34;ap-northeast-2&#34;
+  vpc_cidr          = &#34;10.0.0.0/16&#34;
+  subnets           = {
+    ap-northeast-2a = &#34;10.0.1.0/24&#34;
+    ap-northeast-2b = &#34;10.0.2.0/24&#34;
+    ap-northeast-2c = &#34;10.0.3.0/24&#34;
+  }
+
+  # This just defines the number of web servers to deploy, and uses
+  # adds my public key so I can SSH into the servers...
+  web_server_count  = &#34;3&#34;
+  public_key_path   = &#34;~/.ssh/id_rsa.pub&#34;
+
+}
+</code></pre><p>The example module is at <a href=https://github.com/dwmkerr/terraform-aws-vpc>github.com/dwmkerr/terraform-aws-vpc</a>. Let&rsquo;s take a look at some of the key elements.</p><h2 id=the-variables>The Variables</h2><p>We define the required variables very explicitly, with descriptions and a variable type to avoid confusion:</p><pre tabindex=0><code>variable &#34;region&#34; {
+  description = &#34;The region to deploy the VPC in, e.g: us-east-1.&#34;
+  type = &#34;string&#34;
+}
+
+variable &#34;vpc_cidr&#34; {
+  description = &#34;The CIDR block for the VPC, e.g: 10.0.0.0/16&#34;
+  type = &#34;string&#34;
+}
+
+variable &#34;subnets&#34; {
+  description = &#34;A map of availability zones to CIDR blocks, which will be set up as subnets.&#34;
+  type = &#34;map&#34;
+}
+</code></pre><h2 id=the-vpc>The VPC</h2><p>Now that we have defined the variables, we can set up the VPC:</p><pre tabindex=0><code>//  Define the VPC.
+resource &#34;aws_vpc&#34; &#34;cluster&#34; {
+  cidr_block           = &#34;${var.vpc_cidr}&#34;
+  enable_dns_hostnames = true
+}
+
+//  An Internet Gateway for the VPC.
+resource &#34;aws_internet_gateway&#34; &#34;cluster_gateway&#34; {
+  vpc_id = &#34;${aws_vpc.cluster.id}&#34;
+}
+
+//  Create one public subnet per key in the subnet map.
+resource &#34;aws_subnet&#34; &#34;public-subnet&#34; {
+  count                   = &#34;${length(var.subnets)}&#34;
+  
+  vpc_id                  = &#34;${aws_vpc.cluster.id}&#34;
+  cidr_block              = &#34;${element(values(var.subnets), count.index)}&#34;
+  map_public_ip_on_launch = true
+  depends_on              = [&#34;aws_internet_gateway.cluster_gateway&#34;]
+  availability_zone       = &#34;${element(keys(var.subnets), count.index)}&#34;
+}
+
+//  Create a route table allowing all addresses access to the IGW.
+resource &#34;aws_route_table&#34; &#34;public&#34; {
+  vpc_id       = &#34;${aws_vpc.cluster.id}&#34;
+
+  route {
+    cidr_block = &#34;0.0.0.0/0&#34;
+    gateway_id = &#34;${aws_internet_gateway.cluster_gateway.id}&#34;
+  }
+}
+
+//  Now associate the route table with the public subnet - giving
+//  all public subnet instances access to the internet.
+resource &#34;aws_route_table_association&#34; &#34;public-subnet&#34; {
+  count          = &#34;${length(var.subnets)}&#34;
+  
+  subnet_id      = &#34;${element(aws_subnet.public-subnet.*.id, count.index)}&#34;
+  route_table_id = &#34;${aws_route_table.public.id}&#34;
+}
+</code></pre><p>There are a few things of interest here. First, we can easily build a variable number of subnets by using the <code>count</code> field on the <code>aws_subnet</code> resource:</p><pre tabindex=0><code>resource &#34;aws_subnet&#34; &#34;public-subnet&#34; {
+  count                   = &#34;${length(var.subnets)}&#34;
+  
+  availability_zone       = &#34;${element(keys(var.subnets), count.index)}&#34;
+  cidr_block              = &#34;${element(values(var.subnets), count.index)}&#34;
+}
+</code></pre><p>By using the <a href=https://www.terraform.io/docs/configuration/interpolation.html>Terraform Interpolation Syntax</a>, and in particular the <code>count</code>, <code>keys</code>, <code>values</code> and <code>element</code> functions, we can grab the subnet name and CIDR block from the variables.</p><h2 id=the-web-server-cluster>The Web Server Cluster</h2><p>A cluster of web servers behind a load balancer are created by the module, to demonstrate that it works. There is little of interest in the script except for how the subnets are referenced:</p><pre tabindex=0><code>resource &#34;aws_autoscaling_group&#34; &#34;cluster_node&#34; {
+  name                        = &#34;cluster_node&#34;
+  vpc_zone_identifier         = [&#34;${aws_subnet.public-subnet.*.id}&#34;]
+  launch_configuration        = &#34;${aws_launch_configuration.cluster_node.name}&#34;
+}
+</code></pre><p>Note that we can specify the entire list of subnet ids by using the <code>*</code> symbol in the resource path - <code>["${aws_subnet.public-subnet.*.id}"]</code>.</p><h2 id=thats-it>That&rsquo;s It!</h2><p>That&rsquo;s really all there is to it. I quite like this approach. I think it makes it very clear what is going on with the infrastructure, and is fairly manageable.</p><p>One question which may be raised is why I am not using the <a href=https://www.terraform.io/docs/configuration/interpolation.html#cidrsubnet-iprange-newbits-netnum-><code>cidrsubnet</code></a> function to automatically calculate the CIDR blocks for the subnets. The reason is purely one of preference - I prefer to explicitly specify the CIDR blocks and use various patterns to set conventions. For example, if I see an IP address such as <code>10.0.3.121</code> then it is in the third AZ of my public subnet, or <code>10.2.2.11</code> is in the second AZ of my locked down data zone.</p><p>You can see a sample Terraform module which uses this pattern at: <a href=https://github.com/dwmkerr/terraform-aws-vpc-example>github.com/dwmkerr/terraform-aws-vpc-example</a>. This module also has a basic build pipeline and is published on the <a href=https://registry.terraform.io/modules/dwmkerr/vpc-example>Terraform Registry</a>. I&rsquo;ll also be updating my <a href=https://github.com/dwmkerr/terraform-aws-openshift>AWS Openshift</a> module to use this pattern.</p></div><p class=subscribe>New posts by email, <a href=https://dwmkerr.substack.com/>subscribe on Substack</a>, or grab the <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/index.xml>RSS feed</a>.</p></article><footer class=site-footer><a href=https://dwmkerr.substack.com/>Subscribe</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/index.xml>RSS</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>GitHub</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>LinkedIn</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-79/page/about/>About</a>
+<span class=copyright>© Dave Kerr · dwmkerr.com</span></footer></div></body></html>
