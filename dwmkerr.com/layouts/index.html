@@ -18,6 +18,13 @@
 <section>
   <h2 class="section-title">writing</h2>
   <ul class="plain dated cols2">
+    <li>
+      <span class="date">2026</span>
+      <span class="entry">
+        <a href="https://dwmkerr.substack.com/p/agentic-engineering-roundup-google">Agentic Engineering Roundup</a>
+        <span class="desc crop">substack</span>
+      </span>
+    </li>
     {{ range first 6 (where .Site.RegularPages "Section" "post") }}
     <li>
       <span class="date">{{ .Date.Format "2006" }}</span>
