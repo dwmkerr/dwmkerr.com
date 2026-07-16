@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.6.1...v0.7.0) (2026-07-16)
+
+
+### Features
+
+* add agentic engineering roundup to homepage writing list ([#79](https://github.com/dwmkerr/dwmkerr.com/issues/79)) ([0ce1d3c](https://github.com/dwmkerr/dwmkerr.com/commit/0ce1d3c0d10b80ebf2c42041748b79f5e2742f35))
+
 ## [0.6.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.6.0...v0.6.1) (2026-07-14)
 
 
