@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.0...v0.7.1) (2026-07-20)
+
+
+### Documentation
+
+* publish building evidence with agents post ([0eccf66](https://github.com/dwmkerr/dwmkerr.com/commit/0eccf663bfcf19e8f7126417733af6190211e0e5))
+
 ## [0.7.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.6.1...v0.7.0) (2026-07-16)
 
 
