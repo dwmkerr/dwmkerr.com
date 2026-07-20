@@ -1,0 +1,26 @@
+<!doctype html><html lang=en-uk><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Debugger:: An unhandled non-continuable exception was thrown during process load</title><meta property="og:title" content="Debugger:: An unhandled non-continuable exception was thrown during process load"><meta name=twitter:title content="Debugger:: An unhandled non-continuable exception was thrown during process load"><meta name=description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta property="og:description" content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=twitter:description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=author content="Dave Kerr"><meta property="og:site_name" content="dwmkerr.com"><meta property="og:url" content="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/debugger-an-unhandled-non-continuable-exception-was-thrown-during-process-load/"><meta property="og:type" content="article"><meta name=twitter:card content="summary"><meta name=generator content="Hugo 0.164.0"><script async src="https://www.googletagmanager.com/gtag/js?id=G-XNRSGLYJRM"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XNRSGLYJRM")}</script><link rel=icon type=image/x-icon href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/images/favicon.ico><link rel=stylesheet href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/css/site.css></head><body><div class=page><div class=topbar><span class=path><a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/><span class=prompt>$</span> ~/dwmkerr</a></span><nav><a href=https://effective-shell.com/>effective shell</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>github</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>linkedin</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.substack.com/>subscribe</a></nav></div><article><header><h1 class=post-title>Debugger:: An unhandled non-continuable exception was thrown during process load</h1><p class=post-meta><time datetime=2012-02-08>2012-02-08</time>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/tags/c>C#</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/tags/debugging>Debugging</a></p></header><div class=post-content><p>The following exception can be a very tricky one to deal with:</p><pre>Debugger:: An unhandled non-continuable exception was thrown during process load</pre><p>here's some tips if you get it.</p><ol><li>Are you linking to winmm.lib? If so avoid it - it can cause these problems.</li><li>Are you delay-loading the module? If not, try it - this can often resolve this issue if other modules like winmm.lib are interfering with the module that causes this exception.</li><li>Are you using C++/CLI for the excepting module? If so, try using #pragma pack around exported class definitions.</li></ol><div>If you haven't specified packing - do so. This is good practice anyway. I've used libraries that change the packing (which is very bad behaviour) before and this has caused all sorts of problems, so try and do the following:</div><div><pre class="brush: c-sharp;">// Push packing options, specify the packing.
+#pragma pack(push, 1)
+<p>//	Exported class
+class MY_API MyClass
+{
+public:</p>
+<pre><code>//	...etc
+</code></pre><p>};</pre></p><pre class="brush: c-sharp;">// Restore packing options.
+#pragma pack(pop)</pre></div></div><p class=subscribe>New posts by email, <a href=https://dwmkerr.substack.com/>subscribe on Substack</a>, or grab the <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/index.xml>RSS feed</a>.</p></article><footer class=site-footer><a href=https://dwmkerr.substack.com/>Subscribe</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/index.xml>RSS</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>GitHub</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>LinkedIn</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/page/about/>About</a>
+<span class=copyright>© Dave Kerr · dwmkerr.com</span></footer></div></body></html>

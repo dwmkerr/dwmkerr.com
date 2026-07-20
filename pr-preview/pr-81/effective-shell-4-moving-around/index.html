@@ -1,0 +1,107 @@
+<!doctype html><html lang=en-uk><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Effective Shell 4: Move Around!</title><meta property="og:title" content="Effective Shell 4: Move Around!"><meta name=twitter:title content="Effective Shell 4: Move Around!"><meta name=description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta property="og:description" content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=twitter:description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=author content="Dave Kerr"><meta property="og:site_name" content="dwmkerr.com"><meta property="og:url" content="https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/effective-shell-4-moving-around/"><meta property="og:type" content="article"><meta name=twitter:card content="summary"><meta name=generator content="Hugo 0.164.0"><script async src="https://www.googletagmanager.com/gtag/js?id=G-XNRSGLYJRM"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XNRSGLYJRM")}</script><link rel=icon type=image/x-icon href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/images/favicon.ico><link rel=stylesheet href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/css/site.css></head><body><div class=page><div class=topbar><span class=path><a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/><span class=prompt>$</span> ~/dwmkerr</a></span><nav><a href=https://effective-shell.com/>effective shell</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>github</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>linkedin</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.substack.com/>subscribe</a></nav></div><article><header><h1 class=post-title>Effective Shell 4: Move Around!</h1><p class=post-meta><time datetime=2019-03-11>2019-03-11</time>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/tags/effectiveshell>EffectiveShell</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/tags/shell>Shell</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/tags/codeproject>CodeProject</a>
+· <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/tags/bash>Bash</a></p></header><div class=post-content><p>This is the fourth part of my <a href=https://github.com/dwmkerr/effective-shell>Effective Shell</a> series, a set of practical examples of ways to be more efficient with everyday tasks in the shell or at the command line.</p><ul><li><a href=https://www.dwmkerr.com/effective-shell-part-1-navigating-the-command-line/>Part 1: Navigating the Command Line</a></li><li><a href=https://www.dwmkerr.com/effective-shell-part-2-become-a-clipboard-gymnast/>Part 2: Become a Clipboard Gymnast</a></li><li><a href=https://www.dwmkerr.com/effective-shell-part-3-getting-hepl/>Part 3: Getting Help</a></li><li><strong><a href=https://dwmkerr.com/effective-shell-4-moving-around/>Part 4: Moving Around</a></strong></li><li><a href=https://dwmkerr.com/effective-shell-part-5-understanding-the-shell/>Part 5: Interlude - Understanding the Shell</a></li><li><a href=https://dwmkerr.com/effective-shell-6-job-control/>Part 6: Everything You Don&rsquo;t Need to Know About Job Control</a></li><li><a href=https://dwmkerr.com/effective-shell-7-shell-commands/>Part 7: The Subtleties of Shell Commands</a></li></ul><p>In this article we&rsquo;ll look at the key elements of navigation in the shell.</p><h2 id=getting-comfortable-moving-around>Getting Comfortable Moving Around</h2><p>You might already spend a lot of time in the shell, running various command line programs or using tooling for development projects or operational tasks. But you might also still switch back to a more visual paradigm for working with files, directories and resources.</p><p>Being able to perform everyday file and folder manipulation tasks directly from the shell can really speed up your workflow. Let&rsquo;s look at some common tasks and see how we can work with them in the shell. Along the way we&rsquo;ll also introduce some of the most frequently used tools and commands to work with the filesystem.</p><h2 id=where-am-i>Where Am I?</h2><p>The first command to become familiar with is <code>pwd</code> (&lsquo;print working directory&rsquo;). This command will echo the current absolute path. You can also use the <code>$PWD</code> environment variable:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/Users/dave/repos/github/dwmkerr/effective-shell
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ echo $PWD
+</span></span><span style=display:flex><span>/Users/dave/repos/github/dwmkerr/effective-shell
+</span></span></code></pre></div><p>Depending on your shell, or your command-line setup (which we will discuss in a later chapter), you might also see your working directly on the command-line.</p><h2 id=changing-directory>Changing Directory</h2><p>Most likely one of the most familiar commands out there, the <code>cd</code> or <code>chdir</code> function changes the current directory:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/Users/dave/repos/github/dwmkerr/effective-shell
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ cd
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/users/dave
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ cd -
+</span></span><span style=display:flex><span>~/repos/github/dwmkerr/effective-shell
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/Users/dave/repos/github/dwmkerr/effective-shell
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ cd ~
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/users/dave
+</span></span></code></pre></div><p>Here we can see that running <code>cd</code> with no parameters moves to the users &lsquo;home&rsquo; directory. This directory is always available in the <code>$HOME</code> environment variable.</p><p>Running <code>cd -</code> will switch <em>back</em> to the previous directory — this is very useful if you want to quickly jump somewhere and then back again.</p><p>You can use <code>~</code> as an alias for the home directory, allowing you to quickly move to personal folders, with commands such as <code>cd ~/Downloads</code>.</p><p>Most commonly, you will specify a path when changing directory. This can be a fully qualified path, or it can be a relative path:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ cd /dev
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ cd ~/repos
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ cd ./github
+</span></span></code></pre></div><p>You can use the special link <code>..</code>, which is a folder that points to the <em>parent</em> directory to move &lsquo;upwards&rsquo;:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/Users/dave/repos/github/dwmkerr/effective-shell
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ cd ../../
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/Users/dave/repos/github
+</span></span></code></pre></div><h2 id=exploring-a-directory>Exploring a Directory</h2><p>Once we are in a directory, we will often want to see the contents. The <code>ls</code> (&ldquo;list directory contents&rdquo;) command is useful here:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/Users/dave/repos/github/dwmkerr/effective-shell
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ ls
+</span></span><span style=display:flex><span>1-navigating-the-command-line LICENSE
+</span></span><span style=display:flex><span>2-clipboard-gymnastics        README.md
+</span></span><span style=display:flex><span>3-getting-help                sed.1
+</span></span><span style=display:flex><span>4-moving-around
+</span></span></code></pre></div><p>By default, the <code>ls</code> command will list the files and directories. We can show more information with the <code>-l</code> (&ldquo;long format&rdquo;) flag:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ ls -l
+</span></span><span style=display:flex><span>total <span style=color:#ae81ff>48</span>
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>6</span> dave  staff    <span style=color:#ae81ff>192</span> Mar  <span style=color:#ae81ff>5</span> 16:01 1-navigating-the-command-line
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>5</span> dave  staff    <span style=color:#ae81ff>160</span> Oct <span style=color:#ae81ff>10</span>  <span style=color:#ae81ff>2017</span> 2-clipboard-gymnastics
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>4</span> dave  staff    <span style=color:#ae81ff>128</span> Dec <span style=color:#ae81ff>19</span>  <span style=color:#ae81ff>2017</span> 3-getting-help
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>3</span> dave  staff     <span style=color:#ae81ff>96</span> Mar  <span style=color:#ae81ff>7</span> 15:39 4-moving-around
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> dave  staff   <span style=color:#ae81ff>1066</span> Jun <span style=color:#ae81ff>10</span>  <span style=color:#ae81ff>2017</span> LICENSE
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> dave  staff    <span style=color:#ae81ff>561</span> Mar  <span style=color:#ae81ff>7</span> 15:30 README.md
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> dave  staff  <span style=color:#ae81ff>15707</span> Mar  <span style=color:#ae81ff>5</span> 16:01 sed.1
+</span></span></code></pre></div><p>Now we can see the permissions, the link count (which is rarely particularly useful and varies from platform to platform), the owner, the group, the size and the modification date (as well as the name).</p><p>We can make the sizes more human readable, and sort by size with a few more flags <code>-h</code> (&ldquo;human readable&rdquo;) and <code>-s</code> (&ldquo;sort by size&rdquo;):</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ ls -lhS
+</span></span><span style=display:flex><span>total <span style=color:#ae81ff>48</span>
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> dave  staff    15K Mar  <span style=color:#ae81ff>5</span> 16:01 sed.1
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> dave  staff   1.0K Jun <span style=color:#ae81ff>10</span>  <span style=color:#ae81ff>2017</span> LICENSE
+</span></span><span style=display:flex><span>-rw-r--r--  <span style=color:#ae81ff>1</span> dave  staff   561B Mar  <span style=color:#ae81ff>7</span> 15:30 README.md
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>6</span> dave  staff   192B Mar  <span style=color:#ae81ff>5</span> 16:01 1-navigating-the-command-line
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>5</span> dave  staff   160B Oct <span style=color:#ae81ff>10</span>  <span style=color:#ae81ff>2017</span> 2-clipboard-gymnastics
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>4</span> dave  staff   128B Dec <span style=color:#ae81ff>19</span>  <span style=color:#ae81ff>2017</span> 3-getting-help
+</span></span><span style=display:flex><span>drwxr-xr-x  <span style=color:#ae81ff>3</span> dave  staff    96B Mar  <span style=color:#ae81ff>7</span> 15:39 4-moving-around
+</span></span></code></pre></div><p>There are <em>lot</em> of options for <code>ls</code>. Check the chapter <a href=https://www.dwmkerr.com/effective-shell-part-3-getting-hepl/>Getting Help</a> for some tips on how to get more information on a command!</p><h2 id=managing-the-directory-stack>Managing the Directory Stack</h2><p>You might find that you want to move to a number of directories, then return to where you started. This can be particularly useful when scripting. You can use the <code>pushd</code> (&ldquo;push onto directory stack&rdquo;) and <code>popd</code> (&ldquo;pop from directory stack&rdquo;) commands to add or remove directories from the stack:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ pwd
+</span></span><span style=display:flex><span>/Users/dave/repos/github/dwmkerr/effective-shell
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># OK - I&#39;m writing my article at the moment, but want to check my downloads, and come back shortly...</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Move to the downloads folder...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ ls
+</span></span><span style=display:flex><span>aws-nuke-v2.8.0-darwin-amd64
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># OK cool - the tool I was downloading has arrived, let&#39;s use it...</span>
+</span></span><span style=display:flex><span>cd aws-nuke-v2.8.0-darwin-amd64
+</span></span><span style=display:flex><span>./aws-nuke
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Now I want to go back to my article...</span>
+</span></span><span style=display:flex><span>$ popd
+</span></span><span style=display:flex><span>~/Downloads ~/repos/github/dwmkerr/effective-shell
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>~/Downloads
+</span></span><span style=display:flex><span>$ popd
+</span></span><span style=display:flex><span>~/repos/github/dwmkerr/effective-shell
+</span></span></code></pre></div><p>In this case, using <code>cd -</code> would not be sufficient — that would just switch us from the <code>aws-nuke</code> folder to <code>Downloads</code> and back again. But by using the <em>directory stack</em> we can save where we are, move, and then &lsquo;pop&rsquo; our way back to where we started.</p><h2 id=auto-completion>Auto-Completion</h2><p>Pressing <code>tab</code> when using commands like <code>cd</code> will generally show an auto-completion menu:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>$ cd ~/repos/       <span style=color:#75715e># press &#39;tab&#39; now...</span>
+</span></span><span style=display:flex><span>github/   gitlab/   local/    scratch/
+</span></span></code></pre></div><p>Pressing tab again will cycle through options, and shift-tab will cycle backwards. Enter will select an option, escape (or Ctrl-C) will cancel.</p><p>Some shells, such as <code>zsh</code>, support even more advanced auto-completion. For example, we can auto-complete to fill in partially specified directory names:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sh data-lang=sh><span style=display:flex><span>% cd ~/r/g/d/e    <span style=color:#75715e># press tab now...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>% cd ~/repos/github/dwmkerr/effective-
+</span></span><span style=display:flex><span>effective-container-engineering/  effective-shell/
+</span></span></code></pre></div><p>Auto-completion is generally <em>very</em> shell specific. We&rsquo;ll look more into the different shells that are available in later chapters. But in general, if you are uncertain, pressing tab will often show a sensible set of options.</p><h2 id=thats-it>That&rsquo;s It!</h2><p>This is a small chapter, but an important one. Later on, as we start to do more file and system manipulation from the shell, moving and copying files and so on, we will build on these concepts. But it is critical to first know the basics of how to move around the filesystem with the shell.</p></div><p class=subscribe>New posts by email, <a href=https://dwmkerr.substack.com/>subscribe on Substack</a>, or grab the <a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/index.xml>RSS feed</a>.</p></article><footer class=site-footer><a href=https://dwmkerr.substack.com/>Subscribe</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/index.xml>RSS</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>GitHub</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>LinkedIn</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-81/page/about/>About</a>
+<span class=copyright>© Dave Kerr · dwmkerr.com</span></footer></div></body></html>
