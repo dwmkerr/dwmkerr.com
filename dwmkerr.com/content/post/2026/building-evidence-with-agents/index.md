@@ -5,7 +5,7 @@ date: "2026-07-17"
 title: "Building Evidence with Agents"
 description: "Tests passing is not enough - when an agent builds something, make it show you the thing working."
 slug: building-evidence-with-agents
-draft: true
+draft: false
 thumbnail: /building-evidence-with-agents/images/10-answer-tools.png
 categories:
 - "ai"
