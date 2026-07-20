@@ -43,7 +43,9 @@ jobs:
     - name: Build for Preview
       if: github.event.action != 'closed'
       working-directory: ./dwmkerr.com
-      run: hugo --minify --baseURL "https://dwmkerr.github.io/dwmkerr.com/pr-preview/pr-${{ github.event.number }}/"
+      # Site is served on the dwmkerr.com custom domain (see static/CNAME), so the
+      # preview lives at dwmkerr.com/pr-preview/..., not the github.io project path.
+      run: hugo --minify --baseURL "https://dwmkerr.com/pr-preview/pr-${{ github.event.number }}/"
 
     - name: Deploy preview
       uses: rossjrw/pr-preview-action@v1

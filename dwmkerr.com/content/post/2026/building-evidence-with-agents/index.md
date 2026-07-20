@@ -3,10 +3,10 @@ author: Dave Kerr
 type: posts
 date: "2026-07-17"
 title: "Building Evidence with Agents"
-description: "Tests passing is not enough - when an agent builds something, make it show you the thing working."
+description: "When agents build software, gather evidence it works - recordings and screenshots - before you review the code."
 slug: building-evidence-with-agents
 draft: false
-thumbnail: /building-evidence-with-agents/images/10-answer-tools.png
+thumbnail: /building-evidence-with-agents/images/thumbnail.png
 categories:
 - "ai"
 - "agentic-ai"
