@@ -10,6 +10,12 @@ cd dwmkerr.com && hugo --minify
 
 This catches template errors and syntax issues that would fail CI.
 
+## Publishing Posts
+
+Post PRs must use a release-triggering commit type (`docs:`, `feat:`, `fix:`).
+`post:` is ignored by release-please, so the release never fires and the post
+never deploys.
+
 ## Git Hooks
 
 Shared hooks live in `.githooks/`. Enable them with:
