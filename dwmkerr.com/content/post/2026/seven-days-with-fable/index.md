@@ -17,7 +17,7 @@ tags:
 - "signalbox"
 ---
 
-To assess Fable for open-ended work, I set a challenge: a maximum of 20 minutes each morning to plan and discuss goals, build a harness that runs all day, then 20 minutes to review at the end of it. Along the way I tracked the most useful technique of the day.
+To assess Fable for open-ended work, I set a challenge: a maximum of 20 minutes each morning to plan and discuss goals, build a harness that runs all day, then 20 minutes to review at the end of it. Along the way I tracked the most useful technique of the day and built an app I now use continuously.
 
 {{< figcap src="./images/seven-learnings.png" caption="The seven techniques for long-horizon work covered in this post." >}}
 
@@ -31,9 +31,11 @@ Thus ['Signalbox'](https://github.com/dwmkerr/signalbox) was born. All of the he
 
 {{< figcap src="./images/hero-anim.gif" caption="The Signalbox landing page: one board for every agent, one keystroke to the session that needs you." >}}
 
-Signalbox is open source and free: [github.com/dwmkerr/signalbox](https://github.com/dwmkerr/signalbox).
+Check out Signalbox here: [github.com/dwmkerr/signalbox](https://github.com/dwmkerr/signalbox).
 
 The app works, I use it continuously, it's evolving as the harnesses evolve, and now I can distract myself even more effectively. I have the mobile app open, 2x laptops, dozens of agents, and I'm not sure if life is better or not but I feel more confident giving a low-down of some of the techniques I used.
+
+{{< figcap src="./images/mobile-board.png" caption="The mobile app: the same board in my pocket, jump to any session from the phone." >}}
 
 ## Skill 1: Goal Setting and Statements of Work
 
@@ -86,7 +88,7 @@ Agents like Claude Code and models like Fable are _exceptionally_ good at creati
 
 The specs are deployed and live, [have a look at the menu bar spec here](https://dwmkerr.github.io/signalbox/specs/menubar.html) - they are interactive HTML, so you can open one and click through the states.
 
-{{< figcap src="./images/ios-app.png" caption="An interactive spec for the iOS app, click through the states and settle the design before a line of Swift is written." >}}
+{{< figcap src="./images/menubar-spec.png" caption="The living spec for the menu bar, an interactive HTML mockup you click through to settle the design before writing the app." >}}
 
 The specs live with the project, and are always available for me to work with. This reduces friction but also ensures _intent_ is tracked rather than implementation.
 
