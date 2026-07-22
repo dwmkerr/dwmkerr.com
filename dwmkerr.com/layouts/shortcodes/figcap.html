@@ -1,0 +1,5 @@
+{{- $src := .Get "src" -}}
+<figure class="figure-caption" style="text-align:center;margin:1.6em auto;">
+  <a href="{{ $src }}"><img src="{{ $src }}" alt="{{ with .Get `caption` }}{{ . | markdownify | plainify }}{{ else }}{{ $.Page.Title }}{{ end }}" class="img-zoomable"></a>
+  {{- with .Get "caption" }}<figcaption style="font-size:0.8em;font-style:italic;text-align:center;color:#999;opacity:0.85;margin-top:0.5em;line-height:1.4;">{{ . | markdownify }}</figcaption>{{ end -}}
+</figure>
