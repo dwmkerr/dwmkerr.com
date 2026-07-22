@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.1...v0.7.2) (2026-07-22)
+
+
+### Documentation
+
+* note that post PRs need a release-triggering commit type ([e11bc9f](https://github.com/dwmkerr/dwmkerr.com/commit/e11bc9f4b8569a997425476a9d8f609a86da486f))
+* publish seven days with fable post ([#84](https://github.com/dwmkerr/dwmkerr.com/issues/84)) ([2ae0676](https://github.com/dwmkerr/dwmkerr.com/commit/2ae0676a9f5cb7d1efbefada5b8871a0071c4380))
+
 ## [0.7.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.0...v0.7.1) (2026-07-20)
 
 
