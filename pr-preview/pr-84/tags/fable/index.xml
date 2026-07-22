@@ -1,0 +1,186 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Fable on dwmkerr.com</title><link>https://dwmkerr.com/pr-preview/pr-84/tags/fable/</link><description>Recent content in Fable on dwmkerr.com</description><generator>Hugo -- gohugo.io</generator><language>en-uk</language><managingEditor>Dave Kerr</managingEditor><copyright>Copright &amp;copy; Dave Kerr</copyright><lastBuildDate>Tue, 21 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://dwmkerr.com/pr-preview/pr-84/tags/fable/index.xml" rel="self" type="application/rss+xml"/><item><title>Seven Days with Fable &amp; Seven Practical Skills</title><link>https://dwmkerr.com/pr-preview/pr-84/seven-days-with-fable/</link><pubDate>Tue, 21 Jul 2026 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/pr-preview/pr-84/seven-days-with-fable/</guid><description>&lt;p&gt;To assess Fable for open-ended work, I set a challenge: a maximum of 20 minutes each morning to plan and discuss goals, build a harness that runs all day, then 20 minutes to review at the end of it. Along the way I tracked the most useful technique of the day.&lt;/p&gt;
+&lt;figure class="figure-caption"&gt;
+&lt;a href="./images/seven-learnings.png"&gt;&lt;img src="./images/seven-learnings.png" alt="The seven techniques for long-horizon work covered in this post." class="img-zoomable"&gt;&lt;/a&gt;&lt;figcaption&gt;The seven techniques for long-horizon work covered in this post.&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;h2 id="the-challenge---to-stop-tab-hunting-my-agents"&gt;The Challenge - to stop tab-hunting my agents&lt;/h2&gt;
+&lt;p&gt;I am using OpenCode, pi, Codex, Claude Code and various model, across dozens of terminals and tabs, on multiple machines. Lots of different things going on at once - personal admin, coding, technical designs, assessments, backlog and roadmap management. Many tasks run in parallel, I jump between them. I am tired of &amp;rsquo;tab-hunting&amp;rsquo; - I wanted to be able to have each of these sessions report-in in realtime, and have a &amp;lsquo;jump box&amp;rsquo; showing what is running and what needs attention.&lt;/p&gt;
+&lt;p&gt;For bonus points, I want a mobile app that shows the same thing. And I want to be able to use across Claude Code, Codex, OpenCode, pi and Cursor.&lt;/p&gt;
+&lt;p&gt;Thus &lt;a href="https://github.com/dwmkerr/signalbox"&gt;&amp;lsquo;Signalbox&amp;rsquo;&lt;/a&gt; was born. All of the hero text / readme / commentary is hand-crafted and none of the code is:&lt;/p&gt;
+&lt;figure class="figure-caption"&gt;
+&lt;a href="./images/hero-anim.gif"&gt;&lt;img src="./images/hero-anim.gif" alt="The Signalbox landing page: one board for every agent, one keystroke to the session that needs you." class="img-zoomable"&gt;&lt;/a&gt;&lt;figcaption&gt;The Signalbox landing page: one board for every agent, one keystroke to the session that needs you.&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;Signalbox is open source and free: &lt;a href="https://github.com/dwmkerr/signalbox"&gt;github.com/dwmkerr/signalbox&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The app works, I use it continuously, it&amp;rsquo;s evolving as the harnesses evolve, and now I can distract myself even more effectively. I have the mobile app open, 2x laptops, dozens of agents, and I&amp;rsquo;m not sure if life is better or not but I feel more confident giving a low-down of some of the techniques I used.&lt;/p&gt;
+&lt;h2 id="skill-1-goal-setting-and-statements-of-work"&gt;Skill 1: Goal Setting and Statements of Work&lt;/h2&gt;
+&lt;p&gt;This is foundational and very well-discussed by others&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt; so I&amp;rsquo;ll keep it brief.&lt;/p&gt;
+&lt;p&gt;It is essential not to specify tasks (such as &amp;ldquo;Build me an app that shows sessions&amp;rdquo;) but instead to specify &lt;em&gt;goals&lt;/em&gt;. I don&amp;rsquo;t want the agent to build an app - I want to have less cognitive load when handling many threads of work at once. Setting the high-level objective, then a 15 minute discussion with the agent on what might be ways to solve for this is critical.&lt;/p&gt;
+&lt;p&gt;The goal remains as a file for reference and lets the agent anchor itself on what is needed. Here is a slice of the actual SOW I handed over for the iOS app, a frozen contract another agent could pick up and run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;# SOW2: iOS app - scaffolding + hub connection
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Owner: agent B (mobile track)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Branch: feat/ios
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Runs parallel with: SOW1 (remote hub + auth)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;## Goal
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;An iOS app that runs on the simulator and on my physical device,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;connects to a configurable signalbox hub, and renders the live
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;board, the same rows the macOS jumplist shows, streaming.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When goals are defined, I then typically spend a few minutes building a statement-of-work - what should the agent have done by the end of the day. SOWs are great because &lt;em&gt;you can pass them to other agents&lt;/em&gt; - they fully define the objectives and agreed contract. This makes assessing Fable more rigorous - because I can pass the SOW to another model, run in parallel, and compare output and trajectory (GPT5.6 notes will be shared soon and are in progress).&lt;/p&gt;
+&lt;h2 id="skill-2-create-an-autonomous-exploration-and-testing-loop"&gt;Skill 2: Create an autonomous exploration and testing loop&lt;/h2&gt;
+&lt;p&gt;The only way you can run work for hours, unattended, with open-ended problems, is to enable the harness to evaluate its own work. That doesn&amp;rsquo;t mean unit tests, that means that the coding agent needs to be able to build, and then other agents need to drive the application, see the results, evaluate, steer, repeat. It cannot be a &amp;lsquo;build, unit test, wait till next day&amp;rsquo;.&lt;/p&gt;
+&lt;p&gt;MacOS is hugely automatable. On day 1 I ensured the harness could run its own work, iterate, refine and needed (as well as setting the high level goal). This meant:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;build, install and launch the app on the macOS or iOS simulator (one &lt;code&gt;make&lt;/code&gt; target)&lt;/li&gt;
+&lt;li&gt;screenshot the running app and stream its console logs back to the agent&lt;/li&gt;
+&lt;li&gt;run the full test suite and report pass/fail&lt;/li&gt;
+&lt;li&gt;drive real coding agents through &lt;a href="https://github.com/dwmkerr/shellwright"&gt;Shellwright&lt;/a&gt; to generate live session data to test against&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here&amp;rsquo;s Codex running completely unattended and made visible on the board via Signalbox, no human watching the terminal:&lt;/p&gt;
+&lt;figure class="figure-caption"&gt;
+&lt;a href="./images/screenshot-codex-shellwright.png"&gt;&lt;img src="./images/screenshot-codex-shellwright.png" alt="A Codex session running unattended, surfaced on the Signalbox board." class="img-zoomable"&gt;&lt;/a&gt;&lt;figcaption&gt;A Codex session running unattended, surfaced on the Signalbox board.&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;One more thing makes the unattended run reviewable: have the machine keep a journal of what it did through the day, and an explicit log of every assumption it made to keep moving without me. The assumptions are what let it continue without intervention, but they are also the single most important thing to review carefully at the end of the day. A call it made at 2pm to avoid blocking is exactly the kind of decision you want to catch and discuss before it quietly compounds into the design.&lt;/p&gt;
+&lt;p&gt;This is the second and most essential technique.&lt;/p&gt;
+&lt;h2 id="skill-3-use-interactive-specifications-rather-than-prototypes"&gt;Skill 3: Use interactive specifications rather than prototypes&lt;/h2&gt;
+&lt;p&gt;There is no point rapidly building a prototype of a Swift app - compile and deploy takes too long. I want to see what we&amp;rsquo;re going to build in real-time, have a conversation, iterate extremely quickly, then lock down a design and move on.&lt;/p&gt;
+&lt;p&gt;Agents like Claude Code and models like Fable are &lt;em&gt;exceptionally&lt;/em&gt; good at creating mock UIs, terminal recordings and so on. So in the morning we iterate on the &lt;em&gt;specs&lt;/em&gt; for discussion rather than an app. I make sure that they are interactive, I can touch them, see different states and so on.&lt;/p&gt;
+&lt;p&gt;The specs are deployed and live, &lt;a href="https://dwmkerr.github.io/signalbox/specs/menubar.html"&gt;have a look at the menu bar spec here&lt;/a&gt; - they are interactive HTML, so you can open one and click through the states.&lt;/p&gt;
+&lt;figure class="figure-caption"&gt;
+&lt;a href="./images/ios-app.png"&gt;&lt;img src="./images/ios-app.png" alt="An interactive spec for the iOS app, click through the states and settle the design before a line of Swift is written." class="img-zoomable"&gt;&lt;/a&gt;&lt;figcaption&gt;An interactive spec for the iOS app, click through the states and settle the design before a line of Swift is written.&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;The specs live with the project, and are always available for me to work with. This reduces friction but also ensures &lt;em&gt;intent&lt;/em&gt; is tracked rather than implementation.&lt;/p&gt;
+&lt;h2 id="skill-4-soak-test--gather-feedback"&gt;Skill 4: Soak test &amp;amp; gather feedback&lt;/h2&gt;
+&lt;p&gt;The solution is building itself throughout the day, in this case I was fortunate enough to be able to use it as the day goes on. This means I can &amp;lsquo;soak test&amp;rsquo; - run it for a while and just accumulate learnings.&lt;/p&gt;
+&lt;p&gt;Gathering feedback throughout the day, and submitting at end of day is far easier than pausing, moving to the harness, pausing, and submitting. Throughout the day I naturally see edge cases - Codex sessions are not shown properly when they raise errors, or the icons for pi are missing, or session renames are not shown.&lt;/p&gt;
+&lt;figure class="figure-caption"&gt;
+&lt;a href="./images/menubar.png"&gt;&lt;img src="./images/menubar.png" alt="Real edge cases surface just from using it: an errored session still showing as busy, a missing integration icon, a rename that didn&amp;rsquo;t propagate. Each one becomes a one-line note for the evening." class="img-zoomable"&gt;&lt;/a&gt;&lt;figcaption&gt;Real edge cases surface just from using it: an errored session still showing as busy, a missing integration icon, a rename that didn&amp;rsquo;t propagate. Each one becomes a one-line note for the evening.&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;A long period of simply using the solution, rather than a short period where you attempt to exhaustively test, can be valuable - of course many (if not most) projects you cannot do this with, but investigating if there&amp;rsquo;s a way to soak test will help.&lt;/p&gt;
+&lt;h2 id="skill-5-talk---dont-type"&gt;Skill 5: Talk - don&amp;rsquo;t type&lt;/h2&gt;
+&lt;p&gt;Use whatever speech-to-text tool you want and talk. This has been the single biggest win over the last year. When I am giving feedback I just turn on recording, then click through things, look at the code, try the CLI, and talk along the way. Fable like all LLMs is extremely good at working with the input, even if scrappy and full of &amp;lsquo;umms&amp;rsquo; - I can leave a page of feedback and talk very fast and in a more natural way.&lt;/p&gt;
+&lt;p&gt;Here is a real, unedited piece of feedback from the logs - me looking at a screen and thinking out loud:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;the colors aren&amp;rsquo;t quite right, lets get the icons in. i don&amp;rsquo;t think we can be explicit for needs you / working right? this should probably be icons too. wouldn&amp;rsquo;t a suggest next changes, we&amp;rsquo;ll keep the mental model easy, recent is at the top right?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="skill-6-anchor-to-idioms"&gt;Skill 6: Anchor to idioms&lt;/h2&gt;
+&lt;p&gt;Fable has been outstanding at building a menu bar app, jump-list, CLI and iOS app in parallel. However, like many LLMs it will often create &amp;lsquo;from scratch&amp;rsquo;. Things like the settings screen or visual structure were often creative but somewhat hard to understand.&lt;/p&gt;
+&lt;p&gt;The key technique here is to find the idioms that the harness to anchor to, and keep it on them. That reduces how &amp;lsquo;open ended&amp;rsquo; the problem is and helps users build a mental-model - what you build will be familiar. Specific examples:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Pinning sessions, deleting sessions, marking as read - use WhatsApp or iMessage UX patterns that people will be familiar with&lt;/li&gt;
+&lt;li&gt;Connecting via mobile - find what other solutions do that people will recognise (in this case, QR-code scanning)&lt;/li&gt;
+&lt;li&gt;CLIs - use patterns familiar from &lt;code&gt;git&lt;/code&gt;, &lt;code&gt;gh&lt;/code&gt;, or other common tools&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="figure-caption"&gt;
+&lt;a href="./images/pair.png"&gt;&lt;img src="./images/pair.png" alt="Pairing the phone by scanning a QR code, an idiom people already know from WhatsApp Web." class="img-zoomable"&gt;&lt;/a&gt;&lt;figcaption&gt;Pairing the phone by scanning a QR code, an idiom people already know from WhatsApp Web.&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;h2 id="skill-7-manage-your-blast-radius-essential"&gt;Skill 7: Manage your blast radius (essential)&lt;/h2&gt;
+&lt;p&gt;This one is essential for models like Fable. You &lt;strong&gt;must&lt;/strong&gt; manage your blast radius - what is the amount of damage that can happen if something goes catastrophically wrong. Fable is extremely good at working around issues, there&amp;rsquo;s a superb write-up on this from Simon Willison (&lt;a href="https://simonwillison.net/2026/jul/3/judgement/"&gt;Fable&amp;rsquo;s judgement&lt;/a&gt;). If you want the system to run all day, it needs the autonomy to solve problems and take action, but to have boundaries.&lt;/p&gt;
+&lt;p&gt;In this case specific examples are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Coding sessions use separate GitHub credentials with fewer permissions than my main user&lt;/li&gt;
+&lt;li&gt;API keys are fine grained (this is obvious, but it very easy to be lazy)&lt;/li&gt;
+&lt;li&gt;The system only runs on the local network - at this point no deployment to remote&lt;/li&gt;
+&lt;li&gt;Security-sensitive paths are off-limits to the autonomous run - while scaffolding I explicitly told Fable to skip anything flagged security-sensitive rather than act on it&lt;/li&gt;
+&lt;li&gt;For anything riskier, run the whole thing in a disposable environment - a throwaway VM or an ephemeral cloud box, a &amp;lsquo;burner stack&amp;rsquo; you can burn and recreate. If the blast radius is a stack that no longer exists tomorrow, autonomy is a lot cheaper to grant&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="figure-caption"&gt;
+&lt;a href="./images/gpt-linux.png"&gt;&lt;img src="./images/gpt-linux.png" alt="Day 8 of the project (pivoting to GPT5.6 sol): the agent harness runs everything in a disposable linux virtual machine, with full admin access, meaning it can install / configure / test / break things." class="img-zoomable"&gt;&lt;/a&gt;&lt;figcaption&gt;Day 8 of the project (pivoting to GPT5.6 sol): the agent harness runs everything in a disposable linux virtual machine, with full admin access, meaning it can install / configure / test / break things.&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;h2 id="thoughts-on-fable"&gt;Thoughts on Fable&lt;/h2&gt;
+&lt;p&gt;If I try to distill what I found Fable notably better at than Opus or other models (bar some more recent ones):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Exceptionally good at building its own machinery. The MacOS builds, testing tools, systems to generate synthetic data, screenshot collection, driving UIs, distribution&lt;/li&gt;
+&lt;li&gt;Following standard patterns - when anchored. Once I&amp;rsquo;d researched common patterns for settings screens, menubar and jump type apps, and mobile connections (gathering evidence, case studies, etc), Fable was very good at staying grounded to these standards. However, without that up-front work it would have built clever but overly complex interfaces&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However, two observations stand out.&lt;/p&gt;
+&lt;p&gt;The first is that I still needed to review the spec and technical design, heavily. At the end of the day the system would be far far forwards, but a review of the commands for the CLI, the data model, the architecture would show sometimes quite significant anti-patterns. These wouldn&amp;rsquo;t stop the solution from working, but over time they&amp;rsquo;d have compound effects on complexity. A thorough end-of-day review of the actual design was still essential and paid dividends.&lt;/p&gt;
+&lt;p&gt;The second is that Fable will drop itself to Opus the moment it thinks it is doing security work, and a surprising amount of ordinary work triggers it - p12 signing certificates, app signing, checking for risks around networking. It is a sensible safety instinct, but it fires on tasks that are not really security-sensitive, and it got frustrating enough that most of my thorough code and risk reviews I ended up running with GPT5.6 instead.&lt;/p&gt;
+&lt;figure class="figure-caption"&gt;
+&lt;a href="./images/security-audit.png"&gt;&lt;img src="./images/security-audit.png" alt="GPT5.6 running the thorough security audit that Fable kept handing back." class="img-zoomable"&gt;&lt;/a&gt;&lt;figcaption&gt;GPT5.6 running the thorough security audit that Fable kept handing back.&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;Signalbox is &lt;a href="https://github.com/dwmkerr/signalbox"&gt;on GitHub&lt;/a&gt;, &lt;code&gt;brew install dwmkerr/tools/signalbox&lt;/code&gt;. It was built in about a week of mornings and evenings, mostly by Fable, mostly while I was doing something else. The tool is useful. The loop is more useful.&lt;/p&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;For example Simon Willison on &lt;a href="https://simonwillison.net/2026/jul/3/judgement/"&gt;letting the model use its own judgement&lt;/a&gt;, and the &lt;a href="https://every.to/p/claude-fable-5-prompt-library"&gt;Claude Fable 5 Prompt Library&lt;/a&gt; - the useful shape is less the specific prompts and more packaging the work as briefs, keeping a human in the loop for what needs judgement.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><category>CodeProject</category></item><item><title>Fable vs My Chemical Romance</title><link>https://dwmkerr.com/pr-preview/pr-84/fable-vs-my-chemical-romance/</link><pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate><guid>https://dwmkerr.com/pr-preview/pr-84/fable-vs-my-chemical-romance/</guid><description>&lt;p&gt;I&amp;rsquo;ve been spending 15 minutes each morning with Fable - planning a days worth of development, discussing features and architecture, scheduling the work and kicking it off. End of day I spend 15 minutes reviewing and rinse and repeat. This is half a &amp;rsquo;testing Fable&amp;rsquo; exercise, and half a &amp;lsquo;get better at scheduling a days worth of work&amp;rsquo; exercise. However, on a drive back from a physiotherapy appointment, I was thinking why not kick off a monster job? That would just be fun.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Update: this started as a bit of fun, but it turned out to be a hard enough long-horizon task that I have codified it into a Statement of Work I now use to test model and agent capability. The SOW and demo clips are at the end.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="./images/v30.png"&gt;&lt;img src="./images/v30.png" alt="Fable vs My Chemical Romance"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;At the time the music on Spotify was My Chemical Romance, who I&amp;rsquo;d &lt;a href="https://www.theguardian.com/music/2026/jul/01/my-chemical-romance-review-anfield-stadium-liverpool-uk-tour"&gt;just seen at Anfield&lt;/a&gt;. The concert was great so I decided the goal would be &amp;ldquo;make me a home version. singalong karaoke style lyrics on the screen. official videos where they exist, live footage otherwise&amp;rdquo;. I&amp;rsquo;d also prompt a few tips around process but let it run.&lt;/p&gt;
+&lt;p&gt;This is not a good test of coding practices (with my teams that is a process of evolution as we work out how best to move towards &lt;a href="https://dwmkerr.com/pr-preview/pr-84/agentic-orchestration-protocols/"&gt;agentic engineering&lt;/a&gt;), just a fun open ended exercise.&lt;/p&gt;
+&lt;p&gt;I created a &lt;code&gt;README.md&lt;/code&gt; with the following mission:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Create a full concert-length video I can project on my TV: a home version of the
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;My Chemical Romance gig I went to. Check YouTube and my Spotify playlist to find
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;the setlist. Make 10 mini videos with some styles, karaoke sing-along lyrics
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;running on them, cool visuals behind. Official music videos for songs like The
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Black Parade where they exist, live concert recordings otherwise. Build the
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;machine to do this: use subagents, skills, create tools, create CLIs, run them,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;build all the machinery you need to solve, execute and verify this. You&amp;#39;re in a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git repo: make a scratch folder and commit as you go. Keep a task list and a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;journal of key events. Build and run the machine until it works.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And the prompt:&lt;/p&gt;
+&lt;p&gt;&lt;a href="./images/01-start-work.png"&gt;&lt;img src="./images/01-start-work.png" alt="The prompt: yoloclaude, Fable 5 on high effort, bypass permissions on."&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="tuning-process"&gt;Tuning process&lt;/h2&gt;
+&lt;p&gt;A lot of guidance suggests &amp;lsquo;define the goal, not the process&amp;rsquo; (see &lt;a href="https://business.google.com/aunz/think/ai-excellence/agentic-marketing-ai-strategy/"&gt;Think with Google&lt;/a&gt; and &lt;a href="https://tylerfolkman.substack.com/p/prompt-engineering-is-over-i-built"&gt;this piece by Tyler Folkman&lt;/a&gt;). Anthropic have also built modes like &lt;a href="https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"&gt;ultracode&lt;/a&gt; and &lt;a href="https://code.claude.com/docs/en/agent-teams"&gt;teams&lt;/a&gt; where Claude will set up the appropriate teams for the work (or try to). This is generally where I differ: for open-ended work I&amp;rsquo;m happy to define the goal and let the agent find the path, but for more complex, audited or sensitive processes, where predictability and explainability matter, building a framework for the operations is important. This was obviously not one of those cases, just a quick experiment. So I did suggest a few things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Playwright for browser automation, to perform more complex searches and analysis&lt;/li&gt;
+&lt;li&gt;Sub-agents, to preserve context&lt;/li&gt;
+&lt;li&gt;Building small, simple tools that can be composed together into larger systems&lt;/li&gt;
+&lt;li&gt;Building machines that use those tools&lt;/li&gt;
+&lt;li&gt;Building verifications and checkpoints&lt;/li&gt;
+&lt;li&gt;Creating a human-in-the-loop point where I can review samples and the execution plan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Essentially; build yourself tools, build a machine to solve my problem, then run the machine and we&amp;rsquo;ll tune the machine afterwards.&lt;/p&gt;
+&lt;h2 id="the-result"&gt;The result&lt;/h2&gt;
+&lt;p&gt;About $500 worth of tokens and many hours later (this used less than I expected, I thought I&amp;rsquo;d see more cost from image processing). To be clear on the money: this ran on my personal Max subscription, not anything work-related, and that $500 is the API-equivalent value of the tokens burned, not a bill. On a Max plan you pay the flat monthly fee, and Fable draws it down faster than Opus because it is priced at twice the rate.&lt;/p&gt;
+&lt;p&gt;&lt;a href="./images/tv.jpg"&gt;&lt;img src="./images/tv.jpg" alt="The finished concert playing on the living room TV: karaoke lyrics over blue-lit live footage."&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="how-it-ran"&gt;How it ran&lt;/h2&gt;
+&lt;p&gt;Under the covers, after reviewing the execution plan and the session logs, this is roughly what happened.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A 30-agent research sweep to work out the real setlist and find a good source for each of the programme items. Playwright let it compare sources and do real research on the open web, which is expensive in tokens but vastly increases the options it has.&lt;/li&gt;
+&lt;li&gt;A pipeline to gather the source video and audio for each song.&lt;/li&gt;
+&lt;li&gt;A lyrics-to-karaoke compiler that turns synced LRC files into ASS subtitle karaoke, word-level where it could get the timing, line-level where it could not.&lt;/li&gt;
+&lt;li&gt;A renderer with three modes: official music video, live footage over studio audio, and a generated visualizer backdrop for the audio-only tracks.&lt;/li&gt;
+&lt;li&gt;An audio-video sync tool that aligns live footage to the studio track using chroma and onset features, and an assembler that stitches everything into ten act-titled mini-films.&lt;/li&gt;
+&lt;li&gt;A verification pass (39 agents) checking every segment for resolution, duration, and lyric sync. I rate this step highly; it mirrors the process I follow on many professional jobs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="./images/02-research.png"&gt;&lt;img src="./images/02-research.png" alt="A 30-agent research workflow, one agent per song, hunting sources."&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The output was 105 minutes of concert across ten files, plus a little web app to swap backgrounds and lyric styles per song.&lt;/p&gt;
+&lt;p&gt;Is it impressive? I don&amp;rsquo;t know, I don&amp;rsquo;t do video editing / researching tasks. My 15 mins per day with Fable write-up coming soon showed me results I can comment on more realistically (a more complex software engineering project).&lt;/p&gt;
+&lt;h2 id="the-hardest-part-syncing-footage-to-studio-audio"&gt;The hardest part: syncing footage to studio audio&lt;/h2&gt;
+&lt;p&gt;The bit that took the most work was using live concert footage as the visuals while playing the clean studio recording as the audio. A live band never plays at exactly the album tempo, so if you just mute the footage and drop the studio track underneath, the two drift apart. Within a minute the drummer is visibly hitting things you can&amp;rsquo;t hear.&lt;/p&gt;
+&lt;p&gt;Here is how the machine solved it for one song, House of Wolves, with pro-shot footage:&lt;/p&gt;
+&lt;p&gt;&lt;a href="./images/sync-process.png"&gt;&lt;img src="./images/sync-process.png" alt="Syncing live footage to the studio track: mel-spectrograms of the live and studio audio, with a chroma-CQT time-warp between them, footage chopped at camera cuts and retimed within an imperceptible speed clamp."&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It takes a mel-spectrogram (a picture of the sound) of both the live audio and the studio master, then computes a mapping between them with chroma-CQT dynamic time warping, which matches on harmonic content rather than the raw waveform. The footage is chopped at every camera cut and each shot is placed on the studio timeline at its matched position, sped up or slowed down by an amount small enough not to notice (clamped to 12%, red for faster, blue for slower). The clever bit is re-anchoring at every camera cut: the eye already accepts a jump at a cut, so drift can only build up within a single shot, never across the whole song. Here 129 cuts became 35 anchored chunks, and it reports the honest numbers for the result (93ms alignment error, 100% coverage, verdict GOOD).&lt;/p&gt;
+&lt;p&gt;None of this was a technique I gave it. It researched the approach and built the tool itself, including working out the re-anchor-at-cuts trick on its own. The diagram here just visualises what it did, with the real numbers from the run.&lt;/p&gt;
+&lt;h2 id="interesting-observations"&gt;Interesting observations&lt;/h2&gt;
+&lt;p&gt;For a job like this I only stepped in a handful of times. Probably the most meaningful suggestion I made was an idea: could it read the beat from the drummer&amp;rsquo;s arms, the crowd head-banging and the stage lights flashing, and work out the rhythm that way? It went and tried.&lt;/p&gt;
+&lt;p&gt;Left to itself, it never reached for another model. All of the video and audio sync work was done with tooling it wrote itself, and it stayed entirely inside its own capabilities. It only started looking at other models like Gemini for the video processing after I suggested that a different model might be better suited to that part of the job. On its own it did not seem to consider that reaching outside itself might be the better move, which felt like a notable blind spot for an open-ended task.&lt;/p&gt;
+&lt;p&gt;The other thing that made me laugh: at one point Fable&amp;rsquo;s own safeguards flagged one of its own messages and it fell back to Opus 4.8 mid-task, then carried on. Almost certainly the lyrical content again - My Chemical Romance lyrics are dark, and earlier one of its sub-agents had already tripped a content filter for echoing them back.&lt;/p&gt;
+&lt;p&gt;&lt;a href="./images/fableblocked.png"&gt;&lt;img src="./images/fableblocked.png" alt="Fable 5&amp;rsquo;s safeguards flagging a message and switching to Opus 4.8."&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I don&amp;rsquo;t think I&amp;rsquo;ll run this exercise again - it was a bit of fun on the side that I thought I&amp;rsquo;d share before I get into my wider Fable experiments. I&amp;rsquo;ve got a couple of other gigs coming up anyway: &lt;a href="https://www.seetickets.com/event/misery-index/rebellion/3632312"&gt;Misery Index&lt;/a&gt;, &lt;a href="https://www.chelseawolfe.net/"&gt;Chelsea Wolfe&lt;/a&gt; and &lt;a href="https://igorrr.com/"&gt;Igorrr&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you want the real thing: &lt;a href="https://open.spotify.com/album/0FZK97MXMm5mUQ8mtudjuK"&gt;The Black Parade on Spotify&lt;/a&gt; and &lt;a href="https://www.mychemicalromance.com/"&gt;My Chemical Romance&lt;/a&gt;. 🖤&lt;/p&gt;
+&lt;h2 id="the-sow"&gt;The SOW&lt;/h2&gt;
+&lt;p&gt;The hard part, syncing live footage to a studio track, is now a standalone brief I can hand to any model or agent. It runs at two levels: silent footage first, where it has to identify the song and align it from the picture alone, then the same footage with audio. Effort (tokens, tool calls, time) is measured but not scored. What is judged is whether the result actually plays and stays in sync.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;The SOWs&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://github.com/dwmkerr/agentic-engineering-sows"&gt;github.com/dwmkerr/agentic-engineering-sows&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Level 1 input, silent&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://youtu.be/GJzgRycBfws"&gt;watch&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Level 2 input, with audio&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://youtu.be/UUgaolX67OM"&gt;watch&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fable output&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://youtu.be/xi2YMHondsk"&gt;watch&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;For the record, the whole session, the original build plus days of tinkering, editing and this write-up, cost &lt;strong&gt;$485.43&lt;/strong&gt; across three models: Fable 5 did the build ($322.65), Opus 4.8 covered the safeguard fall-backs and most of the later editing ($162.07), and a little Haiku for search ($0.70). Roughly 2.3m input and 1.7m output tokens, around 990 tool calls and 24 web searches, 80+ sub-agents spun up across ultracode workflows, 9h 25m of API time spread across about five days, and 7,246 lines of code added. Measured, not scored.&lt;/p&gt;</description><category>CodeProject</category></item></channel></rss>

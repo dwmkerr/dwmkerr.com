@@ -1,0 +1,78 @@
+<!doctype html><html lang=en-uk><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Importing OpenGL Extensions Functions with wglGetProcAddress</title><meta property="og:title" content="Importing OpenGL Extensions Functions with wglGetProcAddress"><meta name=twitter:title content="Importing OpenGL Extensions Functions with wglGetProcAddress"><meta name=description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta property="og:description" content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=twitter:description content="Dave Kerr, partner and Head of Engineering at QuantumBlack Labs, McKinsey & Company. Writing on software engineering and agentic AI."><meta name=author content="Dave Kerr"><meta property="og:site_name" content="dwmkerr.com"><meta property="og:url" content="https://dwmkerr.com/pr-preview/pr-84/importing-opengl-extensions-functions-with-wglgetprocaddress/"><meta property="og:type" content="article"><meta name=twitter:card content="summary"><meta name=generator content="Hugo 0.164.0"><script async src="https://www.googletagmanager.com/gtag/js?id=G-XNRSGLYJRM"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XNRSGLYJRM")}</script><link rel=icon type=image/x-icon href=https://dwmkerr.com/pr-preview/pr-84/images/favicon.ico><link rel=stylesheet href=https://dwmkerr.com/pr-preview/pr-84/css/site.css></head><body><div class=page><div class=topbar><span class=path><a href=https://dwmkerr.com/pr-preview/pr-84/><span class=prompt>$</span> ~/dwmkerr</a></span><nav><a href=https://effective-shell.com/>effective shell</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>github</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>linkedin</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.substack.com/>subscribe</a></nav></div><article><header><h1 class=post-title>Importing OpenGL Extensions Functions with wglGetProcAddress</h1><p class=post-meta><time datetime=2011-09-24>2011-09-24</time>
+· <a href=https://dwmkerr.com/pr-preview/pr-84/tags/c>C#</a>
+· <a href=https://dwmkerr.com/pr-preview/pr-84/tags/opengl>OpenGL</a>
+· <a href=https://dwmkerr.com/pr-preview/pr-84/tags/sharpgl>SharpGL</a></p></header><div class=post-content><p>There are only a small set of the core OpenGL functions that can be imported via p/invoke - the majority of OpenGL functions are actually extension functions which are supported only on specific video cards. OpenGL offers a function called&nbsp;wglGetProcAddress which can return the address of a named function - but how do we deal with this in the managed world?</p><p>Here's a brief description of how it's handled in SharpGL. As of this morning, SharpGL's latest version contains <strong>all </strong>core functions up to OpenGL 4.2 and <strong>all </strong>standard extensions up to OpenGL 4.2. This takes the support for OpenGL to the latest version - August 2011.</p><p>First we must import the wglGetProcAddress function:</p><pre class="brush: c-sharp;">[DllImport("opengl32.dll")]
+public static extern IntPtr wglGetProcAddress(string name);</pre><p>This is the correect p/invoke method of importing this function, however it returns an IntPtr, which we cannot call as a function. We could change the return type to a delegate but this function can return essentially any type of delegate - so where do we go from here?</p><p>Well the next step is to define the delegates we want to use - they must have exactly the same name as the OpenGL functions and use the correct parameters for marshalling. Here are a couple of delegates for OpenGL 1.4:</p><pre class="brush: c-sharp;">private delegate void glBlendFuncSeparate (uint sfactorRGB, uint dfactorRGB, uint sfactorAlpha, uint dfactorAlpha);
+<p>private delegate void glMultiDrawArrays (uint mode, int[] first, int[] count, int primcount);</pre></p><p>Now we must create a function which will turn an IntPtr into a delegate and invoke it:</p><pre class="brush: c-sharp;">/// &lt;summary&gt;
+/// The set of extension functions.
+/// &lt;/summary&gt;
+private Dictionary&lt;string, Delegate&gt; extensionFunctions = new Dictionary&lt;string, Delegate&gt;();
+<p>/// &lt;summary&gt;
+/// Invokes an extension function.
+/// &lt;/summary&gt;
+/// &lt;typeparam name=&ldquo;T&rdquo;&gt;The extension delegate type.&lt;/typeparam&gt;
+/// &lt;param name=&ldquo;args&rdquo;&gt;The arguments to the pass to the function.&lt;/param&gt;
+/// &lt;returns&gt;The return value of the extension function.&lt;/returns&gt;
+private object InvokeExtensionFunction&lt;T&gt;(params object[] args)
+{
+//  Get the type of the extension function.
+Type delegateType = typeof(T);</p>
+<pre><code>//  Get the name of the extension function.
+string name = delegateType.Name;
+
+//  Does the dictionary contain our extension function?
+Delegate del = null;
+if (extensionFunctions.ContainsKey(name) == false)
+{
+    //  We haven't loaded it yet. Load it now.
+    IntPtr proc = Win32.wglGetProcAddress(name);
+    if (proc == IntPtr.Zero)
+        throw new Exception(&quot;Extension function &quot; + name + &quot; not supported&quot;);
+
+    //  Get the delegate for the function pointer.
+    del = Marshal.GetDelegateForFunctionPointer(proc, delegateType);
+    if (del == null)
+        throw new Exception(&quot;Extension function &quot; + name + &quot; not supported&quot;);
+
+    //  Add to the dictionary.
+    extensionFunctions.Add(name, del);
+}
+
+//  Get the delegate.
+del = extensionFunctions[name];
+
+//  Try and invoke it.
+object result = null;
+try
+{
+    result = del.DynamicInvoke(args);
+}
+catch
+{
+    throw new Exception(&quot;Cannot invoke extension function &quot; + name);
+}
+
+return result;
+</code></pre><p>}</pre></p><p>We now have a generalised way to invoke an extension function. The loaded functions are stored in a dictionary keyed by name so that the heavy lifting is only done the first time we try to invoke the function. &nbsp;We can finally add the functions to the class as below:</p><pre class="brush: c-sharp;">public void BlendFuncSeparate(uint sfactorRGB, uint dfactorRGB, uint sfactorAlpha, uint dfactorAlpha)
+{
+    InvokeExtensionFunction&lt;glBlendFuncSeparate&gt;(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+}
+<p>public void MultiDrawArrays(uint mode, int[] first, int[] count, int primcount)
+{
+InvokeExtensionFunction&lt;glMultiDrawArrays&gt;(mode, first, count, primcount);
+}</pre></p><p>This is pretty cool - we can invoke any extension function as long as we have defined a delegate for it. What's more, by making the InvokeExtensionFunction function public we can allow other developers to provide their own delegates and invoke other extension functions.</p><p>This is the technique used in SharpGL 2.0 to import extension functions - the Core/OpenGLExtensions.cs file contains thousands of lines of functions defined like this, however knowing how to invoke any kind of delegate is a useful skill in the managed world, so this trick could be used in other places.</p><p>The version of SharpGL this post relates to is at:</p><p><a href=http://sharpgl.codeplex.com/SourceControl/changeset/view/4474>http://sharpgl.codeplex.com/SourceControl/changeset/view/4474</a></p></div><p class=subscribe>New posts by email, <a href=https://dwmkerr.substack.com/>subscribe on Substack</a>, or grab the <a href=https://dwmkerr.com/pr-preview/pr-84/index.xml>RSS feed</a>.</p></article><footer class=site-footer><a href=https://dwmkerr.substack.com/>Subscribe</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.com/pr-preview/pr-84/index.xml>RSS</a>
+<span class=sep>·</span>
+<a href=https://github.com/dwmkerr>GitHub</a>
+<span class=sep>·</span>
+<a href=https://www.linkedin.com/in/dwmkerr/>LinkedIn</a>
+<span class=sep>·</span>
+<a href=https://dwmkerr.com/pr-preview/pr-84/page/about/>About</a>
+<span class=copyright>© Dave Kerr · dwmkerr.com</span></footer></div></body></html>
