@@ -1,4 +1,17 @@
-# Decision Models - Understanding Jev
+---
+author: Dave Kerr
+type: posts
+date: "2026-09-29"
+title: "Decision Models - Understanding Jev"
+description: "What TypeSafe's 'Jev' and the new class of 'decision models' actually are, whether you should care as an exec, and where they break."
+slug: decision-models-understanding-jev
+categories:
+- "ai"
+- "agentic-ai"
+tags:
+- "ai"
+- "agentic-ai"
+---
 
 A couple of weeks ago the company TypeSafe AI[^typesafe] released a new model "Jev"[^jev] that has generated an enormous amount of discussion around the topic of "Decision Models" (which seems to be the name many people are leaning towards for this type of model).
 
