@@ -91,13 +91,77 @@ Here's a trivial example:
 
 Based on how the model was trained, and the input you provided, the judgement is '99% likely to be a true statement'.
 
-Here are a few more examples.
+Here are a couple more. Scoring how opinionated a piece of text is (a `score`, a position on a scale you define, with a probability for each level):
 
-<!-- TODO: render each Input / Output pair side-by-side (left / right) via a shortcode, as on the TypeSafe announce page -->
+{{< io >}}
+```json
+{
+  "state": "This laptop is overpriced garbage and only a fool would buy it.",
+  "model": "jev-latest",
+  "questions": {
+    "opinion": {
+      "type": "score",
+      "instructions": "How opinionated is this text?",
+      "criteria": ["Neutral fact", "Mixed", "Strong opinion"]
+    }
+  }
+}
+```
+<!--out-->
+```json
+{
+  "answers": {
+    "opinion": {
+      "type": "score",
+      "score": 1.9,
+      "legend": { "0": "Neutral fact", "1": "Mixed", "2": "Strong opinion" },
+      "probabilities": { "0": 0.0, "1": 0.1, "2": 0.9 },
+      "confidence": 0.94
+    }
+  }
+}
+```
+{{< /io >}}
 
-1. Classify how opinionated this text is (i.e. some text does it suggest opinions or state facts)
-2. Given all the attached regulations, are the following actions risky (three things, explain my products, suggest a loan, offer to connect user to fellow investors
-3. TODO
+Or judging an action against a set of rules (a `choice`, one option from a set, with a probability for every option plus an overall confidence):
+
+{{< io >}}
+```json
+{
+  "state": {
+    "regulations": "<all compliance policies for the business>",
+    "action": "Offer to connect the user with fellow investors"
+  },
+  "model": "jev-latest",
+  "questions": {
+    "verdict": {
+      "type": "choice",
+      "instructions": "Given the regulations, how risky is this action?",
+      "criteria": {
+        "compliant": "Clearly allowed",
+        "needs_review": "Ambiguous - a human should check",
+        "prohibited": "Likely breaches the rules"
+      }
+    }
+  }
+}
+```
+<!--out-->
+```json
+{
+  "answers": {
+    "verdict": {
+      "type": "choice",
+      "choice": "needs_review",
+      "probabilities": { "compliant": 0.18, "needs_review": 0.63, "prohibited": 0.19 },
+      "confidence": 0.55
+    }
+  }
+}
+```
+{{< /io >}}
+
+Notice the last one is genuinely unsure - a low confidence of `0.55`, spread across all three options - so the sensible thing is to route it to a human rather than pretend certainty.
 
 The important note is that the output is _free_ and comes back very quickly[^pricing]. Now to look at a couple of fun examples in more detail, discuss why we couldn't just use a regular LLM and then summarise.
 
@@ -119,9 +183,54 @@ The source is in the original [Space Invaders](link) repo. You can play the OG 1
 
 [gif]
 
-In this example we give the decision model a large number of recent scam records (company names or text that has been associated with fraud) and then repeatedly ask whether a given transaction from a user could be considered as safe, low-risk or high-risk, with a confidence. Safe cases pass, low-risk cases might give the user a popup asking 'are you sure', and high-risk might be blocked[^injection] (and we can record the potential associated scam).
+In this example we give the decision model a rolling window of recent scam signals (company names, or text associated with fraud) as shared context, then - in a single call - ask one question per transaction whether each of a batch is safe, low-risk or high-risk, with a confidence. Safe cases pass, low-risk cases might get a popup asking 'are you sure', and high-risk might be held or blocked[^injection] (recording the scam pattern it matched).
 
-These sorts of judgements would be more expensive and time-consuming with a regular LLM. A case like this might make a good example to do some real-world experiments on.
+{{< io >}}
+```json
+{
+  "state": {
+    "todays_scam_patterns": [
+      "'safe account' scam: caller poses as the bank, urges moving funds",
+      "private car sale: urgent same-day payment to a brand-new payee"
+    ],
+    "flagged_payees_24h": ["QuickCoin Ltd", "J. Marku"]
+  },
+  "model": "jev-latest",
+  "questions": {
+    "txn_1": {
+      "type": "choice",
+      "instructions": "£14,900 to 'Quick Coin Limited', new payee, 3x normal limit, 23:40. Reason given: 'buying a car from a private seller'.",
+      "criteria": { "safe": "...", "low": "...", "high": "..." }
+    },
+    "txn_2": {
+      "type": "choice",
+      "instructions": "£42 to 'Tesco', a regular payee. Reason given: 'weekly shop'.",
+      "criteria": { "safe": "...", "low": "...", "high": "..." }
+    }
+    // ... one more question per transaction, up to a full batch
+  }
+}
+```
+<!--out-->
+```json
+{
+  "answers": {
+    "txn_1": {
+      "type": "choice", "choice": "high",
+      "probabilities": { "safe": 0.05, "low": 0.15, "high": 0.80 },
+      "confidence": 0.83
+    },
+    "txn_2": {
+      "type": "choice", "choice": "safe",
+      "probabilities": { "safe": 0.97, "low": 0.03, "high": 0.0 },
+      "confidence": 0.95
+    }
+  }
+}
+```
+{{< /io >}}
+
+That batching is the trick, and it is how Jev stays cheap: the scam window is read *once* and every transaction-question runs against it in parallel - what TypeSafe call **fan-out**[^fanout]. Note too that an exact blocklist would miss "Quick Coin Limited" (yesterday's flagged payee was "QuickCoin Ltd"), but the fuzzy semantic match - a near-miss name plus a narrative that resembles today's car-sale scam - still fires. That is the bit a decision model adds over rules, and it is much harder for a regular LLM to do at this speed and price[^whynotllm]. A case like this would make a good real-world experiment.
 
 ## As an executive, should you care
 
@@ -132,16 +241,6 @@ Whether this is novel is arguable - without knowing the internals it is possible
 Possibly as an exec you might ask someone in your tech team to look at this, run a couple of experiments in your own domain, and share their learnings to your leadership team. More contextualised will be far more interesting and their real-world experience will be great to see (and probably a fun experiment for them to run).
 
 That's the high level view - my post travel backlog is quite large so this is a short one but I hope you found it at least mildly interesting. No tokens were harmed during the writing of the text, but I have used AI to check references, spellcheck / grab screenshots from my other projects and so on.
-
-## Addendum: Why not just use a large-language model?
-
-It is possible to attempt to force output like this from an existing model, by saying something like:
-
-```text
-Answer with a single number between 0 and 1 only, where 0 represents 0% and 1 represents 100%
-```
-
-TypeSafe explain that they have used a specific form of reinforcement learning to optimise for this kind of output and will therefore provide better (and faster and cheaper) judgements[^calibration], but I haven't had enough time to really get into those details and try to understand more (if you have, please let me know and I'll link).
 
 ## Addendum: On utilitarianism, semantics, and meaning
 
@@ -161,7 +260,9 @@ Attributing numerical values to what is not discrete or measurable is both machi
 
 [^pricing]: TypeSafe's own figures: input at $0.042 per million tokens, output free ("too cheap to meter"), end-to-end latency of 70-500ms, and 40-200x faster than a frontier LLM on these "System One shaped" queries. It's free and fast because there is no generated text - one pass through the model, no token-by-token output.
 
-[^calibration]: The genuinely new part isn't "a model that emits a number" - you can bully any LLM into doing that. It's *calibration*: TypeSafe train with a method they call Reinforcement Learning for Calibrated Decisions, so that (they claim) a stated confidence matches real accuracy. Take it with a pinch of salt - they concede their own hallucination figure is "not empirical", and what is actually guaranteed is only that the output matches the requested schema (a 0% *type*-error rate), not that it is right.
+[^whynotllm]: You *can* coax a number out of a normal LLM - `Answer with a single number between 0 and 1 only, where 0 is 0% and 1 is 100%` - but you pay for the generated tokens and the latency, and the number tends to be poorly calibrated. The genuinely new part of Jev isn't "a model that emits a number" - it's *calibration*: TypeSafe train with a method they call Reinforcement Learning for Calibrated Decisions so that (they claim) a stated confidence matches real accuracy, faster and cheaper than an LLM. Take it with a pinch of salt - they concede their own hallucination figure is "not empirical", and what is actually guaranteed is only that the output matches the requested schema (a 0% *type*-error rate), not that it is right.
+
+[^fanout]: TypeSafe call this "speculative fan-out" - one state, many questions, all evaluated in parallel against the state read once. They report roughly 12x cheaper and 10x faster for 13 questions in a single call versus 13 separate calls. The state plus all questions must fit a ~64k-token budget, and there is no prefix/input caching - so batching, rather than one call per transaction re-sending the window, is what keeps it cheap.
 
 [^injection]: This is exactly the pattern security researchers broke. A typed output constrains the *format* of the answer, not the *credibility* of the input - so you can slip fabricated evidence into the documents and flip the verdict. Check Point manipulated Jev's decisions roughly 59% of the time, at about $0.50 a go, with no reasoning trace for the analyst to spot: ["Jev Is Not a Language Model, but It Breaks Like One"](https://blog.checkpoint.com/ai-security/jev-is-not-a-language-model-but-it-breaks-like-one-prompt-injection-against-a-typed-decision-model/). If you use it as a gate, screen the inputs *before* Jev sees them; don't trust the tidy number afterwards.
 

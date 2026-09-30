@@ -1,0 +1,25 @@
+{{- /* Side-by-side Input / Output code blocks. Usage:
+  {{< io >}}
+  ```json
+  { ...request... }
+  ```
+  <!--out-->
+  ```json
+  { ...response... }
+  ```
+  {{< /io >}}
+*/ -}}
+{{- $parts := split .Inner "<!--out-->" -}}
+{{- if not (.Page.Store.Get "ioCSS") }}{{ .Page.Store.Set "ioCSS" true -}}
+<style>
+.io-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start}
+.io-grid .io-col{min-width:0}
+.io-grid .io-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.6;margin:0 0 .25rem}
+.io-grid pre{overflow-x:auto;margin:0}
+@media(max-width:700px){.io-grid{grid-template-columns:1fr}}
+</style>
+{{- end -}}
+<div class="io-grid">
+<div class="io-col"><p class="io-label">Input</p>{{ index $parts 0 | markdownify }}</div>
+<div class="io-col"><p class="io-label">Output</p>{{ index $parts 1 | markdownify }}</div>
+</div>
