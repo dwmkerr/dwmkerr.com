@@ -25,17 +25,27 @@ At this point, "System One model", "Decision model" and "Jev" are being used pre
 
 In a nutshell - large language models are 'completion' models. They are trained on vast amounts of data, essentially encode the semantics of language, and implicitly contain a lot of data written by human beings (think all the wonders of wikipedia and all the horrors of a large part of the internet) as well as a lot of training data that theoretically makes them provide better output.
 
-TODO screenshot from my what is a large language model repo and link to it.
+[![What is a Large Language Model? - a screenshot from my interactive guide, LLMs Visualised](images/llms-visualised.png)](https://dwmkerr.github.io/llms-visualised/)
 
-> The capital of France is..."
+*Words and concepts positioned by meaning - a frame from my interactive guide, [LLMs Visualised](https://github.com/dwmkerr/llms-visualised).*
+
+```text
+The capital of France is...
+```
 
 Most likely result:
 
-> Paris.
+```text
+Paris.
+```
 
 Or, potentially likely result after a model has been trained to be conversational (this is where the 'chat' in ChatGPT comes from):
 
-> Paris - a beautiful and famous city. What would you like to know about Paris - are you visiting, should I build you an itinerary? Or just curious" [ref, brief note that it might also say "Paris might excite you - but not for the reason you think" if a model is overly trained to over-use certain idioms and link to the 'editor' repo
+```text
+Paris - a beautiful and famous city. What would you like to know about Paris - are you visiting, should I build you an itinerary? Or just curious?
+```
+
+[ref, brief note that it might also say "Paris might excite you - but not for the reason you think" if a model is overly trained to over-use certain idioms and link to the 'editor' repo]
 
 Completion models 'complete' text by giving the statistically most likely result [ref, or a less likely but possibily interesting result, see [temperature[
 
@@ -210,7 +220,9 @@ There's a sharp caveat here though - used as a gate like this, Jev can be gamed 
 
 It is possible to attempt to force output like this from an existing model, by saying something like:
 
-> Answer with a single number between 0 and 1 only, where 0 represents 0% and 1 represents 100%
+```text
+Answer with a single number between 0 and 1 only, where 0 represents 0% and 1 represents 100%
+```
 
 However, Jev will be cheaper (at least for output) and potentially faster as well as better at making the 'judgement'[^calibration].
 
