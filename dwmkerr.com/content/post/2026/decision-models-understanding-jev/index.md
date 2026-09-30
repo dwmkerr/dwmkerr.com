@@ -21,7 +21,7 @@ I really recommend reading their [Release Announcement](https://typesafe.ai/blog
 
 As a delightful hook, enjoy the gif below of Jev vs Sonnet in gaming, and Jev quickly making judgements on fraud (both will be discussed).
 
-![Jev vs Sonnet - Space Invaders head-to-head (visualisation, recording to follow)](images/game-demo-placeholder.svg)
+![Jev vs Sonnet playing Space Invaders - Jev reacting in real time while Sonnet reasons](images/space-invaders.gif)
 
 ![Jev vs OpenAI - scanning transactions for fraud (visualisation, recording to follow)](images/fraud-demo-placeholder.svg)
 
@@ -163,7 +163,7 @@ The important note is that the output is _free_ and comes back very quickly[^pri
 
 ## Fun example - System 1 models playing Space Invaders fast vs System 2 models playing strategically
 
-![Jev vs Sonnet playing Space Invaders - a visualisation of the head-to-head (recording to follow)](images/game-demo-placeholder.svg)
+![Jev vs Sonnet playing Space Invaders - the System 1 / System 2 head-to-head](images/space-invaders.gif)
 
 13 years ago I built my own version of the "Space Invaders" game whilst learning JavaScript (my mind boggles at the changes since then). A fun use case can be made of this - give the state of the game to Jev and ask it to decide on the best action (move / fire). As Jev is low latency it should come back very quickly and play real-time[^classicml]. An LLM like Sonnet will need a bit more massaging and will take longer (as we're using a complex model that can use reasoning to answer a more simple question, essentially over-gunning it).
 
