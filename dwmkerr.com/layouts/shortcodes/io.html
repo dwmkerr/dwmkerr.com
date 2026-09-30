@@ -1,4 +1,4 @@
-{{- /* Side-by-side Input / Output code blocks. Usage:
+{{- /* Tabbed Input / Output code blocks (CSS-only). Usage:
   {{< io >}}
   ```json
   { ...request... }
@@ -10,16 +10,25 @@
   {{< /io >}}
 */ -}}
 {{- $parts := split .Inner "<!--out-->" -}}
+{{- $o := .Ordinal -}}
 {{- if not (.Page.Store.Get "ioCSS") }}{{ .Page.Store.Set "ioCSS" true -}}
 <style>
-.io-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start}
-.io-grid .io-col{min-width:0}
-.io-grid .io-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.6;margin:0 0 .25rem}
-.io-grid pre{overflow-x:auto;margin:0}
-@media(max-width:700px){.io-grid{grid-template-columns:1fr}}
+.io-tabs{margin:1rem 0;border:1px solid rgba(128,128,128,.35);border-radius:8px}
+.io-tabs>input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.io-tablabels{display:flex;gap:.3rem;padding:.4rem .4rem 0;border-bottom:1px solid rgba(128,128,128,.25)}
+.io-tablabels label{cursor:pointer;padding:.35rem .9rem;border-radius:7px 7px 0 0;font:600 .78rem/1 ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.04em;opacity:.55}
+.io-tabs .io-panel{display:none;padding:.2rem .7rem}
+.io-tabs .io-panel pre{margin:.7rem 0;overflow-x:auto}
 </style>
 {{- end -}}
-<div class="io-grid">
-<div class="io-col"><p class="io-label">Input</p>{{ index $parts 0 | markdownify }}</div>
-<div class="io-col"><p class="io-label">Output</p>{{ index $parts 1 | markdownify }}</div>
+<style>
+#io-{{ $o }}-in:checked~.io-tablabels label[for="io-{{ $o }}-in"],#io-{{ $o }}-out:checked~.io-tablabels label[for="io-{{ $o }}-out"]{opacity:1;background:rgba(128,128,128,.18)}
+#io-{{ $o }}-in:checked~.io-panel-in,#io-{{ $o }}-out:checked~.io-panel-out{display:block}
+</style>
+<div class="io-tabs">
+<input type="radio" name="io-{{ $o }}" id="io-{{ $o }}-in" checked>
+<input type="radio" name="io-{{ $o }}" id="io-{{ $o }}-out">
+<div class="io-tablabels"><label for="io-{{ $o }}-in">Input</label><label for="io-{{ $o }}-out">Output</label></div>
+<div class="io-panel io-panel-in">{{ index $parts 0 | markdownify }}</div>
+<div class="io-panel io-panel-out">{{ index $parts 1 | markdownify }}</div>
 </div>
