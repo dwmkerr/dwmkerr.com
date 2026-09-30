@@ -2,9 +2,9 @@
 author: Dave Kerr
 type: posts
 date: "2026-09-29"
-title: "Decision Models - Understanding Jev"
-description: "What TypeSafe's 'Jev' and the new class of 'decision models' actually are, whether you should care as an exec, and where they break."
-slug: decision-models-understanding-jev
+title: "Understanding Jev and System 1/Decision Models"
+description: "What TypeSafe's 'Jev' and the new class of 'system 1' (or 'decision models') actually are, whether you should care as an exec, some potential use-cases"
+slug: understanding-jev-decision-models
 categories:
 - "ai"
 - "agentic-ai"
@@ -13,51 +13,59 @@ tags:
 - "agentic-ai"
 ---
 
-A couple of weeks ago the company TypeSafe AI[^typesafe] released a new model "Jev"[^jev] that has generated an enormous amount of discussion around the topic of "Decision Models" (which seems to be the name many people are leaning towards for this type of model).
+I've been travelling in the mountains for a couple of weeks, over which time there has been much hype on the release of "Jev", the concept of "System 1 Models" (also described as "Decision Models"). Being disconnected from technology while in the hills has been lovely but this is the one topic I was itching to get my hands into and do a short non-tech and tech overview on.
 
-I'm going to give a brief description for the less technical user on what this actually means and whether you should care, and then go into a couple of examples that might be of more interest to engineers.
+Typesafe AI[^typesafe] released a new type of model called "Jev" which they described as a "System 1 model" - very fast and cheap at _quick decisions and judgement_ and suitable for tasks that need fast and programmatic output. If their Release Announcement[^jev] doesn't entirely make sense then please read on. I'll try and explain what it means, whether you should care, show a fun example of a decision models playing Space Invaders very quickly (versus a regular LLM playing a more complex Space Invaders more strategically) and then demo a potentially more realistic use-case for financial institutions around rapid potential fraud checks.
 
-I've been away for a couple of weeks trekking through the Dolomites, largely disconnected from tech (which has been wonderful) but this is the one topic I've been itching to get a little deeper into and attempt to translate.
+Hopefully by the end of this article you can re-read the launch announcement and it might make more sense.
 
-## A Decision Model in a Nutshell
+As a delightful hook, enjoy the gif below of Jev vs Opus in gaming, and Jev quickly making judgements on fraud.
 
-At this point, "System One model", "Decision model" and "Jev" are being used pretty much interchangeably[^naming]. Jev is the particular product that TypeSafe have released (whether it is truly novel we'll get to). "System One model" is what they call it, and "Decision model" is what others seem to prefer.
+TODO space invaders gif
 
-In a nutshell - large language models are 'completion' models. They are trained on vast amounts of data, essentially encode the semantics of language, and implicitly contain a lot of data written by human beings (think all the wonders of wikipedia and all the horrors of a large part of the internet) as well as a lot of training data that theoretically makes them provide better output.
+TODO fraud gif
+
+## Refresher - Completion Models
+
+At this point, "System 1 model", "Decision model" and "Jev" are being used pretty much interchangeably[^naming]. Jev is the particular product that TypeSafe have released (whether it is truly novel we'll get to). "System 1 model" is what they call it, and "Decision model" is what others seem to prefer.
+
+First a brief review of what a regular large-language completion model like ChatGPT is. LLMs are trained on vast amounts of data and essentially encode the semantics of language. The training data includes huge amount of human knowledge and opinion (think the beauty of wikipedia and the horror of some social media). They are very good at modeling patterns in language and can give very compelling answers to complex questions.
+
+There's an interactive visual that is super simplified on how an LLM works that I published here:
+
+TODO pls make this a gif that links:
 
 [![What is a Large Language Model? - a screenshot from my interactive guide, LLMs Visualised](images/llms-visualised.png)](https://dwmkerr.github.io/llms-visualised/)
 
 *Words and concepts positioned by meaning - a frame from my interactive guide, [LLMs Visualised](https://github.com/dwmkerr/llms-visualised).*
 
+Given input, an LLM provides the most statistically likely response based on how it is trained (its parameters):
+
 ```text
-The capital of France is...
+Input: What is the capital of France?
+Output: Paris
 ```
 
-Most likely result:
+These are completion models - they complete text. Conversational models have been further trained to answer in a conversational format (this is where the 'Chat' in 'ChatGPT' comes from):
 
 ```text
-Paris.
-```
-
-Or, potentially likely result after a model has been trained to be conversational (this is where the 'chat' in ChatGPT comes from):
-
-```text
-Paris - a beautiful and famous city. What would you like to know about Paris - are you visiting, should I build you an itinerary? Or just curious?
+Input: What is the capital of France?
+Output: Paris - a beautiful and famous city. What would you like to know about Paris - are you visiting, should I build you an itinerary? Or just curious?
 ```
 
 [ref, brief note that it might also say "Paris might excite you - but not for the reason you think" if a model is overly trained to over-use certain idioms and link to the 'editor' repo]
 
-Completion models 'complete' text by giving the statistically most likely result [ref, or a less likely but possibily interesting result, see [temperature[
+Training models takes vast amount of data and compute and is hugely expensive. Running them is expensive, so model providers charge based on the size of input and the amount of output. Output is normally more expensive. Better quality models are more expensive, faster output is usually more expensive and there are a raft of options to choose from [ref - frontier labs, smaller labs, open weights, self hosted, whatever].
 
-Model providers charge for each input token (essentially the text you type) and also for the output (its response). The output is normally more expensive. Better quality models are more expensive, faster output is usually more expensive and there are a raft of options to choose from [ref - frontier labs, smaller labs, open weights, self hosted, whatever].
+## Decision Models vs Completion Models
 
-A 'decision model' does not complete text. You hand it some **state** (the thing to judge) and one or more typed **questions**, and it hands back a typed answer for each - never prose. There are three shapes of question[^primitives]:
+A 'decision model' does not complete text. You hand it some state (context or information) and one or more typed **questions**[^primitives], and for each it gives an answer or judgement in the form of:
 
 - a **noul** - the probability, from 0 to 1, that a statement is true;
 - a **choice** - one option from a set you define, with a probability for *every* option and an overall confidence;
 - a **score** - a position on a rubric you define, again with probabilities and a confidence.
 
-So where a chat model gives you a sentence, a decision model gives you a dictionary. The simplest example is a `noul` - is this statement true?
+Here's a trivial example:
 
 **Input**
 
@@ -81,152 +89,39 @@ So where a chat model gives you a sentence, a decision model gives you a diction
 }
 ```
 
-Note the answer is `0.99` - a *probability* that the statement is true, not a hard "yes" - and a confidence travels with every answer. That's it, conversation over: these are not models you chat with, they are models you ask questions.
+Based on how the model was trained, and the input you provided, the judgement is '99% likely to be a true statement'.
+
+Here are a few more examples.
 
 <!-- TODO: render each Input / Output pair side-by-side (left / right) via a shortcode, as on the TypeSafe announce page -->
 
-A decision model earns its keep when it judges text you put in front of it. Here it routes an incoming support message - a `choice`:
+1. Classify how opinionated this text is (i.e. some text does it suggest opinions or state facts)
+2. Given all the attached regulations, are the following actions risky (three things, explain my products, suggest a loan, offer to connect user to fellow investors
+3. TODO
 
-**Input**
+The important note is that the output is _free_ and comes back very quickly[^pricing]. Now to look at a couple of fun examples in more detail, discuss why we couldn't just use a regular LLM and then summarise.
 
-```json
-{
-  "state": "Help! My payouts have been failing for 3 days and I've lost income.",
-  "model": "jev-latest",
-  "questions": {
-    "department": {
-      "type": "choice",
-      "instructions": "Which team should handle this?",
-      "criteria": {
-        "billing": "Payments, invoicing, refunds",
-        "technical": "Bugs, outages, integrations",
-        "sales": "Pricing, upgrades, new accounts"
-      }
-    }
-  }
-}
-```
+## Fun example - System 1 models playing Space Invaders fast vs System 2 models playing strategically
 
-**Output**
+TODO this is where we put the gif
 
-```json
-{
-  "answers": {
-    "department": {
-      "type": "choice",
-      "choice": "billing",
-      "probabilities": { "billing": 0.88, "technical": 0.12, "sales": 0.0 },
-      "confidence": 0.81
-    }
-  }
-}
-```
+TODO link to the repo
 
-Classify, route, score or judge a piece of text; get back a typed answer with calibrated probabilities; let your *code* decide what happens next.
+13 years ago I built my own version of the "Space Invaders" game whilst learning JavaScript (my mind boggles at the changes since then). A fun use case can be made of this - give the state of the game to Jev and ask it to decide on the best action (move / fire). As Jev is low latency it should come back very quickly and play real-time[^classicml]. An LLM like Opus will need more munging and be too slow.
 
+However; if we make Space Invaders more complex and strategic (adding more rules), then a large-language model should play better when reasoning is enabled. So this game runs in two modes - real time (where Jev is cheap, fast, scores confidence and does well) or turn-based (where a reasoning model does better). Here's the recording:
 
-Now a harder one, as a deliberate warning - ask it to predict the future:
+TODO another part of the gif
 
-**Input**
+The source is in the original [Space Invaders](link) repo. You can play the OG 13 year old one or clone it and run the System 1/2 version locally with your own keys.
 
-```json
-{
-  "state": "The capital of Indonesia is Jakarta.",
-  "model": "jev-latest",
-  "questions": {
-    "will_change": {
-      "type": "noul",
-      "instructions": "Is the capital of Indonesia likely to change within the next ten years?"
-    }
-  }
-}
-```
+## A more serious example - rapid judgements on potential fraud
 
-**Output**
+[gif]
 
-```json
-{
-  "answers": {
-    "will_change": { "type": "noul", "noul": 0.6 }
-  }
-}
-```
+In this example we give the decision model a large number of recent scam records (company names or text that has been associated with fraud) and then repeatedly ask whether a given transaction from a user could be considered as safe, low-risk or high-risk, with a confidence. Safe cases pass, low-risk cases might give the user a popup asking 'are you sure', and high-risk might be blocked[^injection] (and we can record the potential associated scam).
 
-A tidy `0.6` - but treat it with real suspicion. The capital of Indonesia may indeed change [ref ref ref], but predicting the future is exactly the *numbers and dates* territory TypeSafe themselves admit the model is weak at[^weakspots]. The number is really the same semantic soup an LLM would give you, with the hedging stripped off - more on that below.
-
-**LLM vs decision model, at a glance:**
-
-| | Completion model (LLM) | Decision model (Jev) |
-|---|---|---|
-| Output | free text you must parse | a typed value + calibrated probabilities |
-| Sampling | one token at a time | all answers in a single pass |
-| Speed | seconds | tens to hundreds of milliseconds |
-| Cost | pay per input *and* output token | pay for input; output is free |
-| Best for | writing, reasoning, chat | fast, structured judgements inside code |
-
-<!-- TODO: this mirrors the "Frontiers, Old And New" comparison on the TypeSafe announce page -->
-
-One important point - the output (at least currently) is free, and produced very quickly[^pricing].
-
-## On utilitarianism, semantics, and meaning
-
-The absurdity of asking for a numerical likelihood on a question like "Will the capital of Indonesia change" is emphatically outside of the scope of this write-up.
-
-Suffice to say that TypeSafe themselves don't suggest more than the result is a fast response based on semantics and the model parameters, and you should consider the result with the same skepticism or open-mindedness as if you asked a person (or a person who has read a shit-tonne of the internet's data) the same question.
-
-Attributing numerical values to what is not discrete or measurable is both machine-like and very very human [ref, perhaps the master and his emissary]. As a consultant I am part of an industry that does this professionally. The value is of course highly contextual. So let's move to a more realistic use case.
-
-## What you might use a decision model for
-
-A question asked to the model, without context, is essentially going to give an answer that relates to its training data. This model becomes more useful when you provide it with context.
-
-For example:
-
-**Input**
-
-```json
-{
-  "state": {
-    "policies": "<every regulatory document that applies to the business>",
-    "action": "Educate a potential customer on the services we offer"
-  },
-  "model": "jev-latest",
-  "questions": {
-    "violation": {
-      "type": "noul",
-      "instructions": "How likely is it that performing this action violates any of these policies?"
-    }
-  }
-}
-```
-
-**Output**
-
-```json
-{
-  "answers": {
-    "violation": { "type": "noul", "noul": 0.01 }
-  }
-}
-```
-
-This might be the case if you are a bank, drop in a load of policies, and query the action "educate a potential customer on the services we offer" (innocuous, but if done wrong might be construed as financial advice, generally forbidden by regulations).
-
-If the question was "share the details of another customer in the neighbourhood as part of a social messaging service" we could expect the number to be higher.
-
-In this case there is a genuine opportunity to get a very fast, indicative result on a likelihood, which you could then use as a decision point for a further action (for example if the implication is that there might be a policy violation, ask a regular model to scan the documents and give references and why). If the likelihood is low then that check might be skipped.
-
-There's a sharp caveat here though - used as a gate like this, Jev can be gamed by tampering with the very documents it is reading[^injection].
-
-It is possible to attempt to force output like this from an existing model, by saying something like:
-
-```text
-Answer with a single number between 0 and 1 only, where 0 represents 0% and 1 represents 100%
-```
-
-However, Jev will be cheaper (at least for output) and potentially faster as well as better at making the 'judgement'[^calibration].
-
-It is important to understand that the result is _still based on semantics_. It is not a true, factual search of the documents, it is based on how we write text, natural language, and how we express facts in our language. In many cases the answer will be 'good enough' but it is important to understand this limitation[^weakspots].
+These sorts of judgements would be more expensive and time-consuming with a regular LLM. A case like this might make a good example to do some real-world experiments on.
 
 ## As an executive, should you care
 
@@ -238,65 +133,23 @@ Possibly as an exec you might ask someone in your tech team to look at this, run
 
 That's the high level view - my post travel backlog is quite large so this is a short one but I hope you found it at least mildly interesting. No tokens were harmed during the writing of the text, but I have used AI to check references, spellcheck / grab screenshots from my other projects and so on.
 
-## A worked example for engineers
+## Addendum: Why not just use a large-language model?
 
-For the more technical reader, here is where it gets fun.
+It is possible to attempt to force output like this from an existing model, by saying something like:
 
-TypeSafe's own favourite demo is a bot playing Doom in real time[^jev] - it isn't shown pixels, it's handed a *description* of the game state each tick and asked what to do. It's a lovely illustration of "System One": fast, reflexive decisions, tens of times a second, for almost nothing.
-
-So let's try the same idea as a head to head. I have an old browser game, [Space Invaders](https://dwmkerr.github.io/spaceinvaders/), lying around - let's have two cannons play the *same* wave side by side: one driven by Jev on the left, one by a frontier model (Astra, or Opus) on the right. Underneath each, a running tally of what it has cost and how long it has spent thinking, accumulating as they play.
-
-TODO: gif of the two games playing side by side, with the cost / time counters below.
-
-**The decision, once per tick.** Each cannon is handed the game state as *text* - deliberately not raw co-ordinates, since relations ("an alien two columns to your right, descending") play to the model's strengths where bare numbers do not. Moving and firing aren't mutually exclusive, so it's two questions in a single call, answered in parallel - a `choice` for the move and a `noul` for whether to fire:
-
-**Input**
-
-```json
-{
-  "state": {
-    "player_column": "centre",
-    "nearest_threat": "an alien two columns right, descending",
-    "incoming_fire": "a bomb falling one column left",
-    "aliens_left": 11
-  },
-  "model": "jev-latest",
-  "questions": {
-    "move": {
-      "type": "choice",
-      "instructions": "Move the cannon to survive and line up a shot",
-      "criteria": {
-        "left": "one column left",
-        "right": "one column right",
-        "stay": "hold position"
-      }
-    },
-    "fire": { "type": "noul", "instructions": "Fire this tick?" }
-  }
-}
+```text
+Answer with a single number between 0 and 1 only, where 0 represents 0% and 1 represents 100%
 ```
 
-**Output**
+TypeSafe explain that they have used a specific form of reinforcement learning to optimise for this kind of output and will therefore provide better (and faster and cheaper) judgements[^calibration], but I haven't had enough time to really get into those details and try to understand more (if you have, please let me know and I'll link).
 
-```json
-{
-  "answers": {
-    "move": {
-      "type": "choice",
-      "choice": "right",
-      "probabilities": { "left": 0.05, "right": 0.80, "stay": 0.15 },
-      "confidence": 0.74
-    },
-    "fire": { "type": "noul", "noul": 0.66 }
-  }
-}
-```
+## Addendum: On utilitarianism, semantics, and meaning
 
-**What we're really measuring.** Not who plays better - honestly, a ten-line scripted bot would beat both, and TypeSafe say as much about their own Doom demo. The point is the *shape of the cost*: how much each model spends, and how long it takes, to keep a real-time loop fed. My bet is that Jev holds the frame rate for pennies, while the frontier model plays a smarter game it simply can't afford to run in real time.
+The absurdity of asking for a numerical likelihood on a question like "Will the capital of Indonesia change"[^weakspots] is emphatically outside of the scope of this write-up.
 
-TODO: the build is specced separately (see the SOW) - implementation to follow once that's agreed.
+Suffice to say that TypeSafe themselves don't suggest more than the result is a fast response based on semantics and the model parameters, and you should consider the result with the same skepticism or open-mindedness as if you asked a person (or a person who has read a shit-tonne of the internet's data) the same question.
 
-(For the record, the first thing I reached for was duller: a best-effort fact checker for my book *Effective Shell* - drop the whole book in as state and ask a `noul` whether a claim holds. Useful, but watching two robots flail at Space Invaders makes the point better.)
+Attributing numerical values to what is not discrete or measurable is both machine-like and very very human [ref, perhaps the master and his emissary]. As a consultant I am part of an industry that does this professionally. The value is of course highly contextual. So let's move to a more realistic use case.
 
 [^typesafe]: TypeSafe AI, a San Francisco startup founded by former OpenAI researcher Diogo Almeida, came out of stealth on 15 September 2026 with a $40M seed round led by DCVC.
 
@@ -315,6 +168,8 @@ TODO: the build is specced separately (see the SOW) - implementation to follow o
 [^weakspots]: TypeSafe's own documentation says Jev is "not great with numbers, dates, or adversarial content" - worth sitting with, given that a capital-city prediction is a date/number question and regulatory documents are adversarial by nature. Simon Willison's test rating Bay Area towns put wealthy Cupertino top and East Palo Alto bottom - a neat reminder the number still comes out of the same semantic soup.
 
 [^novelty]: Analysts expect the big labs to ship their own decision models quickly, and the category is already forming - by late September 2026 OpenRouter was listing several such models from multiple publishers. The interesting question isn't whether Jev specifically wins, but whether "typed, calibrated decisions as a cheap function call" becomes a standard part of the stack.
+
+[^classicml]: Of course it is vastly cheaper and easier to just *train* a model to play Space Invaders - regular machine learning, or even a few lines of hand-written logic, would beat Jev and cost nothing per move. This is only an example for fun; the point is a *general* model reacting to described state, not the best way to play the game.
 
 ---
 
