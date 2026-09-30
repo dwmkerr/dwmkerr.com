@@ -15,23 +15,25 @@ tags:
 
 I've been travelling in the mountains for a couple of weeks. Being disconnected from technology while in the hills has been lovely but there was one topic in particular I was itching to get my hands into and do a short non-tech and tech overview on, which is Jev and System 1 models.
 
-Typesafe AI[^typesafe] released a new type of model called "Jev" which they described as a "System 1 model" (others have been describing it as a "Decision Model"[^naming]) - there has been a lot of excitement and hype.
+TypeSafe AI[^typesafe] released a new type of model called "Jev" which they described as a "System 1 model" (others have been describing it as a "Decision Model"[^naming]) - there has been a lot of excitement and hype.
 
-I really recommend reading their [Release Announcement](https://typesafe.ai/blog/introducing-system-one-models-and-jev) - and then if it doesn't entirely make sense then please read on. I'll try and explain what it means, whether you should care, show a fun example of a decision models playing Space Invaders very quickly (then a regular LLM playing a game more strategically) and then a potentially more serious example of using a decision model to quickly check for potential fraud (at moderately high frequency).
+I really recommend reading their [Release Announcement](https://typesafe.ai/blog/introducing-system-one-models-and-jev) - and then if it doesn't entirely make sense then please read on. I'll try and explain what it means, whether you should care, show a fun example of a decision model playing Space Invaders very quickly (then a regular LLM playing a game more strategically) and then a potentially more serious example of using a decision model to quickly check for potential fraud (at moderately high frequency).
 
-As a delightful hook, enjoy the gif below of Jev vs Sonnet in gaming, and Jev quickly making judgements on fraud (both will be discussed).
+As a delightful hook, enjoy the gif below of a decision model and a regular large language model playing Space Invaders (and then later, playing Connect Four against each other):
 
 ![Jev vs Sonnet playing Space Invaders - Jev reacting in real time while Sonnet reasons](images/space-invaders.gif)
 
+And a quite janky gif that attempts to visualise the more serious example we'll walk through of trying to scan a large number of payment instructions for fraud.
+
 ![Jev vs OpenAI scanning 20 payments for fraud - Jev in one call, OpenAI one per payment](images/fraud-demo.gif)
 
-Hopefully by the end of this article you can re-read the launch announcement and it might make more sense.
+Hopefully by the end of this article the content in the Jev Launch Announcement will make more sense.
 
 ## Refresher - Completion Models
 
-First a brief review of what a regular large-language completion model like ChatGPT is. LLMs are trained on vast amounts of data and essentially encode the semantics of language. The training data includes huge amount of human knowledge and opinion (think the beauty of wikipedia and the horror of some social media). They are very good at modeling patterns in language and can give very compelling answers to complex questions.
+First a brief review of what a regular large-language completion model like ChatGPT is. LLMs are trained on vast amounts of data and essentially encode the semantics of language. The training data includes a huge amount of human knowledge and opinion (think the beauty of Wikipedia and the horror of some social media). They are very good at modelling patterns in language and can give very compelling answers to complex questions.
 
-There's an interactive visual that is super simplified on how an LLM works that I published here:
+There's an interactive visual that is super simplified on how an LLM works that I published here, you can click it to see the interactive version:
 
 [![What is a Large Language Model? - a walkthrough of my interactive guide, LLMs Visualised](images/llms-visualised.gif)](https://dwmkerr.github.io/llms-visualised/)
 
@@ -51,7 +53,7 @@ Input: What is the capital of France?
 Output: Paris - a beautiful and famous city. What would you like to know about Paris - are you visiting, should I build you an itinerary? Or just curious?
 ```
 
-Training models takes vast amount of data and compute and is hugely expensive. Running them is expensive, so model providers charge based on the size of input and the amount of output. Output is normally more expensive. Better quality models are more expensive, faster output is usually more expensive and there are a raft of options to choose from - frontier labs, smaller labs, open weights, self-hosted, and so on.
+Training models takes a vast amount of data and compute and is hugely expensive. Running them is also very expensive, so model providers charge based on the size of input and the amount of output. Output is normally more expensive. Better quality models are more expensive, faster output is usually more expensive and there are a raft of options to choose from - frontier labs, smaller labs, open weights, self-hosted, and so on.
 
 ## Decision Models vs Completion Models
 
@@ -61,7 +63,7 @@ A 'decision model' does not complete text. You hand it some state (context or in
 - a choice - one option from a set you define (with a confidence score on each option)
 - a score - a position on a scale you define, again with probabilities and a confidence.
 
-Here's a trivial example:
+Here's a trivial example - we give state saying that the capital of France is Paris, and then ask whether the statement is true.
 
 **Input**
 
@@ -85,7 +87,7 @@ Here's a trivial example:
 }
 ```
 
-Based on how the model was trained, and the input you provided, the judgement is '99% likely to be a true statement'.
+The response comes back as 99% likely the statement is true. We're not getting back a text response (such as "Yes") or a conversational response.
 
 Here are a couple more. Scoring how opinionated a piece of text is (a `score`, a position on a scale you define, with a probability for each level):
 
@@ -119,7 +121,9 @@ Here are a couple more. Scoring how opinionated a piece of text is (a `score`, a
 ```
 {{< /io >}}
 
-Or judging an action against a set of rules (a `choice`, one option from a set, with a probability for every option plus an overall confidence, which is quite similar to a score except that a single specific value from the set is chosen):
+In this case the judgement is that, on our scale, the statement sits 90% in the 'strong opinion' bucket (rather than, say, 'neutral fact').
+
+Another example - judging an action against a set of rules (a `choice`, one option from a set, with a probability for every option plus an overall confidence, which is quite similar to a score except that a single specific value from the set is chosen):
 
 {{< io >}}
 ```json
@@ -157,17 +161,17 @@ Or judging an action against a set of rules (a `choice`, one option from a set, 
 ```
 {{< /io >}}
 
-Here the model is confident it's a problem - quietly connecting one customer to others leaks their personal data, a clear privacy breach - so it returns `prohibited` at high confidence and your code can simply block it. A genuinely borderline action would instead come back with a *low* confidence spread across the options, which is your cue to route it to a human rather than pretend certainty.
+We give the model a bunch of policy data, and then ask it to categorise whether a certain action might be a violation.
 
-The important note is that the output is _free_ and comes back very quickly[^pricing].
+The important note is that the output is _free_ and comes back very quickly[^pricing], and that you can get the answers to _many_ questions in a single pass (which is called a 'fan-out').
 
 ## Fun example - System 1 models playing Space Invaders fast vs System 2 models playing strategically
 
 ![Jev vs Sonnet playing Space Invaders - the System 1 / System 2 head-to-head](images/space-invaders.gif)
 
-13 years ago I built my own version of the "Space Invaders" game whilst learning JavaScript (my mind boggles at the changes since then). A fun use case can be made of this - give the state of the game to Jev and ask it to decide on the best action (move / fire). As Jev is low latency it should come back very quickly and play real-time[^classicml]. An LLM like Sonnet will need a bit more massaging and will take longer (as we're using a complex model that can use reasoning to answer a more simple question, essentially over-gunning it).
+13 years ago I built my own version of the "[Space Invaders](https://github.com/dwmkerr/spaceinvaders)" game whilst learning JavaScript (my mind boggles at the changes since then). A fun use case can be made of this - give the state of the game to Jev and ask it to decide on the best action (move / fire). As Jev is low latency it should come back very quickly and play real-time[^classicml]. An LLM like Sonnet will need a bit more massaging and will take longer (as we're using a complex model that can use reasoning to answer a more simple question, essentially over-gunning it).
 
-We can also make a game that is more suited to a model like Sonnet - in connect four there is more strategy and longer term planning involved, so an LLM with reasoning should be able to out-play a simple decision model.
+We can also make a game that is more suited to a model like Sonnet - in Connect Four there is more strategy and longer term planning involved, so an LLM with reasoning should be able to out-play a simple decision model.
 
 ![Jev vs Sonnet playing Connect Four - the strategic, turn-based game where reasoning wins](images/connect-four.gif)
 
@@ -177,7 +181,7 @@ The source is in the original [Space Invaders](https://github.com/dwmkerr/spacei
 
 ![Jev vs OpenAI scanning 20 payments for fraud - a visualisation of what is going on](images/fraud-demo.gif)
 
-In this example we give the decision model a rolling window of recent scam signals (company names, or text associated with fraud) as shared context, then (in a single call) ask one question per transaction whether each of a batch is safe, low-risk or high-risk, with a confidence. An application on top of this could fire a popup asking for confirmation for low-risk cases or block high risk cases[^injection].
+In this example we give the decision model a rolling window of recent scam signals (company names, or text associated with fraud) as shared context, then (in a single call) ask one question per transaction whether each of a batch is safe, low-risk or high-risk, with a confidence. An application on top of this could fire a popup asking for confirmation for low-risk cases or block high-risk cases[^injection].
 
 {{< io >}}
 ```json
@@ -224,9 +228,9 @@ In this example we give the decision model a rolling window of recent scam signa
 ```
 {{< /io >}}
 
-The nice thing here is that we _batch_. The state (the scam data) is read *once* and every transaction-question runs against it in parallel - what TypeSafe call **fan-out**[^fanout]. We still get the benefit of semantics[^weakspots] - an exact blocklist would miss "Quick Coin Limited" (yesterday's flagged payee was "QuickCoin Ltd"), but the fuzzy semantic match - a near-miss name plus a narrative that resembles today's car-sale scam - still fires. That is the bit a decision model adds over rules, and it is much harder for a regular LLM to do at this speed and price[^whynotllm].
+The nice thing here is that we _batch_. The state (the scam data) is read *once* and every transaction-question runs against it in parallel - what TypeSafe call fan-out[^fanout]. We still get the benefit of semantics[^weakspots] - an exact blocklist would miss "Quick Coin Limited" (yesterday's flagged payee was "QuickCoin Ltd"), but the fuzzy semantic match - a near-miss name plus a narrative that resembles today's car-sale scam - still fires. That is the bit a decision model adds over rules, and it is much harder for a regular LLM to do at this speed and price[^whynotllm].
 
-So I ran it - twenty transactions through Jev and four frontier models, scored against known labels (the little harness is in [`sample/`](https://github.com/dwmkerr/dwmkerr.com/tree/main/sample)):
+Another quick experiment - twenty transactions through Jev and four frontier models, scored against known labels (the little harness is in [`sample/`](https://github.com/dwmkerr/dwmkerr.com/tree/main/sample)):
 
 | Model | Accuracy | Cost | Time | Calls |
 |---|---|---|---|---|
@@ -236,15 +240,17 @@ So I ran it - twenty transactions through Jev and four frontier models, scored a
 | Astra (GPT-6) | 100% | $0.05 | 52s | 20 |
 | Opus | 100% | $0.04 | 81s | 20 |
 
-The accuracy is much of a muchness on twenty fairly clear cases - don't read too much into that column. The gap that matters is the other three: Jev judged the whole batch in **one** call, in under half a second, for a fraction of a penny; each LLM made twenty calls and took the best part of a minute. The frontier models are also *forced* to reason - you cannot turn it off - which is exactly why they are slow and dear for a job this small.
+The accuracy is much of a muchness on twenty fairly clear cases - don't read too much into that column. The gap that matters more is that Jev judged the whole batch in **one** call, in under half a second, for a fraction of a penny; each LLM made twenty calls and took the best part of a minute.
+
+This emphatically does not mean that Jev is good at judgements and frontier models are bad. Both are essentially based on the same technology; it is more that Jev is architected for fast, parallelisable questions over a dataset, whereas LLMs are architected for more complex reasoning - and a model like Jev (or any of the competitors springing up) might be a better choice for some sorts of tasks. The footnotes at the end of the article highlight some examples of how models are not great at handling adversarial data.
 
 ## As an executive or technologist, should you care
 
-Yes - it is useful to understand at least at a (very) high level what the fuss is about, partly to just separate out the noise (everyone who is releasing something new wants to show it as groundbreaking). The reality is that this might be a new class of very powerful types of models.
+Yes - it is useful to understand at least at a (very) high level what the fuss is about, partly to just separate out the noise (everyone who is releasing something new wants to show it as groundbreaking). Jev - and System 1 models generally - are a well-made new tool for the toolbox. They still rely on training data, and they don't truly have judgement - they lean on semantics and relationships - but for many tasks that is fine, and worth looking into more deeply.
 
 Whether this is novel is arguable - without knowing the internals it is possible that simply taking an open weights model and doing the same thing via prompt engineering is also 'good enough' or whether a model post-trained on your own data would in fact be better - but there are a nearly infinite number of use cases we can imagine and many may be served well by this technology[^novelty].
 
-And it is moving fast. Jev landed on 15 September; within two weeks Together AI, Upstage and Liquid AI had shipped their own decision models, a clutch of open-weight clones appeared, and on 29 September OpenAI put its weight behind the shape with a Decisions API - though that one is a *constrained* frontier model (GPT-6 Luna with its output fenced to your options) rather than a purpose-built decision model like Jev[^category]. The open question is whether these general-model routers can match a dedicated model on cost and calibration - and prompt injection remains an unsolved caveat for all of them.
+Jev launched on 15 September; within two weeks Together AI, Upstage and Liquid AI had shipped their own decision models, a clutch of open-weight clones appeared, and on 29 September OpenAI put its weight behind the shape with a Decisions API - though that one is a *constrained* frontier model (GPT-6 Luna with its output fenced to your options) rather than a purpose-built decision model like Jev[^category].
 
 Possibly as an exec you might ask someone in your tech team to look at this, run a couple of experiments in your own domain, and share their learnings to your leadership team. More contextualised will be far more interesting and their real-world experience will be great to see (and probably a fun experiment for them to run).
 
@@ -262,11 +268,11 @@ That's the high level view - my post travel backlog is quite large so this is a 
 
 [^injection]: This is exactly the pattern security researchers broke. A typed output constrains the *format* of the answer, not the *credibility* of the input - so you can slip fabricated evidence into the documents and flip the verdict. Check Point manipulated Jev's decisions roughly 59% of the time, at about $0.50 a go, with no reasoning trace for the analyst to spot: ["Jev Is Not a Language Model, but It Breaks Like One"](https://blog.checkpoint.com/ai-security/jev-is-not-a-language-model-but-it-breaks-like-one-prompt-injection-against-a-typed-decision-model/). If you use it as a gate, screen the inputs *before* Jev sees them; don't trust the tidy number afterwards. TypeSafe's own limitations page now concedes that adversarial content - injected instructions, or "text that argues for its own classification" - can move the answer, and there is an arXiv write-up (*Decision Hijacking*, 2026) documenting the same.
 
-[^weakspots]: TypeSafe's own documentation says Jev is "not great with numbers, dates, or adversarial content" - worth sitting with, given that fraud and regulatory text is adversarial by nature and full of amounts and dates. Simon Willison's test rating Bay Area towns put wealthy Cupertino top and East Palo Alto bottom - a neat reminder the number still comes out of the same semantic soup.
+[^weakspots]: TypeSafe's own documentation says Jev is "not great with numbers, dates, or adversarial content" - worth sitting with, given that fraud and regulatory text is adversarial by nature and full of amounts and dates.
 
 [^novelty]: Analysts expect the big labs to ship their own decision models quickly, and the category is already forming - by late September 2026 OpenRouter was listing several such models from multiple publishers. The interesting question isn't whether Jev specifically wins, but whether "typed, calibrated decisions as a cheap function call" becomes a standard part of the stack.
 
-[^category]: OpenAI's Decisions API was announced at DevDay on 29 September 2026 and is in limited preview; at the time of writing its price, and whether it exposes a full probability distribution the way Jev does, are not confirmed. Other September 2026 entrants include Together AI's Tev (with an open training recipe), Upstage's Solar Decide, Liquid AI's d1 and meraGPT's Decider 1, alongside open-weight clones. I have not found a dedicated decision model from Google, Anthropic or DeepSeek yet. Details are still emerging - worth checking before relying on any single figure.
+[^category]: OpenAI's Decisions API was announced at DevDay on 29 September 2026 and is in limited preview; at the time of writing its price, and whether it exposes a full probability distribution the way Jev does, are not confirmed. Other September 2026 entrants include Together AI's Tev (with an open training recipe), Upstage's Solar Decide, Liquid AI's d1 and meraGPT's Decider 1, alongside open-weight clones. 
 
 [^classicml]: Of course it is vastly cheaper and easier to just *train* a model to play Space Invaders - regular machine learning, or even a few lines of hand-written logic, would beat Jev and cost nothing per move. This is only an example for fun; the point is a *general* model reacting to described state, not the best way to play the game.
 
