@@ -33,7 +33,7 @@ First a brief review of what a regular large-language completion model like Chat
 
 There's an interactive visual that is super simplified on how an LLM works that I published here:
 
-[![What is a Large Language Model? - a screenshot from my interactive guide, LLMs Visualised](images/llms-visualised.png)](https://dwmkerr.github.io/llms-visualised/)
+[![What is a Large Language Model? - a walkthrough of my interactive guide, LLMs Visualised](images/llms-visualised.gif)](https://dwmkerr.github.io/llms-visualised/)
 
 *Words and concepts positioned by meaning - a frame from my interactive guide, [LLMs Visualised](https://github.com/dwmkerr/llms-visualised).*
 
