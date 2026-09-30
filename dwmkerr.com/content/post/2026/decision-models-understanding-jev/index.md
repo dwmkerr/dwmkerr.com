@@ -23,7 +23,7 @@ As a delightful hook, enjoy the gif below of Jev vs Sonnet in gaming, and Jev qu
 
 ![Jev vs Sonnet playing Space Invaders - Jev reacting in real time while Sonnet reasons](images/space-invaders.gif)
 
-![Jev vs OpenAI - scanning transactions for fraud (visualisation, recording to follow)](images/fraud-demo-placeholder.svg)
+![Jev vs OpenAI scanning 20 payments for fraud - Jev in one call, OpenAI one per payment](images/fraud-demo.gif)
 
 Hopefully by the end of this article you can re-read the launch announcement and it might make more sense.
 
@@ -175,7 +175,7 @@ The source is in the original [Space Invaders](https://github.com/dwmkerr/spacei
 
 ## A more serious example - rapid judgements on potential fraud
 
-![Jev vs OpenAI scanning transactions - a visualisation of what is going on (recording to follow)](images/fraud-demo-placeholder.svg)
+![Jev vs OpenAI scanning 20 payments for fraud - a visualisation of what is going on](images/fraud-demo.gif)
 
 In this example we give the decision model a rolling window of recent scam signals (company names, or text associated with fraud) as shared context, then (in a single call) ask one question per transaction whether each of a batch is safe, low-risk or high-risk, with a confidence. An application on top of this could fire a popup asking for confirmation for low-risk cases or block high risk cases[^injection].
 
