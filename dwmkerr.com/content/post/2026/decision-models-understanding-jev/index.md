@@ -41,30 +41,120 @@ Completion models 'complete' text by giving the statistically most likely result
 
 Model providers charge for each input token (essentially the text you type) and also for the output (its response). The output is normally more expensive. Better quality models are more expensive, faster output is usually more expensive and there are a raft of options to choose from [ref - frontier labs, smaller labs, open weights, self hosted, whatever].
 
-A 'decision model' does not complete text. It gives a typed result: a true/false judgement (expressed as a 0-1 confidence), a number on a defined scale, or a choice from a fixed set (returned as a probability across the options)[^primitives].
+A 'decision model' does not complete text. You hand it some **state** (the thing to judge) and one or more typed **questions**, and it hands back a typed answer for each - never prose. There are three shapes of question[^primitives]:
 
-Give it this input:
+- a **noul** - the probability, from 0 to 1, that a statement is true;
+- a **choice** - one option from a set you define, with a probability for *every* option and an overall confidence;
+- a **score** - a position on a rubric you define, again with probabilities and a confidence.
 
-> Is the capital of France Paris?
+So where a chat model gives you a sentence, a decision model gives you a dictionary. The simplest example is a `noul` - is this statement true?
 
-And you should expect the result:
+**Input**
 
-> 1 (i.e. "True")
+```json
+{
+  "state": "The capital of France is Paris.",
+  "model": "jev-latest",
+  "questions": {
+    "is_true": { "type": "noul", "instructions": "Is this statement true?" }
+  }
+}
+```
 
-That's it, conversation over, these are not models you chat with, they are models you ask questions.
+**Output**
+
+```json
+{
+  "answers": {
+    "is_true": { "type": "noul", "noul": 0.99 }
+  }
+}
+```
+
+Note the answer is `0.99` - a *probability* that the statement is true, not a hard "yes" - and a confidence travels with every answer. That's it, conversation over: these are not models you chat with, they are models you ask questions.
+
+<!-- TODO: render each Input / Output pair side-by-side (left / right) via a shortcode, as on the TypeSafe announce page -->
+
+A decision model earns its keep when it judges text you put in front of it. Here it routes an incoming support message - a `choice`:
+
+**Input**
+
+```json
+{
+  "state": "Help! My payouts have been failing for 3 days and I've lost income.",
+  "model": "jev-latest",
+  "questions": {
+    "department": {
+      "type": "choice",
+      "instructions": "Which team should handle this?",
+      "criteria": {
+        "billing": "Payments, invoicing, refunds",
+        "technical": "Bugs, outages, integrations",
+        "sales": "Pricing, upgrades, new accounts"
+      }
+    }
+  }
+}
+```
+
+**Output**
+
+```json
+{
+  "answers": {
+    "department": {
+      "type": "choice",
+      "choice": "billing",
+      "probabilities": { "billing": 0.88, "technical": 0.12, "sales": 0.0 },
+      "confidence": 0.81
+    }
+  }
+}
+```
+
+Classify, route, score or judge a piece of text; get back a typed answer with calibrated probabilities; let your *code* decide what happens next.
 
 
-Another example:
+Now a harder one, as a deliberate warning - ask it to predict the future:
 
-> Is the capital of Indonesia ever likely to change? Probability please
+**Input**
 
-Potential result:
+```json
+{
+  "state": "The capital of Indonesia is Jakarta.",
+  "model": "jev-latest",
+  "questions": {
+    "will_change": {
+      "type": "noul",
+      "instructions": "Is the capital of Indonesia likely to change within the next ten years?"
+    }
+  }
+}
+```
 
-> 60%
+**Output**
 
-The question above is a complex one - the capital of Indonesia may indeed change [ref ref ref] - whether the model can give a somewhat reasonable result will depend on whether its training data includes news articles and content like this: ref ref ref.
+```json
+{
+  "answers": {
+    "will_change": { "type": "noul", "noul": 0.6 }
+  }
+}
+```
 
-Likely this will raise some questions, but that's the gist.
+A tidy `0.6` - but treat it with real suspicion. The capital of Indonesia may indeed change [ref ref ref], but predicting the future is exactly the *numbers and dates* territory TypeSafe themselves admit the model is weak at[^weakspots]. The number is really the same semantic soup an LLM would give you, with the hedging stripped off - more on that below.
+
+**LLM vs decision model, at a glance:**
+
+| | Completion model (LLM) | Decision model (Jev) |
+|---|---|---|
+| Output | free text you must parse | a typed value + calibrated probabilities |
+| Sampling | one token at a time | all answers in a single pass |
+| Speed | seconds | tens to hundreds of milliseconds |
+| Cost | pay per input *and* output token | pay for input; output is free |
+| Best for | writing, reasoning, chat | fast, structured judgements inside code |
+
+<!-- TODO: this mirrors the "Frontiers, Old And New" comparison on the TypeSafe announce page -->
 
 One important point - the output (at least currently) is free, and produced very quickly[^pricing].
 
@@ -82,13 +172,33 @@ A question asked to the model, without context, is essentially going to give an 
 
 For example:
 
-> Input: - here is the content of all of the regulatory documents that relate to my industry <dump documents here
->
-> Question: how likely is it that performing the action below is a violation of any of these policies? <dump description of a particular answer here>
+**Input**
 
-Output:
+```json
+{
+  "state": {
+    "policies": "<every regulatory document that applies to the business>",
+    "action": "Educate a potential customer on the services we offer"
+  },
+  "model": "jev-latest",
+  "questions": {
+    "violation": {
+      "type": "noul",
+      "instructions": "How likely is it that performing this action violates any of these policies?"
+    }
+  }
+}
+```
 
-> 0.01
+**Output**
+
+```json
+{
+  "answers": {
+    "violation": { "type": "noul", "noul": 0.01 }
+  }
+}
+```
 
 This might be the case if you are a bank, drop in a load of policies, and query the action "educate a potential customer on the services we offer" (innocuous, but if done wrong might be construed as financial advice, generally forbidden by regulations).
 
@@ -118,26 +228,63 @@ That's the high level view - my post travel backlog is quite large so this is a 
 
 ## A worked example for engineers
 
-For the more technical reader, here's a short example of how I used Jev.
+For the more technical reader, here is where it gets fun.
 
-I want a best effort fact checker for my book "Effective Shell" (seems egotistical but it is what jumped to mind as a quick thing I can test). I can drop the entire book into context and ask a question, and compare the speed and cost to another couple of models. I could do a follow up check on _why_ a fact is right or wrong using a regular LLM.
+TypeSafe's own favourite demo is a bot playing Doom in real time[^jev] - it isn't shown pixels, it's handed a *description* of the game state each tick and asked what to do. It's a lovely illustration of "System One": fast, reflexive decisions, tens of times a second, for almost nothing.
 
-** Step 1: setup Jev and simple fact check
+So let's try the same idea as a head to head. I have an old browser game, [Space Invaders](https://dwmkerr.github.io/spaceinvaders/), lying around - let's have two cannons play the *same* wave side by side: one driven by Jev on the left, one by a frontier model (Astra, or Opus) on the right. Underneath each, a running tally of what it has cost and how long it has spent thinking, accumulating as they play.
 
-- open account [ref]
-- setup local repo or whatever (ref we can use my local repo in 'sample' folder)
-- small script to show question box, then when 'submit' drop book into context and give answer
+TODO: gif of the two games playing side by side, with the cost / time counters below.
 
-** Step 2: Comparison to other models
+**The decision, once per tick.** Each cannon is handed the game state as *text* - deliberately not raw co-ordinates, since relations ("an alien two columns to your right, descending") play to the model's strengths where bare numbers do not. Moving and firing aren't mutually exclusive, so it's two questions in a single call, answered in parallel - a `choice` for the move and a `noul` for whether to fire:
 
-- Update the script [ref v2] to use a few other models
-- Same user interface, output now shows some data on tokens / time and cost
+**Input**
 
-** Step 3: Decision Model + LLM
+```json
+{
+  "state": {
+    "player_column": "centre",
+    "nearest_threat": "an alien two columns right, descending",
+    "incoming_fire": "a bomb falling one column left",
+    "aliens_left": 11
+  },
+  "model": "jev-latest",
+  "questions": {
+    "move": {
+      "type": "choice",
+      "instructions": "Move the cannon to survive and line up a shot",
+      "criteria": {
+        "left": "one column left",
+        "right": "one column right",
+        "stay": "hold position"
+      }
+    },
+    "fire": { "type": "noul", "instructions": "Fire this tick?" }
+  }
+}
+```
 
-- Give evidence for the facts if the user presses 'explain' button
+**Output**
 
-TODO put a screenshot higher in the article or a gif showing in action
+```json
+{
+  "answers": {
+    "move": {
+      "type": "choice",
+      "choice": "right",
+      "probabilities": { "left": 0.05, "right": 0.80, "stay": 0.15 },
+      "confidence": 0.74
+    },
+    "fire": { "type": "noul", "noul": 0.66 }
+  }
+}
+```
+
+**What we're really measuring.** Not who plays better - honestly, a ten-line scripted bot would beat both, and TypeSafe say as much about their own Doom demo. The point is the *shape of the cost*: how much each model spends, and how long it takes, to keep a real-time loop fed. My bet is that Jev holds the frame rate for pennies, while the frontier model plays a smarter game it simply can't afford to run in real time.
+
+TODO: the build is specced separately (see the SOW) - implementation to follow once that's agreed.
+
+(For the record, the first thing I reached for was duller: a best-effort fact checker for my book *Effective Shell* - drop the whole book in as state and ask a `noul` whether a claim holds. Useful, but watching two robots flail at Space Invaders makes the point better.)
 
 [^typesafe]: TypeSafe AI, a San Francisco startup founded by former OpenAI researcher Diogo Almeida, came out of stealth on 15 September 2026 with a $40M seed round led by DCVC.
 
@@ -156,3 +303,7 @@ TODO put a screenshot higher in the article or a gif showing in action
 [^weakspots]: TypeSafe's own documentation says Jev is "not great with numbers, dates, or adversarial content" - worth sitting with, given that a capital-city prediction is a date/number question and regulatory documents are adversarial by nature. Simon Willison's test rating Bay Area towns put wealthy Cupertino top and East Palo Alto bottom - a neat reminder the number still comes out of the same semantic soup.
 
 [^novelty]: Analysts expect the big labs to ship their own decision models quickly, and the category is already forming - by late September 2026 OpenRouter was listing several such models from multiple publishers. The interesting question isn't whether Jev specifically wins, but whether "typed, calibrated decisions as a cheap function call" becomes a standard part of the stack.
+
+---
+
+TODO links to openrouter and jev
