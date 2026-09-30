@@ -1,0 +1,874 @@
+{
+ "generated_at": "2026-09-30T15:31:56.348Z",
+ "count": 20,
+ "mock": false,
+ "transactions": [
+  {
+   "id": "t001",
+   "scam": true
+  },
+  {
+   "id": "t002",
+   "scam": true
+  },
+  {
+   "id": "t003",
+   "scam": false
+  },
+  {
+   "id": "t004",
+   "scam": true
+  },
+  {
+   "id": "t005",
+   "scam": false
+  },
+  {
+   "id": "t006",
+   "scam": false
+  },
+  {
+   "id": "t007",
+   "scam": true
+  },
+  {
+   "id": "t008",
+   "scam": true
+  },
+  {
+   "id": "t009",
+   "scam": true
+  },
+  {
+   "id": "t010",
+   "scam": false
+  },
+  {
+   "id": "t011",
+   "scam": false
+  },
+  {
+   "id": "t012",
+   "scam": false
+  },
+  {
+   "id": "t013",
+   "scam": true
+  },
+  {
+   "id": "t014",
+   "scam": true
+  },
+  {
+   "id": "t015",
+   "scam": true
+  },
+  {
+   "id": "t016",
+   "scam": true
+  },
+  {
+   "id": "t017",
+   "scam": false
+  },
+  {
+   "id": "t018",
+   "scam": true
+  },
+  {
+   "id": "t019",
+   "scam": true
+  },
+  {
+   "id": "t020",
+   "scam": false
+  }
+ ],
+ "models": {
+  "jev": {
+   "model": "jev-latest",
+   "scanned": 20,
+   "calls": 1,
+   "ms": 379,
+   "in_tokens": 2483,
+   "out_tokens": 763,
+   "cost_usd": 0.000104286,
+   "correct": 20,
+   "accuracy": 1,
+   "per_txn": [
+    {
+     "id": "t001",
+     "choice": "high",
+     "probabilities": {
+      "low": 0.26,
+      "high": 0.72,
+      "safe": 0.02
+     },
+     "confidence": 0.58,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t002",
+     "choice": "high",
+     "probabilities": {
+      "low": 0.01,
+      "high": 0.99,
+      "safe": 0
+     },
+     "confidence": 0.97,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t003",
+     "choice": "safe",
+     "probabilities": {
+      "low": 0.02,
+      "high": 0.01,
+      "safe": 0.97
+     },
+     "confidence": 0.96,
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t004",
+     "choice": "high",
+     "probabilities": {
+      "low": 0,
+      "high": 1,
+      "safe": 0
+     },
+     "confidence": 1,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t005",
+     "choice": "safe",
+     "probabilities": {
+      "low": 0.01,
+      "high": 0,
+      "safe": 0.99
+     },
+     "confidence": 0.99,
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t006",
+     "choice": "safe",
+     "probabilities": {
+      "low": 0.37,
+      "high": 0.01,
+      "safe": 0.62
+     },
+     "confidence": 0.44,
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t007",
+     "choice": "high",
+     "probabilities": {
+      "low": 0.18,
+      "high": 0.81,
+      "safe": 0.01
+     },
+     "confidence": 0.72,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t008",
+     "choice": "high",
+     "probabilities": {
+      "low": 0,
+      "high": 1,
+      "safe": 0
+     },
+     "confidence": 1,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t009",
+     "choice": "high",
+     "probabilities": {
+      "low": 0.29,
+      "high": 0.69,
+      "safe": 0.02
+     },
+     "confidence": 0.54,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t010",
+     "choice": "low",
+     "probabilities": {
+      "low": 0.64,
+      "high": 0.04,
+      "safe": 0.32
+     },
+     "confidence": 0.46,
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t011",
+     "choice": "safe",
+     "probabilities": {
+      "low": 0.02,
+      "high": 0,
+      "safe": 0.98
+     },
+     "confidence": 0.97,
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t012",
+     "choice": "low",
+     "probabilities": {
+      "low": 0.61,
+      "high": 0.18,
+      "safe": 0.21
+     },
+     "confidence": 0.42,
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t013",
+     "choice": "high",
+     "probabilities": {
+      "low": 0,
+      "high": 0.99,
+      "safe": 0.01
+     },
+     "confidence": 0.98,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t014",
+     "choice": "high",
+     "probabilities": {
+      "low": 0,
+      "high": 1,
+      "safe": 0
+     },
+     "confidence": 1,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t015",
+     "choice": "high",
+     "probabilities": {
+      "low": 0,
+      "high": 1,
+      "safe": 0
+     },
+     "confidence": 1,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t016",
+     "choice": "high",
+     "probabilities": {
+      "low": 0,
+      "high": 1,
+      "safe": 0
+     },
+     "confidence": 1,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t017",
+     "choice": "safe",
+     "probabilities": {
+      "low": 0,
+      "high": 0,
+      "safe": 1
+     },
+     "confidence": 1,
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t018",
+     "choice": "high",
+     "probabilities": {
+      "low": 0,
+      "high": 1,
+      "safe": 0
+     },
+     "confidence": 1,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t019",
+     "choice": "high",
+     "probabilities": {
+      "low": 0.28,
+      "high": 0.71,
+      "safe": 0.01
+     },
+     "confidence": 0.56,
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t020",
+     "choice": "safe",
+     "probabilities": {
+      "low": 0,
+      "high": 0,
+      "safe": 1
+     },
+     "confidence": 1,
+     "pred_scam": false,
+     "correct": true
+    }
+   ]
+  },
+  "sonnet": {
+   "model": "anthropic/claude-sonnet-5.5",
+   "scanned": 20,
+   "calls": 20,
+   "ms": 32808,
+   "in_tokens": 6400,
+   "out_tokens": 65,
+   "cost_usd": 0.013450000000000002,
+   "correct": 17,
+   "accuracy": 0.85,
+   "per_txn": [
+    {
+     "id": "t001",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": false
+    },
+    {
+     "id": "t002",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t003",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t004",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t005",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t006",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t007",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t008",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t009",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": false
+    },
+    {
+     "id": "t010",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t011",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t012",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t013",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t014",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t015",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t016",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t017",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t018",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t019",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": false
+    },
+    {
+     "id": "t020",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    }
+   ]
+  },
+  "luna": {
+   "model": "openai/gpt-6-luna",
+   "scanned": 20,
+   "calls": 20,
+   "ms": 40314,
+   "in_tokens": 4031,
+   "out_tokens": 825,
+   "cost_usd": 0.0008155999999999999,
+   "correct": 20,
+   "accuracy": 1,
+   "per_txn": [
+    {
+     "id": "t001",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t002",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t003",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t004",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t005",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t006",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t007",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t008",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t009",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t010",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t011",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t012",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t013",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t014",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t015",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t016",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t017",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t018",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t019",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t020",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    }
+   ]
+  },
+  "astra": {
+   "model": "openai/gpt-6-astra",
+   "scanned": 20,
+   "calls": 20,
+   "ms": 52110,
+   "in_tokens": 4031,
+   "out_tokens": 277,
+   "cost_usd": 0.05416,
+   "correct": 20,
+   "accuracy": 1,
+   "per_txn": [
+    {
+     "id": "t001",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t002",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t003",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t004",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t005",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t006",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t007",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t008",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t009",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t010",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t011",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t012",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t013",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t014",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t015",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t016",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t017",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t018",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t019",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t020",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    }
+   ]
+  },
+  "opus": {
+   "model": "anthropic/claude-opus-5.5",
+   "scanned": 20,
+   "calls": 20,
+   "ms": 80547,
+   "in_tokens": 6400,
+   "out_tokens": 621,
+   "cost_usd": 0.03802,
+   "correct": 20,
+   "accuracy": 1,
+   "per_txn": [
+    {
+     "id": "t001",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t002",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t003",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t004",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t005",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t006",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t007",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t008",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t009",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t010",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t011",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t012",
+     "choice": "low",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t013",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t014",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t015",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t016",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t017",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    },
+    {
+     "id": "t018",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t019",
+     "choice": "high",
+     "pred_scam": true,
+     "correct": true
+    },
+    {
+     "id": "t020",
+     "choice": "safe",
+     "pred_scam": false,
+     "correct": true
+    }
+   ]
+  }
+ }
+}
