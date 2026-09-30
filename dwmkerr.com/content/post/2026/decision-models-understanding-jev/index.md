@@ -167,7 +167,7 @@ The important note is that the output is _free_ and comes back very quickly[^pri
 
 ## Fun example - System 1 models playing Space Invaders fast vs System 2 models playing strategically
 
-TODO this is where we put the gif
+![Jev vs Opus playing Space Invaders - a visualisation of the head-to-head (recording to follow)](images/game-demo-placeholder.svg)
 
 TODO link to the repo
 
@@ -181,7 +181,7 @@ The source is in the original [Space Invaders](link) repo. You can play the OG 1
 
 ## A more serious example - rapid judgements on potential fraud
 
-[gif]
+![Jev vs OpenAI scanning transactions - a visualisation of what is going on (recording to follow)](images/fraud-demo-placeholder.svg)
 
 In this example we give the decision model a rolling window of recent scam signals (company names, or text associated with fraud) as shared context, then - in a single call - ask one question per transaction whether each of a batch is safe, low-risk or high-risk, with a confidence. Safe cases pass, low-risk cases might get a popup asking 'are you sure', and high-risk might be held or blocked[^injection] (recording the scam pattern it matched).
 
@@ -238,6 +238,8 @@ Yes - it is useful to understand at least at a (very) high level what the fuss i
 
 Whether this is novel is arguable - without knowing the internals it is possible that simply taking an open weights model and doing the same thing via prompt engineering is also 'good enough' or whether a model post-trained on your own data would in fact be better - but there are a nearly infinite number of use cases we can imagine and many may be served well by this technology[^novelty].
 
+And it is moving fast. Jev landed on 15 September; within two weeks Together AI, Upstage and Liquid AI had shipped their own decision models, a clutch of open-weight clones appeared, and on 29 September OpenAI put its weight behind the shape with a Decisions API - though that one is a *constrained* frontier model (GPT-6 Luna with its output fenced to your options) rather than a purpose-built decision model like Jev[^category]. The open question is whether these general-model routers can match a dedicated model on cost and calibration - and prompt injection remains an unsolved caveat for all of them.
+
 Possibly as an exec you might ask someone in your tech team to look at this, run a couple of experiments in your own domain, and share their learnings to your leadership team. More contextualised will be far more interesting and their real-world experience will be great to see (and probably a fun experiment for them to run).
 
 That's the high level view - my post travel backlog is quite large so this is a short one but I hope you found it at least mildly interesting. No tokens were harmed during the writing of the text, but I have used AI to check references, spellcheck / grab screenshots from my other projects and so on.
@@ -264,11 +266,13 @@ Attributing numerical values to what is not discrete or measurable is both machi
 
 [^fanout]: TypeSafe call this "speculative fan-out" - one state, many questions, all evaluated in parallel against the state read once. They report roughly 12x cheaper and 10x faster for 13 questions in a single call versus 13 separate calls. The state plus all questions must fit a ~64k-token budget, and there is no prefix/input caching - so batching, rather than one call per transaction re-sending the window, is what keeps it cheap.
 
-[^injection]: This is exactly the pattern security researchers broke. A typed output constrains the *format* of the answer, not the *credibility* of the input - so you can slip fabricated evidence into the documents and flip the verdict. Check Point manipulated Jev's decisions roughly 59% of the time, at about $0.50 a go, with no reasoning trace for the analyst to spot: ["Jev Is Not a Language Model, but It Breaks Like One"](https://blog.checkpoint.com/ai-security/jev-is-not-a-language-model-but-it-breaks-like-one-prompt-injection-against-a-typed-decision-model/). If you use it as a gate, screen the inputs *before* Jev sees them; don't trust the tidy number afterwards.
+[^injection]: This is exactly the pattern security researchers broke. A typed output constrains the *format* of the answer, not the *credibility* of the input - so you can slip fabricated evidence into the documents and flip the verdict. Check Point manipulated Jev's decisions roughly 59% of the time, at about $0.50 a go, with no reasoning trace for the analyst to spot: ["Jev Is Not a Language Model, but It Breaks Like One"](https://blog.checkpoint.com/ai-security/jev-is-not-a-language-model-but-it-breaks-like-one-prompt-injection-against-a-typed-decision-model/). If you use it as a gate, screen the inputs *before* Jev sees them; don't trust the tidy number afterwards. TypeSafe's own limitations page now concedes that adversarial content - injected instructions, or "text that argues for its own classification" - can move the answer, and there is an arXiv write-up (*Decision Hijacking*, 2026) documenting the same.
 
 [^weakspots]: TypeSafe's own documentation says Jev is "not great with numbers, dates, or adversarial content" - worth sitting with, given that a capital-city prediction is a date/number question and regulatory documents are adversarial by nature. Simon Willison's test rating Bay Area towns put wealthy Cupertino top and East Palo Alto bottom - a neat reminder the number still comes out of the same semantic soup.
 
 [^novelty]: Analysts expect the big labs to ship their own decision models quickly, and the category is already forming - by late September 2026 OpenRouter was listing several such models from multiple publishers. The interesting question isn't whether Jev specifically wins, but whether "typed, calibrated decisions as a cheap function call" becomes a standard part of the stack.
+
+[^category]: OpenAI's Decisions API was announced at DevDay on 29 September 2026 and is in limited preview; at the time of writing its price, and whether it exposes a full probability distribution the way Jev does, are not confirmed. Other September 2026 entrants include Together AI's Tev (with an open training recipe), Upstage's Solar Decide, Liquid AI's d1 and meraGPT's Decider 1, alongside open-weight clones. I have not found a dedicated decision model from Google, Anthropic or DeepSeek yet. Details are still emerging - worth checking before relying on any single figure.
 
 [^classicml]: Of course it is vastly cheaper and easier to just *train* a model to play Space Invaders - regular machine learning, or even a few lines of hand-written logic, would beat Jev and cost nothing per move. This is only an example for fun; the point is a *general* model reacting to described state, not the best way to play the game.
 
