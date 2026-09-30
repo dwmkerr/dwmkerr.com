@@ -169,7 +169,7 @@ The important note is that the output is _free_ and comes back very quickly[^pri
 
 We can also make a game that is more suited to a model like Sonnet - in connect four there is more strategy and longer term planning involved, so an LLM with reasoning should be able to out-play a simple decision model.
 
-TODO another part of the gif
+![Jev vs Sonnet playing Connect Four - the strategic, turn-based game where reasoning wins](images/connect-four.gif)
 
 The source is in the original [Space Invaders](https://github.com/dwmkerr/spaceinvaders) repo. You can play the OG 13 year old one or clone it and run the System 1/2 version locally with your own keys. This is a fun example to play with and shows the rough idea.
 
@@ -224,7 +224,19 @@ In this example we give the decision model a rolling window of recent scam signa
 ```
 {{< /io >}}
 
-The nice thing here is that we _batch_. The state (the scam data) is read *once* and every transaction-question runs against it in parallel - what TypeSafe call **fan-out**[^fanout]. We still get the benefit of semantics[^weakspots] - an exact blocklist would miss "Quick Coin Limited" (yesterday's flagged payee was "QuickCoin Ltd"), but the fuzzy semantic match - a near-miss name plus a narrative that resembles today's car-sale scam - still fires. That is the bit a decision model adds over rules, and it is much harder for a regular LLM to do at this speed and price[^whynotllm]. A case like this would make a good real-world experiment.
+The nice thing here is that we _batch_. The state (the scam data) is read *once* and every transaction-question runs against it in parallel - what TypeSafe call **fan-out**[^fanout]. We still get the benefit of semantics[^weakspots] - an exact blocklist would miss "Quick Coin Limited" (yesterday's flagged payee was "QuickCoin Ltd"), but the fuzzy semantic match - a near-miss name plus a narrative that resembles today's car-sale scam - still fires. That is the bit a decision model adds over rules, and it is much harder for a regular LLM to do at this speed and price[^whynotllm].
+
+So I ran it - twenty transactions through Jev and four frontier models, scored against known labels (the little harness is in [`sample/`](https://github.com/dwmkerr/dwmkerr.com/tree/main/sample)):
+
+| Model | Accuracy | Cost | Time | Calls |
+|---|---|---|---|---|
+| **Jev** | 100% | **$0.0001** | **0.4s** | **1** |
+| Sonnet | 85% | $0.01 | 33s | 20 |
+| Luna (GPT-6) | 100% | $0.0008 | 40s | 20 |
+| Astra (GPT-6) | 100% | $0.05 | 52s | 20 |
+| Opus | 100% | $0.04 | 81s | 20 |
+
+The accuracy is much of a muchness on twenty fairly clear cases - don't read too much into that column. The gap that matters is the other three: Jev judged the whole batch in **one** call, in under half a second, for a fraction of a penny; each LLM made twenty calls and took the best part of a minute. The frontier models are also *forced* to reason - you cannot turn it off - which is exactly why they are slow and dear for a job this small.
 
 ## As an executive or technologist, should you care
 
