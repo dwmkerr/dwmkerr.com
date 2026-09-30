@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.2...v0.7.3) (2026-09-30)
+
+
+### Documentation
+
+* understanding Jev and decision models ([#85](https://github.com/dwmkerr/dwmkerr.com/issues/85)) ([def7cf1](https://github.com/dwmkerr/dwmkerr.com/commit/def7cf1e552e3b375087ec13488d73837807da01))
+
 ## [0.7.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.1...v0.7.2) (2026-07-22)
 
 
