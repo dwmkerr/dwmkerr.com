@@ -65,7 +65,7 @@ This is where I use AI extremely heavily. Generally the process will be:
 3. Then pick the ones that are looking like they're good candidates, and iterate.
 4. Finally apply the appropriate visual styles (for example, for my blog or the style of a project).
 
-This can take many hours. For example, the side-by-side comparison of LLMs vs Decision models below:
+This can take many hours. For example, the side-by-side comparison of LLMs vs Decision models below (from my [Jev article](../understanding-jev-decision-models/)):
 
 <div style="width:100vw;margin-left:calc(50% - 50vw);">
   <iframe class="jev-embed" src="../visuals/llm-vs-decision-model.html" loading="lazy" title="An LLM and a decision model answering the same questions side by side" style="display:block;width:100%;height:1000px;border:0"></iframe>

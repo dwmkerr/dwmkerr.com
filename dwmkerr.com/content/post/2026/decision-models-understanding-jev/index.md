@@ -5,6 +5,7 @@ date: "2026-09-29"
 title: 'Understanding Jev and System 1 (or "Decision") Models'
 description: "What TypeSafe's 'Jev' and the new class of 'system 1' (or 'decision models') actually are, whether you should care as an exec, some potential use-cases"
 slug: understanding-jev-decision-models
+discussion: https://news.ycombinator.com/item?id=50115681
 categories:
 - "ai"
 - "agentic-ai"
