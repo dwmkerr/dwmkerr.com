@@ -68,7 +68,7 @@ This is where I use AI extremely heavily. Generally the process will be:
 This can take many hours. For example, the side-by-side comparison of LLMs vs Decision models below:
 
 <div style="width:100vw;margin-left:calc(50% - 50vw);">
-  <iframe class="jev-embed" src="/visuals/llm-vs-decision-model.html" loading="lazy" title="An LLM and a decision model answering the same questions side by side" style="display:block;width:100%;height:1000px;border:0"></iframe>
+  <iframe class="jev-embed" src="../visuals/llm-vs-decision-model.html" loading="lazy" title="An LLM and a decision model answering the same questions side by side" style="display:block;width:100%;height:1000px;border:0"></iframe>
 </div>
 <script>
 window.addEventListener('message',function(e){
@@ -79,7 +79,7 @@ window.addEventListener('message',function(e){
 });
 </script>
 
-Was the result of more than 50 iterations and a couple of accumulated hours of concentration (you can see what this journey looked like in [this page](/visuals/making-a-visual.html), which shows early to late iterations).
+Was the result of more than 50 iterations and a couple of accumulated hours of concentration (you can see what this journey looked like in [this page](../visuals/making-a-visual.html), which shows early to late iterations).
 
 This tends to follow a 'Divergent then Convergent' process - start with many ideas and be open minded and explore, then as you get closer to what you want, narrow down and improve and fine-tune.
 
