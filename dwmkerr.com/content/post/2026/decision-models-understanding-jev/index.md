@@ -5,6 +5,7 @@ date: "2026-09-29"
 title: 'Understanding Jev and System 1 (or "Decision") Models'
 description: "What TypeSafe's 'Jev' and the new class of 'system 1' (or 'decision models') actually are, whether you should care as an exec, some potential use-cases"
 slug: understanding-jev-decision-models
+discussion: https://news.ycombinator.com/item?id=50115681
 categories:
 - "ai"
 - "agentic-ai"
@@ -13,11 +14,27 @@ tags:
 - "agentic-ai"
 ---
 
-I've been travelling in the mountains for a couple of weeks. Being disconnected from technology while in the hills has been lovely but there was one topic in particular I was itching to get my hands into and do a short non-tech and tech overview on, which is Jev and System 1 models.
+*Update: 2026-10-15 - a few people got in touch saying that they'd found this write-up useful, I've improved a bit with [a better set of side-by-side visuals showing how Jev compares to a regular LLM](#visualising-completion-models-vs-decision-models) and more detail on how the models work, some [emerging use-cases](#update-emerging-use-cases) and [Jev's most recent improvements](#update-recent-improvements) which include support for image modality.*
+
+I've been travelling in the mountains for a couple of weeks. Being disconnected from technology while in the hills has been lovely but there was one topic in particular I was itching to get my hands into and do a short non-tech and tech overview on, which is **Jev and System 1 models**.
 
 TypeSafe AI[^typesafe] released a new type of model called "Jev" which they described as a "System 1 model" (others have been describing it as a "Decision Model"[^naming]) - there has been a lot of excitement and hype.
 
 I really recommend reading their [Release Announcement](https://typesafe.ai/blog/introducing-system-one-models-and-jev) - and then if it doesn't entirely make sense then please read on. I'll try and explain what it means, whether you should care, show a fun example of a decision model playing Space Invaders very quickly (then a regular LLM playing a game more strategically) and then a potentially more serious example of using a decision model to quickly check for potential fraud (at moderately high frequency).
+
+I have tried to create a side-by-side visual comparison showing the fundamental differences between a regular large language model and a System 1 model. Over the course of this article these differences will be explained in detail:
+
+<div style="width:100vw;margin-left:calc(50% - 50vw);">
+  <iframe class="jev-embed" src="../visuals/llm-vs-decision-model.html" loading="lazy" title="An LLM and a decision model answering the same questions side by side" style="display:block;width:100%;height:1000px;border:0"></iframe>
+</div>
+<script>
+window.addEventListener('message',function(e){
+  if(!e.data||!e.data.jevEmbed)return;
+  document.querySelectorAll('iframe.jev-embed').forEach(function(f){
+    if(f.contentWindow===e.source) f.style.height=e.data.h+'px';
+  });
+});
+</script>
 
 As a delightful hook, enjoy the gif below of a decision model and a regular large language model playing Space Invaders (and then later, playing Connect Four against each other):
 
@@ -59,9 +76,9 @@ Training models takes a vast amount of data and compute and is hugely expensive.
 
 A 'decision model' does not complete text. You hand it some state (context or information) and one or more typed questions, and for each it gives an answer or judgement in the form of:
 
-- a noul - the probability, from 0 to 1, that a statement is true
-- a choice - one option from a set you define (with a confidence score on each option)
-- a score - a position on a scale you define, again with probabilities and a confidence.
+- **a noul** - the probability, from 0 to 1, that a statement is true
+- **a choice** - one option from a set you define (with a confidence score on each option)
+- **a score** - a position on a scale you define, again with probabilities and a confidence.
 
 Here's a trivial example - we give state saying that the capital of France is Paris, and then ask whether the statement is true.
 
@@ -165,6 +182,24 @@ We give the model a bunch of policy data, and then ask it to categorise whether 
 
 The important note is that the output is _free_ and comes back very quickly[^pricing], and that you can get the answers to _many_ questions in a single pass (which is called a 'fan-out').
 
+## Visualising Completion Models vs Decision Models
+
+To recap, there are a couple of really important differences between regular LLMs and decision models:
+
+1. **LLMs are unstructured - decision models are structured**: we can try and push LLMs to treat input as structured, but we're relying on the training of the model to respect that (or code that wraps the model and asks it to recreate output again it it seems to not be well structured). This essentially takes effort and overhead if we want to deal with structured data natively.
+2. **LLMs generate output character by character - decision models produce all output in one go**: With an LLM, even simple output such as a short JSON structure requires prefill plus a forward pass per output token. Decision models are essentially classifiers: the single prefill step produces the _entire output_ (a distribution, which is then serialized to JSON). 
+   This is also what allows us to 'fan out' - which is what makes a model seem like it is making many decisions in parallel (its still one round through the model, but the input can be complex and represent many requests - the output is still produced in one go)
+
+To illustrate, I have put together the visualisation below:
+
+<div style="width:100vw;margin-left:calc(50% - 50vw);">
+  <iframe class="jev-embed" src="../visuals/llm-vs-decision-model.html" loading="lazy" title="An LLM and a decision model answering the same questions side by side" style="display:block;width:100%;height:1000px;border:0"></iframe>
+</div>
+
+1. On the left, we are trying to force a structured approach. Models are well-trained to handle this, but can make mistakes. Conversational models in particular are *trained to be conversational* and can be noisy. On the right, we are using native structured data.
+2. On the left, we see that every output token requires a full forward pass. Even if the output is small there is a lot of work going on. On the right, a single prefill step produces the entire response in one go.
+
+(By the way, if you are interested in how I make visuals like this, and what a surprising amount of effort it is, check my [How I use AI in Writing](/how-i-use-ai-in-writing) page.)
 ## Fun example - System 1 models playing Space Invaders fast vs System 2 models playing strategically
 
 ![Jev vs Sonnet playing Space Invaders - the System 1 / System 2 head-to-head](images/space-invaders.gif)
@@ -255,6 +290,41 @@ Jev launched on 15 September; within two weeks Together AI, Upstage and Liquid A
 Possibly as an exec you might ask someone in your tech team to look at this, run a couple of experiments in your own domain, and share their learnings to your leadership team. More contextualised will be far more interesting and their real-world experience will be great to see (and probably a fun experiment for them to run).
 
 That's the high level view - my post travel backlog is quite large so this is a short one but I hope you found it at least mildly interesting. No tokens were harmed during the writing of the text, but I have used AI to check references, spellcheck / grab screenshots from my other projects and so on.
+## Update: Emerging Use-Cases
+
+After many discussions with colleagues and following what's happening online, a few use-cases are emerging:
+
+**Triage or Safety Checks**
+
+Just like the fraud example in this post, quickly classify a set of transactions or operations to determine the path for further processing. Depending on the classification we might run a straight-through process, introduce some friction like an OTP verification, or require a full human-in-the-loop review.
+
+**Routing**
+
+A little similar to the above, one example I've seen a bit is taking input text and deciding what model might be most appropriate to use, for example routing requests that appear to be simple to lower-cost LLMs and requests that might involve complex requirements around images to more specialised models.
+
+**Selection**
+
+Quickly picking an option from a set, for example looking at a codebase and deciding what set of [skills](https://docs.claude.com/en/docs/claude-code/skills) might be appropriate to use when running long coding operations.
+
+**Classification**
+
+You could describe a System 1 model as a generalised zero-shot classifier. This makes it quite suitable for taking any kind of input data and deciding what category the input belongs to from a set - for example, is the description of an issue on GitHub a bug, epic, story, feature request, discussion.
+
+## Update: Recent Improvements
+
+**Image Support**
+
+This is a fairly significant update. Images can be used in state, instructions or criteria. For example you could grab a photo of someone in your company swag and someone in suit, then ask Jev to classify a large set of photos - is this more likely to be one of your coders or your executives.
+
+**Boxes**
+
+A box output can be used to describe part of an image. For example, you could use the model to say "find the hat".
+
+Here's a quick test of both: classifying photos as coders or executives using a reference image for each, then boxing the logo on a hoodie. Click through for the full requests and responses:
+
+[![AI-generated test run - Jev classifying photos as coders or executives, and drawing a box around a logo](images/jev-image-tests.png)](../visuals/jev-image-tests.html)
+
+*Warning: this is an AI-generated test run, put together as a quick illustration. An AI assistant wrote the scripts, ran them against `jev-1.14.0` and built the output html.*
 
 [^typesafe]: TypeSafe AI, a San Francisco startup founded by former OpenAI researcher Diogo Almeida, came out of stealth on 15 September 2026 with a $40M seed round led by DCVC.
 
