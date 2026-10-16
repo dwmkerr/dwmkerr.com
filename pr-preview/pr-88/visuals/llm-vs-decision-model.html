@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLMs vs Decision Models</title>
+<style>
+  :root{
+    --bg:#faf9f6; --ink:#24292f; --muted:#6e7681; --faint:#d8d5cd;
+    --accent:#1a7f37; --blue:#0969da;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+
+  main{
+    position:relative;min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:12px;padding:20px 16px;
+  }
+  header{text-align:center;max-width:640px}
+  header h1{font-size:22px;font-weight:650;letter-spacing:-0.01em;font-style:italic}
+  header p{margin-top:6px;font-size:14px;color:var(--muted);font-style:italic}
+
+  /* diagram wrapper: two columns, rows aligned so the inputs sit side by side */
+  #diagram{position:relative;width:min(920px,100%)}
+
+  .card{
+    position:relative;z-index:1;
+    border:1px solid var(--faint);border-radius:14px;background:#fffdf9;
+    box-shadow:0 1px 2px rgba(36,41,47,.05),0 10px 34px rgba(36,41,47,.07);
+  }
+
+  /* the two columns: one grid so each row (input, model, output, counter)
+     lines up across both sides and the two inputs are directly comparable */
+  #cols{
+    display:grid;grid-template-columns:1fr 1fr;
+    column-gap:26px;row-gap:10px;align-items:stretch;
+  }
+
+  .inputcard{padding:10px 13px 12px}
+  /* one title style for every card so inputs, models and outputs read as peers */
+  .ttl{
+    font-family:var(--sans);font-size:13px;font-weight:650;
+    color:var(--ink);text-align:center;line-height:1.4;
+  }
+  .inputcard .ttl{margin-bottom:7px}
+  .ocard .ttl{margin-bottom:6px}
+  .irows{font-family:var(--mono);font-size:9.5px;line-height:1.6;color:var(--ink)}
+  /* negative margin + equal padding keeps text position fixed, so the hover
+     tint never shifts layout */
+  .irow{
+    white-space:pre-wrap;word-break:break-word;border-radius:4px;
+    margin:0 -5px;padding:0 5px;
+    transition:background .12s ease,opacity .12s ease;
+  }
+  .g{color:#bab5a9}
+  .gn{color:#c4bfb3;font-style:italic}
+  .nm{color:var(--accent);font-weight:650}
+  .irow.hl{background:rgba(9,105,218,.07)}
+  #diagram.rowdim .irow:not(.hl){opacity:.55}
+  /* at full two-column width every row fits one line, so the paired rows
+     share a uniform height; narrower layouts fall back to wrapping */
+  @media (min-width:960px){
+    .irow{white-space:pre;overflow:hidden;text-overflow:ellipsis}
+  }
+
+  .modelbox{padding:11px 15px 12px}
+  .modelbox .ttl{margin-bottom:8px}
+  .weights{display:block;width:100%;height:54px}
+
+  .ocard{
+    padding:11px 13px;min-height:132px;
+    font-family:var(--mono);font-size:12px;line-height:1.75;
+    will-change:transform;
+  }
+  .ocard .flash{
+    position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:rgba(9,105,218,.15);opacity:0;
+  }
+  .ghost{color:var(--faint)}
+  .block{min-height:21px;word-break:break-all}
+  .block.coda{word-break:normal;color:#cf222e}
+  .v{color:var(--accent);font-weight:650}
+  #caret{
+    display:inline-block;width:7px;height:14px;margin-left:1px;
+    background:var(--ink);vertical-align:-2px;
+  }
+
+  #rjson{display:none}
+  #rjson .jline{color:var(--muted)}
+  .jrow{white-space:pre;word-break:normal}
+  /* probability as a proportion box: the faint outline spans exactly the four
+     digit characters and stands for 100%; the fill behind the digits spans p
+     of it, so the equal-width boxes align and read as comparable proportions.
+     Negative margin offsets border + padding so the digits never shift */
+  .pwrap{
+    position:relative;z-index:0;display:inline-block;line-height:1.3;
+    padding:0 1px;margin:0 -2px;
+    border:1px solid rgba(26,127,55,.35);border-radius:4px;
+  }
+  .pbar{
+    position:absolute;left:0;top:0;bottom:0;width:0;z-index:-1;
+    background:rgba(26,127,55,.14);border-radius:3px;pointer-events:none;
+  }
+
+  .counter{
+    font-family:var(--mono);font-size:10.5px;color:var(--muted);
+    text-align:center;line-height:1.6;min-height:17px;
+  }
+  .counter b{color:var(--ink);font-weight:650}
+
+
+  /* transport bar, word-galaxy style */
+  #transport{
+    display:flex;align-items:center;gap:7px;
+    background:#fffdf9;border:1px solid var(--faint);border-radius:999px;
+    padding:7px 10px;
+    box-shadow:0 1px 2px rgba(36,41,47,.05),0 6px 20px rgba(36,41,47,.06);
+  }
+  .tbtn{
+    width:34px;height:34px;border-radius:50%;border:none;padding:0;
+    background:var(--ink);color:var(--bg);cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;
+    transition:background .15s,transform .12s,opacity .15s;
+  }
+  .tbtn svg{width:13px;height:13px;display:block}
+  .tbtn:hover:not(:disabled){background:#3a4149}
+  .tbtn:active:not(:disabled){transform:scale(.88)}
+  .tbtn:disabled{opacity:.35;cursor:default}
+  .tbtn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  #playBtn{width:40px;height:40px}
+  #playBtn svg{width:15px;height:15px}
+  #playBtn .ic-pause{display:none}
+  #playBtn.playing .ic-play{display:none}
+  #playBtn.playing .ic-pause{display:block}
+  #dots{display:flex;gap:7px;align-items:center;padding:0 9px}
+  .sdot{
+    width:8px;height:8px;border-radius:50%;border:none;padding:0;
+    background:var(--faint);cursor:pointer;transition:background .2s,transform .2s;
+  }
+  .sdot:hover{background:var(--muted)}
+  .sdot.cur{background:var(--ink);transform:scale(1.3)}
+
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+  }
+  @media (max-width:759px){
+    /* stack as two complete columns, left story first */
+    #cols{display:flex;flex-direction:column;gap:12px}
+    #inL{order:1}#boxL{order:2}#ocardL{order:3}#cntL{order:4}
+    #inR{order:5}#boxR{order:6}#ocardR{order:7}#cntR{order:8}
+    #inR{margin-top:10px}
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>LLMs vs Decision Models</h1>
+    <p>A high level visualisation of the differences between how a large-language-model and a decision model produce output.</p>
+  </header>
+
+  <div id="diagram">
+    <div id="cols">
+      <section class="inputcard card" id="inL">
+        <div class="ttl">Input (Prose)</div>
+        <div class="irows" id="rowsL">
+          <div class="irow" data-r="0" aria-hidden="true">&nbsp;</div>
+          <div class="irow hv" data-r="1"><span class="g">Today's scam patterns: </span>safe account calls<span class="g">; </span>private car sales...</div>
+          <div class="irow hv" data-r="2"><span class="g">Flagged payees: </span><span class="nm">QuickCoin Ltd</span><span class="g">, </span>J. Marku<span class="g">.</span></div>
+          <div class="irow hv" data-r="3"><span class="g">Rank each transaction as </span>safe<span class="g">, </span>low<span class="g"> or </span>high<span class="g"> risk.</span></div>
+          <div class="irow hv" data-r="4"><span class="g">Reply ONLY with JSON: {"txn_1": {"choice": ...}, ...}</span></div>
+          <div class="irow hv" data-r="5"><span class="g">1. </span>&pound;14,900<span class="g"> to "</span><span class="nm">Quick Coin Limited</span><span class="g">", </span>new payee<span class="g">, </span>23:40<span class="g">...</span></div>
+          <div class="irow hv" data-r="6"><span class="g">2. </span>&pound;42<span class="g"> to "</span>Tesco<span class="g">", </span>regular payee<span class="g">, "</span>weekly shop<span class="g">"</span></div>
+          <div class="irow hv" data-r="7"><span class="g">3. </span>&pound;880 refund<span class="g"> from "</span>GymFlex<span class="g">", </span>known payee</div>
+          <div class="irow" data-r="8" aria-hidden="true">&nbsp;</div>
+        </div>
+      </section>
+      <section class="inputcard card" id="inR">
+        <div class="ttl">Input (JSON/Image)</div>
+        <div class="irows" id="rowsR">
+          <div class="irow" data-r="0"><span class="g">{ "state": {</span></div>
+          <div class="irow hv" data-r="1"><span class="g">    "scam_patterns": ["</span>safe account calls<span class="g">", "</span>private car sales...<span class="g">"],</span></div>
+          <div class="irow hv" data-r="2"><span class="g">    "flagged_payees": ["</span><span class="nm">QuickCoin Ltd</span><span class="g">", "</span>J. Marku<span class="g">"] },</span></div>
+          <div class="irow hv" data-r="3"><span class="g">  "questions": { "type": "choice", "criteria": ["</span>safe<span class="g">","</span>low<span class="g">","</span>high<span class="g">"],</span></div>
+          <div class="irow hv" data-r="4"><span class="gn">    (not needed: output is typed)</span></div>
+          <div class="irow hv" data-r="5"><span class="g">    "txn_1": { "instructions": "</span>&pound;14,900<span class="g"> to '</span><span class="nm">Quick Coin Limited</span><span class="g">'..." },</span></div>
+          <div class="irow hv" data-r="6"><span class="g">    "txn_2": { "instructions": "</span>&pound;42<span class="g"> to '</span>Tesco<span class="g">', </span>regular payee<span class="g">..." },</span></div>
+          <div class="irow hv" data-r="7"><span class="g">    "txn_3": { "instructions": "</span>&pound;880 refund<span class="g">, '</span>GymFlex<span class="g">', </span>known payee<span class="g">" }</span></div>
+          <div class="irow" data-r="8"><span class="g">} }</span></div>
+        </div>
+      </section>
+
+      <section class="modelbox card" id="boxL">
+        <div class="ttl">LLM (e.g. ChatGPT)</div>
+        <canvas class="weights" id="weightsL"></canvas>
+      </section>
+      <section class="modelbox card" id="boxR">
+        <div class="ttl">Decision Model (e.g. Jev)</div>
+        <canvas class="weights" id="weightsR"></canvas>
+      </section>
+
+      <section class="ocard card" id="ocardL">
+        <div class="ttl">Output</div>
+        <span class="ghost" id="ghostL">...</span>
+        <div class="block"><span class="btxt" id="b0"></span></div>
+        <div class="block"><span class="btxt" id="b1"></span></div>
+        <div class="block"><span class="btxt" id="b2"></span></div>
+        <div class="block coda"><span class="btxt" id="b3"></span></div>
+      </section>
+      <section class="ocard card" id="ocardR">
+        <div class="flash" id="flashR"></div>
+        <div class="ttl">Output</div>
+        <span class="ghost" id="ghostR">...</span>
+        <div id="rjson"></div>
+      </section>
+
+      <div class="counter" id="cntL">passes: 0 &middot; output tokens: 0</div>
+      <div class="counter" id="cntR">passes: 0 &middot; output tokens: 0</div>
+    </div>
+
+  </div>
+
+  <div id="transport" role="group" aria-label="Playback controls">
+    <button id="startBtn" class="tbtn" type="button" aria-label="Back to start" disabled>
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2.5h2v11H3z"/><path d="M13 2.5v11L6.2 8z"/></svg>
+    </button>
+    <button id="playBtn" class="tbtn" type="button" aria-label="Play">
+      <svg class="ic-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 2.8l8.4 5.2L5 13.2z"/></svg>
+      <svg class="ic-pause" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 3h2.8v10H4z"/><path d="M9.2 3H12v10H9.2z"/></svg>
+    </button>
+    <div id="dots"></div>
+    <button id="stepBtn" class="tbtn" type="button" aria-label="Step forward">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 3l5 5-5 5"/></svg>
+    </button>
+  </div>
+
+
+</main>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- deterministic timeline: everything renders from master t ---------- */
+function srand(n){ var x=Math.sin(n*127.1+311.7)*43758.5453; return x-Math.floor(x); }
+function clamp(u){ return u<0?0:u>1?1:u; }
+function easeOut(u){ u=clamp(u); return 1-Math.pow(1-u,3); }
+
+/* both inputs are always on the page; the run starts almost immediately */
+var RUN_START=160;
+var LEFT_TEXTS=[
+  '{"txn_1": {"choice": "high"}}',
+  '{"txn_2": {"choice": "safe"}}',
+  '{"txn_3": {"choice": "safe"}}'
+];
+var VERDICTS=['high','safe','safe'];
+/* the completion model is conversational, so after the JSON it drifts out of
+   the requested format and keeps talking */
+var CODA='Not all of these are safe - and not for the reason you might expect. Would you like me to explain more?';
+var GAP=560;
+
+/* per-character times with jitter, precomputed so scrubbing is exact */
+var charTimes=[], blockStart=[], blockEnd=[];
+var cursor=RUN_START+80;
+LEFT_TEXTS.forEach(function(txt,b){
+  blockStart[b]=cursor;
+  var arr=[];
+  for(var i=0;i<txt.length;i++){
+    cursor+=22+srand(b*977+i*31)*34;
+    arr.push(cursor);
+  }
+  charTimes.push(arr);
+  blockEnd[b]=cursor;
+  cursor+=GAP;
+});
+/* the coda continues the final call, so it follows the last JSON block after
+   a short beat rather than a full call gap */
+cursor=blockEnd[2]+300;
+blockStart[3]=cursor;
+(function(){
+  var arr=[];
+  for(var i=0;i<CODA.length;i++){
+    cursor+=22+srand(3*977+i*31)*34;
+    arr.push(cursor);
+  }
+  charTimes.push(arr);
+  blockEnd[3]=cursor;
+})();
+var ALLTEXTS=LEFT_TEXTS.concat([CODA]);
+var NBLOCKS=ALLTEXTS.length;
+var TOTALCH=ALLTEXTS.join('').length;
+var LEFT_END=blockEnd[3];
+
+var SPARK_START=RUN_START, STAMP_T=RUN_START+520;
+var CAPTION_T=LEFT_END+300;
+var END=CAPTION_T+550;
+var CHECKPOINTS=[blockEnd[0]+150, blockEnd[1]+150, blockEnd[2]+150, END];
+var CHECKNAMES=['Call 1 answered, decision model already done','Call 2 answered','Call 3 answered','Finished'];
+
+var ROWS=[
+  {pre:'  "txn_1": {"choice": ', v:'"high"', mid:', "p": ', pstr:'0.80', post:'},', p:0.80},
+  {pre:'  "txn_2": {"choice": ', v:'"safe"', mid:', "p": ', pstr:'0.93', post:'},', p:0.93},
+  {pre:'  "txn_3": {"choice": ', v:'"safe"', mid:', "p": ', pstr:'0.88', post:'}',  p:0.88}
+];
+/* ---------- DOM ---------- */
+var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var ghostL=document.getElementById('ghostL'), ghostR=document.getElementById('ghostR');
+var ocardR=document.getElementById('ocardR');
+var flashR=document.getElementById('flashR');
+var rjson=document.getElementById('rjson');
+var cntL=document.getElementById('cntL'), cntR=document.getElementById('cntR');
+var playBtn=document.getElementById('playBtn');
+var startBtn=document.getElementById('startBtn');
+var stepBtn=document.getElementById('stepBtn');
+var dotsEl=document.getElementById('dots');
+var btxt=[document.getElementById('b0'),document.getElementById('b1'),
+          document.getElementById('b2'),document.getElementById('b3')];
+var blockFinalHTML=ALLTEXTS.map(function(t,b){
+  if(b>=VERDICTS.length) return t;
+  return t.replace('"'+VERDICTS[b]+'"','<span class="v">"'+VERDICTS[b]+'"</span>');
+});
+var blockShown=['','','',''];
+
+var caret=document.createElement('span');
+caret.id='caret';
+
+/* right output rows built once; the bar behind each probability animated by width */
+var barEls=[];
+(function buildRight(){
+  var head=document.createElement('div');
+  head.className='jline'; head.textContent='{"answers": {';
+  rjson.appendChild(head);
+  ROWS.forEach(function(r){
+    var row=document.createElement('div'); row.className='jrow';
+    row.appendChild(document.createTextNode(r.pre));
+    var vt=document.createElement('span'); vt.className='v'; vt.textContent=r.v;
+    row.appendChild(vt);
+    row.appendChild(document.createTextNode(r.mid));
+    var pw=document.createElement('span'); pw.className='pwrap';
+    pw.title='probability '+r.pstr;
+    var bar=document.createElement('i'); bar.className='pbar';
+    pw.appendChild(bar);
+    pw.appendChild(document.createTextNode(r.pstr));
+    row.appendChild(pw);
+    row.appendChild(document.createTextNode(r.post));
+    rjson.appendChild(row);
+    barEls.push(bar);
+  });
+  var tail=document.createElement('div');
+  tail.className='jline'; tail.textContent='}}';
+  rjson.appendChild(tail);
+})();
+
+var dotEls=CHECKPOINTS.map(function(cp,i){
+  var d=document.createElement('button');
+  d.className='sdot'; d.type='button';
+  d.setAttribute('aria-label','Jump to: '+CHECKNAMES[i]);
+  d.addEventListener('click',function(){
+    master=cp; playing=false; stopAt=END; updatePlay();
+    if(reduced) renderAt(master,0);
+  });
+  dotsEl.appendChild(d);
+  return d;
+});
+
+/* ---------- weights dot matrix (word-galaxy style, smaller) ---------- */
+function makeWeights(canvas){
+  var ctx=canvas.getContext('2d');
+  var cells=[], w=0, h=0;
+  function size(){
+    var dpr=Math.min(2,window.devicePixelRatio||1);
+    var r=canvas.getBoundingClientRect();
+    w=r.width; h=r.height;
+    canvas.width=Math.round(w*dpr); canvas.height=Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var cols=Math.max(10,Math.floor(w/13)), rows=4;
+    cells=[];
+    var gx=w/cols, gy=h/rows;
+    for(var ry=0;ry<rows;ry++)
+      for(var cx=0;cx<cols;cx++)
+        cells.push({x:gx*(cx+0.5), y:gy*(ry+0.5), ph:srand(ry*131+cx*17)*6.283});
+  }
+  /* env 0..1 drives how much of the matrix sparkles; slot re-rolls the lit
+     subset so sustained activity reads as fresh passes, not a frozen glow */
+  function draw(env,slot,wall){
+    ctx.clearRect(0,0,w,h);
+    for(var i=0;i<cells.length;i++){
+      var c=cells[i], inten=0;
+      if(env>0.02 && srand(slot*131+i*7)<0.10+0.14*env){
+        var tw=0.5+0.34*Math.sin(wall*0.0062+c.ph*5.1)
+                  +0.16*Math.sin(wall*0.0027+c.ph*2.3);
+        inten=env*Math.max(0.15,tw);
+      }
+      var a=Math.min(0.97,0.14+0.85*inten);
+      ctx.fillStyle='rgba(9,105,218,'+a.toFixed(3)+')';
+      ctx.beginPath();
+      ctx.arc(c.x,c.y,1.8+1.9*inten,0,6.2832);
+      ctx.fill();
+    }
+  }
+  return {size:size, draw:draw};
+}
+var WL=makeWeights(document.getElementById('weightsL'));
+var WR=makeWeights(document.getElementById('weightsR'));
+
+/* ---------- state helpers ---------- */
+function charsTyped(t){
+  var n=0;
+  for(var b=0;b<NBLOCKS;b++){
+    var arr=charTimes[b];
+    for(var i=0;i<arr.length;i++) if(arr[i]<=t) n++;
+  }
+  return n;
+}
+function recentChars(t){
+  var n=0;
+  for(var b=0;b<NBLOCKS;b++){
+    var arr=charTimes[b];
+    for(var i=0;i<arr.length;i++) if(arr[i]<=t&&arr[i]>t-260) n++;
+  }
+  return n;
+}
+function lastCharTime(t){
+  var last=-1e9;
+  for(var b=0;b<NBLOCKS;b++){
+    var arr=charTimes[b];
+    for(var i=0;i<arr.length;i++) if(arr[i]<=t&&arr[i]>last) last=arr[i];
+  }
+  return last;
+}
+function caretBlock(t){
+  if(t<RUN_START) return -1;
+  if(t>=LEFT_END+240) return -1;
+  for(var b=0;b<NBLOCKS;b++) if(t<blockEnd[b]) return b;
+  return NBLOCKS-1;
+}
+
+/* ---------- the one render function: full page state at time t ---------- */
+function renderAt(t,wall){
+  /* LEFT: typewriter with jitter; weights sparkle tracks typing activity */
+  for(var b=0;b<NBLOCKS;b++){
+    var want;
+    if(t>=blockEnd[b]) want='F';
+    else {
+      var n=0, arr=charTimes[b];
+      for(var i=0;i<arr.length;i++) if(arr[i]<=t) n++;
+      want='P'+n;
+    }
+    if(blockShown[b]!==want){
+      blockShown[b]=want;
+      if(want==='F') btxt[b].innerHTML=blockFinalHTML[b];
+      else btxt[b].textContent=ALLTEXTS[b].slice(0,+want.slice(1));
+    }
+  }
+  ghostL.style.display = t<RUN_START ? '' : 'none';
+  var cb=caretBlock(t);
+  if(cb<0){
+    if(caret.parentNode) caret.parentNode.removeChild(caret);
+  } else {
+    var host=btxt[cb].parentNode;
+    if(caret.parentNode!==host) host.appendChild(caret);
+    var typingNow=(t-lastCharTime(t))<140;
+    caret.style.opacity=(typingNow||((wall%940)<470))?'1':'0';
+  }
+  var actL=Math.min(1,recentChars(t)/5);
+  WL.draw(actL, Math.floor(t/210), wall);
+
+  /* RIGHT: one sparkle burst, then the whole answer stamps in */
+  var envR=0;
+  if(t>=SPARK_START&&t<STAMP_T){
+    envR=Math.sin(Math.PI*(t-SPARK_START)/(STAMP_T-SPARK_START));
+  }
+  WR.draw(envR, Math.floor(t/170), wall);
+  if(t>=STAMP_T){
+    var dt=t-STAMP_T;
+    ghostR.style.display='none';
+    rjson.style.display='block';
+    ocardR.style.transform='scale('+(1+0.035*Math.exp(-dt/110)).toFixed(4)+')';
+    flashR.style.opacity=(0.55*Math.exp(-dt/150)).toFixed(3);
+    for(var r=0;r<3;r++){
+      var u=easeOut((dt-70-r*110)/380);
+      barEls[r].style.width=(ROWS[r].p*100*u).toFixed(1)+'%';
+    }
+  } else {
+    ghostR.style.display='';
+    rjson.style.display='none';
+    ocardR.style.transform='';
+    flashR.style.opacity='0';
+    for(var r2=0;r2<3;r2++){
+      barEls[r2].style.width='0%';
+    }
+  }
+
+  /* counters tick up live */
+  var ch=charsTyped(t);
+  var passes=Math.min(190,Math.round(190*ch/TOTALCH));
+  cntL.innerHTML = passes>0
+    ? 'passes: <b>~'+passes+'</b> &middot; output tokens: <b>~'+passes+'</b>'
+    : 'passes: <b>0</b> &middot; output tokens: <b>0</b>';
+  cntR.innerHTML = t>=STAMP_T
+    ? 'passes: <b>1</b> &middot; output tokens: <b>0</b> (scores, not text)'
+    : 'passes: <b>0</b> &middot; output tokens: <b>0</b>';
+
+
+  /* transport state */
+  var cur=-1;
+  for(var d=0;d<CHECKPOINTS.length;d++) if(t>=CHECKPOINTS[d]-1) cur=d;
+  for(var d2=0;d2<dotEls.length;d2++) dotEls[d2].classList.toggle('cur', d2===cur);
+  startBtn.disabled = t<=0;
+  stepBtn.disabled = t>=END;
+}
+
+/* ---------- transport engine ---------- */
+var master=0, playing=false, stopAt=END;
+
+function updatePlay(){
+  playBtn.classList.toggle('playing', playing);
+  playBtn.setAttribute('aria-label', master>=END?'Replay':(playing?'Pause':'Play'));
+}
+
+playBtn.addEventListener('click', function(){
+  if(reduced){
+    master = master>=END ? 0 : END;
+    renderAt(master,0); updatePlay();
+    return;
+  }
+  if(master>=END){ master=0; playing=true; stopAt=END; }
+  else { playing=!playing; if(playing) stopAt=END; }
+  updatePlay();
+});
+
+stepBtn.addEventListener('click', function(){
+  var target=END;
+  for(var i=0;i<CHECKPOINTS.length;i++){
+    if(CHECKPOINTS[i]>master+1){ target=CHECKPOINTS[i]; break; }
+  }
+  if(reduced){ master=target; renderAt(master,0); updatePlay(); return; }
+  stopAt=target; playing=true; updatePlay();
+});
+
+startBtn.addEventListener('click', function(){
+  master=0; playing=false; stopAt=END; updatePlay();
+  if(reduced) renderAt(0,0);
+});
+
+/* ---------- paired input rows ---------- */
+var rowsL=document.getElementById('rowsL'), rowsR=document.getElementById('rowsR');
+var narrowMQ=window.matchMedia('(max-width:759px)');
+
+/* fix each row pair's height to the taller twin so the two cards share
+   vertical bands; skipped when the columns are stacked */
+function pairRows(){
+  var L=rowsL.children, R=rowsR.children, i, h;
+  for(i=0;i<L.length;i++){ L[i].style.minHeight=''; R[i].style.minHeight=''; }
+  if(narrowMQ.matches) return;
+  for(i=0;i<L.length;i++){
+    h=Math.max(L[i].getBoundingClientRect().height, R[i].getBoundingClientRect().height);
+    L[i].style.minHeight=h.toFixed(2)+'px';
+    R[i].style.minHeight=h.toFixed(2)+'px';
+  }
+}
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(pairRows);
+
+(function hoverTwins(){
+  if(!window.matchMedia('(pointer: fine)').matches) return;
+  var dia=document.getElementById('diagram');
+  function twins(r){
+    return [rowsL.querySelector('[data-r="'+r+'"]'), rowsR.querySelector('[data-r="'+r+'"]')];
+  }
+  var rows=document.querySelectorAll('.irow.hv');
+  Array.prototype.forEach.call(rows, function(el){
+    var r=el.getAttribute('data-r');
+    el.addEventListener('mouseenter', function(){
+      twins(r).forEach(function(t){ if(t) t.classList.add('hl'); });
+      dia.classList.add('rowdim');
+    });
+    el.addEventListener('mouseleave', function(){
+      twins(r).forEach(function(t){ if(t) t.classList.remove('hl'); });
+      dia.classList.remove('rowdim');
+    });
+  });
+})();
+
+/* ---------- boot ---------- */
+function relayout(){
+  pairRows();
+  WL.size(); WR.size();
+  renderAt(master, 0);
+}
+window.addEventListener('resize', relayout);
+relayout();
+
+if(reduced){
+  master=END;
+  renderAt(master,0);
+  updatePlay();
+} else {
+  var lastWall=performance.now();
+  (function frame(wall){
+    requestAnimationFrame(frame);
+    var dt=Math.min(50, wall-lastWall);
+    lastWall=wall;
+    if(playing){
+      master+=dt;
+      if(master>=stopAt){ master=stopAt; playing=false; updatePlay(); }
+      if(master>=END){ master=END; playing=false; updatePlay(); }
+    }
+    renderAt(master,wall);
+  })(lastWall);
+}
+
+})();
+</script>
+<script>
+/* Report rendered height to the embedding page so the iframe can size itself.
+   Measure the content's true bottom edge rather than scrollHeight: the html
+   element fills the iframe viewport, so scrollHeight can only ever ratchet up. */
+(function(){
+  if(window.parent===window) return;
+  /* main's min-height:100vh tracks the iframe height and would feed back into
+     the measurement forever; drop it when embedded. */
+  var st=document.createElement('style');
+  st.textContent='main{min-height:0 !important}';
+  document.head.appendChild(st);
+  var last=0;
+  function post(){
+    var max=0, els=document.body.children;
+    for(var i=0;i<els.length;i++){
+      if(els[i].tagName==='SCRIPT') continue;
+      var b=els[i].getBoundingClientRect().bottom + window.scrollY;
+      if(b>max) max=b;
+    }
+    var h=Math.ceil(max)+24;
+    if(Math.abs(h-last)>4){ last=h; window.parent.postMessage({jevEmbed:true,h:h},'*'); }
+  }
+  window.addEventListener('load',post);
+  if(window.ResizeObserver) new ResizeObserver(post).observe(document.body);
+  setInterval(post,800);
+})();
+</script>
+</body>
+</html>
