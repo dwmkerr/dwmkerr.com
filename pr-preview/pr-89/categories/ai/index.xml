@@ -28,7 +28,7 @@
 &lt;li&gt;Then pick the ones that are looking like they&amp;rsquo;re good candidates, and iterate.&lt;/li&gt;
 &lt;li&gt;Finally apply the appropriate visual styles (for example, for my blog or the style of a project).&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;This can take many hours. For example, the side-by-side comparison of LLMs vs Decision models below:&lt;/p&gt;
+&lt;p&gt;This can take many hours. For example, the side-by-side comparison of LLMs vs Decision models below (from my &lt;a href="../understanding-jev-decision-models/"&gt;Jev article&lt;/a&gt;):&lt;/p&gt;
 &lt;div style="width:100vw;margin-left:calc(50% - 50vw);"&gt;
 &lt;iframe class="jev-embed" src="../visuals/llm-vs-decision-model.html" loading="lazy" title="An LLM and a decision model answering the same questions side by side" style="display:block;width:100%;height:1000px;border:0"&gt;&lt;/iframe&gt;
 &lt;/div&gt;
