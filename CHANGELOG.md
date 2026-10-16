@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.4](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.3...v0.7.4) (2026-10-16)
+
+
+### Documentation
+
+* jev article update with use-cases, image tests and side-by-side visual ([#89](https://github.com/dwmkerr/dwmkerr.com/issues/89)) ([2bab4c7](https://github.com/dwmkerr/dwmkerr.com/commit/2bab4c72f077a920a9cca0b1ed0d87360b139264))
+* publish how i use ai in writing ([#87](https://github.com/dwmkerr/dwmkerr.com/issues/87)) ([5abdb5d](https://github.com/dwmkerr/dwmkerr.com/commit/5abdb5d70960922e003bb5f7f9b2efb24f434457))
+
 ## [0.7.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.2...v0.7.3) (2026-09-30)
 
 
