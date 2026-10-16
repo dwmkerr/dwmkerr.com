@@ -30,7 +30,7 @@
 &lt;/ol&gt;
 &lt;p&gt;This can take many hours. For example, the side-by-side comparison of LLMs vs Decision models below:&lt;/p&gt;
 &lt;div style="width:100vw;margin-left:calc(50% - 50vw);"&gt;
-&lt;iframe class="jev-embed" src="https://dwmkerr.com/pr-preview/pr-87/visuals/llm-vs-decision-model.html" loading="lazy" title="An LLM and a decision model answering the same questions side by side" style="display:block;width:100%;height:1000px;border:0"&gt;&lt;/iframe&gt;
+&lt;iframe class="jev-embed" src="../visuals/llm-vs-decision-model.html" loading="lazy" title="An LLM and a decision model answering the same questions side by side" style="display:block;width:100%;height:1000px;border:0"&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;script&gt;
 window.addEventListener('message',function(e){
@@ -40,7 +40,7 @@ if(f.contentWindow===e.source) f.style.height=e.data.h+'px';
 });
 });
 &lt;/script&gt;
-&lt;p&gt;Was the result of more than 50 iterations and a couple of accumulated hours of concentration (you can see what this journey looked like in &lt;a href="https://dwmkerr.com/pr-preview/pr-87/visuals/making-a-visual.html"&gt;this page&lt;/a&gt;, which shows early to late iterations).&lt;/p&gt;
+&lt;p&gt;Was the result of more than 50 iterations and a couple of accumulated hours of concentration (you can see what this journey looked like in &lt;a href="../visuals/making-a-visual.html"&gt;this page&lt;/a&gt;, which shows early to late iterations).&lt;/p&gt;
 &lt;p&gt;This tends to follow a &amp;lsquo;Divergent then Convergent&amp;rsquo; process - start with many ideas and be open minded and explore, then as you get closer to what you want, narrow down and improve and fine-tune.&lt;/p&gt;
 &lt;p&gt;I will always create all of the text for visuals, as AI headings / descriptions / captions / whatever tend to not be very clear and use unnecessarily catchy idioms (and the text is as important as the image itself).&lt;/p&gt;
 &lt;h3 id="stage-4-editing"&gt;Stage 4: Editing&lt;/h3&gt;
