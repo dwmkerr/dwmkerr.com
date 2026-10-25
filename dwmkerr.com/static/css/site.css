@@ -214,6 +214,22 @@ article .post-meta {
 article .post-meta a { color: var(--muted); }
 article .post-meta a:hover { color: var(--accent); }
 
+/* subtle action links on the post meta line: discuss / related */
+article .post-meta .post-links { color: var(--faint); }
+article .post-meta .post-links a { color: var(--muted); }
+article .post-meta .post-links a:hover { color: var(--accent); }
+
+/* tags live at the foot of the post, out of the reading path */
+.post-tags {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--faint);
+  margin-top: 2.75rem;
+}
+.post-tags a { color: var(--muted); }
+.post-tags a:hover { color: var(--accent); }
+.post-tags + .subscribe { margin-top: 0.75rem; }
+
 .post-content { max-width: 44rem; }
 .post-content h1,
 .post-content h2,

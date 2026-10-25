@@ -6,8 +6,13 @@
       {{ if and .Date (not ($.Param "hideDate")) }}
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
       {{ end }}
-      {{ range .Params.tags }}
-      · <a href="{{ absURL "tags" }}/{{ . | urlize }}">{{ . }}</a>
+      {{ if eq .Section "post" }}
+      {{ $links := slice }}
+      {{ with .Params.discussion }}{{ $links = $links | append (dict "url" . "title" "discuss" "ext" true) }}{{ end }}
+      {{ range .Params.related }}{{ $links = $links | append (dict "url" .url "title" .title "ext" false) }}{{ end }}
+      {{ if $links }}
+      <span class="post-links">| {{ range $i, $l := $links }}{{ if $i }} · {{ end }}<a href="{{ $l.url }}"{{ if $l.ext }} target="_blank" rel="noopener"{{ end }}>{{ $l.title }}</a>{{ end }}</span>
+      {{ end }}
       {{ end }}
     </p>
   </header>
@@ -15,6 +20,9 @@
     {{ .Content }}
   </div>
   {{ if eq .Section "post" }}
+  {{ with .Params.tags }}
+  <p class="post-tags">tags: {{ range $i, $t := . }}{{ if $i }} · {{ end }}<a href="{{ absURL "tags" }}/{{ $t | urlize }}">{{ $t }}</a>{{ end }}</p>
+  {{ end }}
   <p class="subscribe">New posts by email, <a href="{{ .Site.Params.substack }}">subscribe on Substack</a>, or grab the <a href="{{ "index.xml" | absURL }}">RSS feed</a>.</p>
   {{ with .Params.discussion }}
   <p class="more-link"><a href="{{ . }}" target="_blank" rel="noopener">discuss →</a></p>
