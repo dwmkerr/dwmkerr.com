@@ -316,6 +316,12 @@ var cntL=document.getElementById('cntL'), cntR=document.getElementById('cntR');
 var playBtn=document.getElementById('playBtn');
 var startBtn=document.getElementById('startBtn');
 var stepBtn=document.getElementById('stepBtn');
+
+/* The iframe carries no analytics of its own: interactions are posted to the
+   parent page, which owns the gtag. Keeps a single page_view and one GA load. */
+function track(action){
+  try{ window.parent.postMessage({jevEmbed:true,event:action},'*'); }catch(e){}
+}
 var dotsEl=document.getElementById('dots');
 var btxt=[document.getElementById('b0'),document.getElementById('b1'),
           document.getElementById('b2'),document.getElementById('b3')];
@@ -360,6 +366,7 @@ var dotEls=CHECKPOINTS.map(function(cp,i){
   d.className='sdot'; d.type='button';
   d.setAttribute('aria-label','Jump to: '+CHECKNAMES[i]);
   d.addEventListener('click',function(){
+    track('jump');
     master=cp; playing=false; stopAt=END; updatePlay();
     if(reduced) renderAt(master,0);
   });
@@ -523,6 +530,7 @@ function updatePlay(){
 }
 
 playBtn.addEventListener('click', function(){
+  track(master>=END?'replay':(playing?'pause':'play'));
   if(reduced){
     master = master>=END ? 0 : END;
     renderAt(master,0); updatePlay();
@@ -534,6 +542,7 @@ playBtn.addEventListener('click', function(){
 });
 
 stepBtn.addEventListener('click', function(){
+  track('step');
   var target=END;
   for(var i=0;i<CHECKPOINTS.length;i++){
     if(CHECKPOINTS[i]>master+1){ target=CHECKPOINTS[i]; break; }
@@ -543,6 +552,7 @@ stepBtn.addEventListener('click', function(){
 });
 
 startBtn.addEventListener('click', function(){
+  track('restart');
   master=0; playing=false; stopAt=END; updatePlay();
   if(reduced) renderAt(0,0);
 });

@@ -6,6 +6,9 @@ title: 'Understanding Jev and System 1 (or "Decision") Models'
 description: "What TypeSafe's 'Jev' and the new class of 'system 1' (or 'decision models') actually are, whether you should care as an exec, some potential use-cases"
 slug: understanding-jev-decision-models
 discussion: https://news.ycombinator.com/item?id=50115681
+related:
+- title: "how i use ai in writing"
+  url: "/how-i-use-ai-in-writing/"
 categories:
 - "ai"
 - "agentic-ai"
@@ -31,7 +34,13 @@ I have tried to create a side-by-side visual comparison showing the fundamental 
 window.addEventListener('message',function(e){
   if(!e.data||!e.data.jevEmbed)return;
   document.querySelectorAll('iframe.jev-embed').forEach(function(f){
-    if(f.contentWindow===e.source) f.style.height=e.data.h+'px';
+    if(f.contentWindow!==e.source)return;
+    if(e.data.h)f.style.height=e.data.h+'px';
+    // The iframe has no analytics of its own; it posts interactions here and
+    // the article page's gtag records them against the article's page_view.
+    if(e.data.event&&typeof gtag==='function'){
+      gtag('event','visual_'+e.data.event,{visual_name:'llm-vs-decision-model'});
+    }
   });
 });
 </script>
