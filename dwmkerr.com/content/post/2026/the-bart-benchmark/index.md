@@ -1,7 +1,7 @@
 ---
 author: Dave Kerr
 type: posts
-date: TODO
+date: "2026-10-28"
 title: "The Bart Benchmark vs the Ralph Loop"
 description: "Traditional benchmarks for new models have little practical value for engineers, the Bart Benchmark is a simple technique to get a more real-world feel for improvements."
 slug: the-bart-benchmark
