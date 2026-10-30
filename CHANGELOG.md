@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.4...v0.8.0) (2026-10-30)
+
+
+### Features
+
+* post meta links, footer tags and visual analytics ([#90](https://github.com/dwmkerr/dwmkerr.com/issues/90)) ([12a5be4](https://github.com/dwmkerr/dwmkerr.com/commit/12a5be4bce99d6578bacaaf41ebc842defa96bdb))
+
+
+### Documentation
+
+* understanding byte models post with olmo vs bolmo visual ([#93](https://github.com/dwmkerr/dwmkerr.com/issues/93)) ([3bcfa12](https://github.com/dwmkerr/dwmkerr.com/commit/3bcfa12373918db80b4ab2d474a32eca874af36a))
+
 ## [0.7.4](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.3...v0.7.4) (2026-10-16)
 
 
