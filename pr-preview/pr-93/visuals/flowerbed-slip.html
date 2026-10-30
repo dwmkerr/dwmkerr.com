@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flowerbed Slip</title>
+<style>
+:root{
+  --bg:#faf9f6; --card:#ffffff; --ink:#24292f; --muted:#6e7681; --line:#e4e2dc;
+  --rule:#d0d7de; --bad:#cf222e; --badbg:#ffebe9; --good:#1a7f37; --goodbg:#e3f1e6;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);overflow-x:hidden}
+body{font:17px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:1040px;margin:0 auto;padding:28px 24px 32px}
+h2{margin:0 0 14px;font-size:20px;line-height:1.3;font-weight:650}
+.prompt{margin:0 0 20px;padding:2px 0 2px 16px;border-left:3px solid var(--rule)}
+.prompt b{font-weight:650}
+.w{font-family:var(--mono);font-size:.92em;font-weight:600;white-space:nowrap}
+.answers{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+.row{display:grid;grid-template-columns:150px 1fr;gap:0 24px;padding:16px 24px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row.head{padding-top:12px;padding-bottom:12px;background:#f6f5f1}
+.head .label{visibility:hidden}
+.head .text{font-weight:650}
+.label{font-weight:650}
+.label small{display:block;font-weight:400;color:var(--muted);font-size:13px;line-height:1.3}
+.text{margin:0}
+/* Soft marks show where the slip happens without changing the answer's words */
+.slip{background:var(--badbg);border-radius:5px;padding:1px 5px;margin:0 -2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.fix{background:var(--goodbg);border-radius:5px;padding:1px 5px;margin:0 -2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+/* SVG marks instead of emoji keep glyph widths consistent across platforms */
+.mark{display:inline-block;width:1em;height:1em;vertical-align:-.14em;margin:0 .1em}
+.after{margin:20px 0 0}
+@media (max-width:640px){
+  body{font-size:16px}
+  main{padding:20px 16px 24px}
+  .row{grid-template-columns:1fr;gap:4px;padding:14px 16px}
+  .row.head{display:none}
+  .label small{display:inline;margin-left:6px}
+  .w{white-space:normal;overflow-wrap:anywhere}
+}
+</style>
+</head>
+<body>
+<main>
+  <h2>Example 2: reverse a word</h2>
+  <p class="prompt"><b>Prompt:</b> Spell "<span class="w">flowerbed</span>" backwards.</p>
+
+  <div class="answers" role="table" aria-label="Likely answers from a regular model and a byte model">
+    <div class="row head" role="row">
+      <div class="label" role="columnheader">Model</div>
+      <div class="text" role="columnheader">Likely answer</div>
+    </div>
+    <div class="row" role="row">
+      <div class="label" role="rowheader">Regular</div>
+      <p class="text" role="cell"><span class="slip"><span class="w">"debrewolf"</span> <svg class="mark" role="img" aria-label="cross mark" viewBox="0 0 20 20"><path d="M4 4L16 16M16 4L4 16" stroke="#e5272d" stroke-width="4" stroke-linecap="round"/></svg></span> This is typical: it gets the chunks roughly right but scrambles the letters inside them.</p>
+    </div>
+    <div class="row" role="row">
+      <div class="label" role="rowheader">Byte</div>
+      <p class="text" role="cell"><span class="w">"debrewolf"</span>... <span class="fix">sorry, let me get this right:</span> <span class="w">f-l-o-w-e-r-b-e-d</span> reversed is <span class="w">"debrewolf"</span>. That's correct.</p>
+    </div>
+  </div>
+
+  <p class="after">That self-correction is a good demonstration of the real problem: I'm a token model too, and I had to check letter by letter. A more realistic failure for the regular model would be <span class="w">"debwolfre"</span> or <span class="w">"deb rewolf"</span>: right pieces, wrong order inside a token. The byte model is far more likely to give the clean <span class="w">"debrewolf"</span> <svg class="mark" role="img" aria-label="check mark" viewBox="0 0 20 20"><rect x="1" y="1" width="18" height="18" rx="4" fill="#3fae49"/><path d="M5.5 10.5L8.8 13.6L14.8 6.6" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>.</p>
+</main>
+<script>
+(function(){
+  var last = 0;
+  function post(){
+    // Measure the content, not the document: documentElement.scrollHeight never
+    // drops below the iframe's current height, so the embed could not shrink
+    var h = Math.ceil(document.querySelector('main').getBoundingClientRect().height);
+    if (h === last) return;
+    last = h;
+    try { window.parent.postMessage({slipEmbed:true, h:h}, '*'); } catch(e) {}
+  }
+  window.addEventListener('load', post);
+  window.addEventListener('resize', post);
+  // Font loading and wrapping changes can alter height without a resize event
+  if (window.ResizeObserver) new ResizeObserver(post).observe(document.body);
+  post();
+})();
+</script>
+</body>
+</html>
