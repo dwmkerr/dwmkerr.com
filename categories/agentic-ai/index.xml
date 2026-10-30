@@ -10,7 +10,13 @@
 window.addEventListener('message',function(e){
 if(!e.data||!e.data.jevEmbed)return;
 document.querySelectorAll('iframe.jev-embed').forEach(function(f){
-if(f.contentWindow===e.source) f.style.height=e.data.h+'px';
+if(f.contentWindow!==e.source)return;
+if(e.data.h)f.style.height=e.data.h+'px';
+// The iframe has no analytics of its own; it posts interactions here and
+// the article page's gtag records them against the article's page_view.
+if(e.data.event&amp;&amp;typeof gtag==='function'){
+gtag('event','visual_'+e.data.event,{visual_name:'llm-vs-decision-model'});
+}
 });
 });
 &lt;/script&gt;
