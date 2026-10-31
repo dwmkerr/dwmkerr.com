@@ -405,7 +405,8 @@ function fit(){
   } else {
     if (cap.parentNode !== capHome) capHome.appendChild(cap);
     var k = Math.min(1, cw / 1536);
-    stage.style.transform = 'scale(' + k + ')';
+    // The board stops growing at its design width, so centre it on wider screens
+    stage.style.transform = 'translateX(' + Math.max(0, (cw - 1536 * k) / 2) + 'px) scale(' + k + ')';
     wrap.style.height = Math.ceil(900 * k) + 'px';
     h = Math.ceil(900 * k + note.offsetHeight);
   }
