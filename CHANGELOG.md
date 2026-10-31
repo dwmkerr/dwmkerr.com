@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.8.0...v0.8.1) (2026-10-31)
+
+
+### Bug Fixes
+
+* centre the olmo vs bolmo visual on screens wider than 1536px ([#94](https://github.com/dwmkerr/dwmkerr.com/issues/94)) ([035c15d](https://github.com/dwmkerr/dwmkerr.com/commit/035c15d230d5f57120484f117d53a3cfc8178771))
+
 ## [0.8.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.7.4...v0.8.0) (2026-10-30)
 
 
