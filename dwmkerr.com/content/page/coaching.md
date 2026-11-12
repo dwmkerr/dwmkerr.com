@@ -24,6 +24,8 @@ I have supported colleagues who have had questions such as:
 - Should I talk to people about my wellness needs, and if so, how?
 - How can I grow in this environment? Is this environment even the right fit?
 
+You can also see my recent conference presentation [Bipolar Disorder, Dysregulation, and AI](https://www.youtube.com/watch?v=ACL7_EsfIio) which touches on some of these topics.
+
 ## Growing as a Technologist
 
 I started coding at 10 and have always loved building things. I worked as a software engineer, technical lead, and have led large-scale delivery projects, but have always been hands on building and learning. I'm a published author and do a lot of technical writing. Growing for 13 years in a management consultancy I had to manage the pressure to move into more managerial roles that pulled me away from technical work. I always wanted and needed to stay close to technology, as that is core to what I love and what I feel brings credibility to the additional advisory work I do.
@@ -40,6 +42,10 @@ This might be useful if you are asking questions such as:
 - Is there a world where I continue to grow but just get even deeper in tech?
 - How do I decide if these roles are for me? If they are not, how do I move to a role that gives me more fulfilment as a technologist?
 
+You can see my [blog](/), [newsletter](https://dwmkerr.substack.com/), or most recent [book](https://effective-shell.com/) to see some of my work in tech, as well as some of the more [popular open source projects](https://github.com/dwmkerr?tab=repositories&sort=stargazers) I run.
+
 ## Get in touch
 
 If either of these topics is on your mind, send me a message on [LinkedIn](https://www.linkedin.com/in/dwmkerr).
+
+
