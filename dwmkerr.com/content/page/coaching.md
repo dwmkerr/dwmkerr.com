@@ -8,11 +8,11 @@ slug: coaching
 title: Coaching & Mentoring
 ---
 
-I coach and mentor a small number of colleagues. There are two areas that I am particularly passionate about - Wellness and Growing as a Technologist.
+I coach and mentor on two topics that I am particularly passionate about; Wellness, and Growing as a Technologist.
 
 ## Wellness
 
-I have lived with Bipolar Disorder for many years, have had to deal with prolonged absences from work, several relocations, and making many changes to my lifestyle to manage wellness. I've (largely) managed wellness in a fairly complex and demanding role, as a Partner at McKinsey & Company.
+I have lived with Bipolar Disorder for many years, have had to deal with prolonged absences from work, several relocations, and making many changes to my lifestyle to manage health. I've done this in a fairly complex and demanding role, as a Partner at McKinsey & Company.
 
 I have supported colleagues who have had questions such as:
 
@@ -23,6 +23,8 @@ I have supported colleagues who have had questions such as:
 - How can I build boundaries without reducing my opportunities?
 - Should I talk to people about my wellness needs, and if so, how?
 - How can I grow in this environment? Is this environment even the right fit?
+
+Please do send me a message on [LinkedIn](https://www.linkedin.com/in/dwmkerr) if you would like to discuss this topic.
 
 You can also see my recent conference presentation [Bipolar Disorder, Dysregulation, and AI](https://www.youtube.com/watch?v=ACL7_EsfIio) which touches on some of these topics.
 
@@ -42,10 +44,6 @@ This might be useful if you are asking questions such as:
 - Is there a world where I continue to grow but just get even deeper in tech?
 - How do I decide if these roles are for me? If they are not, how do I move to a role that gives me more fulfilment as a technologist?
 
+Please do send me a message on [LinkedIn](https://www.linkedin.com/in/dwmkerr) if you would like to discuss this topic.
+
 You can see my [blog](/), [newsletter](https://dwmkerr.substack.com/), or most recent [book](https://effective-shell.com/) to see some of my work in tech, as well as some of the more [popular open source projects](https://github.com/dwmkerr?tab=repositories&sort=stargazers) I run.
-
-## Get in touch
-
-If either of these topics is on your mind, send me a message on [LinkedIn](https://www.linkedin.com/in/dwmkerr).
-
-
