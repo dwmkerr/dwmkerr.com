@@ -8,11 +8,11 @@ slug: coaching
 title: Coaching & Mentoring
 ---
 
-I coach and mentor on two topics that I am particularly passionate about; Wellness, and Growing as a Technologist.
+I coach and mentor on two topics that I am particularly passionate about.
 
 ## Wellness
 
-I have lived with Bipolar Disorder for many years, have had to deal with prolonged absences from work, several relocations, and making many changes to my lifestyle to manage health. I've done this in a fairly complex and demanding role, as a Partner at McKinsey & Company.
+I live with Bipolar Disorder, have had to deal with prolonged absences from work, several relocations, and making many changes to my lifestyle to manage health. I've done this in a fairly complex and demanding role, as a Partner at McKinsey & Company.
 
 I have supported colleagues who have had questions such as:
 
