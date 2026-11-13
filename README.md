@@ -1,0 +1,1 @@
+Images referenced from issues and pull requests.
