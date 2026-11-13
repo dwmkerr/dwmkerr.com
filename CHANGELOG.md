@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.9.0...v0.9.1) (2026-11-13)
+
+
+### Documentation
+
+* add health note to coaching wellness section ([#99](https://github.com/dwmkerr/dwmkerr.com/issues/99)) ([8b23e76](https://github.com/dwmkerr/dwmkerr.com/commit/8b23e760420602b7ae37b54b98bc72ee958b0003))
+
 ## [0.9.0](https://github.com/dwmkerr/dwmkerr.com/compare/v0.8.1...v0.9.0) (2026-11-12)
 
 
