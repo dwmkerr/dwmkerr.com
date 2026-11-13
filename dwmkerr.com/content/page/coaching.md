@@ -28,6 +28,8 @@ Please do send me a message on [LinkedIn](https://www.linkedin.com/in/dwmkerr) i
 
 You can also see my recent conference presentation [Bipolar Disorder, Dysregulation, and AI](https://www.youtube.com/watch?v=ACL7_EsfIio) which touches on some of these topics.
 
+<small>I am not a medical professional. This coaching covers lifestyle, habits and adapting in your professional environment. I can only coach those who are already in a place where they are receiving appropriate medical care. **If you are in crisis or acute distress, never hesitate to seek help from the emergency services or crisis groups like the Samaritans.**</small>
+
 ## Growing as a Technologist
 
 I started coding at 10 and have always loved building things. I worked as a software engineer, technical lead, and have led large-scale delivery projects, but have always been hands on building and learning. I'm a published author and do a lot of technical writing. Growing for 13 years in a management consultancy I had to manage the pressure to move into more managerial roles that pulled me away from technical work. I always wanted and needed to stay close to technology, as that is core to what I love and what I feel brings credibility to the additional advisory work I do.
