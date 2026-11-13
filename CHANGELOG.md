@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.9.1...v0.9.2) (2026-11-13)
+
+
+### Bug Fixes
+
+* resolve bundle-relative thumbnails for social preview images ([#101](https://github.com/dwmkerr/dwmkerr.com/issues/101)) ([c0208db](https://github.com/dwmkerr/dwmkerr.com/commit/c0208db6001bd2c3eb3a84cadf3e1bd666660a15))
+
 ## [0.9.1](https://github.com/dwmkerr/dwmkerr.com/compare/v0.9.0...v0.9.1) (2026-11-13)
 
 
