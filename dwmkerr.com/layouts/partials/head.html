@@ -19,8 +19,11 @@
   <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
   <meta name="twitter:card" content="summary" />
   {{ with .Params.thumbnail }}
-  <meta property="og:image" content="{{ . | absURL }}" />
-  <meta name="twitter:image" content="{{ . | absURL }}" />
+  {{/* Bundle-relative thumbnails must resolve against the page, as absURL joins them to the site root */}}
+  {{ $img := absURL . }}
+  {{ with $.Resources.GetMatch . }}{{ $img = .Permalink }}{{ end }}
+  <meta property="og:image" content="{{ $img }}" />
+  <meta name="twitter:image" content="{{ $img }}" />
   {{ end }}
 
   {{ hugo.Generator -}}
