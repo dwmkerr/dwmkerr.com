@@ -211,6 +211,7 @@ Thanks for reading, please subscribe if you found this kind of material useful.
 - The Ai2 blog post: [Bolmo](https://allenai.org/blog/bolmo)
 - Open weights: [Bolmo 7B](https://huggingface.co/allenai/Bolmo-7B) and [Bolmo 1B](https://huggingface.co/allenai/Bolmo-1B)
 - The same method was also applied to Llama and Qwen (Blama 8B and Bwen 8B in the paper)
+- The earlier byte model Bolmo is compared against: [Byte Latent Transformer: Patches Scale Better Than Tokens](https://arxiv.org/abs/2412.09871) (Meta, 2024)
 
 [^writing]: Including [How I use AI in writing](/how-i-use-ai-in-writing/), which has been a little meta.
 
