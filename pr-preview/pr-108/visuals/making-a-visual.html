@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Making a visual</title>
+<style>
+:root{--bg:#faf9f6;--ink:#24292f;--muted:#6e7681;--faint:#d8d5cd;--accent:#1a7f37;--blue:#0969da}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.55}
+.page{max-width:1060px;margin:auto;padding:48px 24px 80px}
+h1{font-size:clamp(28px,4vw,40px);letter-spacing:-1px;margin:0 0 10px;font-weight:700}
+.lede{font-size:17px;color:#444;max-width:72ch;margin:0 0 8px}
+.step{margin:0 0 46px}
+.step h2{font-size:20px;margin:0 0 2px;letter-spacing:-.3px}
+.step h2 .n{color:var(--muted);font-weight:400;margin-right:8px}
+.step p{font-size:15px;color:#444;max-width:74ch;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:10px}
+.grid.big{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.tile{position:relative;border:1px solid var(--faint);border-radius:6px;overflow:hidden;background:#fff}
+.tile img{display:block;width:100%;height:auto}
+.tile .tag{position:absolute;left:0;bottom:0;right:0;font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;color:var(--muted);background:rgba(250,249,246,.92);padding:3px 7px;border-top:1px solid var(--faint)}
+.tile.winner{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.tile.winner .tag{color:var(--accent);font-weight:600}
+.tile.winner .tag::after{content:" \b7  picked";font-weight:400}
+.foot{border-top:1px solid var(--faint);margin-top:14px;padding-top:22px;font-size:15px;color:#444;max-width:74ch}
+.foot a{color:var(--blue)}
+@media(max-width:620px){.page{padding:30px 16px 60px}.grid{grid-template-columns:repeat(2,1fr)}.grid.big{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Making a visual</h1>
+<p class="lede"><em>FYI: I had Claude create this page for me based on the session history from a long conversation on decision models. The lead/summary for each section is generated. This page basically just exists to illustrate what the process can look like.</em></p>
+<p class="lede">This page shows every iteration behind the two interactive visuals in <a href="../understanding-jev-decision-models/">Understanding Jev and System&nbsp;1 Models</a>, with each round moving from my feedback to AI-built candidates and another review.</p>
+
+<div class="step">
+<h2><span class="n">1</span>Ten takes on a galaxy</h2>
+<p>I spoke a starting brief that combined an ambiguous use of "free", backward attention arrows, a galaxy of words that lights up by meaning, a model filling with context and a generated continuation, then AI produced ten interpretations.</p>
+<div class="grid">
+<div class="tile"><img src="making-a-visual/s1-v01-canvas-paper.jpg" alt="v01 canvas paper" loading="lazy"><span class="tag">v01 canvas paper</span></div>
+<div class="tile"><img src="making-a-visual/s1-v02-threejs-galaxy.jpg" alt="v02 three.js galaxy" loading="lazy"><span class="tag">v02 three.js galaxy</span></div>
+<div class="tile"><img src="making-a-visual/s1-v03-svg-minimal.jpg" alt="v03 svg minimal" loading="lazy"><span class="tag">v03 svg minimal</span></div>
+<div class="tile"><img src="making-a-visual/s1-v04-dark-terminal.jpg" alt="v04 dark terminal" loading="lazy"><span class="tag">v04 dark terminal</span></div>
+<div class="tile"><img src="making-a-visual/s1-v05-ft-editorial.jpg" alt="v05 editorial" loading="lazy"><span class="tag">v05 editorial</span></div>
+<div class="tile winner"><img src="making-a-visual/s1-v06-parallax-depth.jpg" alt="v06 parallax depth" loading="lazy"><span class="tag">v06 parallax depth</span></div>
+<div class="tile"><img src="making-a-visual/s1-v07-light-webgl.jpg" alt="v07 light webgl" loading="lazy"><span class="tag">v07 light webgl</span></div>
+<div class="tile"><img src="making-a-visual/s1-v08-constellation.jpg" alt="v08 constellation" loading="lazy"><span class="tag">v08 constellation</span></div>
+<div class="tile"><img src="making-a-visual/s1-v09-dense-field.jpg" alt="v09 dense field" loading="lazy"><span class="tag">v09 dense field</span></div>
+<div class="tile"><img src="making-a-visual/s1-v10-step-player.jpg" alt="v10 step player" loading="lazy"><span class="tag">v10 step player</span></div>
+</div>
+</div>
+
+<div class="step">
+<h2><span class="n">2</span>The spin</h2>
+<p>I asked for boxed input words, a closer and denser galaxy that spins related words above the sentence, and a model box containing a blue weights matrix and wrapping context row.</p>
+<div class="grid">
+<div class="tile"><img src="making-a-visual/s2-w01-canvas-heir.jpg" alt="w01 canvas heir" loading="lazy"><span class="tag">w01 canvas heir</span></div>
+<div class="tile"><img src="making-a-visual/s2-w02-threejs-ring.jpg" alt="w02 ring" loading="lazy"><span class="tag">w02 ring</span></div>
+<div class="tile"><img src="making-a-visual/s2-w03-sphere-swing.jpg" alt="w03 sphere swing" loading="lazy"><span class="tag">w03 sphere swing</span></div>
+<div class="tile"><img src="making-a-visual/s2-w04-orbit-lanes.jpg" alt="w04 orbit lanes" loading="lazy"><span class="tag">w04 orbit lanes</span></div>
+<div class="tile"><img src="making-a-visual/s2-w05-threejs-cloud.jpg" alt="w05 cloud" loading="lazy"><span class="tag">w05 cloud</span></div>
+<div class="tile"><img src="making-a-visual/s2-w06-cylinder-drum.jpg" alt="w06 cylinder drum" loading="lazy"><span class="tag">w06 cylinder drum</span></div>
+<div class="tile"><img src="making-a-visual/s2-w07-vortex-pull.jpg" alt="w07 vortex pull" loading="lazy"><span class="tag">w07 vortex pull</span></div>
+<div class="tile"><img src="making-a-visual/s2-w08-weights-hero.jpg" alt="w08 weights hero" loading="lazy"><span class="tag">w08 weights hero</span></div>
+<div class="tile"><img src="making-a-visual/s2-w09-hover-hero.jpg" alt="w09 hover hero" loading="lazy"><span class="tag">w09 hover hero</span></div>
+<div class="tile winner"><img src="making-a-visual/s2-w10-threejs-max.jpg" alt="w10 three.js max" loading="lazy"><span class="tag">w10 three.js max</span></div>
+</div>
+</div>
+
+<div class="step">
+<h2><span class="n">3</span>Three experiments on the winner</h2>
+<p>Each experiment changed one part of the winner: a dense galactic core, active words flying in front of the model, or fixed blue weights lighting up as green word vectors pass through them, with the discussion clarifying what each colour represented.</p>
+<div class="grid big">
+<div class="tile winner"><img src="making-a-visual/s3-x01-core-galaxy.jpg" alt="x01 core galaxy" loading="lazy"><span class="tag">x01 core galaxy</span></div>
+<div class="tile"><img src="making-a-visual/s3-x02-words-forward.jpg" alt="x02 words forward" loading="lazy"><span class="tag">x02 words forward</span></div>
+<div class="tile"><img src="making-a-visual/s3-x03-weights-transform.jpg" alt="x03 weights transform" loading="lazy"><span class="tag">x03 weights transform</span></div>
+</div>
+</div>
+
+<div class="step">
+<h2><span class="n">4</span>All the notes at once</h2>
+<p>The next round combined a spherical galaxy behind the diagram, exact step replay on hover, a readable sequence from the selected word through the weights and word space, and a slide-deck scrubber added after the first feedback.</p>
+<div class="grid big">
+<div class="tile winner"><img src="making-a-visual/s4-y01.jpg" alt="y01 faithful heir" loading="lazy"><span class="tag">y01 faithful heir</span></div>
+<div class="tile"><img src="making-a-visual/s4-y02.jpg" alt="y02 causal theatre" loading="lazy"><span class="tag">y02 causal theatre</span></div>
+<div class="tile"><img src="making-a-visual/s4-y03.jpg" alt="y03 deep sphere" loading="lazy"><span class="tag">y03 deep sphere</span></div>
+</div>
+</div>
+
+<div class="step">
+<h2><span class="n">5</span>Fix the hole</h2>
+<p>An annotated screenshot showed the galaxy masked into a ring around the diagram, so this round placed its densest region behind the diagram, tried both semi-opaque and solid boxes, and removed the idle shimmer from the weights.</p>
+<div class="grid big">
+<div class="tile"><img src="making-a-visual/s5-z01-through-box.jpg" alt="z01 through box" loading="lazy"><span class="tag">z01 through box</span></div>
+<div class="tile winner"><img src="making-a-visual/s5-z02-solid-box.jpg" alt="z02 solid box" loading="lazy"><span class="tag">z02 solid box</span></div>
+</div>
+</div>
+
+<div class="step">
+<h2><span class="n">6</span>Transport controls</h2>
+<p>This round made every button solid, extended hover replay to every word, replaced waves with sparkles in the weights, and exchanged the word-labelled buttons for a transport bar, with the bolder version becoming the first finished visual.</p>
+<div class="grid big">
+<div class="tile"><img src="making-a-visual/s6-za01-transport.jpg" alt="za01 restrained" loading="lazy"><span class="tag">za01 restrained</span></div>
+<div class="tile winner"><img src="making-a-visual/s6-za02-transport-bold.jpg" alt="za02 bold, the final" loading="lazy"><span class="tag">za02 bold &middot; the first finished visual</span></div>
+</div>
+</div>
+
+<div class="step">
+<h2><span class="n">7</span>A second visual: side by side</h2>
+<p>A voice note proposed putting the same question to a coaxed LLM and a decision model: the LLM types JSON one character per pass through the weights, while the decision model fires once and stamps the complete answer.</p>
+<div class="grid big">
+<div class="tile"><img src="making-a-visual/s7-sb01.jpg" alt="sb01 restrained" loading="lazy"><span class="tag">sb01 restrained</span></div>
+<div class="tile winner"><img src="making-a-visual/s7-sb02.jpg" alt="sb02 bolder, the final" loading="lazy"><span class="tag">sb02 bolder &middot; the second finished visual</span></div>
+</div>
+</div>
+
+<div class="step">
+<h2><span class="n">8</span>Five polish turns</h2>
+<p>Focused edits made the inputs directly comparable, paired corresponding data on hover, kept each row to one line with probabilities inside the JSON, let the LLM drift into a red conversational coda, and revised the transport and probability controls. A last pass swapped in plain titles, removed the explanatory text and tightened the spacing, giving the version now embedded in the article.</p>
+<div class="grid big">
+<div class="tile winner"><img src="making-a-visual/s8-current.jpg" alt="The current visual, as embedded in the article" loading="lazy"><span class="tag">current &middot; embedded in the article</span></div>
+</div>
+</div>
+
+<p class="foot">The prose in my articles is handwritten, while the visuals come from a collaboration in which I describe the idea, AI builds candidates, and I review and correct them. I explain the wider process in <a href="../how-i-use-ai-in-writing/">How I Use AI in Writing</a>.</p>
+</div>
+</body>
+</html>
