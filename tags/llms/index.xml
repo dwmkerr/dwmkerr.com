@@ -211,6 +211,7 @@ if(f.contentWindow===e.source&amp;&amp;e.data.h)f.style.height=e.data.h+'px';
 &lt;li&gt;The Ai2 blog post: &lt;a href="https://allenai.org/blog/bolmo"&gt;Bolmo&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Open weights: &lt;a href="https://huggingface.co/allenai/Bolmo-7B"&gt;Bolmo 7B&lt;/a&gt; and &lt;a href="https://huggingface.co/allenai/Bolmo-1B"&gt;Bolmo 1B&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;The same method was also applied to Llama and Qwen (Blama 8B and Bwen 8B in the paper)&lt;/li&gt;
+&lt;li&gt;The earlier byte model Bolmo is compared against: &lt;a href="https://arxiv.org/abs/2412.09871"&gt;Byte Latent Transformer: Patches Scale Better Than Tokens&lt;/a&gt; (Meta, 2024)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="footnotes" role="doc-endnotes"&gt;
 &lt;hr&gt;
