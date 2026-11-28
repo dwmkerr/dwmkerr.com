@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.3](https://github.com/dwmkerr/dwmkerr.com/compare/v0.9.2...v0.9.3) (2026-11-28)
+
+
+### Documentation
+
+* add BLT paper to byte models further reading ([#108](https://github.com/dwmkerr/dwmkerr.com/issues/108)) ([5ec0ea1](https://github.com/dwmkerr/dwmkerr.com/commit/5ec0ea12fb5a1f00d9799e45d592dbb43cce487c))
+* add Changelog [#689](https://github.com/dwmkerr/dwmkerr.com/issues/689) to talks and about page ([#106](https://github.com/dwmkerr/dwmkerr.com/issues/106)) ([2496037](https://github.com/dwmkerr/dwmkerr.com/commit/24960374d6b3ef21de8337e58bb1a2ec3bd8154d))
+
 ## [0.9.2](https://github.com/dwmkerr/dwmkerr.com/compare/v0.9.1...v0.9.2) (2026-11-13)
 
 
